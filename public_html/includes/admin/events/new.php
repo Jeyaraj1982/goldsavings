@@ -7,30 +7,28 @@
                     <div class="card-body">
                         <div class="row">
                             <div class="col-sm-6 mb-3">
-                                <label class="form-label">Event Code<span style='color:red'>*</span></label>
-                                <input type="text" value="<?php echo SequnceList::getNextNumber("_tbl_events");?>" name="EventCode" id="EventCode" class="form-control" placeholder="Message Code">
+                                <label class="form-label">Event Code <span style='color:red'>*</span></label>
+                                <input type="text" value="<?php echo SequnceList::getNextNumber("_tbl_apps_events");?>" name="EventCode" id="EventCode" class="form-control" placeholder="Message Code">
                                 <span id="ErrEventCode" class="error_msg"></span>
                             </div>
                             <div class="col-sm-6 mb-3">
                             </div>
-                            <div class="col-sm-6 mb-3">
-                                <label class="form-label">Title<span style='color:red'>*</span></label>
-                                <input type="text" value="" name="Title" id="Title" class="form-control" placeholder="Title">
-                                <span id="TitleID" class="error_msg"></span>
+                            <div class="col-sm-12 mb-3">
+                                <label class="form-label">Event Title <span style='color:red'>*</span></label>
+                                <input type="text" value="" name="EventTitle" id="EventTitle" class="form-control" placeholder="Event Title">
+                                <span id="ErrEventTitle" class="error_msg"></span>
                             </div>
                             <div class="col-sm-6 mb-3">
                             </div>
-                            <div class="col-sm-6 mb-3">
+                            <div class="col-sm-12 mb-3">
                                 <label class="form-label">Event Description <span style='color:red'>*</span></label>
                                 <textarea id="EventDescription" name="EventDescription" class="form-control" rows="4" cols="50"></textarea>
-                                <span id="ErrEventDescriptionID" class="error_msg"></span>
+                                <span id="ErrEventDescription" class="error_msg"></span>
                             </div>
                             <div class="col-sm-6 mb-3">
-                            </div>
-                            <div class="col-sm-6 mb-3">
-                                <label class="form-label">Event Heldon From <span style='color:red'>*</span></label>
+                                <label class="form-label">Event Starts <span style='color:red'>*</span></label>
                                 <div class="input-group">
-                                <select class="form-select" name="Day" id="Day">
+                                <select class="form-select" name="StartDay" id="StartDay">
                                     <option value="01">01</option>
                                     <option value="02">02</option>
                                     <option value="03">03</option>
@@ -63,7 +61,7 @@
                                     <option value="30">30</option>
                                     <option value="31">31</option>
                                 </select>
-                                <select class="form-select" name="Month" id="Month">
+                                <select class="form-select" name="StartMonth" id="StartMonth">
                                     <option value="01">JAN</option>
                                     <option value="02">FEB</option>
                                     <option value="03">MAR</option>
@@ -77,11 +75,11 @@
                                     <option value="11">NOV</option>
                                     <option value="12">DEC</option>
                                 </select>
-                                <select class="form-select" name="Year" id="Year">
+                                <select class="form-select" name="StartYear" id="StartYear">
                                     <option value="2023">2023</option>
                                     <option value="2023">2024</option>
                                 </select>
-                                <select class="form-select" name="Hour" id="Hour" style="text-align: center !important;">
+                                <select class="form-select" name="StartHour" id="StartHour" style="text-align: center !important;">
                                     <option value="00">00</option>
                                     <option value="01">01</option>
                                     <option value="02">02</option>
@@ -107,7 +105,7 @@
                                     <option value="22">22</option>
                                     <option value="23">23</option>
                                 </select>
-                                <select class="form-select" name="Minute" id="Minute" style="text-align: center !important;">
+                                <select class="form-select" name="StartMinute" id="StartMinute" style="text-align: center !important;">
                                     <option value="00">00</option>
                                     <option value="01">01</option>
                                     <option value="02">02</option>
@@ -175,9 +173,9 @@
                             <div class="col-sm-6 mb-3">
                             </div>
                             <div class="col-sm-6 mb-3">
-                                <label class="form-label">Event End On <span style='color:red'>*</span></label>
+                                <label class="form-label">Event End <span style='color:red'>*</span></label>
                                 <div class="input-group">
-                                <select class="form-select" name="Day" id="Day">
+                                <select class="form-select" name="EndDay" id="EndDay">
                                     <option value="01">01</option>
                                     <option value="02">02</option>
                                     <option value="03">03</option>
@@ -210,7 +208,7 @@
                                     <option value="30">30</option>
                                     <option value="31">31</option>
                                 </select>
-                                <select class="form-select" name="Month" id="Month">
+                                <select class="form-select" name="EndMonth" id="EndMonth">
                                     <option value="01">JAN</option>
                                     <option value="02">FEB</option>
                                     <option value="03">MAR</option>
@@ -224,11 +222,11 @@
                                     <option value="11">NOV</option>
                                     <option value="12">DEC</option>
                                 </select>
-                                <select class="form-select" name="Year" id="Year">
+                                <select class="form-select" name="EndYear" id="EndYear">
                                     <option value="2023">2023</option>
                                     <option value="2023">2024</option>
                                 </select>
-                                <select class="form-select" name="Hour" id="Hour" style="text-align: center !important;">
+                                <select class="form-select" name="EndHour" id="EndHour" style="text-align: center !important;">
                                     <option value="00">00</option>
                                     <option value="01">01</option>
                                     <option value="02">02</option>
@@ -254,7 +252,7 @@
                                     <option value="22">22</option>
                                     <option value="23">23</option>
                                 </select>
-                                <select class="form-select" name="Minute" id="Minute" style="text-align: center !important;">
+                                <select class="form-select" name="EndMinute" id="EndMinute" style="text-align: center !important;">
                                     <option value="00">00</option>
                                     <option value="01">01</option>
                                     <option value="02">02</option>
@@ -320,12 +318,17 @@
                                 <span id="ErrScheduleDateTime" class="error_msg"></span>
                             </div>
                         </div>
+                        <div class="col-sm-12">
+                                <label class="form-label">Remarks</label>
+                                <input type="text" name="Remarks" id="Remarks" class="form-control" placeholder="Remarks">
+                                <span id="ErrRemarks" class="error_msg"></span>
+                        </div>
                     </div>
                 </div>
             </form>
 <div class="col-sm-12 mb-3" style="text-align:right;">
     <a href="<?php echo URL;?>dashboard.php?action=events/list" class="btn btn-outline-primary">Back</a>&nbsp;&nbsp;
-    <button onclick="confirmationtoadd()" type="button" class="btn btn-primary">Save Event</button>    
+    <button onclick="confirmationtoadd()" type="button" class="btn btn-primary">Creat Event</button>    
 </div>
 </div>
 
@@ -351,14 +354,12 @@
 function confirmationtoadd(){
    $('#confimation').modal("show");  
  }
- function popuptoadd(){
-   $('#add').modal("show");  
- }
+ 
 function addNew() {
      $('#confimation').modal("hide"); 
     var param = $('#frm_create').serialize();
     openPopup();
-    //clearDiv(['CustomerCode','CustomerName','EmailID','MobileNumber','WhatsappNumber','AddressLine1','PinCode','ProfilePhoto','BusinessName','CustomerTypeNameID','StateNameID','DistrictNameID','AreaNameID','PancardNumber', 'AadhaarCardNumber','LoginUserName','LoginPassword','PinCode','GSTIN']);
+    clearDiv(['EventCode','EventTitle','EventDescription','EventStart','EventEnd','Remarks','CreatedOn','IsActive']);
     
     jQuery.ajax({
         type: 'POST',
@@ -371,36 +372,7 @@ function addNew() {
              if (obj.status=="success") {
                 $('#frm_create').trigger("reset");
                 $('#EventCode').val(obj.EventCode);
-                $('#popupcontent').html(success_content(obj.message));
-             } else {
-                if (obj.div!="") {
-                    $('#Err'+obj.div).html(obj.message)
-                } else {
-                    $('#failure_div').html(obj.message);
-                }
-                $('#process_popup').modal('hide');
-             }
-        }
-    });
-}
-function addtoNew() {
-     $('#add').modal("hide"); 
-    var param = $('#frm_create').serialize();
-    openPopup();
-    //clearDiv(['CustomerCode','CustomerName','EmailID','MobileNumber','WhatsappNumber','AddressLine1','PinCode','ProfilePhoto','BusinessName','CustomerTypeNameID','StateNameID','DistrictNameID','AreaNameID','PancardNumber', 'AadhaarCardNumber','LoginUserName','LoginPassword','PinCode','GSTIN']);
-    
-    jQuery.ajax({
-        type: 'POST',
-        url:URL+"webservice.php?action=addNew&method=Events",
-        data: new FormData($("#frm_create")[0]),
-        processData: false, 
-        contentType: false, 
-        success: function(data) {
-             var obj = JSON.parse(data); 
-             if (obj.status=="success") {
-                $('#frm_create').trigger("reset");
-                $('#EventCode').val(obj.EventCode);
-                $('#popupcontent').html(success_content(obj.message));
+                $('#popupcontent').html(success_content(obj.message,'closePopup'));
              } else {
                 if (obj.div!="") {
                     $('#Err'+obj.div).html(obj.message)
@@ -413,8 +385,5 @@ function addtoNew() {
     });
     
 }
-//setTimeout(function(){
-    ListCustomerTypes();
-    listStateNames();
-//},2000);
+setTimeout("d()",2000);
 </script>

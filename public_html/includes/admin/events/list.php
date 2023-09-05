@@ -15,10 +15,10 @@
                     <table id="datatables-fixed-header" class="table table-striped" style="width:100%">
                         <thead>
                             <tr>
-                                <th style="width:100px">Code</th>
-                                <th>Title</th>
+                                <th style="width:100px">Event Title</th>
+                                <th>Event Start</th>
+                                <th>Event End</th>
                                 <th>CreatedOn</th>
-                                <th style="width:100px">Status</th>
                                 <th style="width:220px"></th>
                             </tr>
                         </thead>
@@ -51,11 +51,7 @@
     </div>
 </div>     
 <script> 
-var RemoveID=0;
-function confirmationtoDelete(ID) {
-    RemoveID=ID;
-    $('#confirmation').modal("show"); 
-}
+
 function d() { 
     openPopup();
     $.post(URL+ "webservice.php?action=ListAll&method=Events","",function(data){
@@ -65,10 +61,10 @@ function d() {
             var html = "";
             $.each(obj.data, function (index, data) {
                 html += '<tr>'
-                            + '<td>' + data.EventCode + '</td>'
-                            + '<td>' + data.Title + '</td>'
+                            + '<td>' + data.EventTitle + '</td>'
+                            + '<td>' + data.EventStart + '</td>'
+                            + '<td>' + data.EventEnd + '</td>'
                             + '<td>' + data.CreatedOn + '</td>'
-                            + '<td>' + ( (data.IsActive=="1") ? "<span class='badge bg-success'>Active</span>" : "<span class='badge bg-secondary'>Disabled</span>" ) + '</td>'
                             + '<td style="text-align:right"><a href="javascript:void(0)" onclick="confirmationtoDelete(\''+data.EventID+'\')" class="btn btn-outline-danger btn-sm">Delete</a>&nbsp;&nbsp;<a href="'+URL+'dashboard.php?action=events/edit&edit='+data.EventID+'" class="btn btn-primary btn-sm">Edit</a>&nbsp;&nbsp;<a href="'+URL+'dashboard.php?action=events/view&edit='+data.EventID+'" class="btn btn-success btn-sm">View</a></td>'
                       + '</tr>';
             });   
@@ -82,8 +78,15 @@ function d() {
         }
     });
 }
-setTimeout("d()",2000); 
 
+
+setTimeout("d()",2000);
+ 
+var RemoveID=0;
+function confirmationtoDelete(ID) {
+    RemoveID=ID;
+    $('#confirmation').modal("show"); 
+}
 function Remove() {
      $('#confirmation').modal("hide"); 
   openPopup();
@@ -91,13 +94,13 @@ function Remove() {
         var obj = JSON.parse(data);
         if (obj.status=="success") {
             html = "";
-            $('#popupcontent').html(success_content(obj.message));
+            $('#popupcontent').html(success_content(obj.message,'closePopup'));
             $.each(obj.data, function (index, data) {
                html += '<tr>'
-                            + '<td>' + data.EventCode + '</td>'
-                            + '<td>' + data.Title + '</td>'
+                            + '<td>' + data.EventTitle + '</td>'
+                            + '<td>' + data.EventStart + '</td>'
+                            + '<td>' + data.EventEnd + '</td>'
                             + '<td>' + data.CreatedOn + '</td>'
-                            + '<td>' + ( (data.IsActive=="1") ? "<span class='badge bg-success'>Active</span>" : "<span class='badge bg-secondary'>Disabled</span>" ) + '</td>'
                             + '<td style="text-align:right"><a href="javascript:void(0)" onclick="confirmationtoDelete(\''+data.EventID+'\')" class="btn btn-outline-danger btn-sm">Delete</a>&nbsp;&nbsp;<a href="'+URL+'dashboard.php?action=events/edit&edit='+data.EventID+'" class="btn btn-primary btn-sm">Edit</a>&nbsp;&nbsp;<a href="'+URL+'dashboard.php?action=events/view&edit='+data.EventID+'" class="btn btn-success btn-sm">View</a></td>'
                       + '</tr>';
             });    

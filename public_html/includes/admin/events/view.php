@@ -1,5 +1,5 @@
 <?php
-    $data = $mysql->select("select * from _tbl_events where EventID='".$_GET['edit']."'");
+    $data = $mysql->select("select * from _tbl_apps_events where EventID='".$_GET['edit']."'");
 ?>
 <div class="container-fluid p-0">
     <h1 class="h3 mb-3">View Event</h1>
@@ -16,53 +16,61 @@
                             </div>
                             <div class="-sm-6">
                             </div>
-                            <div class="col-sm-6 mb-3">
-                                <label class="form-label">Title</label>
-                                <input type="text" value="<?php echo $data[0]['Title'];?>" readonly="readonly"  class="form-control">
+                            <div class="col-sm-12 mb-3">
+                                <label class="form-label">Event Title</label>
+                                <input type="text" value="<?php echo $data[0]['EventTitle'];?>" readonly="readonly"  class="form-control">
                             </div>
                             <div class="col-sm-6">
                             </div>
-                            <div class="col-sm-6 mb-3">
+                            <div class="col-sm-12 mb-3">
                                 <label class="form-label">Event Description </label>
                                 <textarea id="EventDescription"  readonly="readonly"  class="form-control" rows="4" cols="50"><?php echo $data[0]['EventDescription'];?></textarea>
-                            </div>
-                                <div class="col-sm-6">
-                            </div>
                             <div class="col-sm-6 mb-3">
-                                <label class="form-label">Event Heldon From<span style='color:red'>*</span></label>
+                                <label class="form-label">Event Starts </label>
                                 <div class="input-group">
                                 <?php
-                                    $day = date("d",strtotime($data[0]['ScheduledOn']));
-                                    $month = date("M",strtotime($data[0]['ScheduledOn']));
-                                    $year = date("Y",strtotime($data[0]['ScheduledOn']));
-                                    $hour = date("h",strtotime($data[0]['ScheduledOn']));
-                                    $minute = date("i",strtotime($data[0]['ScheduledOn']));
+                                    $day = date("d",strtotime($data[0]['EventStart']));
+                                    $month = date("M",strtotime($data[0]['EventStart']));
+                                    $year = date("Y",strtotime($data[0]['EventStart']));
+                                    $hour = date("H",strtotime($data[0]['EventStart']));
+                                    $minute = date("i",strtotime($data[0]['EventStart']));
                                 ?>
-                                <input type="text" value="<?php echo $day;?>" readonly="readonly" name="Day" id="Day" class="form-control" placeholder="Day">
-                                <input type="text" value="<?php echo $month;?>" readonly="readonly" name="Month" id="Month" class="form-control" placeholder="Month">
-                                <input type="text" value="<?php echo $year;?>" readonly="readonly" name="Year" id="Year" class="form-control" placeholder="Year">
-                                <input type="text" value="<?php echo $hour;?>" readonly="readonly" name="Hour" id="Hour" class="form-control" placeholder="Hour">
-                                <input type="text" value="<?php echo $minute;?>" readonly="readonly" name="Minute" id="Minute" class="form-control" placeholder="Minute">
+                                <input type="text" value="<?php echo $day;?>" readonly="readonly" name="StartDay" id="StartDay" class="form-control" placeholder="Day">
+                                <input type="text" value="<?php echo $month;?>" readonly="readonly" name="StartMonth" id="StartMonth" class="form-control" placeholder="Month">
+                                <input type="text" value="<?php echo $year;?>" readonly="readonly" name="StartYear" id="StartYear" class="form-control" placeholder="Year">
+                                <input type="text" value="<?php echo $hour;?>" readonly="Startreadonly" name="Hour" id="StartHour" class="form-control" placeholder="Hour">
+                                <input type="text" value="<?php echo $minute;?>" readonly="Startreadonly" name="StartMinute" id="Minute" class="form-control" placeholder="Minute">
                                 </div>
                         </div>
                             <div class="col-sm-6">
                             </div>
                             <div class="col-sm-6 mb-3">
-                                <label class="form-label">Event End On<span style='color:red'>*</span></label>
+                                <label class="form-label">Event End </label>
                                 <div class="input-group">
                                 <?php
-                                    $day = date("d",strtotime($data[0]['ScheduledOn']));
-                                    $month = date("M",strtotime($data[0]['ScheduledOn']));
-                                    $year = date("Y",strtotime($data[0]['ScheduledOn']));
-                                    $hour = date("h",strtotime($data[0]['ScheduledOn']));
-                                    $minute = date("i",strtotime($data[0]['ScheduledOn']));
+                                    $day = date("d",strtotime($data[0]['EventEnd']));
+                                    $month = date("M",strtotime($data[0]['EventEnd']));
+                                    $year = date("Y",strtotime($data[0]['EventEnd']));
+                                    $hour = date("H",strtotime($data[0]['EventEnd']));
+                                    $minute = date("i",strtotime($data[0]['EventEnd']));
                                 ?>
-                                <input type="text" value="<?php echo $day;?>" readonly="readonly" name="Day" id="Day" class="form-control" placeholder="Day">
-                                <input type="text" value="<?php echo $month;?>" readonly="readonly" name="Month" id="Month" class="form-control" placeholder="Month">
-                                <input type="text" value="<?php echo $year;?>" readonly="readonly" name="Year" id="Year" class="form-control" placeholder="Year">
-                                <input type="text" value="<?php echo $hour;?>" readonly="readonly" name="Hour" id="Hour" class="form-control" placeholder="Hour">
-                                <input type="text" value="<?php echo $minute;?>" readonly="readonly" name="Minute" id="Minute" class="form-control" placeholder="Minute">
+                                <input type="text" value="<?php echo $day;?>" readonly="readonly" name="EndDay" id="EndDay" class="form-control" placeholder="Day">
+                                <input type="text" value="<?php echo $month;?>" readonly="readonly" name="EndMonth" id="EndMonth" class="form-control" placeholder="Month">
+                                <input type="text" value="<?php echo $year;?>" readonly="readonly" name="EndYear" id="EndYear" class="form-control" placeholder="Year">
+                                <input type="text" value="<?php echo $hour;?>" readonly="readonly" name="EndHour" id="EndHour" class="form-control" placeholder="Hour">
+                                <input type="text" value="<?php echo $minute;?>" readonly="readonly" name="EndMinute" id="EndMinute" class="form-control" placeholder="Minute">
                                 </div>
+                            </div>
+                            <div class="col-sm-6 mb-3">
+                            </div>
+                             <div class="col-sm-6 mb-3">         
+                                <label class="form-label">Is Active </label>
+                                <input type="text" value="<?php echo ($data[0]['IsActive']==1) ? " Active " : "Deactivated";?>" readonly="readonly" class="form-control" placeholder="Login Password">
+                            </div>
+                            <div class="col-sm-12 mb-3">
+                                <label class="form-label">Remarks</label>
+                                <input type="text" value="<?php echo $data[0]['Remarks'];?>" readonly="readonly" name="Remarks" id="Remarks" class="form-control" placeholder="Remarks">
+                                <span id="ErrRemarks" class="error_msg"></span>
                             </div>
                         </div>
         </div></div></div>

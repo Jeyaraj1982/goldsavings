@@ -1,5 +1,5 @@
 <?php
-    $data = $mysql->select("select * from _tbl_events where EventID='".$_GET['edit']."'");
+    $data = $mysql->select("select * from _tbl_apps_events where EventID='".$_GET['edit']."'");
 ?>
 <div class="container-fluid p-0">
     <h1 class="h3 mb-3">Edit Event</h1>
@@ -11,35 +11,33 @@
                     <div class="card-body">
                         <div class="row">
                             <div class="col-sm-6 mb-3">
-                                <label class="form-label">Event Code</label>
-                                <input type="text" value="<?php echo $data[0]['MessageCode'];?>" name="MessageCode" id="MessageCode" class="form-control" placeholder="Message Code">
+                                <label class="form-label">Event Code </label>
+                                <input type="text" disabled="disabled" value="<?php echo SequnceList::getNextNumber("_tbl_apps_events");?>" name="EventCode" id="EventCode" class="form-control" placeholder="Event Code">
                             </div>
                             <div class="col-sm-6">
                             </div>
-                            <div class="col-sm-6 mb-3">
-                                <label class="form-label">Title</label>
-                                <input type="text" value="<?php echo $data[0]['Title'];?>" name="Title" id="Title" class="form-control" placeholder="Title">
+                            <div class="col-sm-12 mb-3">
+                                <label class="form-label">Event Title <span style='color:red'>*</span></label>
+                                <input type="text" value="<?php echo $data[0]['EventTitle'];?>" name="EventTitle" id="EventTitle" class="form-control" placeholder="Event Title">
                             </div>
                             <div class="col-sm-12">
                             </div>
-                            <div class="col-sm-6 mb-3">
+                            <div class="col-sm-12 mb-3">
                                 <label class="form-label">Event Description <span style='color:red'>*</span></label>
-                                <textarea id="EventDescription" name="EventDescription" class="form-control" rows="4" cols="50"><?php echo $data[0]['EventDescription'];?></textarea>
-                                <span id="ErrMessageMail" class="error_msg"></span>
+                                <textarea id="EventDescription" value=""  name="EventDescription" class="form-control" rows="4" cols="50"><?php echo $data[0]['EventDescription'];?></textarea>
+                                <span id="ErrEventDescription" class="error_msg"></span>
                             </div>
                             <div class="col-sm-6 mb-3">
-                            </div>
-                            <div class="col-sm-6 mb-3">
-                                <label class="form-label">Event Heldon From<span style='color:red'>*</span></label>
+                                <label class="form-label">Event Starts<span style='color:red'>*</span></label>
                                 <div class="input-group">
-                                <?php
-                                    $day = date("d",strtotime($data[0]['ScheduledOn']));
-                                    $month = date("m",strtotime($data[0]['ScheduledOn']));
-                                    $year = date("Y",strtotime($data[0]['ScheduledOn']));
-                                    $hour = date("h",strtotime($data[0]['ScheduledOn']));
-                                    $minute = date("i",strtotime($data[0]['ScheduledOn']));
+                                <?php             
+                                    $day = date("d",strtotime($data[0]['EventStart']));                                                            
+                                    $month = date("m",strtotime($data[0]['EventStart']));
+                                    $year = date("Y",strtotime($data[0]['EventStart']));
+                                    $hour = date("H",strtotime($data[0]['EventStart']));
+                                    $minute = date("i",strtotime($data[0]['EventStart']));
                                 ?>
-                                <select class="form-select" name="Day" id="Day">
+                                <select class="form-select" name="StartDay" id="StartDay">
                                     <option value="01" <?php echo $day=="01" ? "selected=selected" : "";?> >01</option>
                                     <option value="02" <?php echo $day=="02" ? "selected=selected" : "";?> >02</option>
                                     <option value="03" <?php echo $day=="03" ? "selected=selected" : "";?> >03</option>
@@ -72,7 +70,7 @@
                                     <option value="30" <?php echo $day=="30" ? "selected=selected" : "";?> >30</option>
                                     <option value="31" <?php echo $day=="31" ? "selected=selected" : "";?>>31</option>
                                 </select>
-                                <select class="form-select" name="Month" id="Month">
+                                <select class="form-select" name="StartMonth" id="StartMonth">
                                     <option value="01" <?php echo $month=="1" ? "selected=selected" : "";?> >JAN</option>
                                     <option value="02" <?php echo $month=="2" ? "selected=selected" : "";?> >FEB</option>
                                     <option value="03" <?php echo $month=="3" ? "selected=selected" : "";?> >MAR</option>
@@ -86,11 +84,11 @@
                                     <option value="11" <?php echo $month=="11" ? "selected=selected" : "";?> >NOV</option>
                                     <option value="12" <?php echo $month=="12" ? "selected=selected" : "";?> >DEC</option>
                                 </select>
-                                <select class="form-select" name="Year" id="Year">
+                                <select class="form-select" name="StartYear" id="StartYear">
                                     <option value="2023" <?php echo $year=="2023" ? "selected=selected" : "";?> >2023</option>
                                     <option value="2024" <?php echo $year=="2024" ? "selected=selected" : "";?> >2024</option>
                                 </select>
-                                <select class="form-select" name="Hour" id="Hour" style="text-align: center !important;">
+                                <select class="form-select" name="StartHour" id="StartHour" style="text-align: center !important;">
                                     <option value="00" <?php echo $hour=="0" ? "selected=selected" : "";?> >00</option>
                                     <option value="01" <?php echo $hour=="1" ? "selected=selected" : "";?> >01</option>
                                     <option value="02" <?php echo $hour=="2" ? "selected=selected" : "";?> >02</option>
@@ -116,7 +114,7 @@
                                     <option value="22" <?php echo $hour=="22" ? "selected=selected" : "";?> >22</option>
                                     <option value="23" <?php echo $hour=="23" ? "selected=selected" : "";?> >23</option>
                                 </select>
-                                <select class="form-select" name="Minute" id="Minute" style="text-align: center !important;">
+                                <select class="form-select" name="StartMinute" id="StartMinute" style="text-align: center !important;">
                                     <option value="00" <?php echo $minute=="0" ? "selected=selected" : "";?>>00</option>
                                     <option value="01" <?php echo $minute=="1" ? "selected=selected" : "";?>>01</option>
                                     <option value="02" <?php echo $minute=="2" ? "selected=selected" : "";?>>02</option>
@@ -180,19 +178,19 @@
                                 </select>
                                 </div>
                         </div>
+                        <div class="col-sm-6 mb-3">
+                        </div>
                             <div class="col-sm-6 mb-3">
-                            </div>
-                            <div class="col-sm-6 mb-3">
-                                <label class="form-label">Event End On<span style='color:red'>*</span></label>
+                                <label class="form-label">Event End <span style='color:red'>*</span></label>
                                 <div class="input-group">
                                 <?php
-                                    $day = date("d",strtotime($data[0]['ScheduledOn']));
-                                    $month = date("m",strtotime($data[0]['ScheduledOn']));
-                                    $year = date("Y",strtotime($data[0]['ScheduledOn']));
-                                    $hour = date("h",strtotime($data[0]['ScheduledOn']));
-                                    $minute = date("i",strtotime($data[0]['ScheduledOn']));
+                                    $day = date("d",strtotime($data[0]['EventEnd']));
+                                    $month = date("m",strtotime($data[0]['EventEnd']));
+                                    $year = date("Y",strtotime($data[0]['EventEnd']));
+                                    $hour = date("H",strtotime($data[0]['EventEnd']));
+                                    $minute = date("i",strtotime($data[0]['EventEnd']));
                                 ?>
-                                <select class="form-select" name="Day" id="Day">
+                                <select class="form-select" name="EndDay" id="EndDay">
                                     <option value="01" <?php echo $day=="01" ? "selected=selected" : "";?> >01</option>
                                     <option value="02" <?php echo $day=="02" ? "selected=selected" : "";?> >02</option>
                                     <option value="03" <?php echo $day=="03" ? "selected=selected" : "";?> >03</option>
@@ -225,7 +223,7 @@
                                     <option value="30" <?php echo $day=="30" ? "selected=selected" : "";?> >30</option>
                                     <option value="31" <?php echo $day=="31" ? "selected=selected" : "";?>>31</option>
                                 </select>
-                                <select class="form-select" name="Month" id="Month">
+                                <select class="form-select" name="EndMonth" id="EndMonth">
                                     <option value="01" <?php echo $month=="1" ? "selected=selected" : "";?> >JAN</option>
                                     <option value="02" <?php echo $month=="2" ? "selected=selected" : "";?> >FEB</option>
                                     <option value="03" <?php echo $month=="3" ? "selected=selected" : "";?> >MAR</option>
@@ -239,11 +237,11 @@
                                     <option value="11" <?php echo $month=="11" ? "selected=selected" : "";?> >NOV</option>
                                     <option value="12" <?php echo $month=="12" ? "selected=selected" : "";?> >DEC</option>
                                 </select>
-                                <select class="form-select" name="Year" id="Year">
+                                <select class="form-select" name="EndYear" id="EndYear">
                                     <option value="2023" <?php echo $year=="2023" ? "selected=selected" : "";?> >2023</option>
                                     <option value="2024" <?php echo $year=="2024" ? "selected=selected" : "";?> >2024</option>
                                 </select>
-                                <select class="form-select" name="Hour" id="Hour" style="text-align: center !important;">
+                                <select class="form-select" name="EndHour" id="EndHour" style="text-align: center !important;">
                                     <option value="00" <?php echo $hour=="0" ? "selected=selected" : "";?> >00</option>
                                     <option value="01" <?php echo $hour=="1" ? "selected=selected" : "";?> >01</option>
                                     <option value="02" <?php echo $hour=="2" ? "selected=selected" : "";?> >02</option>
@@ -253,7 +251,7 @@
                                     <option value="06" <?php echo $hour=="6" ? "selected=selected" : "";?> >06</option>
                                     <option value="07" <?php echo $hour=="7" ? "selected=selected" : "";?> >07</option>
                                     <option value="08" <?php echo $hour=="8" ? "selected=selected" : "";?> >08</option>
-                                    <option value="09" <?php echo $hour=="9" ? "selected=selected" : "";?> >09</option>
+                                    <option value="09" <?php echo $hour=="9"  ? "selected=selected" : "";?> >09</option>
                                     <option value="10" <?php echo $hour=="10" ? "selected=selected" : "";?> >10</option>
                                     <option value="11" <?php echo $hour=="11" ? "selected=selected" : "";?> >11</option>
                                     <option value="12" <?php echo $hour=="12" ? "selected=selected" : "";?> >12</option>
@@ -269,7 +267,7 @@
                                     <option value="22" <?php echo $hour=="22" ? "selected=selected" : "";?> >22</option>
                                     <option value="23" <?php echo $hour=="23" ? "selected=selected" : "";?> >23</option>
                                 </select>
-                                <select class="form-select" name="Minute" id="Minute" style="text-align: center !important;">
+                                <select class="form-select" name="EndMinute" id="EndMinute" style="text-align: center !important;">
                                     <option value="00" <?php echo $minute=="0" ? "selected=selected" : "";?>>00</option>
                                     <option value="01" <?php echo $minute=="1" ? "selected=selected" : "";?>>01</option>
                                     <option value="02" <?php echo $minute=="2" ? "selected=selected" : "";?>>02</option>
@@ -332,6 +330,20 @@
                                     <option value="59" <?php echo $minute=="59" ? "selected=selected" : "";?>>59</option>
                                 </select>
                                 </div>
+                        </div>
+                         <div class="col-sm-6 mb-3">    
+                         </div>
+                        <div class="col-sm-6 mb-3">         
+                                <label class="form-label">Is Active <span style='color:red'>*</span></label>
+                                <select name="IsActive" id="IsActive" class="form-select">
+                                    <option value="1" <?php echo ($data[0]['IsActive']==1) ? " selected='selected' " : "";?> >Active</option>
+                                    <option value="0" <?php echo ($data[0]['IsActive']==0) ? " selected='selected' " : "";?> >Deactivated</option>
+                                </select>
+                            </div>
+                            <div class="col-sm-12">
+                                <label class="form-label">Remarks</label>
+                                <input type="text" value="<?php echo $data[0]['Remarks'];?>"  name="Remarks" id="Remarks" class="form-control" placeholder="Remarks">
+                                <span id="ErrRemarks" class="error_msg"></span>
                         </div>
                     </div>
                 </div>
@@ -376,14 +388,12 @@
 function toupdate(){
    $('#confimation').modal("show");  
  }
- function confirmationtoadd(){
-   $('#add').modal("show");  
- }
+ 
 function doUpdate() {
     $('#confimation').modal("hide"); 
     var param = $('#frm_edit').serialize();
     openPopup();
-    //clearDiv(['MessageID','MessageCode','Title','MessageMail','MessageMobile','MessageWhatsapp']);
+    clearDiv(['EventCode','EventTitle','EventDescription','EventStart','EventEnd','Remarks','CreatedOn','IsActive']);
     
     jQuery.ajax({
         type: 'POST',
@@ -394,7 +404,7 @@ function doUpdate() {
         success: function(data) {
              var obj = JSON.parse(data); 
              if (obj.status=="success") {
-                $('#popupcontent').html(success_content(obj.message));
+                $('#popupcontent').html(success_content(obj.message,'closePopup'));
              } else {
                 if (obj.div!="") {
                     $('#Err'+obj.div).html(obj.message)
@@ -406,31 +416,5 @@ function doUpdate() {
         }
     });
 }
-function addNew() {
-    $('#add').modal("hide"); 
-    var param = $('#frm_edit').serialize();
-    openPopup();
-    //clearDiv(['MessageID','MessageCode','Title','MessageMail','MessageMobile','MessageWhatsapp']);
-    
-    jQuery.ajax({
-        type: 'POST',
-        url:URL+"webservice.php?doUpdate&action=&method=Events",
-        data: new FormData($("#frm_edit")[0]),
-        processData: false, 
-        contentType: false, 
-        success: function(data) {
-             var obj = JSON.parse(data); 
-             if (obj.status=="success") {
-                $('#popupcontent').html(success_content(obj.message));
-             } else {
-                if (obj.div!="") {
-                    $('#Err'+obj.div).html(obj.message)
-                } else {
-                    $('#failure_div').html(obj.message);
-                }
-                $('#process_popup').modal('hide');
-             }
-        }
-    });
-}
+setTimeout("d()",2000);
 </script>

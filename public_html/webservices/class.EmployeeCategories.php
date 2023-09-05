@@ -39,6 +39,12 @@ class EmployeeCategories {
         global $mysql;
         
         $data = $mysql->select("select * from _tbl_masters_employee_categories");
+        $data = $mysql->select("
+        SELECT t1.*, IFNULL(t2.cnt,0) AS EmployeeCount FROM _tbl_masters_employee_categories AS t1
+LEFT JOIN 
+(SELECT EmployeeCategoryID, COUNT(*) AS cnt FROM _tbl_employees GROUP BY EmployeeCategoryID) AS t2
+ON t1.EmployeeCategoryID=t2.EmployeeCategoryID
+        ");
         return json_encode(array("status"=>"success","data"=>$data));
     }
     
@@ -80,5 +86,7 @@ class EmployeeCategories {
         $data = $mysql->select("select * from _tbl_masters_employee_categories where EmployeeCategoryID='".$_GET['ID']."'");
         return json_encode(array("status"=>"success","data"=>$data));
     }
+    
+    
 }
 ?>

@@ -18,13 +18,14 @@
                                 <th style="width:100px">Code</th>
                                 <th>Employee Catrgory</th>
                                 <th>Remarks</th>
-                                <th style="width:50px">Status</th>
-                                <th style="width:200px"></th>
+                                <th style="width:100px">Emplyees</th>
+                                <th style="width:100px">Status</th>
+                                <th style="width:350px"></th>
                             </tr>
                         </thead>
                         <tbody id="tbl_content">
                             <tr>
-                                <td colspan="5" style="text-align: center;background:#fff !important">Loading Employee Category...</td>
+                                <td colspan="6" style="text-align: center;background:#fff !important">Loading Employee Category...</td>
                             </tr>
                         </tbody>
                     </table>
@@ -278,8 +279,9 @@ function listEmployeeCategory() {
                             + '<td>' + data.EmployeeCategoryCode + '</td>'
                             + '<td>' + data.EmployeeCategoryTitle + '</td>'
                             + '<td>' + data.Remarks + '</td>'
-                            + '<td>' + ( (data.IsActive=="1") ? "<span class='badge bg-success'>Active</span>" : "<span class='badge bg-secondary'>Disabled</span>" ) + '</td>'
-                            + '<td style="text-align:right"><a href="javascript:void(0)" onclick="confirmationtoDelete(\''+data.EmployeeCategoryID+'\')" class="btn btn-outline-danger btn-sm">Delete</a>&nbsp;&nbsp;<a onclick="edit(\''+data.EmployeeCategoryID+'\')"  class="btn btn-primary btn-sm">Edit</a>&nbsp;&nbsp;<a onclick="view(\''+data.EmployeeCategoryID+'\')" class="btn btn-success btn-sm">VIEW</a> </td>'
+                             + '<td style="text-align:right">' + data.EmployeeCount + '&nbsp;</td>'
+                            + '<td>' + ( (data.IsActive=="1") ? "<span class='badge bg-success'>Active</span>" : "<span class='badge bg-secondary'>Disabled</span>" ) + '</td>'                                                                                                     
+                            + '<td style="text-align:right"><a href="javascript:void(0)" onclick="confirmationtoDelete(\''+data.EmployeeCategoryID+'\')" class="btn btn-outline-danger btn-sm">Delete</a>&nbsp;&nbsp;<a href="'+URL+'dashboard.php?action=masters/employeecategory/list_employeesbycategory&EmployeeID='+data.EmployeeCategoryID+'" class="btn btn-warning btn-sm" >View Employees</a>&nbsp;&nbsp;<a onclick="edit(\''+data.EmployeeCategoryID+'\')"  class="btn btn-primary btn-sm">Edit</a>&nbsp;&nbsp;<a onclick="view(\''+data.EmployeeCategoryID+'\')" class="btn btn-success btn-sm">VIEW</a> </td>'
                       + '</tr>';
             });   
             $('#tbl_content').html(html);
@@ -314,8 +316,9 @@ function Remove(ID) {
                            + '<td>' + data.EmployeeCategoryCode + '</td>'
                             + '<td>' + data.EmployeeCategoryTitle + '</td>'
                             + '<td>' + data.Remarks + '</td>'
+                             + '<td style="text-align:right">' + data.EmployeeCount + '&nbsp;</td>'
                             + '<td>' + ( (data.IsActive=="1") ? "<span class='badge bg-success'>Active</span>" : "<span class='badge bg-secondary'>Disabled</span>" ) + '</td>'
-                            + '<td style="text-align:right"><a href="javascript:void(0)" onclick="confirmationtoDelete(\''+data.EmployeeCategoryID+'\')" class="btn btn-outline-danger btn-sm">Delete</a>&nbsp;&nbsp;<a onclick="edit(\''+data.EmployeeCategoryID+'\')"  class="btn btn-primary btn-sm">Edit</a>&nbsp;&nbsp;<a onclick="view(\''+data.EmployeeCategoryID+'\')" class="btn btn-success btn-sm">VIEW</a> </td>'
+                            + '<td style="text-align:right"><a href="javascript:void(0)" onclick="confirmationtoDelete(\''+data.EmployeeCategoryID+'\')" class="btn btn-outline-danger btn-sm">Delete</a>&nbsp;&nbsp;<a href="'+URL+'dashboard.php?action=masters/employeecategory/list_employeesbycategory&EmployeeID='+data.EmployeeCategoryID+'" class="btn btn-warning btn-sm" >View Employees</a>&nbsp;&nbsp;<a onclick="edit(\''+data.EmployeeCategoryID+'\')"  class="btn btn-primary btn-sm">Edit</a>&nbsp;&nbsp;<a onclick="view(\''+data.EmployeeCategoryID+'\')" class="btn btn-success btn-sm">VIEW</a> </td>'
                       + '</tr>';
             });   
             $('#tbl_content').html(html);

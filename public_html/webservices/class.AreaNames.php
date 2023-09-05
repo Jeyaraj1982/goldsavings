@@ -5,13 +5,17 @@ class AreaNames {
     function addNew() {
         
         global $mysql;
-        if (strlen(trim($_POST['AreaNameCode']))==0) {
-            return json_encode(array("status"=>"failure","message"=>"Please enter Area Name Code","div"=>"AreaNameCode"));    
+        if (isset($_POST['AreaNameCode'])) {
+            if (strlen(trim($_POST['AreaNameCode']))==0) {
+                return json_encode(array("status"=>"failure","message"=>"Please enter Area Name Code","div"=>"AreaNameCode"));    
+            } else {
+                $dupCode = $mysql->select("select * from _tbl_masters_areanames where AreaNameCode='".trim($_POST['AreaNameCode'])."'");
+                if (sizeof($dupCode)>0) {
+                    return json_encode(array("status"=>"failure","message"=>"Code is already used","div"=>"AreaNameCode"));    
+                }
+            } 
         } else {
-            $dupCode = $mysql->select("select * from _tbl_masters_areanames where AreaNameCode='".trim($_POST['AreaNameCode'])."'");
-            if (sizeof($dupCode)>0) {
-                return json_encode(array("status"=>"failure","message"=>"Code is already used","div"=>"AreaNameCode"));    
-            }
+            $_POST['AreaNameCode'] = SequnceList::updateNumber("_tbl_masters_areanames");
         }
         
         if (strlen(trim($_POST['AreaName']))==0) {
@@ -105,6 +109,17 @@ class AreaNames {
                                                             IsActive        ='".$_POST['IsActive']."' where AreaNameID='".$_POST['AreaNameID']."'");
                                                              
          return json_encode(array("status"=>"success","message"=>"successfully updated ".$mysql->error,"div"=>""));
+     }
+     
+     public static function getData() {
+         global $mysql;
+         $data = $mysql->select("select * from _tbl_masters_areanames where AreaNameID='".$_GET['ID']."'");
+         return json_encode(array("status"=>"success","data"=>$data));
+     }
+      public static function listByAreaNames() {
+         global $mysql;                                             
+         $data = $mysql->select("select * from _tbl_masters_areanames where DistrictNameID='".$_GET['DistrictNameID']."'");
+         return json_encode(array("status"=>"success","data"=>$data));
      }
 }
 ?>

@@ -57,7 +57,11 @@ class Schemes {
 
      public static function listAll() {
          global $mysql;
-         $data = $mysql->select("select * from _tbl_masters_schemes");
+         //$data = $mysql->select("select * from _tbl_masters_schemes");
+         $data = $mysql->select("SELECT t1.*, IFNULL(t2.cnt,0) AS ContractCount FROM _tbl_masters_schemes AS t1
+LEFT JOIN 
+(SELECT SchemeID, COUNT(*) AS cnt FROM _tbl_contracts GROUP BY SchemeID) AS t2
+ON t1.SchemeID=t2.SchemeID");
          return json_encode(array("status"=>"success","data"=>$data));
      }
      
@@ -98,5 +102,9 @@ class Schemes {
                                                           
          return json_encode(array("status"=>"success","message"=>"successfully updated ".$mysql->error,"div"=>""));
      }
+     
+     
+     
+     
 }
 ?>

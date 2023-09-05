@@ -399,5 +399,11 @@ class Employees {
         $data = $mysql->execute("delete from _tbl_salesman_areas set IsActive='1'  where AssignedAreaID='".$_GET['ID']."'");
         return json_encode(array("status"=>"success","data"=>$data));
     }
+    
+     public static function listByEmployeeCategory() {   
+        global $mysql;
+        $data = $mysql->select("select * from _tbl_employees where EmployeeCategoryID='".$_GET['EmployeeCategoryID']."'");
+        return json_encode(array("status"=>"success","data"=>$data));
+    }
 }
 ?>

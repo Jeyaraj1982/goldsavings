@@ -116,7 +116,7 @@
                     <div class="card-body">
                         <div class="row">
                             <div class="col-sm-12 mb-3">
-                                <label class="form-label">Address Line 1 <!--<span style='color:red'>*</span>--></label>
+                                <label class="form-label">Address Line 1 </label>
                                 <input type="text" value="<?php echo $data[0]['AddressLine1'];?>" readonly="readonly" class="form-control" placeholder="Address Line 1">
                             </div>
                             <div class="col-sm-12 mb-3">
@@ -124,19 +124,19 @@
                                 <input type="text" value="<?php echo $data[0]['AddressLine2'];?>" readonly="readonly" class="form-control" placeholder="Address Line 2">
                             </div>
                             <div class="col-sm-6  mb-3">
-                                <label class="form-label">State Name<!--<span style='color:red'>*</span>--></label>
+                                <label class="form-label">State Name</label>
                                 <input type="text" value="<?php echo $data[0]['StateName'];?>" readonly="readonly" class="form-control" placeholder="State Name">
                             </div>
                             <div class="col-sm-6  mb-3">
-                                <label class="form-label">District Name<!--<span style='color:red'>*</span>--></label>
+                                <label class="form-label">District Name</label>
                                 <input type="text" value="<?php echo $data[0]['DistrictName'];?>" readonly="readonly" class="form-control" placeholder="District Name">
                             </div>
                             <div class="col-sm-6">
-                                <label class="form-label">Area Name<!--<span style='color:red'>*</span>--></label>
+                                <label class="form-label">Area Name</label>
                                 <input type="text" value="<?php echo $data[0]['AreaName'];?>" readonly="readonly" class="form-control" placeholder="Area Name">
                             </div>
                             <div class="col-sm-6">
-                                <label class="form-label">PinCode <!--<span style='color:red'>*</span>--></label>
+                                <label class="form-label">PinCode </label>
                                 <input type="text" value="<?php echo $data[0]['PinCode'];?>" readonly="readonly" class="form-control" placeholder="Pincode">
                             </div>
                         </div>

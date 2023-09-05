@@ -75,7 +75,6 @@ function d() {
                       + '</tr>';
             });   
             $('#tbl_content').html(html);
-            // document.addEventListener("DOMContentLoaded", function() {
             $("#datatables-fixed-header").DataTable({
                 fixedHeader: true,
                 pageLength: 25

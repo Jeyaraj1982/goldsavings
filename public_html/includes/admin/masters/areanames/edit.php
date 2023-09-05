@@ -98,7 +98,6 @@ function doUpdate() {
     $.post(URL+"webservice.php?action=doUpdate&method=AreaNames",param,function(data){
         var obj = JSON.parse(data); 
         if (obj.status=="success") {
-            //$('#frm_newservice').trigger("reset");
             $('#popupcontent').html(success_content(obj.message));
         } else {
             if (obj.div!="") {

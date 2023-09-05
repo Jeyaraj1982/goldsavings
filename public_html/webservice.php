@@ -13,9 +13,12 @@ include_once("webservices/class.Profile.php");
 include_once("webservices/class.StateNames.php");
 include_once("webservices/class.Schemes.php");
 
+
 include_once("webservices/class.AddressBook.php");
 include_once("webservices/class.Benefits.php");
 include_once("webservices/class.Contracts.php");
+include_once("webservices/class.Companies.php");
+include_once("webservices/class.Events.php");
 
 if (isset($_GET['method'])) {     
     $class=$_GET['method'];

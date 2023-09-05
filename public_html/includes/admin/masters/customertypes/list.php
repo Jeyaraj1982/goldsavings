@@ -18,13 +18,14 @@
                                 <th style="width:100px">Code</th>
                                 <th>Customer Type</th>
                                 <th>Remarks</th>
-                                <th style="width:50px">Status</th>
-                                <th style="width:200px"></th>
+                                <th style="width:100px">Customers</th>
+                                <th style="width:100px">Status</th>
+                                <th style="width:50px;text-align:right"></th>
                             </tr>
                         </thead>
                         <tbody id="tbl_content">
                             <tr>
-                                <td colspan="5" style="text-align: center;background:#fff !important">Loading customer types ...</td>
+                                <td colspan="6" style="text-align: center;background:#fff !important">Loading customer types ...</td>
                             </tr>
                         </tbody>
                     </table>
@@ -245,8 +246,31 @@ function listCustomerTypes() {
                             + '<td>' + data.CustomerTypeCode + '</td>'
                             + '<td>' + data.CustomerTypeName + '</td>'
                             + '<td>' + data.Remarks + '</td>'
+                            + '<td style="text-align:right">' + data.CustomerCount + '&nbsp;</td>'
                             + '<td>' + ( (data.IsActive=="1") ? "<span class='badge bg-success'>Active</span>" : "<span class='badge bg-secondary'>Disabled</span>" ) + '</td>'
-                            + '<td style="text-align:right"><a href="javascript:void(0)" onclick="confirmationtoDelete(\''+data.CustomerTypeNameID+'\')" class="btn btn-outline-danger btn-sm">Delete</a>&nbsp;&nbsp;<a onclick="edit(\''+data.CustomerTypeNameID+'\')" class="btn btn-primary btn-sm">Edit</a>&nbsp;&nbsp;<a onclick="view(\''+data.CustomerTypeNameID+'\')" class="btn btn-success btn-sm">View</a> </td>'
+                            /*
+                            + '<td style="text-align:right">
+                                <a href="javascript:void(0)" onclick="confirmationtoDelete(\''+data.CustomerTypeNameID+'\')" class="btn btn-outline-danger btn-sm">Delete</a>
+                                &nbsp;&nbsp;<a onclick="edit(\''+data.CustomerTypeNameID+'\')" class="btn btn-primary btn-sm">Edit</a>
+                                &nbsp;&nbsp;<a href="'+URL+'dashboard.php?action=masters/customertypes/ list_customersbycategory&CustomerTypeID='+data.CustomerTypeNameID+'" class="btn btn-warning btn-sm">View Customers</a>
+                                &nbsp;&nbsp;<a onclick="view(\''+data.CustomerTypeNameID+'\')" class="btn btn-success btn-sm">View</a> </td>'
+                                 */
+                            +'<td>'  
+                                + '<div class="dropdown">'
+                                    + '<a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">'
+                                    + '</a>'
+                                    + '<ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">';
+                                        if (parseInt(data.CustomerCount)>0) {
+                                            html += '<li><a class="dropdown-item" href="'+URL+'dashboard.php?action=masters/customertypes/ list_customersbycategory&CustomerTypeID='+data.CustomerTypeNameID+'" >View Customers</a></li>'
+                                        } else {
+                                            html += '<li><a class="dropdown-item" href="javascript:void(0)" style="color:#888" >View Customers</a></li>'    
+                                        }
+                                        html += '<li><a class="dropdown-item" href="javascript:void(0)" onclick="view(\''+data.CustomerTypeNameID+'\')" >View</a></li>'
+                                        + '<li><a class="dropdown-item" href="javascript:void(0)" onclick="edit(\''+data.CustomerTypeNameID+'\')" >Edit</a></li>'
+                                        + '<li><a class="dropdown-item"  href="javascript:void(0)" onclick="confirmationtoDelete(\''+data.CustomerTypeNameID+'\')" >Delete</a></li>'
+                                    + '</ul>'
+                                + '</div>'
+                            + '</td> '
                       + '</tr>';
             });   
            $('#tbl_content').html(html);
@@ -283,7 +307,7 @@ function Remove() {
                             + '<td>' + data.CustomerTypeName + '</td>'
                             + '<td>' + data.Remarks + '</td>'
                             + '<td>' + ( (data.IsActive=="1") ? "<span class='badge bg-success'>Active</span>" : "<span class='badge bg-secondary'>Disabled</span>" ) + '</td>'
-                            + '<td style="text-align:right"><a href="javascript:void(0)" onclick="confirmationtoDelete(\''+data.CustomerTypeNameID+'\')" class="btn btn-outline-danger btn-sm">Delete</a>&nbsp;&nbsp;<a onclick="edit(\''+data.CustomerTypeNameID+'\')" class="btn btn-primary btn-sm">Edit</a>&nbsp;&nbsp;<a onclick="view(\''+data.CustomerTypeNameID+'\')" class="btn btn-success btn-sm">View</a> </td>'
+                            + '<td style="text-align:right"><a href="javascript:void(0)" onclick="confirmationtoDelete(\''+data.CustomerTypeNameID+'\')" class="btn btn-outline-danger btn-sm">Delete</a>&nbsp;&nbsp;<a onclick="edit(\''+data.CustomerTypeNameID+'\')" class="btn btn-primary btn-sm">Edit</a>&nbsp;&nbsp;<a href="'+URL+'dashboard.php?action=masters/customertypes/ list_customersbycategory&CustomerTypeID='+data.CustomerTypeNameID+'" class="btn btn-warning btn-sm">View Customers</a>&nbsp;&nbsp;<a onclick="view(\''+data.CustomerTypeNameID+'\')" class="btn btn-success btn-sm">View</a> </td>'
                       + '</tr>';
             });   
             $('#tbl_content').html(html);

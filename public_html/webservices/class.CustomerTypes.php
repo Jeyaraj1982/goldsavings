@@ -68,7 +68,14 @@ class CustomerTypes {
 
     public static function listAll() {
         global $mysql;
-        $data = $mysql->select("select * from _tbl_masters_customertypename");
+        //$data = $mysql->select("select * from _tbl_masters_customertypename");
+        $data = $mysql->select("SELECT t1.*, IFNULL(t2.cnt,0) AS  CustomerCount 
+                                    FROM 
+                                        _tbl_masters_customertypename AS t1
+                                    LEFT JOIN 
+                                        (SELECT CustomerTypeNameID, COUNT(*) AS cnt FROM _tbl_masters_customers GROUP BY CustomerTypeNameID) AS t2
+                                    ON 
+                                    t1.CustomerTypeNameID=t2.CustomerTypeNameID");
         return json_encode(array("status"=>"success","data"=>$data));
     }
     public static function listAllActive() {

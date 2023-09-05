@@ -26,6 +26,15 @@
                 <li class="sidebar-item"><a class="sidebar-link" href="<?php echo URL;?>dashboard.php?action=addressbook/list">View Contacts</a></li>
             </ul>
         </li>
+        <li class="sidebar-item">
+            <a data-bs-target="#events" data-bs-toggle="collapse" class="sidebar-link collapsed">
+                <i class="align-middle" data-feather="layout"></i> <span class="align-middle">Events</span>
+            </a>
+            <ul id="events" class="sidebar-dropdown list-unstyled collapse " data-bs-parent="#sidebar">
+                <li class="sidebar-item"><a class="sidebar-link" href="<?php echo URL;?>dashboard.php?action=events/new">New Events</a></li>
+                <li class="sidebar-item"><a class="sidebar-link" href="<?php echo URL;?>dashboard.php?action=events/list">View Events</a></li>
+            </ul>
+        </li>
         <li class="sidebar-header">
             App Masters & Settings
         </li>
@@ -33,6 +42,14 @@
             <a data-bs-target="#app_team" data-bs-toggle="collapse" class="sidebar-link collapsed">
                 <i class="align-middle" data-feather="grid"></i> <span class="align-middle">Administration</span>
             </a>
+            <a data-bs-target="#app_company" data-bs-toggle="collapse" class="sidebar-link collapsed">
+                <i class="align-middle" data-feather="grid"></i> <span class="align-middle">Company</span>
+                </a>
+            <ul id="app_company" class="sidebar-dropdown list-unstyled collapse " data-bs-parent="#sidebar">
+                <li class="sidebar-item"><a class="sidebar-link" href="<?php echo URL;?>dashboard.php?action=company/new">New Company</a></li>
+                <li class="sidebar-item"><a class="sidebar-link" href="<?php echo URL;?>dashboard.php?action=company/list">View Company</a></li>
+                </ul>
+            
             <a data-bs-target="#app_employees" data-bs-toggle="collapse" class="sidebar-link collapsed">
                 <i class="align-middle" data-feather="grid"></i> <span class="align-middle">Employees</span>
             </a>
@@ -68,12 +85,6 @@
             <ul id="app_reports" class="sidebar-dropdown list-unstyled collapse " data-bs-parent="#sidebar">
                 <li class="sidebar-item"><a class="sidebar-link" href="<?php echo URL;?>dashboard.php?action=reports/customers">Customer </a></li>
                 <li class="sidebar-item"><a class="sidebar-link" href="<?php echo URL;?>dashboard.php?action=reports/schemewise">Scheme Wise</a></li>
-                <li class="sidebar-item"><a class="sidebar-link" href="<?php echo URL;?>dashboard.php?action=reports/upcomingdues">Upcoming Dues</a></li>
-                <li class="sidebar-item"><a class="sidebar-link" href="<?php echo URL;?>dashboard.php?action=reports/pendingdues">Pending Dues</a></li>
-                <li class="sidebar-item"><a class="sidebar-link" href="<?php echo URL;?>dashboard.php?action=reports/receiveddues">Received Dues</a></li>
-                <li class="sidebar-item"><a class="sidebar-link" href="<?php echo URL;?>dashboard.php?action=reports/closedschemes">Closed Schemes</a></li>
-                <li class="sidebar-item"><a class="sidebar-link" href="<?php echo URL;?>dashboard.php?action=reports/activeschemes">Active Schemes</a></li>
-                <li class="sidebar-item"><a class="sidebar-link" href="<?php echo URL;?>dashboard.php?action=reports/requesttocloseschemes">Request To Close Schemes</a></li>
             </ul>
              <a data-bs-target="#app_settings" data-bs-toggle="collapse" class="sidebar-link collapsed">
                 <i class="align-middle" data-feather="grid"></i> <span class="align-middle">Settings</span>

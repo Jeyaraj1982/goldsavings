@@ -50,6 +50,12 @@ class Contracts {
          return json_encode(array("status"=>"success","data"=>$data));
      }
      
+      public static function listBySchemes() {   
+        global $mysql;
+        $data = $mysql->select("select * from _tbl_contracts where SchemeID='".$_GET['SchemeID']."'");
+        return json_encode(array("status"=>"success","data"=>$data));
+    }
+     
  
 }
 ?>

@@ -4,13 +4,17 @@ class DistrictNames {
     function addNew() {
         
         global $mysql;
-        if (strlen(trim($_POST['DistrictNameCode']))==0) {
-            return json_encode(array("status"=>"failure","message"=>"Please enter District Name Code","div"=>"DistrictNameCode"));    
-        } else {
-            $dupCode = $mysql->select("select * from _tbl_masters_districtnames where DistrictNameCode='".trim($_POST['DistrictNameCode'])."'");
-            if (sizeof($dupCode)>0) {
-                return json_encode(array("status"=>"failure","message"=>"Code is already used","div"=>"DistrictNameCode"));    
+        if (isset($_POST['DistrictNameCode'])) {
+            if (strlen(trim($_POST['DistrictNameCode']))==0) {
+                return json_encode(array("status"=>"failure","message"=>"Please enter District Name Code","div"=>"DistrictNameCode"));    
+            } else {
+                $dupCode = $mysql->select("select * from _tbl_masters_districtnames where DistrictNameCode='".trim($_POST['DistrictNameCode'])."'");
+                if (sizeof($dupCode)>0) {
+                    return json_encode(array("status"=>"failure","message"=>"Code is already used","div"=>"DistrictNameCode"));    
+                }
             }
+        } else {
+            $_POST['DistrictNameCode'] =  SequnceList::updateNumber("_tbl_masters_districtnames");
         }
         
         if (strlen(trim($_POST['DistrictName']))==0) {
@@ -93,6 +97,18 @@ class DistrictNames {
                                                                 IsActive ='".$_POST['IsActive']."' where DistrictNameID='".$_POST['DistrictNameID']."'");
                                                           
          return json_encode(array("status"=>"success","message"=>"successfully updated ".$mysql->error,"div"=>""));
+     }
+     
+     public static function getData() {
+         global $mysql;
+         $data = $mysql->select("select * from _tbl_masters_districtnames where DistrictNameID='".$_GET['ID']."'");
+         return json_encode(array("status"=>"success","data"=>$data));
+     }
+     
+     public static function listByDistrictNames() {
+         global $mysql;
+         $data = $mysql->select("select * from _tbl_masters_districtnames where StateNameID='".$_GET['StateNameID']."'");
+         return json_encode(array("status"=>"success","data"=>$data));
      }
 }
 ?>

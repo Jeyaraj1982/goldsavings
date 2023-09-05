@@ -21,8 +21,9 @@
                                 <th>Installments</th>
                                 <th>InstallmentMode</th>
                                 <th>Remarks</th>
-                                <th style="width:100px">Status</th>
-                                <th style="width:300px"></th>
+                                <th style="width:100px">Contracts</th>
+                                <th style="width:300px">Status</th>
+                                <th style="width:500px"></th>
                             </tr>
                         </thead>
                         <tbody id="tbl_content">
@@ -75,8 +76,14 @@ function d() {
                             + '<td>' + data.Installments + '</td>'
                             + '<td>' + data.InstallmentMode + '</td>'
                             + '<td>' + data.Remarks + '</td>'
+                            + '<td style="text-align:right">' + data.ContractCount + '&nbsp;</td>'
                             + '<td>' + ( (data.IsActive=="1") ? "<span class='badge bg-success'>Active</span>" : "<span class='badge bg-secondary'>Disabled</span>" ) + '</td>'
-                            + '<td style="text-align:right"><a href="javascript:void(0)" onclick="confirmationtoDelete(\''+data.SchemeID+'\')" class="btn btn-outline-danger btn-sm">Delete</a>&nbsp;&nbsp;<a href="'+URL+'dashboard.php?action=masters/schemes/edit&edit='+data.SchemeID+'" class="btn btn-primary btn-sm">Edit</a>&nbsp;&nbsp;<a href="'+URL+'dashboard.php?action=masters/schemes/view&edit='+data.SchemeID+'" class="btn btn-success btn-sm">View</a></td>'
+                            + '<td style="text-align:right">'
+                                + '<a href="javascript:void(0)" onclick="confirmationtoDelete(\''+data.SchemeID+'\')" class="btn btn-outline-danger btn-sm">Delete</a>&nbsp;&nbsp;'
+                                + '<a href="'+URL+'dashboard.php?action=masters/schemes/edit&edit='+data.SchemeID+'" class="btn btn-primary btn-sm">Edit</a>&nbsp;&nbsp;'
+                                + '<a href="'+URL+'dashboard.php?action=masters/schemes/list_contractsbyscheme&SchemeID='+data.SchemeID+'" class="btn btn-warning btn-sm">View Employees</a>&nbsp;&nbsp;'
+                                + '<a href="'+URL+'dashboard.php?action=masters/schemes/view&edit='+data.SchemeID+'" class="btn btn-success btn-sm">View</a>'
+                            + '</td>'
                       + '</tr>';
             });   
              $('#tbl_content').html(html);
@@ -105,9 +112,14 @@ function Remove(ID) {
                             + '<td>' + data.Installments + '</td>'
                             + '<td>' + data.InstallmentMode + '</td>'
                             + '<td>' + data.Remarks + '</td>'
+                            + '<td style="text-align:right">' + data.ContractCount + '&nbsp;</td>'
                             + '<td>' + ( (data.IsActive=="1") ? "<span class='badge bg-success'>Active</span>" : "<span class='badge bg-secondary'>Disabled</span>" ) + '</td>'
-                            + '<td style="text-align:right"><a href="javascript:void(0)" onclick="confirmationtoDelete(\''+data.SchemeID+'\')" class="btn btn-outline-danger btn-sm">Delete</a>&nbsp;&nbsp;<a href="'+URL+'dashboard.php?action=masters/schemes/edit&edit='+data.SchemeID+'" class="btn btn-primary btn-sm">Edit</a>&nbsp;&nbsp;<a href="'+URL+'dashboard.php?action=masters/schemes/view&edit='+data.SchemeID+'" class="btn btn-success btn-sm">View</a></td>'
-                      + '</tr>';
+                            + '<td style="text-align:right"><a href="javascript:void(0)" onclick="confirmationtoDelete(\''+data.SchemeID+'\')" class="btn btn-outline-danger btn-sm">Delete</a>&nbsp;&nbsp'
+                            + '<a href="'+URL+'dashboard.php?action=masters/schemes/edit&edit='+data.SchemeID+'" class="btn btn-primary btn-sm">Edit</a>&nbsp;&nbsp'
+                            + '<a href="'+URL+'dashboard.php?action=masters/schemes/list_contractsbyscheme&SchemeID='+data.SchemeID+'" class="btn btn-warning btn-sm" >View Employees</a>&nbsp;&nbsp'
+                            + '<a href="'+URL+'dashboard.php?action=masters/schemes/view&edit='+data.SchemeID+'" class="btn btn-success btn-sm">View</a>'
+                      + '</td>'
+                + '</tr>';
             });  
             $('#tbl_content').html(html);
         } else {

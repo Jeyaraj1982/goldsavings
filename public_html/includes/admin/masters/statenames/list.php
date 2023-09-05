@@ -5,7 +5,7 @@
             <h6 class="card-subtitle text-muted mb-3">List all state names</h6>
         </div>
         <div class="col-6" style="text-align:right;">
-            <a href="<?php echo URL;?>dashboard.php?action=masters/statenames/new" class="btn btn-primary btn-sm">New State Name</a>
+             <button onclick="addForm()" type="button" class="btn btn-primary">New</button>
         </div>
      </div>
      <div class="row">
@@ -19,7 +19,7 @@
                                 <th>State Name</th>
                                 <th>Remark</th>
                                 <th style="width:100px">Status</th>
-                                <th style="width:200px"></th>
+                                <th style="width:300px"></th>
                             </tr>
                         </thead>
                         <tbody id="tbl_content">
@@ -49,14 +49,133 @@
             </div>
         </div>
     </div>
-</div>  
+</div>
+
+<div class="modal fade" id="addconfirmation" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">New StateName</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="container-fluid p-0">
+    <form id="frm_create" name="frm_create" method="post" enctype="multipart/form-data">
+    <input type="hidden" value="<?php echo $data[0][' StateNameID'];?>" name="StateNameID" id=" StateNameID">
+        <div class="row">
+                            <div class="col-sm-6 mb-3">
+                                <label class="form-label">State Code <span style='color:red'>*</span></label>
+                                <input type="text" value="<?php echo SequnceList::getNextNumber("_tbl_masters_statenames");?>" name="StateNameCode" id="StateNameCode" class="form-control" placeholder="State Name Code">
+                                <span id="ErrStateNameCode" class="error_msg"></span>
+                            </div>
+                            <div class="col-sm-12 mb-3">
+                                <label class="form-label">State Name <span style='color:red'>*</span></label>
+                                <input type="text" name="StateName" id="StateName" class="form-control" placeholder="State Name">
+                                <span id="ErrStateName" class="error_msg"></span>
+                            </div>
+                            <div class="col-sm-12 mb-3">
+                                <label class="form-label">Remarks</label>
+                                <input type="text" name="Remarks" id="Remarks" class="form-control" placeholder="Remarks">
+                                <span id="ErrRemarks" class="error_msg"></span>
+                            </div>
+        </div>
+    </form>
+    </div>
+    </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline-primary" data-bs-dismiss="modal">Cancel</button>
+        <button type="button" onclick="addNew()" class="btn btn-primary">Create StateName</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="editForm" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Edit StateName</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+            <form name="frm_edit"  id="frm_edit">
+            <input type="hidden" name="StateNameID" id="editStateNameID">
+               <div class="row">
+                            <div class="col-sm-6 mb-3">
+                                <label class="form-label">State Name Code</label>
+                                <input type="text" disabled="disabled" value="" name="StateNameCode" id="editStateNameCode" class="form-control">
+                                <span id="ErrStateNameCode" class="error_msg"></span>
+                            </div>
+                            <div class="col-sm-12 mb-3">
+                                <label class="form-label">State Name<span style='color:red'>*</span></label>
+                                <input type="text" value="" name="StateName" id="editStateName" class="form-control" placeholder="State Name">
+                                <span id="ErrStateName" class="error_msg"></span>
+                            </div>
+                            <div class="col-sm-12 mb-3">
+                                <label class="form-label">Remarks</label>
+                                <input type="text" value="" name="Remarks" id="editRemarks" class="form-control" placeholder="Remarks">
+                                <span id="ErrRemarks" class="error_msg"></span>
+                            </div>
+                            <div class="col-sm-6 mb-3">
+                                <label class="form-label">Status</label>
+                                <select name="IsActive" id="editIsActive" class="form-select">
+                                    <option value="1" <?php echo ($data[0]['IsActive']==1) ? " selected='selected' ": "''";?>>Active</option>
+                                    <option value="0" <?php echo ($data[0]['IsActive']==0) ? " selected='selected' ": "''";?>>DeActivated</option>
+                                </select>
+                            </div>
+                          </div>
+                   </form>
+         </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-primary" data-bs-dismiss="modal">Cancel</button>
+                <button onclick="doUpdate()" type="button" class="btn btn-primary" data-bs-dismiss="modal">Update</button>
+            </div>
+          </div>
+        </div>
+    </div>  
+    
+    <div class="modal fade" id="viewForm" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">View StateName</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+            <form name="frm_view"  id="frm_view">
+            <input type="hidden" name="StateNameID" id="viewStateNameID">
+               <div class="row">
+                            <div class="col-sm-6 mb-3">
+                                <label class="form-label">State Name Code</label>
+                                <input type="text" disabled="disabled" value="" readonly="readonly" name="StateNameCode" id="viewStateNameCode" class="form-control">
+                                <span id="ErrStateNameCode" class="error_msg"></span>
+                            </div>
+                            <div class="col-sm-12 mb-3">
+                                <label class="form-label">State Name<span style='color:red'>*</span></label>
+                                <input type="text" value="" name="StateName" id="viewStateName" readonly="readonly" class="form-control" placeholder="State Name">
+                                <span id="ErrStateName" class="error_msg"></span>
+                            </div>
+                            <div class="col-sm-12 mb-3">
+                                <label class="form-label">Remarks</label>
+                                <input type="text" value="" name="Remarks" id="viewRemarks" readonly="readonly" class="form-control" placeholder="Remarks">
+                                <span id="ErrRemarks" class="error_msg"></span>
+                            </div>
+                             <div class="col-sm-6 mb-3">
+                                <label class="form-label">Status </label>
+                               <input type="text" value="" name="viewIsActive" id="viewIsActive" readonly="readonly" class="form-control">
+                                <span id="ErrIsActive" class="error_msg"></span>
+                            </div>
+                          </div>
+                   </form>
+         </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-primary" data-bs-dismiss="modal">Cancel</button>
+            </div>
+          </div>
+        </div>
+    </div>
 <script>
-var RemoveID="";
-function confirmationtoDelete(ID){
-    RemoveID=ID;
-    $('#confirmation').modal("show"); 
-}
-//                            + '<td style="text-align:right"><a href="javascript:void(0)" onclick="Remove(\''+data.StateNameID+'\')" class="btn btn-outline-danger btn-sm">Delete</a>&nbsp;&nbsp;<a href="'+URL+'dashboard.php?action=masters/statenames/edit&edit='+data.StateNameID+'" class="btn btn-primary btn-sm">Edit</a></td>'
+
 function d() {
     openPopup();
     $.post(URL+ "webservice.php?action=ListAll&method=StateNames","",function(data){
@@ -70,46 +189,141 @@ function d() {
                             + '<td>' + data.StateName + '</td>'
                             + '<td>' + data.Remarks + '</td>'
                             + '<td>' + ( (data.IsActive=="1") ? "<span class='badge bg-success'>Active</span>" : "<span class='badge bg-secondary'>Disabled</span>" ) + '</td>'
-                            + '<td style="text-align:right"><a href="javascript:void(0)" onclick="confirmationtoDelete(\''+data.StateNameID+'\')" class="btn btn-outline-danger btn-sm">Delete</a>&nbsp;&nbsp;<a href="'+URL+'dashboard.php?action=masters/statenames/edit&edit='+data.StateNameID+'" class="btn btn-primary btn-sm">Edit</a></td>'
+                            + '<td style="text-align:right"><a href="javascript:void(0)" onclick="confirmationtoDelete(\''+data.StateNameID+'\')" class="btn btn-outline-danger btn-sm">Delete</a>&nbsp;&nbsp;<a href="'+URL+'dashboard.php?action=masters/statenames/list_districtnamesbystatenames&StateNameID='+data.StateNameID+'" class="btn btn-warning btn-sm" >View DistrictNames</a>&nbsp;&nbsp;<a onclick="edit(\''+data.StateNameID+'\')" class="btn btn-primary btn-sm">Edit</a>&nbsp;&nbsp;<a onclick="view(\''+data.StateNameID+'\')" class="btn btn-success btn-sm">VIEW</a></td>'
                       + '</tr>';
-            });   
+            });
+            if(obj.data.legth==0){
+                    html +=  '<tr>'
+                    + '<td colspan="7" style="text-align: center;background:#fff !important">No data found</td>'
+                    + '</tr>'
+            }   
             $('#tbl_content').html(html);
-            // document.addEventListener("DOMContentLoaded", function() {
-            //$("#datatables-fixed-header").DataTable({
-               // fixedHeader: true,
-                //pageLength: 25
-           // });
-            //});                                        
         } else {
             alert(obj.message);
         }
     });                                           
 }
 setTimeout("d()",2000);
-function Remove() {
+
+function addForm(){
+  $('#addconfirmation').modal("show");   
+}  
+function addNew() {
+     $('#addconfirmation').modal("hide");
+    var param = $('#frm_create').serialize();
+    openPopup();
+    clearDiv(['StateName','StateNameCode','Remarks','IsActive']);
+    $.post(URL+"webservice.php?action=addNew&method=StateNames",param,function(data){
+        var obj = JSON.parse(data); 
+        if (obj.status=="success") {
+            $('#frm_create').trigger("reset");
+            if (obj.StateNameCode.length>3) {
+                $('#StateNameCode').val(obj.StateNameCode);
+            }
+            $('#popupcontent').html(success_content(obj.message,'closePopup')); 
+        } else {
+            if (obj.div!="") {
+                $('#Err'+obj.div).html(obj.message)
+            } else {
+                $('#failure_div').html(obj.message);
+            }
+            $('#process_popup').modal('hide');
+        }
+    });
+}
+
+function edit(ID){
+  $('#editForm').modal("show");
+  
+    $.post(URL+ "webservice.php?action=getData&method=StateNames&ID="+ID,"",function(data){
+        closePopup();
+        var obj = JSON.parse(data);
+        if (obj.status=="success") {
+            var html = "";
+            $.each(obj.data, function (index, data) {
+                $('#editStateNameCode').val(data.StateNameCode);
+                $('#editStateName').val(data.StateName);
+                $('#editIsActive').val(data.IsActive);
+                $('#editRemarks').val(data.Remarks);
+                $('#editStateNameID').val(data.StateNameID);
+            });   
+}  
+  });
+} 
+function doUpdate() {
+     $('#confirmationtoupdate').modal("hide"); 
+    var param = $('#frm_edit').serialize();
+    openPopup();
+    clearDiv(['StateName','StateNameCode','Remarks','IsActive']);
+    $.post(URL+"webservice.php?action=doUpdate&method=StateNames",param,function(data){
+        var obj = JSON.parse(data); 
+        if (obj.status=="success") {
+            //$('#frm_newservice').trigger("reset");
+            $('#popupcontent').html(success_content(obj.message));
+        } else {
+            if (obj.div!="") {
+                $('#Err'+obj.div).html(obj.message)
+            } else {
+                $('#failure_div').html(obj.message);
+            }
+            closePopup();
+        }
+    });
+}
+
+function view(ID){
+  $('#viewForm').modal("show");
+  
+  $.post(URL+ "webservice.php?action=getData&method=StateNames&ID="+ID,"",function(data){
+        closePopup();
+        var obj = JSON.parse(data);
+        if (obj.status=="success") {
+            var html = "";
+            $.each(obj.data, function (index, data) {
+                 $('#viewStateNameCode').val(data.StateNameCode);
+                $('#viewRemarks').val(data.Remarks);
+                 $('#viewStateNameID').val(data.StateNameID);
+                 $('#viewStateName').val(data.StateName);
+                if(data.IsActive=="1"){
+                $('#viewIsActive').val("Active");    
+                }
+                 if(data.IsActive=="0"){
+                $('#viewIsActive').val("Deactivated");    
+                }
+                $('#viewRemarks').val(data.Remarks);
+            });   
+}  
+  });
+}
+
+var RemoveID="";
+function confirmationtoDelete(ID){
+    RemoveID=ID;
+    $('#confirmation').modal("show"); 
+}
+function Remove(ID) {
      $('#confirmation').modal("hide"); 
   openPopup();
-    $.post(URL+ "webservice.php?action=remove&method=FileExtensions&ID="+RemoveID,"",function(data){
+    $.post(URL+ "webservice.php?action=remove&method=StateNames&ID="+RemoveID,"",function(data){
         var obj = JSON.parse(data);
         if (obj.status=="success") {
             html = "";
-            $('#popupcontent').html(success_content(obj.message));
+            $('#popupcontent').html(success_content(obj.message,'closePopup'));
             $.each(obj.data, function (index, data) {
                 html += '<tr>'
-                            + '<td>' + data.ExtensionCode + '</td>'
-                            + '<td>' + data.FileExtension + '</td>'
+                             + '<td>' + data.StateNameCode + '</td>'
+                            + '<td>' + data.StateName + '</td>'
                             + '<td>' + data.Remarks + '</td>'
                             + '<td>' + ( (data.IsActive=="1") ? "<span class='badge bg-success'>Active</span>" : "<span class='badge bg-secondary'>Disabled</span>" ) + '</td>'
-                            + '<td style="text-align:right"><a href="javascript:void(0)" onclick="confirmationtoDelete(\''+data.FileExtensionID+'\')" class="btn btn-outline-danger btn-sm">Delete</a>&nbsp;&nbsp;<a href="'+URL+'dashboard.php?action=file_extensions/edit&edit='+data.FileExtensionID+'" class="btn btn-primary btn-sm">Edit</a> </td>'
+                            + '<td style="text-align:right"><a href="javascript:void(0)" onclick="confirmationtoDelete(\''+data.StateNameID+'\')" class="btn btn-outline-danger btn-sm">Delete</a>&nbsp;&nbsp;<a href="'+URL+'dashboard.php?action=masters/statenames/list_districtnamesbystatenames&StateNameID='+data.StateNameID+'" class="btn btn-warning btn-sm" >View DistrictNames</a>&nbsp;&nbsp;<a onclick="edit(\''+data.StateNameID+'\')" class="btn btn-primary btn-sm">Edit</a>&nbsp;&nbsp;<a onclick="view(\''+data.StateNameID+'\')" class="btn btn-success btn-sm">VIEW</a></td>'
                       + '</tr>';
-            });   
+            }); 
+            if(obj.data.legth==0){
+                    html +=  '<tr>'
+                    + '<td colspan="7" style="text-align: center;background:#fff !important">No data found</td>'
+                    + '</tr>'
+            }  
             $('#tbl_content').html(html);
-            // document.addEventListener("DOMContentLoaded", function() {
-            //$("#datatables-fixed-header").DataTable({
-               // fixedHeader: true,
-               // pageLength: 25
-            //});
-            
         } else {
             $('#popupcontent').html(errorcontent(obj.message));            
         }

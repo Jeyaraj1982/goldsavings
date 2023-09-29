@@ -1,15 +1,15 @@
 <div class="container-fluid p-0">
     <h1 class="h3 mb-3">New Customer Type</h1>
-    <div class="row">
-        <div class="col-12 col-xl-6">
-            <div class="card">
-                <div class="card-body">
-                    <form id="frm_create" name="frm_create">
+    <form id="frm_create" name="frm_create" method="post" enctype="multipart/form-data">
+        <div class="row">
+            <div class="col-sm-12 ">
+                <div class="card">
+                    <div class="card-body">
                         <div class="row">
                             <div class="col-sm-6 mb-3">
                                 <label class="form-label">Customer Type Code <span style='color:red'>*</span></label>
                                 <input type="text" value="<?php echo SequnceList::getNextNumber("_tbl_masters_customertypename");?>" name="CustomerTypeCode" id="CustomerTypeCode" class="form-control" placeholder="Customer Type Code">
-                                <span id="ErrServiceCode" class="error_msg"></span>
+                                <span id="ErrCustomerTypeCode" class="error_msg"></span>
                             </div>
                             <div class="col-sm-12 mb-3">
                                 <label class="form-label">Customer Type Name <span style='color:red'>*</span></label>
@@ -26,7 +26,12 @@
                                 <button onclick="confirmationtoadd()" type="button" class="btn btn-primary">Create Customer Type</button>
                             </div>
                         </div>
-                    </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
 <div class="modal fade" id="confirmation" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -49,26 +54,48 @@ function confirmationtoadd(){
   $('#confirmation').modal("show");   
 }      
 function addNew() {
-     $('#confirmation').modal("hide"); 
     var param = $('#frm_create').serialize();
     openPopup();
     clearDiv(['CustomerTypeCode','CustomerTypeName','Remarks']);
-    $.post(URL+"webservice.php?action=addNew&method=CustomerTypes",param,function(data){
+    
+     jQuery.ajax({
+        type: 'POST',
+        url:URL+"webservice.php?action=addNew&method=CustomerTypes",
+        data: new FormData($("#frm_create")[0]),
+        processData: false, 
+        contentType: false, 
+        success: function(data) {
         var obj = JSON.parse(data); 
-        if (obj.status=="success") {
-            $('#frm_create').trigger("reset");
-            if (obj.CustomerTypeCode.length>3) {
+         if (obj.status=="success") {
+                $('#frm_create').trigger("reset");
                 $('#CustomerTypeCode').val(obj.CustomerTypeCode);
-            }
-            $('#popupcontent').html(success_content(obj.message)); 
-        } else {
-            if (obj.div!="") {
-                $('#Err'+obj.div).html(obj.message)
-            } else {
-                $('#failure_div').html(obj.message);
-            }
-            $('#process_popup').modal('hide');
+                $('#popupcontent').html(success_content(obj.message));
+             } else {
+                if (obj.div!="") {
+                    $('#Err'+obj.div).html(obj.message)
+                } else {
+                    $('#failure_div').html(obj.message);
+                }
+                $('#process_popup').modal('hide');
+             }
         }
     });
 }
+        //if (obj.status=="success") {
+           // $('#frm_create').trigger("reset");
+           // if (obj.CustomerTypeCode.length>3) {
+             //   $('#CustomerTypeCode').val(obj.CustomerTypeCode);
+            //}
+            //$('#popupcontent').html(success_content(obj.message)); 
+       // } else {
+          //  if (obj.div!="") {
+              //  $('#Err'+obj.div).html(obj.message)
+           // } else {
+           //     $('#failure_div').html(obj.message);
+           // }
+           // $('#process_popup').modal('hide');
+       // }
+   // });
+//}
 </script>
+ //$.post(URL+"webservice.php?action=addNew&method=CustomerTypes",param,function(data){ 

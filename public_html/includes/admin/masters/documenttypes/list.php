@@ -44,8 +44,8 @@
                 Do you want to Delete ?
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
-                <button type="button" onclick="Remove()" class="btn btn-primary">Yes, Remove</button>
+                <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal">No</button>
+                <button type="button" onclick="Remove()" class="btn btn-danger">Yes, Remove</button>
             </div>
         </div>
     </div>
@@ -101,27 +101,27 @@
             </div>
             <div class="modal-body">
                 <form name="frm_edit"  id="frm_edit">
-                    <input type="hidden" name="DocumentTypeNameID" id="editDocumentTypeNameID">
+                    <input type="hidden" name="DocumentTypeID" id="editDocumentTypeID">
                     <div class="row">
                         <div class="col-sm-6 mb-3">
                                 <label class="form-label">Document Type Code</label>
                                 <input type="text" disabled="disabled"  name="DocumentTypeCode" id="editDocumentTypeCode" value="<?php echo $data[0]['DocumentTypeCode'];?>" class="form-control">
-                                <span id="ErrDocumentTypeCode" class="error_msg"></span>
+                                <span id="ErreditDocumentTypeCode" class="error_msg"></span>
                             </div>
                             <div class="col-sm-12 mb-3">
-                                <label class="form-label">Document Type Name<span style='color:red'>*</span></label>
+                                <label class="form-label">Document Type Name <span style='color:red'>*</span></label>
                                 <input type="text" value="" name="DocumentTypeName" id="editDocumentTypeName" class="form-control" placeholder="Document Type Name">
-                                <span id="ErrDocumentTypeName" class="error_msg"></span>
+                                <span id="ErreditDocumentTypeName" class="error_msg"></span>
                             </div>
                             <div class="col-sm-12 mb-3">
                                 <label class="form-label">Short Description</label>
                                 <input type="text" value="" name="DocumentTypeShortDescription" id="editDocumentTypeShortDescription" class="form-control" placeholder="Short Description">
-                                <span id="ErrDocumentTypeShortDescription" class="error_msg"></span>
+                                <span id="ErreditDocumentTypeShortDescription" class="error_msg"></span>
                             </div>
                             <div class="col-sm-12 mb-3">
                                 <label class="form-label">Remarks</label>
                                 <input type="text" value="" name="Remarks" id="editRemarks" class="form-control" placeholder="Remarks">
-                                <span id="ErrRemarks" class="error_msg"></span>
+                                <span id="ErreditRemarks" class="error_msg"></span>
                             </div>
                             <div class="col-sm-6 mb-3">
                                 <label class="form-label">Status</label>
@@ -129,13 +129,14 @@
                                     <option value="1" <?php echo ($data[0]['IsActive']==1) ? " selected='selected' ": "''";?>>Active</option>
                                     <option value="0" <?php echo ($data[0]['IsActive']==0) ? " selected='selected' ": "''";?>>DeActivated</option>
                                 </select>
+                                 <span id="ErreditIsActive" class="error_msg"></span>
                             </div>
                     </div>
                 </form>           
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-outline-primary" data-bs-dismiss="modal">Cancel</button>
-                <button onclick="doUpdate()" type="button" class="btn btn-primary" data-bs-dismiss="modal">Update</button>
+                <button onclick="doUpdate()" type="button" class="btn btn-primary">Update</button>
             </div>
         </div>
     </div>
@@ -186,14 +187,12 @@
 <script>
 
 function addForm(){
-  $('#addconfirmation').modal("show");   
+  $('#addconfirmation').modal("show");
+      clearDiv(['DocumentTypeName','DocumentTypeShortDescription','Remarks']);
 }  
 function addNew() {
-    $('#addconfirmation').modal("hide");
     var param = $('#frm_create').serialize();
-    openPopup();
     clearDiv(['DocumentTypeName','DocumentTypeShortDescription','Remarks']);
-    
     jQuery.ajax({
         type: 'POST',
         url:URL+"webservice.php?action=addNew&method=DocumentTypes",
@@ -203,6 +202,8 @@ function addNew() {
         success: function(data) {
              var obj = JSON.parse(data); 
              if (obj.status=="success") {
+                 $('#addconfirmation').modal("hide");
+                  openPopup();
                 $('#frm_create').trigger("reset");
                 $('#DocumentTypeCode').val(obj.DocumentTypeCode);
                 $('#popupcontent').html(success_content(obj.message,"listDocumenttypes"));
@@ -250,6 +251,7 @@ setTimeout("listDocumenttypes()",2000);
 
 function edit(DocumentTypeID){
     $('#editForm').modal("show");
+        clearDiv(['editDocumentTypeName','editDocumentTypeShortDescription','editRemarks']);
     $.post(URL+ "webservice.php?action=getData&method=DocumentTypes&ID="+DocumentTypeID,"",function(data){
         var obj = JSON.parse(data);
         if (obj.status=="success") {
@@ -264,15 +266,10 @@ function edit(DocumentTypeID){
         }  
     });
 }
-function confirmationtoUpdate(){
-  $('#confirmation').modal("show");   
-}  
+ 
 function doUpdate() {
-    $('#confirmationtoupdate').modal("hide");
     var param = $('#frm_edit').serialize();
-    openPopup();
-    clearDiv(['DocumentTypeName','DocumentTypeShortDescription','Remarks']);
-    
+    clearDiv(['editDocumentTypeName','editDocumentTypeShortDescription','editRemarks']);
     jQuery.ajax({
         type: 'POST',
         url:URL+"webservice.php?action=doUpdate&method=DocumentTypes",
@@ -282,10 +279,12 @@ function doUpdate() {
         success: function(data) {
              var obj = JSON.parse(data); 
              if (obj.status=="success") {
+                  $('#editForm').modal("hide");
+                   openPopup();
                 $('#popupcontent').html(success_content(obj.message,'listDocumenttypes'));
              } else {
                 if (obj.div!="") {
-                    $('#Err'+obj.div).html(obj.message)
+                    $('#Erredit'+obj.div).html(obj.message)
                 } else {
                     $('#failure_div').html(obj.message);
                 }

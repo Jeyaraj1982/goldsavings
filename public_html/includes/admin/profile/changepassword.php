@@ -1,8 +1,16 @@
 <div class="container-fluid p-0">
-    <h1 class="h3 mb-3">Change Password</h1>
     <div class="row">
-        <div class="col-12 col-xl-6">
-            <div class="card">
+        <div class="col-6">
+            <h1 class="h3">Profile</h1>
+            <p>Change Password</p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-3 col-sm-3 col-xxl-3">
+            <?php include_once("adminprofile_side_menu.php"); ?>
+        </div>
+    <div class="col-9 col-sm-9 col-xxl-9">
+         <div class="card">
                 <div class="card-body">
                     <form id="frm_create" name="frm_create">
                         <div class="row">
@@ -21,13 +29,19 @@
                                 <input type="password" name="CNewPassword" id="CNewPassword" class="form-control" placeholder="Confirm New Password">
                                 <span id="ErrCNewPassword" class="error_msg"></span>
                             </div>
-                            <div class="col-sm-12" style="text-align:right;">
-                                <a href="<?php echo URL;?>dashboard.php" class="btn btn-outline-primary">Back</a>&nbsp;&nbsp;
-                                <button onclick="confirmationtoadd()" type="button" class="btn btn-primary">Change Password</button>
-                            </div>
                         </div>
                     </form>
-                    <div class="modal fade" id="confimation" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                </div>
+            </div>
+                <div class="col-sm-12" style="text-align:right;">
+                    <a href="<?php echo URL;?>dashboard.php" class="btn btn-outline-primary">Back</a>&nbsp;&nbsp;
+                    <button onclick="confirmationtoadd()" type="button" class="btn btn-primary">Change Password</button>
+            </div>
+        </div>
+    </div>
+</div>
+   
+<div class="modal fade" id="confimation" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
@@ -44,11 +58,6 @@
     </div>
   </div>
 </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
 <script>
 function confirmationtoadd(){
    $('#confimation').modal("show");  
@@ -62,7 +71,7 @@ function changePassword() {
         var obj = JSON.parse(data); 
         if (obj.status=="success") {
             $('#frm_create').trigger("reset");
-            $('#popupcontent').html(success_content(obj.message));
+            $('#popupcontent').html(success_content(obj.message,'closePopup'));
         } else {
             if (obj.div!="") {
                 $('#Err'+obj.div).html(obj.message)

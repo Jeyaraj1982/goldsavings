@@ -35,7 +35,7 @@
                             </div>
                             <div class="col-sm-12" style="text-align:right;">
                                 <a href="<?php echo URL;?>dashboard.php?action=masters/employees/list" class="btn btn-outline-primary">Back</a>&nbsp;&nbsp;
-                                <button onclick="ConfirmationToAdd()" type="button" class="btn btn-primary">Save</button>    
+                                <button onclick="ConfirmationToAdd()" type="button" class="btn btn-primary">Creat</button>    
                             </div>
                         </div>
                     </div>
@@ -52,7 +52,7 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        Do you want to save ?
+        Do you want to Creat ?
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
@@ -94,113 +94,4 @@ function addNew() {
     });
 }
 
-function ListEmployeesCategory() {
-    $.post(URL+ "webservice.php?action=ListAll&method=EmployeeCategories","",function(data){
-        var obj = JSON.parse(data);
-        if (obj.status=="success") {
-            var html = "<option value='0'> Select Category</option>";
-            $.each(obj.data, function (index, data) {
-                html += '<option value="'+data.EmployeeCategoryID+'">'+data.EmployeeCategoryTitle+'</option>';
-            });   
-            $('#EmployeeCategoryID').html(html);
-            
-            
-             $("#CustomerTypeNameID").append($("#CustomerTypeNameID option").remove().sort(function(a, b) {
-                var at = $(a).text(), bt = $(b).text();
-                return (at > bt)?1:((at < bt)?-1:0);
-            }));
-            
-            $("#CustomerTypeNameID").val("0");
-            setTimeout(function(){
-                //$('.mselect').selectpicker();
-            },1500);
-        } else {
-            alert(obj.message);
-        }
-        
-    });
-}
-
-function listStateNames() {
-    $.post(URL+ "webservice.php?action=listAllActive&method=StateNames","",function(data){
-        var obj = JSON.parse(data);
-        if (obj.status=="success") {
-            var html = "<option value='0'>Select State Name</option>";
-            $.each(obj.data, function (index, data) {
-                html += '<option value="'+data.StateNameID+'">'+data.StateName+'</option>';
-            });   
-            $('#StateNameID').html(html);
-            
-            
-             $("#StateNameID").append($("#StateNameID option").remove().sort(function(a, b) {
-                var at = $(a).text(), bt = $(b).text();
-                return (at > bt)?1:((at < bt)?-1:0);
-            }));
-            
-            $("#StateNameID").val("0");
-            setTimeout(function(){
-                //$('.mstateselect').selectpicker();
-            },1500);
-        } else {
-            alert(obj.message);
-        }
-    });
-}
-
-function getDistrictNames() {
-    $.post(URL+ "webservice.php?action=listDistrictNames&method=DistrictNames&StateNameID="+$('#StateNameID').val(),"",function(data){
-        var obj = JSON.parse(data);
-        if (obj.status=="success") {
-            var html = "<option value='0'> Select District Name</option>";
-            $.each(obj.data, function (index, data) {
-                html += '<option value="'+data.DistrictNameID+'">'+data.DistrictName+'</option>';
-            });   
-            $('#DistrictNameID').html(html);
-            
-            
-             $("#DistrictNameID").append($("#DistrictNameID option").remove().sort(function(a, b) {
-                var at = $(a).text(), bt = $(b).text();
-                return (at > bt)?1:((at < bt)?-1:0);
-            }));
-            
-            $("#DistrictNameID").val("0");
-            setTimeout(function(){
-                //$('.mdistrictselect').selectpicker();
-            },1500);
-        } else {
-            alert(obj.message);
-        }
-    });
-}
-
-function getAreaNames() {
-    $.post(URL+ "webservice.php?action=ListAreaNames&method=AreaNames&DistrictNameID="+$('#DistrictNameID').val()+"&StateNameID="+$("#StateNameID").val(),"",function(data){
-        var obj = JSON.parse(data);
-        if (obj.status=="success") {
-            var html = "<option value='0'> Select Area Name</option>";
-            $.each(obj.data, function (index, data) {
-                html += '<option value="'+data.AreaNameID+'">'+data.AreaName+'</option>';
-            });   
-            $('#AreaNameID').html(html);
-            
-            
-             $("#AreaNameID").append($("#AreaNameID option").remove().sort(function(a, b) {
-                var at = $(a).text(), bt = $(b).text();
-                return (at > bt)?1:((at < bt)?-1:0);
-            }));
-            
-            $("#AreaNameID").val("0");
-            setTimeout(function(){
-               // $('.mareaselect').selectpicker();
-            },1500);
-        } else {
-            alert(obj.message);
-        }
-    });
-}
-
-setTimeout(function(){
-    ListEmployeesCategory();
-    listStateNames();
-},2000);
 </script>

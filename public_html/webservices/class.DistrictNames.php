@@ -4,7 +4,9 @@ class DistrictNames {
     function addNew() {
         
         global $mysql;
+        
         if (isset($_POST['DistrictNameCode'])) {
+            
             if (strlen(trim($_POST['DistrictNameCode']))==0) {
                 return json_encode(array("status"=>"failure","message"=>"Please enter District Name Code","div"=>"DistrictNameCode"));    
             } else {
@@ -13,21 +15,26 @@ class DistrictNames {
                     return json_encode(array("status"=>"failure","message"=>"Code is already used","div"=>"DistrictNameCode"));    
                 }
             }
+        
         } else {
             $_POST['DistrictNameCode'] =  SequnceList::updateNumber("_tbl_masters_districtnames");
         }
         
         if (strlen(trim($_POST['DistrictName']))==0) {
             return json_encode(array("status"=>"failure","message"=>"Please enter District Name","div"=>"DistrictName"));    
-        } else {
-            $dupCode = $mysql->select("select * from _tbl_masters_districtnames where DistrictName='".trim($_POST['DistrictName'])."'");
-            if (sizeof($dupCode)>0) {
-                return json_encode(array("status"=>"failure","message"=>"DistrictName is already used","div"=>"DistrictName"));    
-            }
+        } 
+        
+        if ($_POST['StateNameID']=="0") {
+            return json_encode(array("status"=>"failure","message"=>"Please select statename","div"=>"StateNameID"));        
         }
         
         $StatName = json_decode(StateNames::getDetailsByID($_POST['StateNameID']),true);
         $StatName = $StatName['data'];
+        
+        $dupCode = $mysql->select("select * from _tbl_masters_districtnames where StateNameID='".$_POST['StateNameID']."' and DistrictName='".trim($_POST['DistrictName'])."'");
+        if (sizeof($dupCode)>0) {   
+            return json_encode(array("status"=>"failure","message"=>"DistrictName is already in ".$StatName[0]['StateName'],"div"=>"DistrictName"));    
+        }
      
         $id = $mysql->insert("_tbl_masters_districtnames",array("DistrictNameCode" => $_POST['DistrictNameCode'],
                                                                 "DistrictName" => $_POST['DistrictName'],
@@ -64,6 +71,16 @@ class DistrictNames {
          return json_encode(array("status"=>"success","data"=>$data));
      }
      
+      public static function listAllActive() {
+         global $mysql;
+         if (isset($_GET['StateNameID'])) {
+            $data = $mysql->select("select * from _tbl_masters_districtnames where IsActive='1' and StateNameID='".$_GET['StateNameID']."' ");
+         } else { 
+            $data = $mysql->select("select * from _tbl_masters_districtnames where IsActive='1' "); 
+         }
+         return json_encode(array("status"=>"success","data"=>$data));
+     }
+     
      public static function getDetailsByID($DistrictNameID) {
          global $mysql;
          $data = $mysql->select("select * from _tbl_masters_districtnames where DistrictNameID='".$DistrictNameID."'");
@@ -78,17 +95,22 @@ class DistrictNames {
 
      public static function doUpdate() {
          global $mysql;
+         
          if (strlen(trim($_POST['DistrictName']))==0) {
              return json_encode(array("status"=>"failure","message"=>"Please enter District Name","div"=>"DistrictName"));    
-         } else {
-            $dupCode = $mysql->select("select * from _tbl_masters_districtnames where DistrictName='".trim($_POST['DistrictName'])."' and DistrictNameID<>'".$_POST['DistrictNameID']."'");
-            if (sizeof($dupCode)>0) {
-                return json_encode(array("status"=>"failure","message"=>"DistrictName is already used","div"=>"DistrictName"));    
-            }
-        }
-         
-         $StatName = json_decode(StateNames::getDetailsByID($_POST['StateNameID']),true);
+         } 
+
+         if ($_POST['StateNameID']=="0") {
+            return json_encode(array("status"=>"failure","message"=>"Please select statename","div"=>"StateNameID"));        
+         }
+        
+        $StatName = json_decode(StateNames::getDetailsByID($_POST['StateNameID']),true);
         $StatName = $StatName['data'];
+        
+        $dupCode = $mysql->select("select * from _tbl_masters_districtnames where StateNameID='".$_POST['StateNameID']."' and DistrictName='".trim($_POST['DistrictName'])."'");
+        if (sizeof($dupCode)>0) {   
+            return json_encode(array("status"=>"failure","message"=>"DistrictName is already in ".$StatName[0]['StateName'],"div"=>"DistrictName"));    
+        }
         
          $mysql->execute("update _tbl_masters_districtnames set DistrictName ='".$_POST['DistrictName']."',
                                                                 StateNameID  ='".$StatName[0]['StateNameID']."',

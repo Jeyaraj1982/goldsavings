@@ -1,177 +1,187 @@
 <?php
-    $data = $mysql->select("select * from _tbl_masters_customers where CustomerID='".$_GET['edit']."'");
+    $data = $mysql->select("select * from _tbl_masters_customers where CustomerID='".$_GET['customer']."'");
 ?>
 <div class="container-fluid p-0">
-    <h1 class="h3 mb-3">View Customer</h1>
+    <div class="row">
+        <div class="col-6">
+            <h1 class="h3">View Customers</h1>
+        </div>
      <form id="frm_edit" name="frm_edit" method="post" enctype="multipart/form-data">
         <input type="hidden" value="<?php echo $data[0]['CustomerID'];?>" name="CustomerID">
-        <div class="row">
-            <div class="col-12 col-xl-6">
+    <div class="row">
+        <div class="col-3 col-sm-3 col-xxl-3">
+            <?php include_once("customer_side_menu.php"); ?>
+        </div>
+            <div class="col-9 col-sm-9 col-xxl-9">
                 <div class="card">
                     <div class="card-body">
                         <div class="row">
-                            <div class="col-sm-6 mb-3">
-                                <label class="form-label">Customer Code</label>
-                                <input type="text" value="<?php echo $data[0]['CustomerCode'];?>" readonly="readonly"  class="form-control">
+                        <div class="col-sm-12" style="text-align:right;">
+                                <a style="color:#888;text-decoration:none;" href="<?php echo URL;?>dashboard.php?action=masters/customers/edit&customer=<?php echo $data[0]['CustomerID'];?>"><i class="align-middle me-2" data-feather="edit"></i><span class="align-middle">edit</span></a>
                             </div>
                             <div class="col-sm-6 mb-3">
-                                <label class="form-label">Profile Photo</label>
-                                <div class="row">
-                                    <div class="col-sm-12  mb-1">
-                                        <img src="<?php echo WEBAPP_URL;?>assets/docs/profiles/<?php echo $data[0]['CustomerID'];?>/<?php echo $data[0]['ProfilePhoto'];?>" style="max-width:100%">
-                                    </div>
-                                </div>
+                                <div style="font-weight: bold;">Customer ID</div>
+                                <?php echo $data[0]['CustomerCode'];?>
                             </div>
                             <div class="col-sm-6 mb-3">
-                                <label class="form-label">Customer Type</label>
-                                <input type="text" value="<?php echo $data[0]['CustomerTypeName'];?>" readonly="readonly"  class="form-control">
+                            </div>
+                            <div class="col-sm-6 mb-3">
+                                <div style="font-weight: bold;">Customer Type</div>
+                                <?php echo $data[0]['CustomerTypeName'];?>
                             </div>
                             <div class="col-sm-12 mb-3">
-                                <label class="form-label">Customer Name</label>
-                                <input type="text" value="<?php echo $data[0]['CustomerName'];?>" readonly="readonly" class="form-control" placeholder="Customer Name">
-                            </div><!--
+                                <div style="font-weight: bold;">Customer's Name</div>
+                                <?php echo $data[0]['CustomerName'];?>
+                            </div>
                             <div class="col-sm-12 mb-3">
-                                <label class="form-label">Business Name</label>
-                                <input type="text" value="<?php echo $data[0]['BusinessName'];?>" readonly="readonly" class="form-control" placeholder="Business Name">
-                            </div>-->
-                            <div class="col-sm-12 mb-3">
-                                <label class="form-label">EmailID <!--<span style='color:red'>*</span></label>-->
-                                <input type="text" value="<?php echo $data[0]['EmailID'];?>"  readonly="readonly" class="form-control" placeholder="EmailID">
+                                <div style="font-weight: bold;">Father/Husband's Name</div>
+                                <?php echo $data[0]['FatherName'];?>
+                                <span id="ErrFatherName" class="error_msg"></span>
                             </div>
                             <div class="col-sm-6 mb-3">
-                                <label class="form-label">Mobile Number</label>
-                                <div class="input-group mb-3">
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-text" id="basic-addon1">+91</span>
-                                    </div>
-                                    <input type="text" value="<?php echo $data[0]['MobileNumber'];?>" readonly="readonly" class="form-control" placeholder="Mobile Number">
-                                </div>
+                                <div style="font-weight: bold;">Gender</div>
+                                <?php echo $data[0]['Gender'];?>
+                                <span id="ErrGender" class="error_msg"></span>
                             </div>
                             <div class="col-sm-6 mb-3">
-                                <label class="form-label">Whatsapp Number <!--<span style='color:red'>*</span>--></label>
-                                <div class="input-group mb-3">
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-text" id="basic-addon1">+91</span>
-                                    </div>
-                                    <input type="text" value="<?php echo $data[0]['WhatsappNumber'];?>" readonly="readonly" class="form-control" placeholder="WhatsappNumber">
-                                </div>
+                                <div style="font-weight: bold;">Date Of Birth</div>
+                                <?php echo $data[0]['DateOfBirth'];?>
+                                <span id="ErrDateOfBirth" class="error_msg"></span>
                             </div>
+                            <div class="col-sm-12 mb-3">
+                                <div style="font-weight: bold;">Email ID </div> 
+                                <?php echo $data[0]['EmailID'];?>
+                                <span id="ErrEmailID" class="error_msg"></span>
+                            </div>
+                             <div class="col-sm-6 mb-3">
+                                <div style="font-weight: bold">Mobile Number</div>
+                                +91 <?php echo $data[0]['MobileNumber'];?>
+                            </div>
+                            <div class="col-sm-6">
+                                <div style="font-weight: bold">Whatsapp Number</div>
+                                <?php 
+                                    if (strlen($data[0]['WhatsappNumber'])>0) {
+                                        echo "+91 ".$data[0]['WhatsappNumber'];  
+                                    } else {
+                                       echo "N/A";     
+                                    }
+                                ?>
+                                </div>
                             <div class="col-sm-12">
-                                <hr>
+                                <hr style="margin-top:0px">
                             </div>
-                            <div class="col-sm-6 mb-3">         
-                                <label class="form-label">Login User Name</label>
-                                <input type="text" value="<?php echo $data[0]['LoginUserName'];?>" readonly="readonly" class="form-control" placeholder="Login User Name">
-                            </div>
-                            <div class="col-sm-6 mb-3">
-                                <label class="form-label">Login Password</label>
-                                <input type="text" value="<?php echo $data[0]['LoginPassword'];?>" readonly="readonly" class="form-control" placeholder="Login Password">
-                            </div>
-                            <div class="col-sm-6 mb-3">         
-                                <label class="form-label">Is Active </label>
-                                <input type="text" value="<?php echo ($data[0]['IsActive']==1) ? " Active " : "Deactivated";?>" readonly="readonly" class="form-control" placeholder="Login Password">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-12 col-xl-6">
-                <div class="card">
-                    <div class="card-body">
-                        <div class="row">                            
-                            <div class="col-sm-6 mb-3">
-                                <label class="form-label">PAN Card Number <!--<span style='color:red'>*</span>--></label>
-                                <input type="text" value="<?php echo $data[0]['PancardNumber'];?>" readonly="readonly" class="form-control" placeholder="Pan Card Number">
-                            </div>
-                            <div class="col-sm-6 mb-3">
-                                <label class="form-label">PAN Card Attachment</label>
-                                <div class="row">
-                                    <div class="col-sm-12  mb-1">
-                                        <img src="<?php echo WEBAPP_URL;?>assets/docs/profiles/<?php echo $data[0]['CustomerID'];?>/<?php echo $data[0]['PanCardAttachment'];?>" style="max-width:100%">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-sm-6 mb-3">
-                                <label class="form-label">Aadhaar Card Number</label>
-                                <input type="text" value="<?php echo $data[0]['AadhaarCardNumber'];?>" readonly="readonly" class="form-control" placeholder="Aadhaar Card Number">
-                            </div>
-                            <div class="col-sm-6 mb-3">
-                                 <label class="form-label">Aadhaar Attachment</label>
-                                 <div class="row">
-                                    <div class="col-sm-12 mb-1">
-                                        <img src="<?php echo WEBAPP_URL;?>assets/docs/profiles/<?php echo $data[0]['CustomerID'];?>/<?php echo $data[0]['AadhaarCardAttachment'];?>" style="max-width:100%">
-                                    </div>
-                                </div>
-                            </div> <!--
-                            <div class="col-sm-6">
-                                <label class="form-label">GSTIN (if have)</label>
-                                <input type="text" value="<?php echo $data[0]['GSTIN'];?>" readonly="readonly" class="form-control" placeholder="GSTIN">
-                            </div>-->
-                            <div class="col-sm-6">
-                            </div> 
-                        </div>
-                    </div>
-                </div>
-                <div class="card">
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col-sm-12 mb-3">
-                                <label class="form-label">Address Line 1 </label>
-                                <input type="text" value="<?php echo $data[0]['AddressLine1'];?>" readonly="readonly" class="form-control" placeholder="Address Line 1">
-                            </div>
-                            <div class="col-sm-12 mb-3">
-                                <label class="form-label">Address Line 2</label>
-                                <input type="text" value="<?php echo $data[0]['AddressLine2'];?>" readonly="readonly" class="form-control" placeholder="Address Line 2">
-                            </div>
-                            <div class="col-sm-6  mb-3">
-                                <label class="form-label">State Name</label>
-                                <input type="text" value="<?php echo $data[0]['StateName'];?>" readonly="readonly" class="form-control" placeholder="State Name">
-                            </div>
-                            <div class="col-sm-6  mb-3">
-                                <label class="form-label">District Name</label>
-                                <input type="text" value="<?php echo $data[0]['DistrictName'];?>" readonly="readonly" class="form-control" placeholder="District Name">
-                            </div>
-                            <div class="col-sm-6">
-                                <label class="form-label">Area Name</label>
-                                <input type="text" value="<?php echo $data[0]['AreaName'];?>" readonly="readonly" class="form-control" placeholder="Area Name">
-                            </div>
-                            <div class="col-sm-6">
-                                <label class="form-label">PinCode </label>
-                                <input type="text" value="<?php echo $data[0]['PinCode'];?>" readonly="readonly" class="form-control" placeholder="Pincode">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-12">
-                <div class="card">
-                    <div class="card-body">
-                        <div class="row">
                             <div class="col-sm-6">         
-                                <label class="form-label">Referred By </label>
-                               <input type="text" value="<?php echo ($data[0]['ReferredBy']==1) ? " Employee " : "Customer";?>" readonly="readonly" class="form-control" placeholder="Referred By">
+                                <div style="font-weight: bold;">Login User Name</div>
+                                <?php echo $data[0]['LoginUserName'];?>
                             </div>
                             <div class="col-sm-6">
-                                <label class="form-label">Mobile Number </label>
-                                <div class="input-group mb-3">
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-text" id="basic-addon1">+91</span>
-                                    </div>
-                                    <input type="text" value="<?php echo $data[0]['RefMobileNumberID'];?>" readonly="readonly" name="RefMobileNumberID" id="RefMobileNumber" class="form-control" placeholder="Mobile Number">
+                                <div style="font-weight: bold;">Login Password</div>
+                               <?php echo $data[0]['LoginPassword'];?>
+                            </div>
+                            
+                            </div>
+                        </div>
+                    </div>
+                
+           
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-sm-12 mb-3">
+                                <div style="font-weight: bold;">Address Line 1 </div>
+                                <?php echo $data[0]['AddressLine1'];?>
+                            </div>
+                            <div class="col-sm-12 mb-3">
+                                <div style="font-weight: bold">Address Line 2</div>
+                                <?php 
+                                    if (strlen($data[0]['AddressLine2'])>0) {
+                                        echo " ".$data[0]['AddressLine2'];  
+                                    } else {
+                                       echo "N/A";     
+                                    }
+                                ?>
                                 </div>
-                                <span id="ErrRefMobileNumberID" class="error_msg"></span>
-                                    </div> 
-                            <div class="col-sm-12">
-                                <label class="form-label">Remarks</label>
-                                <input type="text" value="<?php echo $data[0]['Remarks'];?>" readonly="readonly"  class="form-control" placeholder="Remarks">
-                            </div> 
+                            <div class="col-sm-6">
+                                <div style="font-weight: bold;">Area Name</div>
+                                <?php echo $data[0]['AreaName'];?>
+                            </div>
+                            <div class="col-sm-6  mb-3">
+                                <div style="font-weight: bold;">District Name</div>
+                                <?php echo $data[0]['DistrictName'];?>
+                            </div>
+                            <div class="col-sm-6">
+                                <div style="font-weight: bold;">State Name</div>
+                                <?php echo $data[0]['StateName'];?>
+                            </div>
+                            <div class="col-sm-6">
+                                <div style="font-weight: bold;">PinCode </div>
+                                <?php echo $data[0]['PinCode'];?>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+           
+            <div class="card">
+                    <div class="card-body">
+                        <div class="row">
+                        <div class="col-sm-6">         
+                                <div style="font-weight: bold;">Referred By </div>
+                                 <?php echo $data[0]['ReferredBy'];?>
+                                
+                                <script>
+                                function printLable() {
+                                    if ($('#ReferredBy').val()=="1"){
+                                        $('#_printlabel').html("Customer's Mobile Number");    
+                                    }
+                                    if ($('#ReferredBy').val()=="2"){
+                                        $('#_printlabel').html("Employee's Mobile Number");    
+                                    }
+                                    if ($('#ReferredBy').val()=="0"){
+                                        $('#_printlabel').html("Mobile Number");    
+                                    }
+                                    if ($('#ReferredBy').val()=="3"){
+                                        $('#_printlabel').html("Salesman's Mobile Number");    
+                                    }
+                                    
+                                }
+                                </script>
+                            </div>
+                            <div class="col-sm-6">
+                                <div style="font-weight: bold">Mobile Number</div>
+                                +91 <?php echo $data[0]['RefMobileNumber'];?>
+                            </div>
+                        </div>
+                    </div>
+            </div>
+            <div class="card">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-sm-6 mb-3">         
+                                <div style="font-weight: bold;">Status </div>
+                                <?php echo ($data[0]['IsActive']==1) ? " Active " : "Deactivated";?>
+                            </div>
+                            <div class="col-sm-6 mb-3">
+                                <div style="font-weight: bold;">Created On </div>
+                                <?php echo $data[0]['CreatedOn'];?>
+                            </div>
+                        <div class="col-sm-12">
+                            <div style="font-weight: bold">Remarks</div>
+                                <?php 
+                                    if (strlen($data[0]['Remarks'])>0) {
+                                        echo " ".$data[0]['Remarks'];  
+                                    } else {
+                                       echo "N/A";     
+                                    }
+                                ?>
+                                </div> 
                         </div>
                     </div>
                 </div>      
-            </div>
+                </div>
             <div class="col-sm-12" style="text-align:right;">
                 <a href="<?php echo URL;?>dashboard.php?action=customers/list" class="btn btn-outline-primary">Back</a>&nbsp;&nbsp;
             </div>
         </div>
     </form>                            
+</div>
 </div>

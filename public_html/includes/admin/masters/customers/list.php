@@ -6,7 +6,6 @@
         </div>
         <div class="col-6" style="text-align:right;">
             <a href="<?php echo URL;?>dashboard.php?action=masters/customers/new" class="btn btn-primary btn-sm">New Customer</a>
-        </div>
      </div>
      <div class="row">
         <div class="col-12">
@@ -47,12 +46,14 @@
                 Do you want to Delete ?
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
-                <button type="button" onclick="Remove()" class="btn btn-primary">Yes, Remove</button>
+                <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal">No</button>
+                <button type="button" onclick="Remove()" class="btn btn-danger">Yes, Remove</button>
             </div>
         </div>
     </div>
-</div>    
+</div>
+
+   
 <script> 
 
 function d() {
@@ -71,7 +72,7 @@ function d() {
                             + '<td>' + data.CustomerTypeName + '</td>'
                             + '<td>' + data.Remarks + '</td>'
                             + '<td>' + ( (data.IsActive=="1") ? "<span class='badge bg-success'>Active</span>" : "<span class='badge bg-secondary'>Disabled</span>" ) + '</td>'
-                            + '<td style="text-align:right"><a href="javascript:void(0)" onclick="confirmationtoDelete(\''+data.CustomerID+'\')" class="btn btn-outline-danger btn-sm">Delete</a>&nbsp;&nbsp;<a href="'+URL+'dashboard.php?action=masters/customers/edit&edit='+data.CustomerID+'" class="btn btn-primary btn-sm">Edit</a>&nbsp;&nbsp;<a href="'+URL+'dashboard.php?action=masters/customers/view&edit='+data.CustomerID+'" class="btn btn-success btn-sm">View</a></td>'
+                            + '<td style="text-align:right"><a href="javascript:void(0)" onclick="confirmationtoDelete(\''+data.CustomerID+'\')" class="btn btn-outline-danger btn-sm">Delete</a>&nbsp;&nbsp;<a href="'+URL+'dashboard.php?action=masters/customers/edit&customer='+data.CustomerID+'" class="btn btn-primary btn-sm">Edit</a>&nbsp;&nbsp;<a href="'+URL+'dashboard.php?action=masters/customers/view&customer='+data.CustomerID+'" class="btn btn-success btn-sm">View</a></td>'
                       + '</tr>';
             });   
             $('#tbl_content').html(html);
@@ -88,6 +89,8 @@ function d() {
     });
 }
 setTimeout("d()",2000);
+
+
 
 var RemoveID=0;
 function confirmationtoDelete(ID){
@@ -111,7 +114,7 @@ function Remove() {
                             + '<td>' + data.CustomerTypeName + '</td>'
                             + '<td>' + data.Remarks + '</td>'
                             + '<td>' + ( (data.IsActive=="1") ? "<span class='badge bg-success'>Active</span>" : "<span class='badge bg-secondary'>Disabled</span>" ) + '</td>'
-                            + '<td style="text-align:right"><a href="javascript:void(0)" onclick="confirmationtoDelete(\''+data.CustomerID+'\')" class="btn btn-outline-danger btn-sm">Delete</a>&nbsp;&nbsp;<a href="'+URL+'dashboard.php?action=masters/customers/edit&edit='+data.CustomerID+'" class="btn btn-primary btn-sm">Edit</a>&nbsp;&nbsp;<a href="'+URL+'dashboard.php?action=masters/customers/view&edit='+data.CustomerID+'" class="btn btn-success btn-sm">View</a></td>'
+                            + '<td style="text-align:right"><a href="javascript:void(0)" onclick="confirmationtoDelete(\''+data.CustomerID+'\')" class="btn btn-outline-danger btn-sm">Delete</a>&nbsp;&nbsp;<a href="'+URL+'dashboard.php?action=masters/customers/edit&customer='+data.CustomerID+'" class="btn btn-primary btn-sm">Edit</a>&nbsp;&nbsp;<a href="'+URL+'dashboard.php?action=masters/customers/view&customer='+data.CustomerID+'" class="btn btn-success btn-sm">View</a></td>'
                       + '</tr>';
             });    
             $('#tbl_content').html(html);

@@ -45,8 +45,8 @@
                 Do you want to Delete ?
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
-                <button type="button" onclick="Remove()" class="btn btn-primary">Yes, Remove</button>
+                <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal">No</button>
+                <button type="button" onclick="Remove()" class="btn btn-danger">Yes, Remove</button>
             </div>
         </div>
     </div>
@@ -113,7 +113,7 @@
                                 <span id="ErrRemarks" class="error_msg"></span>
                             </div>
                              <div class="col-sm-6 mb-3">
-                                <label class="form-label">IsActive </label>
+                                <label class="form-label">Status </label>
                                <input type="text" value="" name="viewIsActive" id="viewIsActive" readonly="readonly" class="form-control">
                                 <span id="ErrIsActive" class="error_msg"></span>
                             </div>
@@ -154,6 +154,7 @@ function view(CustomerTypeNameID){
 
 function edit(CustomerTypeNameID){
     $('#editForm').modal("show");
+        clearDiv(['editCustomerTypeName','editRemarks']);
     $.post(URL+ "webservice.php?action=getData&method=CustomerTypes&ID="+CustomerTypeNameID,"",function(data){
         var obj = JSON.parse(data);
         if (obj.status=="success") {
@@ -169,11 +170,8 @@ function edit(CustomerTypeNameID){
 }
 
 function doUpdate() {
-    $('#confirmationtoupdate').modal("hide");
     var param = $('#frm_edit').serialize();
-    openPopup();
-    clearDiv(['CustomerTypeCode','CustomerTypeName','Remarks']);
-    
+    clearDiv(['editCustomerTypeName','editRemarks']);
     jQuery.ajax({
         type: 'POST',
         url:URL+"webservice.php?action=doUpdate&method=CustomerTypes",
@@ -183,10 +181,12 @@ function doUpdate() {
         success: function(data) {
              var obj = JSON.parse(data); 
              if (obj.status=="success") {
+                 $('#editForm').modal("hide");
+                 openPopup();
                 $('#popupcontent').html(success_content(obj.message,"listCustomerTypes"));
              } else {
                 if (obj.div!="") {
-                    $('#Err'+obj.div).html(obj.message)
+                    $('#Erredit'+obj.div).html(obj.message)
                 } else {
                     $('#failure_div').html(obj.message);
                 }
@@ -197,15 +197,13 @@ function doUpdate() {
 }
 
 function addForm(){
-  $('#addconfirmation').modal("show");   
+  $('#addconfirmation').modal("show"); 
+      clearDiv(['CustomerTypeCode','CustomerTypeName','Remarks']);
 }  
 
 function addNew() {
-    $('#addconfirmation').modal("hide");
     var param = $('#frm_create').serialize();
-    openPopup();
     clearDiv(['CustomerTypeCode','CustomerTypeName','Remarks']);
-    
     jQuery.ajax({
         type: 'POST',
         url:URL+"webservice.php?action=addNew&method=CustomerTypes",
@@ -215,6 +213,8 @@ function addNew() {
         success: function(data) {
              var obj = JSON.parse(data); 
              if (obj.status=="success") {
+                  $('#addconfirmation').modal("hide");
+                 openPopup();
                 $('#frm_create').trigger("reset");
                 $('#CustomerTypeCode').val(obj.CustomerTypeCode);
                 $('#popupcontent').html(success_content(obj.message,"listCustomerTypes"));
@@ -340,17 +340,16 @@ function Remove() {
                         <div class="col-sm-6 mb-3">
                             <label class="form-label">Customer Type Code</label>
                             <input type="text" disabled="disabled" name="CustomerTypeCode" id="editCustomerTypeCode" class="form-control">
-                            <span id="ErrCustomerTypeCode" class="error_msg"></span>
                         </div>
                         <div class="col-sm-12 mb-3">
                             <label class="form-label">Customer Type Name <span style='color:red'>*</span></label>
                             <input type="text" value="" name="CustomerTypeName" id="editCustomerTypeName" class="form-control" placeholder="Customer Type Name">
-                            <span id="ErrCustomerTypeName" class="error_msg"></span>
+                            <span id="ErreditCustomerTypeName" class="error_msg"></span>
                         </div>
                         <div class="col-sm-12 mb-3">
                             <label class="form-label">Remarks</label>
                             <input type="text" value="" name="Remarks" id="editRemarks" class="form-control" placeholder="Remarks">
-                            <span id="ErrRemarks" class="error_msg"></span>
+                            <span id="ErreditRemarks" class="error_msg"></span>
                         </div>
                         <div class="col-sm-6 mb-3">
                             <label class="form-label">Status</label>
@@ -364,7 +363,7 @@ function Remove() {
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-outline-primary" data-bs-dismiss="modal">Cancel</button>
-                <button onclick="doUpdate()" type="button" class="btn btn-primary" data-bs-dismiss="modal">Update</button>
+                <button onclick="doUpdate()" type="button" class="btn btn-primary">Update</button>
             </div>
         </div>
     </div>

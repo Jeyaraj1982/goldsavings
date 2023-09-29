@@ -63,6 +63,12 @@ class FileExtensions {
                                                           
          return json_encode(array("status"=>"success","message"=>"successfully updated ".$mysql->error,"div"=>""));
      }
+     
+      public static function getData() {
+         global $mysql;
+         $data = $mysql->select("select * from _tbl_masters_file_extensions where FileExtensionID='".$_GET['ID']."'");
+         return json_encode(array("status"=>"success","data"=>$data));
+     }
 
 }
 ?>

@@ -18,12 +18,12 @@
                             <div class="col-sm-12 mb-3">
                                 <label class="form-label">Contact Person Name <span style='color:red'>*</span></label>
                                 <input type="text" value="<?php echo $data[0]['ContactPersonName'];?>" name="ContactPersonName" id="ContactPersonName" class="form-control" placeholder="Contact Person Name">
-                                <span id="ErrCustomerName" class="error_msg"></span>
+                                <span id="ErrContactPersonName" class="error_msg"></span>
                             </div>
                             <div class="col-sm-12 mb-3">
                                 <label class="form-label">Business Name</label>
                                 <input type="text" value="<?php echo $data[0]['BusinessName'];?>" name="BusinessName" id="BusinessName" class="form-control" placeholder="Business Name">
-                                <span id="ErrCustomerName" class="error_msg"></span>
+                                <span id="ErrBusinessName" class="error_msg"></span>
                             </div>
                             <div class="col-sm-12 mb-3">
                                 <label class="form-label">EmailID </label>
@@ -31,7 +31,7 @@
                                 <span id="ErrEmailID" class="error_msg"></span>
                             </div>
                             <div class="col-sm-6">
-                                <label class="form-label">Mobile Number </label>
+                                <label class="form-label">Mobile Number <span style='color:red'>*</span></label>
                                 <div class="input-group">
                                     <div class="input-group-prepend">
                                         <span class="input-group-text" id="basic-addon1">+91</span>
@@ -68,12 +68,9 @@
                             </div>
                             <div class="col-sm-6 mb-3">
                                 <label class="form-label">State Name <span style='color:red'>*</span></label>
-                                <div class="input-group">
                                     <select data-live-search="true" data-size="5" name="StateNameID" id="StateNameID" class="form-select mstateselect" onchange="getDistrictNames()">
                                         <option>loading...</option>
                                     </select>
-                                    <button class="btn btn-success" onclick="statenew()" type="button">+</button>
-                                </div>
                                 <span id="ErrStateNameID" class="error_msg"></span>
                             </div>
                             <div class="col-sm-6">
@@ -105,11 +102,12 @@
                 <div class="card">
                     <div class="card-body">
                     <div class="col-sm-6 mb-3">         
-                                <label class="form-label">Is Active </label>
+                                <label class="form-label">Status </label>
                                 <select name="IsActive" id="IsActive" class="form-select">
                                     <option value="1" <?php echo ($data[0]['IsActive']==1) ? " selected='selected' " : "";?> >Active</option>
                                     <option value="0" <?php echo ($data[0]['IsActive']==0) ? " selected='selected' " : "";?> >Deactivated</option>
                                 </select>
+                                 <span id="ErrIsActive" class="error_msg"></span>
                             </div>
                             <div class="col-sm-6 mb-3">
                             </div>
@@ -146,32 +144,6 @@
 </div>
 </div>
 
- <div class="modal fade" id="newstate" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-    <form name="frm_create_statename" id="frm_create_statename">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">State Name</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <div class="col-sm-6">
-            <label class="form-label">State Name <span style='color:red'>*</span></label>
-        <div class="input-group">
-            <input type="text" name="StateName" id="StateName" class="form-control" placeholder="State Name">
-        </div>
-            <span id="ErrStateName" class="error_msg"></span>
-        </div>
-    </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-outline-primary" data-bs-dismiss="modal">Cancel</button>
-        <button type="button" onclick="addNewStateName()" class="btn btn-primary">Add State Name</button>
-      </div>
-     </form> 
-    </div>
-  </div>
-</div>
-
 <script>
 var ContactID = "<?php echo $data[0]['ContactID'];?>";
 var _StateNameID = "<?php echo $data[0]['StateNameID'];?>";
@@ -184,7 +156,7 @@ function doUpdate() {
     $('#confirmation').modal("hide");
     var param = $('#frm_edit').serialize();
     openPopup();
-    clearDiv(['ContactCode','ContactPersonName','BusinessName','EmailID','MobileNumber','WhatsappNumber','AddressLine1','PinCode','StateNameID','DistrictNameID','AreaNameID','PinCode','Remarks']);
+    clearDiv(['ContactCode','ContactPersonName','BusinessName','EmailID','MobileNumber','WhatsappNumber','AddressLine1','AddressLine2','PinCode','StateNameID','DistrictNameID','AreaNameID','PinCode','Remarks']);
     
     jQuery.ajax({
         type: 'POST',
@@ -290,32 +262,6 @@ function getAreaNames() {
         }
     });
 }   
-
-function statenew(){
-  $('#newstate').modal("show");   
-}
-function addNewStateName() {
-   
-    var param = $('#frm_create_statename').serialize();
-   
-    //clearDiv(['StateName','Remarks']);
-    $.post(URL+"webservice.php?action=addNew&method=StateNames",param,function(data){
-        var obj = JSON.parse(data); 
-        if (obj.status=="success") {
-            $('#frm_create_statename').trigger("reset");
-              openPopup();
-               $('#newstate').modal("hide");                                   
-            $('#popupcontent').html(success_content(obj.message,'closePopup();listStateNames')); 
-        } else {
-            if (obj.div!="") {
-                $('#Err'+obj.div).html(obj.message)
-            } else {
-                $('#failure_div').html(obj.message);
-            }
-            $('#process_popup').modal('hide');
-        }
-    });
-}
 
 setTimeout(function(){
     listStateNames();

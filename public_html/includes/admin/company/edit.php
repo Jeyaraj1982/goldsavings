@@ -13,6 +13,7 @@
                             <div class="col-sm-6 mb-3">
                                 <label class="form-label">Customer Code</label>
                                 <input type="text" value="<?php echo $data[0]['CustomerCode'];?>" disabled="disabled"  class="form-control">
+                                <span id="ErrCustomerCode" class="error_msg"></span>
                             </div>
                             <div class="col-sm-6 mb-3">
                                 <label class="form-label">Profile Photo</label>
@@ -43,7 +44,7 @@
                                 <span id="ErrCustomerName" class="error_msg"></span>
                             </div>
                             <div class="col-sm-12 mb-3">
-                                <label class="form-label">EmailID <span style='color:red'>*</span></label>
+                                <label class="form-label">EmailID </label>
                                 <input type="text" value="<?php echo $data[0]['EmailID'];?>" name="EmailID" id="EmailID" class="form-control" placeholder="EmailID">
                                 <span id="ErrEmailID" class="error_msg"></span>
                             </div>
@@ -81,11 +82,12 @@
                                 <span id="ErrLoginPassword" class="error_msg"></span>
                             </div>
                             <div class="col-sm-6 mb-3">         
-                                <label class="form-label">Is Active <span style='color:red'>*</span></label>
+                                <label class="form-label">Status <span style='color:red'>*</span></label>
                                 <select name="IsActive" id="IsActive" class="form-select">
                                     <option value="1" <?php echo ($data[0]['IsActive']==1) ? " selected='selected' " : "";?> >Active</option>
                                     <option value="0" <?php echo ($data[0]['IsActive']==0) ? " selected='selected' " : "";?> >Deactivated</option>
                                 </select>
+                                 <span id="ErrIsActive" class="error_msg"></span>
                             </div>
                         </div>
                     </div>
@@ -205,7 +207,7 @@
                             </div>
                             <div class="col-sm-6">
                                 <label class="form-label"><span id="_printlabel">Mobile Number</span> <span style='color:red'>*</span></label>
-                                <div class="input-group mb-3">
+                                <div class="input-group">
                                     <div class="input-group-prepend">
                                         <span class="input-group-text" id="basic-addon1">+91</span>
                                     </div>

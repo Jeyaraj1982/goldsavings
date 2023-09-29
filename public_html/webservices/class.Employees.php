@@ -20,6 +20,11 @@ class Employees {
         if (strlen(trim($_POST['FatherName']))==0) {
             return json_encode(array("status"=>"failure","message"=>"Please enter Father/Husband Name","div"=>"FatherName"));    
         }
+        
+        if (trim($_POST['Gender'])=="0") {
+            return json_encode(array("status"=>"failure","message"=>"Please select gender","div"=>"Gender"));        
+        }
+        
         if (strlen(trim($_POST['DateOfBirth']))==0) {
             return json_encode(array("status"=>"failure","message"=>"Please select Date Of Birth","div"=>"DateOfBirth"));    
         }
@@ -56,7 +61,7 @@ class Employees {
         }
         
         if (strlen(trim($_POST['WhatsappNumber']))==0) {
-            return json_encode(array("status"=>"failure","message"=>"Please enter Whatsapp Number","div"=>"WhatsappNumber"));    
+            //return json_encode(array("status"=>"failure","message"=>"Please enter Whatsapp Number","div"=>"WhatsappNumber"));    
         } else {
             if (strlen(trim($_POST['WhatsappNumber']))==10) {
                 if (!($_POST['WhatsappNumber']>=6000000000 && $_POST['WhatsappNumber']<=9999999999)) {
@@ -71,6 +76,8 @@ class Employees {
                 return json_encode(array("status"=>"failure","message"=>"Please enter valid MobileNumber","div"=>"MobileNumber"));    
             }
         }
+        
+        
 
         if (strlen(trim($_POST['LoginUserName']))==0) {
             return json_encode(array("status"=>"failure","message"=>"Please enter Login UserName","div"=>"LoginUserName"));    
@@ -225,6 +232,22 @@ class Employees {
             return json_encode(array("status"=>"failure","message"=>"Please enter Employee Name","div"=>"EmployeeName"));    
         }
         
+        if ($_POST['EmployeeCategoryID']==0) {
+            return json_encode(array("status"=>"failure","message"=>"Please select Employee Category","div"=>"EmployeeCategoryID"));    
+        }
+        
+        if (strlen(trim($_POST['FatherName']))==0) {
+            return json_encode(array("status"=>"failure","message"=>"Please enter Father/Husband Name","div"=>"FatherName"));    
+        }
+        
+        if (trim($_POST['Gender'])=="0") {
+            return json_encode(array("status"=>"failure","message"=>"Please select gender","div"=>"Gender"));        
+        }
+        
+        if (strlen(trim($_POST['DateOfBirth']))==0) {
+            return json_encode(array("status"=>"failure","message"=>"Please select Date Of Birth","div"=>"DateOfBirth"));    
+        }
+        
         if (strlen(trim($_POST['EmailID']))==0) {
             return json_encode(array("status"=>"failure","message"=>"Please enter EmailID","div"=>"EmailID"));    
         }
@@ -234,9 +257,9 @@ class Employees {
         }
         
         if (strlen(trim($_POST['WhatsappNumber']))==0) {
-            return json_encode(array("status"=>"failure","message"=>"Please enter Whatsapp Number","div"=>"WhatsappNumber"));    
+            //return json_encode(array("status"=>"failure","message"=>"Please enter Whatsapp Number","div"=>"WhatsappNumber"));    
         }
-
+        
         if (strlen(trim($_POST['LoginUserName']))==0) {
             return json_encode(array("status"=>"failure","message"=>"Please enter Login UserName","div"=>"LoginUserName"));    
         } else {
@@ -281,6 +304,8 @@ class Employees {
         $cus_type = json_decode(EmployeeCategories::getDetailsByID($_POST['EmployeeCategoryID']),true);
         $cus_type = $cus_type['data'];
         
+        //return json_encode(array("status"=>"failure","message"=>"Please enter Employee Name","div"=>"EmployeeName"));    
+        
         $StatName = json_decode(StateNames::getDetailsByID($_POST['StateNameID']),true);
         $StatName = $StatName['data'];
         
@@ -291,28 +316,28 @@ class Employees {
         $AreaName = $AreaName['data'];
         
         $id = $mysql->execute("update _tbl_employees set EmployeeName   = '".$_POST['EmployeeName']."',
-                                                                 FatherName     = '".$_POST['FatherName']."',
-                                                                 Gender         = '".$_POST['Gender']."',
-                                                                 DateOfBirth    = '".$_POST['DateOfBirth']."',
-                                                                 EmailID        = '".$_POST['EmailID']."',
-                                                                 MobileNumber   = '".$_POST['MobileNumber']."',
-                                                                 WhatsappNumber = '".$_POST['WhatsappNumber']."',
-                                                                 LoginUserName  = '".$_POST['LoginUserName']."',
-                                                                 LoginPassword  = '".$_POST['LoginPassword']."',
-                                                                 PancardNumber  = '".$_POST['PancardNumber']."',
-                                                                 AadhaarCardNumber = '".$_POST['AadhaarCardNumber']."',
-                                                                 AddressLine1   = '".$_POST['AddressLine1']."',
-                                                                 AddressLine2   = '".$_POST['AddressLine2']."',
-                                                                 StateNameID   = '".$StatName[0]['StateNameID']."',
-                                                                 StateName   = '".$StatName[0]['StateName']."',
-                                                                 DistrictNameID   = '".$DistrictName[0]['DistrictNameID']."',
-                                                                 DistrictName   = '".$DistrictName[0]['DistrictName']."',
-                                                                 AreaNameID   = '".$AreaName[0]['AreaNameID']."',
-                                                                 AreaName   = '".$AreaName[0]['AreaName']."',
-                                                                 Remarks   = '".$_POST['Remarks']."',
-                                                                 PinCode        = '".$_POST['PinCode']."',
-                                                                 CreatedOn      = '".date("Y-m-d H:i:s")."',
-                                                                 IsActive       = '".$_POST['IsActive']."' where EmployeeID='".$_POST['EmployeeID']."'");
+                                                         FatherName     = '".$_POST['FatherName']."',
+                                                         Gender         = '".$_POST['Gender']."',
+                                                         DateOfBirth    = '".$_POST['DateOfBirth']."',
+                                                         EmailID        = '".$_POST['EmailID']."',
+                                                         MobileNumber   = '".$_POST['MobileNumber']."',
+                                                         WhatsappNumber = '".$_POST['WhatsappNumber']."',
+                                                         LoginUserName  = '".$_POST['LoginUserName']."',
+                                                         LoginPassword  = '".$_POST['LoginPassword']."',
+                                                         PancardNumber  = '".$_POST['PancardNumber']."',
+                                                         AadhaarCardNumber = '".$_POST['AadhaarCardNumber']."',
+                                                         AddressLine1   = '".$_POST['AddressLine1']."',
+                                                         AddressLine2   = '".$_POST['AddressLine2']."',
+                                                         StateNameID   = '".$StatName[0]['StateNameID']."',
+                                                         StateName   = '".$StatName[0]['StateName']."',
+                                                         DistrictNameID   = '".$DistrictName[0]['DistrictNameID']."',
+                                                         DistrictName   = '".$DistrictName[0]['DistrictName']."',
+                                                         AreaNameID   = '".$AreaName[0]['AreaNameID']."',
+                                                         AreaName   = '".$AreaName[0]['AreaName']."',
+                                                         Remarks   = '".$_POST['Remarks']."',
+                                                         PinCode        = '".$_POST['PinCode']."',
+                                                         CreatedOn      = '".date("Y-m-d H:i:s")."',
+                                                         IsActive       = '".$_POST['IsActive']."' where EmployeeID='".$_POST['EmployeeID']."'");
         $path = "assets/docs/employees/".$_POST['EmployeeID'];
             if (!is_dir($path)) {
                 mkdir("assets/docs/employees/".$_POST['EmployeeID'], 0777); 
@@ -386,18 +411,18 @@ class Employees {
     function deactiveSalesmanArea() {
         global $mysql;
         $data = $mysql->execute("update _tbl_salesman_areas set IsActive='0'  where AssignedAreaID='".$_GET['ID']."'");
-        return json_encode(array("status"=>"success","data"=>$data));
+        return json_encode(array("status"=>"success","message"=>"successfully deactivated", "data"=>$data));
     }
-    function activeSalesmanArea() {
+    function activeSalesmanArea() {               
         global $mysql;
         $data = $mysql->execute("update _tbl_salesman_areas set IsActive='1'  where AssignedAreaID='".$_GET['ID']."'");
-        return json_encode(array("status"=>"success","data"=>$data));
+        return json_encode(array("status"=>"success","message"=>"successfully activated","data"=>$data));
     }
     
     function removeSalesmanArea() {
         global $mysql;
-        $data = $mysql->execute("delete from _tbl_salesman_areas set IsActive='1'  where AssignedAreaID='".$_GET['ID']."'");
-        return json_encode(array("status"=>"success","data"=>$data));
+        $data = $mysql->execute("delete from _tbl_salesman_areas   where AssignedAreaID='".$_GET['ID']."'");
+        return json_encode(array("status"=>"success","message"=>"removed successfully","data"=>$data));
     }
     
      public static function listByEmployeeCategory() {   
@@ -405,5 +430,49 @@ class Employees {
         $data = $mysql->select("select * from _tbl_employees where EmployeeCategoryID='".$_GET['EmployeeCategoryID']."'");
         return json_encode(array("status"=>"success","data"=>$data));
     }
+    
+    
+    function addDocument() {
+         global $mysql;
+
+         if (trim($_POST['DocumentTypeID'])=="0") {
+            return json_encode(array("status"=>"failure","message"=>"Please select document type","div"=>"DocumentTypeID"));    
+        }
+         if (sizeof($_POST['files'])==0) {
+            return json_encode(array("status"=>"failure","message"=>"Please select and attach file(s)","div"=>"DocumentFiles"));    
+        }
+        
+        $path = "assets/uploads/employees/".$_POST['EmployeeID'];
+        if (!is_dir($path)) {
+            mkdir("assets/uploads/employees/".$_POST['EmployeeID'], 0777); 
+        }
+        
+        $DocumentType = $mysql->select("select * from _tbl_masters_documenttypes where DocumentTypeID='".$_POST['DocumentTypeID']."'");
+        
+        foreach($_POST['files'] as $file) {
+            $file = str_replace("\\r","",$file);
+            $file = str_replace("\\n","",$file);
+            $source = SERVER_PATH."/tmp/".$file;
+            $destination = SERVER_PATH."/assets/uploads/employees/".$_POST['EmployeeID']."/".$file;
+            if( !copy($source, $destination) ) { 
+                
+            } else { 
+                $mysql->insert("_tbl_assets",array("EmployeeID"       =>$_POST['EmployeeID'],
+                                                   "CreatedOn"        =>date("Y-m-d H:i:s"),
+                                                   "DocumentTypeID"   =>$DocumentType[0]['DocumentTypeID'],
+                                                   "DocumentTypeName" =>$DocumentType[0]['DocumentTypeName'],
+                                                   "FileName"         =>$file));
+            } 
+            
+        }
+         return json_encode(array("status"=>"success","message"=>"Added successfully"));
+        
+     }
+     
+     function listDocuments() {
+         global $mysql;
+         $data = $mysql->select("select * from _tbl_assets WHERE EmployeeID='".$_GET['EmployeeID']."'");    
+         return json_encode(array("status"=>"success","data"=>$data));
+     }
 }
 ?>

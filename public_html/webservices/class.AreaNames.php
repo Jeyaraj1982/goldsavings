@@ -27,6 +27,14 @@ class AreaNames {
             }
         }
      
+        if ($_POST['StateNameID']=="0") {
+            return json_encode(array("status"=>"failure","message"=>"Please select statename","div"=>"StateNameID"));        
+        }
+        
+           if ($_POST['DistrictNameID']=="0") {
+            return json_encode(array("status"=>"failure","message"=>"Please select district name","div"=>"DistrictNameID"));        
+        }
+        
         $StatName = json_decode(StateNames::getDetailsByID($_POST['StateNameID']),true);
         $StatName = $StatName['data'];
         
@@ -70,6 +78,16 @@ class AreaNames {
          return json_encode(array("status"=>"success","data"=>$data));
      }
      
+     public static function listAllActive() {
+         global $mysql;
+         if (isset($_GET['DistrictNameID'])) {
+            $data = $mysql->select("select * from _tbl_masters_areanames where IsActive='1' and DistrictNameID='".$_GET['DistrictNameID']."'");
+         } else {
+            $data = $mysql->select("select * from _tbl_masters_areanames where IsActive='1'");
+         }
+         return json_encode(array("status"=>"success","data"=>$data));
+     }
+     
      public static function ListAreaNames() {
          global $mysql;
          $data = $mysql->select("select * from _tbl_masters_areanames where StateNameID='".$_GET['StateNameID']."' and DistrictNameID='".$_GET['DistrictNameID']."'");
@@ -87,18 +105,26 @@ class AreaNames {
          global $mysql;
          if (strlen(trim($_POST['AreaName']))==0) {
              return json_encode(array("status"=>"failure","message"=>"Please enter Area Name","div"=>"AreaName"));    
-         } else {
-             $dupCode = $mysql->select("select * from _tbl_masters_areanames where AreaName='".$_POST['AreaName']."' and AreaNameID<>'".$_POST['AreaNameID']."'");
-             if (sizeof($dupCode)>0) {
-                return json_encode(array("status"=>"failure","message"=>"AreaName is already used","div"=>"AreaName"));    
-             }
-         }       
+         }  
+         
+         if ($_POST['StateNameID']=="0") {
+            return json_encode(array("status"=>"failure","message"=>"Please select statename","div"=>"StateNameID"));        
+         }
+        
+         if ($_POST['DistrictNameID']=="0") {
+            return json_encode(array("status"=>"failure","message"=>"Please select district name","div"=>"DistrictNameID"));        
+         } 
          
          $StatName = json_decode(StateNames::getDetailsByID($_POST['StateNameID']),true);
          $StatName = $StatName['data'];
          
          $DistrictName = json_decode(DistrictNames::getDetailsByID($_POST['DistrictNameID']),true);
          $DistrictName = $DistrictName['data'];
+         
+         $dupCode = $mysql->select("select * from _tbl_masters_areanames where StateNameID='".$_POST['StateNameID']."' and DistrictNameID='".$_POST['DistrictNameID']."' and AreaName='".$_POST['AreaName']."' and AreaNameID<>'".$_POST['AreaNameID']."'");
+         if (sizeof($dupCode)>0) {
+            return json_encode(array("status"=>"failure","message"=>"AreaName is already used in ".$DistrictName[0]['DistrictName'].", ".$StatName[0]['StateName'],"div"=>"AreaName"));    
+         }      
          
          $mysql->execute("update _tbl_masters_areanames set AreaName        ='".$_POST['AreaName']."',
                                                             StateNameID     ='".$StatName[0]['StateNameID']."',
@@ -116,7 +142,8 @@ class AreaNames {
          $data = $mysql->select("select * from _tbl_masters_areanames where AreaNameID='".$_GET['ID']."'");
          return json_encode(array("status"=>"success","data"=>$data));
      }
-      public static function listByAreaNames() {
+     
+     public static function listByAreaNames() {
          global $mysql;                                             
          $data = $mysql->select("select * from _tbl_masters_areanames where DistrictNameID='".$_GET['DistrictNameID']."'");
          return json_encode(array("status"=>"success","data"=>$data));

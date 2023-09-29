@@ -5,7 +5,7 @@ date_default_timezone_set('Asia/Calcutta');
 define("SERVER_PATH",__DIR__);
 define("log_path",SERVER_PATH."/logs/");
 define("sql_log",SERVER_PATH."/logs/");
-define("WEB_URL","https:/goldsavings.nexifysoftware.in/");
+define("WEB_URL","https://goldsavings.nexifysoftware.in/");
 define("WEBAPP_URL","https://goldsavings.nexifysoftware.in/app/");
 define("LOGOUT_PATH","https://goldsavings.nexifysoftware.in/");
 define("WEB_Title"," ");   
@@ -16,8 +16,9 @@ define("DBPASSWORD","mysql@Pwd");
 define("DBNAME","nexifysoftware_goldsavings");
 
 if (isset($_GET['action']) && $_GET['action']=="logout") {
+    $role = $_SESSION['User']['UserRole'];
     session_destroy();
-    echo "<script>location.href='".LOGOUT_PATH."';</script>";
+    echo "<script>location.href='".LOGOUT_PATH.$role."';</script>";
     exit;
 }
 

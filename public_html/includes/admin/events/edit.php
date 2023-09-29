@@ -19,6 +19,7 @@
                             <div class="col-sm-12 mb-3">
                                 <label class="form-label">Event Title <span style='color:red'>*</span></label>
                                 <input type="text" value="<?php echo $data[0]['EventTitle'];?>" name="EventTitle" id="EventTitle" class="form-control" placeholder="Event Title">
+                                <span id="ErrEventTitle" class="error_msg"></span>
                             </div>
                             <div class="col-sm-12">
                             </div>
@@ -28,7 +29,7 @@
                                 <span id="ErrEventDescription" class="error_msg"></span>
                             </div>
                             <div class="col-sm-6 mb-3">
-                                <label class="form-label">Event Starts<span style='color:red'>*</span></label>
+                                <label class="form-label">Event <span style='color:red'>*</span></label>
                                 <div class="input-group">
                                 <?php             
                                     $day = date("d",strtotime($data[0]['EventStart']));                                                            
@@ -176,6 +177,7 @@
                                     <option value="58" <?php echo $minute=="58" ? "selected=selected" : "";?>>58</option>
                                     <option value="59" <?php echo $minute=="59" ? "selected=selected" : "";?>>59</option>
                                 </select>
+                                <span id="ErrEventStart" class="error_msg"></span>
                                 </div>
                         </div>
                         <div class="col-sm-6 mb-3">
@@ -329,12 +331,13 @@
                                     <option value="58" <?php echo $minute=="58" ? "selected=selected" : "";?>>58</option>
                                     <option value="59" <?php echo $minute=="59" ? "selected=selected" : "";?>>59</option>
                                 </select>
+                                <span id="ErrEventEnd" class="error_msg"></span>
                                 </div>
                         </div>
                          <div class="col-sm-6 mb-3">    
                          </div>
                         <div class="col-sm-6 mb-3">         
-                                <label class="form-label">Is Active <span style='color:red'>*</span></label>
+                                <label class="form-label">Status <span style='color:red'>*</span></label>
                                 <select name="IsActive" id="IsActive" class="form-select">
                                     <option value="1" <?php echo ($data[0]['IsActive']==1) ? " selected='selected' " : "";?> >Active</option>
                                     <option value="0" <?php echo ($data[0]['IsActive']==0) ? " selected='selected' " : "";?> >Deactivated</option>

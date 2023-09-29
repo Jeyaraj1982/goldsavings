@@ -1,11 +1,9 @@
+<?php include_once("config.php"); ?>
 <?php
-include_once("config.php");
 
-if (isset($_SESSION['User']['EmployeeID']) && $_SESSION['User']['EmployeeID']>0) {
-    define("UserRole",strtolower($_SESSION['User']['EmployeeCategoryTitle']));
-} else {
-    echo "<script>location.href='index.php';</script>";
-    exit;
+
+if (isset($_SESSION['User']['UserRole'])) {
+     define("UserRole",$_SESSION['User']['UserRole']);
 }
 if ($_GET['action']!='profile/changepassword') {
     if ($_SESSION['User']['AllowToChangePasswordFirstLogin']=="1")     {
@@ -144,11 +142,59 @@ input:checked + .slider:before {
         }
     }
     </script>
+    
+    <style>
+.ath_container {width: 100%;}
+#uploadStatus {color: #00e200;}
+.ath_container a {text-decoration: none;color: #2f20d1;}
+.ath_container a:hover {text-decoration: underline;}
+.ath_container img {height: auto;max-width: 100%;vertical-align: middle;}
+.ath_container .label {color: #565656;margin-bottom: 2px;}
+.ath_container .message {padding: 6px 20px;font-size: 1em;color: rgb(40, 40, 40);box-sizing: border-box;margin: 0px;border-radius: 3px;width: 100%;overflow: auto;}
+.ath_container .error {padding: 6px 20px;border-radius: 3px;background-color: #ffe7e7;border: 1px solid #e46b66;color: #dc0d24;}
+.ath_container .success {background-color: #48e0a4;border: #40cc94 1px solid;border-radius: 3px;color: #105b3d;}
+.ath_container .validation-message {color: #e20900;}
+.ath_container .font-bold {font-weight: bold;}
+.ath_container .display-none {display: none;}
+.ath_container .inline-block {display: inline-block;}
+.ath_container .float-right {float: right;}
+.ath_container .float-left {float: left;}
+.ath_container .text-center {text-align: center;}
+.ath_container .text-left {text-align: left;}
+.ath_container .text-right {text-align: right;}
+.ath_container .full-width {width: 100%;}
+.ath_container .cursor-pointer {cursor: pointer;}
+.ath_container .mr-20 {margin-right: 20px;}
+.ath_container .m-20 {margin: 20px;}
+.ath_container table {border-collapse: collapse;border-spacing: 0;width: 100%;border: 1px solid #ddd;}
+.ath_container table th, .ath_container table td {text-align: left;padding: 5px;border: 1px solid #ededed;width: 50%;}
+/*tr:nth-child(even) {background-color: #f2f2f2}*/
+.ath_container .progress {margin: 20px 0 0 0;width: 300px;border: 1px solid #ddd;padding: 5px;border-radius: 5px;}
+.ath_container .progress-bar {width: 0%;height: 24px;background-color: #4CAF50;border-radius: 12px;text-align: center;color: #fff;}
+@media all and (max-width: 780px) {
+    .ath_container {width: auto;}
+}
+.ath_container input, .ath_container textarea, .ath_container select {box-sizing: border-box;width: 200px;height: initial;padding: 8px 5px;border: 1px solid #9a9a9a;border-radius: 4px;}
+.ath_container input[type="checkbox"] {width: auto;vertical-align: text-bottom;}
+.ath_container textarea {width: 300px;}
+.ath_container select {display: initial;height: 30px;padding: 2px 5px;}
+.ath_container button, .ath_container input[type=submit], .ath_container input[type=button] {padding: 8px 30px;font-size: 1em;cursor: pointer;border-radius: 25px;color: #ffffff;background-color: #6213d3;border-color: #9554f1 #9172bd #4907a9;}
+.ath_container input[type=submit]:hover {background-color: #f7c027;}
+::placeholder {color: #bdbfc4;}
+.ath_container label {display: block;color: #565656;}
+@media all and (max-width: 400px) {
+    .ath_container {padding: 0px 20px;}
+    .ath_container {width: auto;}
+    .ath_container input,
+    .ath_container textarea,
+    .ath_container select {width: 100%;}
+}
+</style>
 </head>
 <body data-theme="default" data-layout="fluid" data-sidebar-position="left" data-sidebar-behavior="sticky">
 	<div class="wrapper">
 		<nav id="sidebar" class="sidebar">
-			<?php include_once("includes/".UserRole."/leftmenu.php");?>
+			<?php include_once("includes/".$_SESSION['User']['UserRole']."/leftmenu.php");?>
 		</nav>
 		<div class="main">
 			<nav class="navbar navbar-expand navbar-light navbar-bg">
@@ -351,7 +397,7 @@ input:checked + .slider:before {
 							<a class="nav-link dropdown-toggle d-none d-sm-inline-block" href="#" data-bs-toggle="dropdown">
                 <!--<img src="img/avatars/avatar.jpg" class="avatar img-fluid rounded-circle me-1" alt="Chris Wood" />--> <span class="text-dark">
                     <?php echo $_SESSION['User']['EmployeeName'];?> 
-                    
+                    <?php echo $_SESSION['User']['UserRole'];?>
                 </span>
               </a>
 							<div class="dropdown-menu dropdown-menu-end">
@@ -412,5 +458,95 @@ input:checked + .slider:before {
   </div>
 </div>
 </body>
+<script>
+function uploadFiles() {
+    var fileInput = document.getElementById('DocumentFiles');
+    var files = fileInput.files;
 
+    for (var i = 0; i < files.length; i++) {
+        var allowedExtensions = ['.jpg', '.jpeg', '.png', '.pdf', '.svg', '.zip', '.docx', '.xlsx'];
+        var fileExtension = files[i].name.substring(files[i].name.lastIndexOf('.')).toLowerCase();
+
+        if (allowedExtensions.includes(fileExtension)) {
+            uploadFile(files[i]);
+        } else {
+            alert('Invalid file type: ' + fileExtension);
+        }
+    }
+}
+
+function getUniqueID() {
+    var date = new Date;
+    var seconds = date.getSeconds();
+    var minutes = date.getMinutes();
+    var hour = date.getHours();
+    var year = date.getFullYear();
+    var month = date.getMonth(); // beware: January = 0; February = 1, etc.
+    var day = date.getDate();
+    var dayOfWeek = date.getDay(); // Sunday = 0, Monday = 1, etc.
+    var milliSeconds = date.getMilliseconds();
+    return "file"+year+month+day+hour+minutes+seconds+milliSeconds;
+}
+
+function uploadFile(file) {
+    var formData = new FormData();
+    formData.append('file', file);
+
+    var progressBarContainer = document.createElement('div'); // Container for progress bar and file name
+    progressBarContainer.className = 'progress-container';
+
+    var fileName = document.createElement('div'); // Display file name
+    fileName.className = 'file-name';
+    fileName.textContent = file.name;
+    //progressBarContainer.appendChild(fileName);
+
+    var progressBar = document.createElement('div'); // Create a new progress bar element
+    progressBar.className = 'progress-bar';
+    progressBar.id = 'progressBar_' + file.name;
+
+    progressBarContainer.appendChild(progressBar);
+
+    var progressBarsContainer = document.getElementById('progressBarsContainer');
+
+    var newRow = document.createElement('tr'); // Create a new table row
+    var newCell = document.createElement('td'); // Create a new table cell
+    var newCell2 = document.createElement('td'); // Create a new table cell
+    
+    var input = document.createElement("input");
+    input.setAttribute('type', 'hidden');
+    input.setAttribute('name', 'files[]');
+    var id= getUniqueID();
+    input.setAttribute('id', id);
+    input.setAttribute('value', "0");
+    
+    newCell.appendChild(fileName);
+    newCell2.appendChild(progressBarContainer);
+    newCell2.appendChild(input);
+    newRow.appendChild(newCell);
+    newRow.appendChild(newCell2);
+    progressBarsContainer.appendChild(newRow);
+
+    var xhr = new XMLHttpRequest();
+
+    xhr.upload.addEventListener('progress', function(event) {
+        if (event.lengthComputable) {
+            var percent = Math.round((event.loaded / event.total) * 100);
+            progressBar.style.width = percent + '%';
+            progressBar.innerHTML = percent + '%';
+        }
+    });
+
+    xhr.addEventListener('load', function(event) {
+        //var uploadStatus = document.getElementById('uploadStatus');
+        //uploadStatus.innerHTML = event.target.responseText;
+        $('#'+id).val(event.target.responseText);
+     // Reset the input field of type "file"
+        //document.getElementById('fileUpload').value = '';
+    });
+
+    xhr.open('POST', '<?php echo WEB_URL;?>webservice.php?action=fileUpload', true);
+    xhr.send(formData);
+    //https://bootstrapfriendly.com/blog/uploading-multiple-files-with-progress-bar-via-ajax-and-php
+}
+</script>
 </html>

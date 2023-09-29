@@ -44,8 +44,8 @@
                 Do you want to Delete ?
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
-                <button type="button" onclick="Remove()" class="btn btn-primary">Yes, Remove</button>
+                <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal">No</button>
+                <button type="button" onclick="Remove()" class="btn btn-danger">Yes, Remove</button>
             </div>
         </div>
     </div>
@@ -104,17 +104,17 @@
                             <div class="col-sm-6 mb-3">
                                 <label class="form-label">State Name Code</label>
                                 <input type="text" disabled="disabled" value="" name="StateNameCode" id="editStateNameCode" class="form-control">
-                                <span id="ErrStateNameCode" class="error_msg"></span>
+                                <span id="ErreditStateNameCode" class="error_msg"></span>
                             </div>
                             <div class="col-sm-12 mb-3">
                                 <label class="form-label">State Name<span style='color:red'>*</span></label>
                                 <input type="text" value="" name="StateName" id="editStateName" class="form-control" placeholder="State Name">
-                                <span id="ErrStateName" class="error_msg"></span>
+                                <span id="ErreditStateName" class="error_msg"></span>
                             </div>
                             <div class="col-sm-12 mb-3">
                                 <label class="form-label">Remarks</label>
                                 <input type="text" value="" name="Remarks" id="editRemarks" class="form-control" placeholder="Remarks">
-                                <span id="ErrRemarks" class="error_msg"></span>
+                                <span id="ErreditRemarks" class="error_msg"></span>
                             </div>
                             <div class="col-sm-6 mb-3">
                                 <label class="form-label">Status</label>
@@ -128,7 +128,7 @@
          </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-outline-primary" data-bs-dismiss="modal">Cancel</button>
-                <button onclick="doUpdate()" type="button" class="btn btn-primary" data-bs-dismiss="modal">Update</button>
+                <button onclick="doUpdate()" type="button" class="btn btn-primary">Update</button>
             </div>
           </div>
         </div>
@@ -206,21 +206,22 @@ function d() {
 setTimeout("d()",2000);
 
 function addForm(){
-  $('#addconfirmation').modal("show");   
+  $('#addconfirmation').modal("show");
+      clearDiv(['StateName','StateNameCode','Remarks','IsActive']);
 }  
 function addNew() {
-     $('#addconfirmation').modal("hide");
     var param = $('#frm_create').serialize();
-    openPopup();
     clearDiv(['StateName','StateNameCode','Remarks','IsActive']);
     $.post(URL+"webservice.php?action=addNew&method=StateNames",param,function(data){
         var obj = JSON.parse(data); 
         if (obj.status=="success") {
+            $('#addconfirmation').modal("hide");
+             openPopup();
             $('#frm_create').trigger("reset");
             if (obj.StateNameCode.length>3) {
                 $('#StateNameCode').val(obj.StateNameCode);
             }
-            $('#popupcontent').html(success_content(obj.message,'closePopup')); 
+            $('#popupcontent').html(success_content(obj.message,'closePopup=d()')); 
         } else {
             if (obj.div!="") {
                 $('#Err'+obj.div).html(obj.message)
@@ -234,7 +235,7 @@ function addNew() {
 
 function edit(ID){
   $('#editForm').modal("show");
-  
+       clearDiv(['editStateName','editStateNameCode','editRemarks','editIsActive']);
     $.post(URL+ "webservice.php?action=getData&method=StateNames&ID="+ID,"",function(data){
         closePopup();
         var obj = JSON.parse(data);
@@ -251,18 +252,18 @@ function edit(ID){
   });
 } 
 function doUpdate() {
-     $('#confirmationtoupdate').modal("hide"); 
     var param = $('#frm_edit').serialize();
-    openPopup();
-    clearDiv(['StateName','StateNameCode','Remarks','IsActive']);
+    clearDiv(['editStateName','editStateNameCode','editRemarks','editIsActive']);
     $.post(URL+"webservice.php?action=doUpdate&method=StateNames",param,function(data){
         var obj = JSON.parse(data); 
         if (obj.status=="success") {
+            $('#editForm').modal("hide"); 
+            openPopup();
             //$('#frm_newservice').trigger("reset");
-            $('#popupcontent').html(success_content(obj.message));
+            $('#popupcontent').html(success_content(obj.message,'closePopup=d()'));
         } else {
             if (obj.div!="") {
-                $('#Err'+obj.div).html(obj.message)
+                $('#Erredit'+obj.div).html(obj.message)
             } else {
                 $('#failure_div').html(obj.message);
             }

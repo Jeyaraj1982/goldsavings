@@ -44,12 +44,12 @@
                 Do you want to Delete ?
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
-                <button type="button" onclick="Remove()" class="btn btn-primary">Yes, Remove</button>
+                <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal">No</button>
+                <button type="button" onclick="Remove()" class="btn btn-danger">Yes, Remove</button>
             </div>
         </div>
     </div>
-</div>  
+</div>   
 <script>
 
 function d() {
@@ -64,21 +64,26 @@ function d() {
                             + '<td>' + data.ContractCode + '</td>'
                             + '<td>' + data.CustomerName + '</td>'
                             + '<td>' + data.SchemeName + '</td>'
-                            + '<td>' + ( (data.IsActive=="1") ? "<span class='badge bg-success'>Active</span>" : "<span class='badge bg-secondary'>Disabled</span>" ) + '</td>'
-                            + '<td style="text-align:right"><a href="javascript:void(0)" onclick="confirmationtoDelete(\''+data.ContractID+'\')" class="btn btn-outline-danger btn-sm">Delete</a>&nbsp;&nbsp;<a href="'+URL+'dashboard.php?action=contracts/view='+data.ContractID+'" class="btn btn-success btn-sm">View</a></td>'
+                            + '<td>' + ( (data.IsActive=="1") ? "<span class='badge bg-success'>Active</span>" : "<span class='badge bg-secondary'>Disabled</span>" ) + '</td>'                                                                   
+                            + '<td style="text-align:right"><a href="javascript:void(0)" onclick="confirmationtoDelete(\''+data.ContractID+'\')" class="btn btn-outline-danger btn-sm">Delete</a>&nbsp;&nbsp;<a href="'+URL+'dashboard.php?action=contracts/view&view='+data.ContractCode+'" class="btn btn-success btn-sm">View</a></td>'
                       + '</tr>';
-            });   
+            });
+            if (obj.data.length==0) {
+                 html += '<tr>'
+                            + '<td colspan="5" style="text-align: center;background:#fff !important">No Data Found</td>'
+                       + '</tr>';
+            }   
             $('#tbl_content').html(html);
-            if (($.fn.dataTable.isDataTable("#datatables-fixed-header"))) {
+             if (($.fn.dataTable.isDataTable("#datatables-fixed-header"))) {
                 $("#datatables-fixed-header").DataTable({
                     fixedHeader: true,
                     pageLength: 25
                 });
-            }                                        
+            }
         } else {
             alert(obj.message);
         }
-    });                                           
+    });
 }
 setTimeout("d()",2000);
 
@@ -101,14 +106,24 @@ function Remove() {
                             + '<td>' + data.CustomerName + '</td>'
                             + '<td>' + data.SchemeName + '</td>'
                             + '<td>' + ( (data.IsActive=="1") ? "<span class='badge bg-success'>Active</span>" : "<span class='badge bg-secondary'>Disabled</span>" ) + '</td>'
-                            + '<td style="text-align:right"><a href="javascript:void(0)" onclick="confirmationtoDelete(\''+data.ContractID+'\')" class="btn btn-outline-danger btn-sm">Delete</a>&nbsp;&nbsp;<a href="'+URL+'dashboard.php?action=contracts/view='+data.ContractID+'" class="btn btn-success btn-sm">View</a></td>'
+                            + '<td style="text-align:right"><a href="javascript:void(0)" onclick="confirmationtoDelete(\''+data.ContractID+'\')" class="btn btn-outline-danger btn-sm">Delete</a>&nbsp;&nbsp;<a href="'+URL+'dashboard.php?action=contracts/view&view='+data.ContractID+'" class="btn btn-success btn-sm">View</a></td>'
                       + '</tr>';
-            });   
+             });
+            if (obj.data.length==0) {
+                 html += '<tr>'
+                            + '<td colspan="5" style="text-align: center;background:#fff !important">No Data Found</td>'
+                       + '</tr>';
+            }   
             $('#tbl_content').html(html);
+             if (($.fn.dataTable.isDataTable("#datatables-fixed-header"))) {
+                $("#datatables-fixed-header").DataTable({
+                    fixedHeader: true,
+                    pageLength: 25
+                });
+            }
         } else {
-            $('#popupcontent').html(errorcontent(obj.message));            
+            alert(obj.message);
         }
     });
-      
 }
 </script>

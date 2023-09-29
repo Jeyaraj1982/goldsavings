@@ -14,7 +14,7 @@ class Companies {
         }
         
         if (strlen(trim($_POST['EmailID']))==0) {
-            return json_encode(array("status"=>"failure","message"=>"Please enter EmailID","div"=>"EmailID"));    
+            
         } else {
              
             //if (!(filter_var($email, FILTER_VALIDATE_EMAIL))) {
@@ -84,7 +84,27 @@ class Companies {
         }
 
         if (strlen(trim($_POST['PinCode']))==0) {
-            return json_encode(array("status"=>"failure","message"=>"Please enter Pincode","div"=>"PinCode"));    
+            return json_encode(array("status"=>"failure","message"=>"Please enter PinCode","div"=>"PinCode"));    
+        }
+        
+        if (trim($_POST['Currency'])=="0") {
+            return json_encode(array("status"=>"failure","message"=>"Please select Currency","div"=>"Currency"));    
+        }
+        
+        if (trim($_POST['CurrencySymbol'])=="0") {
+            return json_encode(array("status"=>"failure","message"=>"Please select Currency Symbol","div"=>"CurrencySymbol"));    
+        }
+        
+        if (trim($_POST['DateFormat'])=="0") {
+            return json_encode(array("status"=>"failure","message"=>"Please select Date Format","div"=>"DateFormat"));    
+        }
+        
+        if (trim($_POST['TimeFormat'])=="0") {
+            return json_encode(array("status"=>"failure","message"=>"Please select Time Format","div"=>"TimeFormat"));    
+        }
+        
+        if (trim($_POST['TimeZone'])=="0") {
+            return json_encode(array("status"=>"failure","message"=>"Please select Time Format","div"=>"TimeZone"));    
         }
         
         $ProfilePhoto=""; 
@@ -95,7 +115,7 @@ class Companies {
         $DistrictName = json_decode(DistrictNames::getDetailsByID($_POST['DistrictNameID']),true);
         $DistrictName = $DistrictName['data'];
         
-          
+        
         $CompanyID = $mysql->insert("_tbl_companies",array("CompanyCode"      => $_POST['CompanyCode'],
                                                            "CompanyName"      => $_POST['CompanyName'],
                                                            "EmailID"          => trim($_POST['EmailID']),
@@ -111,7 +131,7 @@ class Companies {
                                                            "StateName"        => $StatName[0]['StateName'],
                                                            "DistrictNameID"   => $DistrictName[0]['DistrictNameID'],
                                                            "DistrictName"     => $DistrictName[0]['DistrictName'],
-                                                           "Pincode"          => $_POST['Pincode'],
+                                                           "PinCode"          => $_POST['PinCode'],
                                                            "DateFormat"       => $_POST['DateFormat'],
                                                            "Currency"         => $_POST['Currency'],
                                                            "CurrencySymbol"   => $_POST['CurrencySymbol'],
@@ -221,37 +241,27 @@ class Companies {
         }
 
         if (strlen(trim($_POST['PinCode']))==0) {
-            return json_encode(array("status"=>"failure","message"=>"Please enter Pincode","div"=>"PinCode"));    
+            return json_encode(array("status"=>"failure","message"=>"Please enter PinCode","div"=>"PinCode"));    
         }
         
-        if (trim($_POST['ReferredBy'])==0) {
-            return json_encode(array("status"=>"failure","message"=>"Please select ReferredBy","div"=>"ReferredBy"));    
-        }          
+        if (trim($_POST['Currency'])=="0") {
+            return json_encode(array("status"=>"failure","message"=>"Please select Currency","div"=>"Currency"));    
+        }
         
-        if (strlen(trim($_POST['RefMobileNumber']))==0) {
-            return json_encode(array("status"=>"failure","message"=>"Please enter Mobile Number","div"=>"RefMobileNumber"));    
-        } else {
-            if (strlen(trim($_POST['RefMobileNumber']))==10) {
-                if (!($_POST['RefMobileNumber']>=6000000000 && $_POST['RefMobileNumber']<=9999999999)) {
-                    return json_encode(array("status"=>"failure","message"=>"Please enter valid Mobile Number.","div"=>"RefMobileNumber"));    
-                } else {
-                    if ($_POST['ReferredBy']==1) {
-                        $dupMobile = $mysql->select("select * from _tbl_masters_customers where MobileNumber='".trim($_POST['RefMobileNumber'])."'");
-                        if (sizeof($dupMobile)==0) {
-                            return json_encode(array("status"=>"failure","message"=>"Customer's Mobile Number is not found","div"=>"RefMobileNumber"));    
-                        }
-                    }
-                    
-                    if ($_POST['ReferredBy']==2) {
-                        $dupMobile = $mysql->select("select * from _tbl_employees where MobileNumber='".trim($_POST['RefMobileNumber'])."'");
-                        if (sizeof($dupMobile)==0) {
-                            return json_encode(array("status"=>"failure","message"=>"Employee's Mobile Number is not found","div"=>"RefMobileNumber"));    
-                        }
-                    }
-                }
-            } else {
-                return json_encode(array("status"=>"failure","message"=>"Please enter valid Mobile Number","div"=>"MobileNumber"));    
-            }
+        if (trim($_POST['CurrencySymbol'])=="0") {
+            return json_encode(array("status"=>"failure","message"=>"Please select Currency Symbol","div"=>"CurrencySymbol"));    
+        }
+        
+        if (trim($_POST['DateFormat'])=="0") {
+            return json_encode(array("status"=>"failure","message"=>"Please select Date Format","div"=>"DateFormat"));    
+        }
+        
+        if (trim($_POST['TimeFormat'])=="0") {
+            return json_encode(array("status"=>"failure","message"=>"Please select Time Format","div"=>"TimeFormat"));    
+        }
+        
+        if (trim($_POST['TimeZone'])=="0") {
+            return json_encode(array("status"=>"failure","message"=>"Please select Time Format","div"=>"TimeZone"));    
         }
         
         $cus_type = json_decode(CustomerTypes::getDetailsByID($_POST['CustomerTypeNameID']),true);

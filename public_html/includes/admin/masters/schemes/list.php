@@ -48,8 +48,8 @@
                 Do you want to Delete ?
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
-                <button type="button" onclick="Remove()" class="btn btn-primary">Yes, Remove</button>
+                <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal">No</button>
+                <button type="button" onclick="Remove()" class="btn btn-danger">Yes, Remove</button>
             </div>
         </div>
     </div>
@@ -81,7 +81,7 @@ function d() {
                             + '<td style="text-align:right">'
                                 + '<a href="javascript:void(0)" onclick="confirmationtoDelete(\''+data.SchemeID+'\')" class="btn btn-outline-danger btn-sm">Delete</a>&nbsp;&nbsp;'
                                 + '<a href="'+URL+'dashboard.php?action=masters/schemes/edit&edit='+data.SchemeID+'" class="btn btn-primary btn-sm">Edit</a>&nbsp;&nbsp;'
-                                + '<a href="'+URL+'dashboard.php?action=masters/schemes/list_contractsbyscheme&SchemeID='+data.SchemeID+'" class="btn btn-warning btn-sm">View Employees</a>&nbsp;&nbsp;'
+                                + '<a href="'+URL+'dashboard.php?action=masters/schemes/list_contractsbyscheme&SchemeID='+data.SchemeID+'" class="btn btn-warning btn-sm">View Contracts</a>&nbsp;&nbsp;'
                                 + '<a href="'+URL+'dashboard.php?action=masters/schemes/view&edit='+data.SchemeID+'" class="btn btn-success btn-sm">View</a>'
                             + '</td>'
                       + '</tr>';
@@ -116,7 +116,7 @@ function Remove(ID) {
                             + '<td>' + ( (data.IsActive=="1") ? "<span class='badge bg-success'>Active</span>" : "<span class='badge bg-secondary'>Disabled</span>" ) + '</td>'
                             + '<td style="text-align:right"><a href="javascript:void(0)" onclick="confirmationtoDelete(\''+data.SchemeID+'\')" class="btn btn-outline-danger btn-sm">Delete</a>&nbsp;&nbsp'
                             + '<a href="'+URL+'dashboard.php?action=masters/schemes/edit&edit='+data.SchemeID+'" class="btn btn-primary btn-sm">Edit</a>&nbsp;&nbsp'
-                            + '<a href="'+URL+'dashboard.php?action=masters/schemes/list_contractsbyscheme&SchemeID='+data.SchemeID+'" class="btn btn-warning btn-sm" >View Employees</a>&nbsp;&nbsp'
+                            + '<a href="'+URL+'dashboard.php?action=masters/schemes/list_contractsbyscheme&SchemeID='+data.SchemeID+'" class="btn btn-warning btn-sm" >View Contracts</a>&nbsp;&nbsp'
                             + '<a href="'+URL+'dashboard.php?action=masters/schemes/view&edit='+data.SchemeID+'" class="btn btn-success btn-sm">View</a>'
                       + '</td>'
                 + '</tr>';

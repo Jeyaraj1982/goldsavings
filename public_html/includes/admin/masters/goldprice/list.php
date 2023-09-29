@@ -44,15 +44,15 @@
         <h5 class="modal-title" id="exampleModalLabel">New Gold Price</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
-      <div class="modal-body">
-        <div class="container-fluid p-0">
-    <form id="frm_create" name="frm_create" method="post" enctype="multipart/form-data">
-    <input type="hidden" value="<?php echo $data[0][' RateID'];?>" name="RateID" id=" RateID">
-        <div class="row">
-                            <div class="col-sm-4 mb-3">
-                                <label class="form-label">Date <span style='color:red'>*</span></label>
-                                <input type="date" name="Date" id="Date" class="form-control" placeholder="Date">
-                                <span id="ErrDate" class="error_msg"></span>
+        <div class="modal-body">
+           <div class="container-fluid p-0">
+              <form id="frm_create" name="frm_create" method="post" enctype="multipart/form-data">
+              <input type="hidden" value="<?php echo $data[0][' RateID'];?>" name="RateID" id=" RateID">
+              <div class="row">
+                <div class="col-sm-4 mb-3">
+                    <label class="form-label">Date <span style='color:red'>*</span></label>
+                    <input type="date" name="Date" id="Date" class="form-control" placeholder="Date">
+                        <span id="ErrDate" class="error_msg"></span>
                             </div>
                             <div class="col-sm-6 mb-3">
                             </div>
@@ -82,7 +82,7 @@
 </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-outline-primary" data-bs-dismiss="modal">Cancel</button>
-        <button type="button" onclick="addNew()" class="btn btn-primary">Save</button>
+        <button type="button" onclick="addNew()" class="btn btn-primary">Creat</button>
       </div>
     </div>
   </div>
@@ -98,14 +98,14 @@
                 Do you want to Delete ?
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
-                <button type="button" onclick="confirmRemove()" class="btn btn-primary">Yes, Remove</button>
+                <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal">No</button>
+                <button type="button" onclick="confirmRemove()" class="btn btn-danger">Yes, Remove</button>
             </div>
         </div>
     </div>
 </div>
 
-<div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="editForm" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -119,36 +119,36 @@
                             <div class="col-sm-4 mb-3">
                                 <label class="form-label">Date <span style='color:red'>*</span></label>
                                 <input type="date" name="Date" id="editDate" class="form-control" placeholder="Date">
-                                <span id="ErrDate" class="error_msg"></span>
+                                <span id="ErreditDate" class="error_msg"></span>
                             </div>
                             <div class="col-sm-6 mb-3">
                             </div> 
                             <div class="col-sm-4 mb-3">
                                 <label class="form-label">Price(18kt) <span style='color:red'>*</span></label>
                                 <input type="text"  name="Gold18" id="editGold18" class="form-control" placeholder="PRICE(18kt)">
-                                <span id="ErrGold18" class="error_msg"></span>
+                                <span id="ErreditGold18" class="error_msg"></span>
                             </div>
                             <div class="col-sm-4 mb-3">
                                 <label class="form-label">Price(22kt)<span style='color:red'>*</span></label>
                                 <input type="text" name="Gold22" id="editGold22" class="form-control" placeholder="PRICE(22kt)">
-                                <span id="ErrGold22" class="error_msg"></span>
+                                <span id="ErreditGold22" class="error_msg"></span>
                             </div>
                             <div class="col-sm-4 mb-3">
                                 <label class="form-label">Price(24kt) <span style='color:red'>*</span></label>
                                 <input type="text" name="Gold24" id="editGold24" class="form-control" placeholder="PRICE(24kt)">
-                                <span id="ErrGold24" class="error_msg"></span>
+                                <span id="ErreditGold24" class="error_msg"></span>
                             </div>
                             <div class="col-sm-12 mb-3">
                                <label class="form-label">Remarks</label>
                                <input type="text" name="Remarks" id="editRemarks" class="form-control" placeholder="Remarks">
-                               <span id="ErrRemarks" class="error_msg"></span>
+                               <span id="ErreditRemarks" class="error_msg"></span>
                             </div>
             </div>
     </form>
 </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-outline-primary" data-bs-dismiss="modal">Cancel</button>
-                <button onclick="doUpdate()" type="button" class="btn btn-primary" data-bs-dismiss="modal">Update</button>
+                <button onclick="doUpdate()" type="button" class="btn btn-primary">Update</button>
             </div></div></div></div>
        
  <div class="modal fade" id="viewModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -202,11 +202,8 @@ function confirmationtoadd() {
    $('#addconfirmation').modal("show"); 
 }
 function addNew() {
-     
     var param = $('#frm_create').serialize();
-    
     clearDiv(['Date','Gold18','Gold22','Gold24','Remarks']);
-    
     jQuery.ajax({
         type: 'POST',
         url:URL+"webservice.php?action=addNew&method=GoldRates",
@@ -234,9 +231,7 @@ function addNew() {
 } 
 
 
-setTimeout(function(){
-listAll();   
-},2000);
+
 
 function listAll() {
     openPopup();
@@ -248,9 +243,9 @@ function listAll() {
             $.each(obj.data, function (index, data) {
                 html += '<tr>'
                             + '<td>' + data.Date + '</td>'
-                            + '<td>' + data.Gold18 + '</td>'
-                            + '<td>' + data.Gold22 + '</td>'
-                            + '<td>' + data.Gold24 + '</td>'
+                            + '<td>' + data.GOLD_18 + '</td>'
+                            + '<td>' + data.GOLD_22 + '</td>'
+                            + '<td>' + data.GOLD_24 + '</td>'
                             + '<td style="text-align:right"><a href="javascript:void(0)" onclick="Remove(\''+data.RateID+'\')" class="btn btn-outline-danger btn-sm">Delete</a>&nbsp;&nbsp;<a onclick="edit(\''+data.RateID+'\')" class="btn btn-primary btn-sm">Edit</a>&nbsp;&nbsp;<a onclick="view(\''+data.RateID+'\')" class="btn btn-success btn-sm">View</a></td>'
                             + '</tr>';
             });
@@ -274,18 +269,16 @@ function listAll() {
 setTimeout("listAll()",2000);
   
 function edit(ID){
-  $('#editModal').modal("show");
-  
+  $('#editForm').modal("show");
     $.post(URL+ "webservice.php?action=viewGoldRate&method=GoldRates&id="+ID,"",function(data){
-        closePopup();
         var obj = JSON.parse(data);
         if (obj.status=="success") {
-            var html = "";
+            var html = "";                    
             $.each(obj.data, function (index, data) {
                 $('#editDate').val(data.Date);
-                $('#editGold18').val(data.Gold18);
-                $('#editGold22').val(data.Gold22);
-                $('#editGold24').val(data.Gold24);
+                $('#editGold18').val(data.GOLD_18);
+                $('#editGold22').val(data.GOLD_22);
+                $('#editGold24').val(data.GOLD_24);
                 $('#editRemarks').val(data.Remarks);
                 $('#editRateID').val(data.RateID);
             });   
@@ -293,11 +286,8 @@ function edit(ID){
   });
 }
  function doUpdate() {
-    $('#confirmationtoupdate').modal("hide");
     var param = $('#frm_edit').serialize();
-    
-    clearDiv(['Date','Gold18','Gold22','Gold24','Remarks']);
-    
+    clearDiv(['editDate','editGold18','editGold22','editGold24','editRemarks']);
     jQuery.ajax({
         type: 'POST',
         url:URL+"webservice.php?action=doUpdate&method=GoldRates",
@@ -307,12 +297,12 @@ function edit(ID){
         success: function(data) {
              var obj = JSON.parse(data); 
              if (obj.status=="success") {
-                 
+                 $('#editForm').modal("hide");
                  openPopup();
                 $('#popupcontent').html(success_content(obj.message,"listAll"));
              } else {
                 if (obj.div!="") {
-                    $('#Err'+obj.div).html(obj.message)
+                    $('#Erredit'+obj.div).html(obj.message)
                 } else {
                     $('#failure_div').html(obj.message);
                 }

@@ -103,8 +103,8 @@
                                 <input type="text" value="<?php echo $data[0]['DistrictName'];?>" readonly="readonly" class="form-control" placeholder="District Name">
                             </div>
                             <div class="col-sm-6">
-                                <label class="form-label">Pincode </label>
-                                <input type="text" value="<?php echo $data[0]['Pincode'];?>" readonly="readonly" class="form-control" placeholder="Pincode">
+                                <label class="form-label">PinCode </label>
+                                <input type="text" value="<?php echo $data[0]['PinCode'];?>" readonly="readonly" class="form-control" placeholder="Pincode">
                             </div>
                         </div>
                     </div>
@@ -134,7 +134,10 @@
                                 <label class="form-label">Time Zone</label>
                                 <input type="text" value="<?php echo $data[0]['TimeZone'];?>" readonly="readonly" class="form-control" placeholder="Time Zone">
                             </div>
-                            
+                              <div class="col-sm-6 mb-3">         
+                                <label class="form-label">Status </label>
+                                <input type="text" value="<?php echo ($data[0]['IsActive']==1) ? " Active " : "Deactivated";?>" readonly="readonly" class="form-control" placeholder="Login Password">
+                            </div>
                         </div>
                     </div>
                 </div>

@@ -2,13 +2,13 @@
     <h1 class="h3 mb-3">New Contract</h1>
     <form id="frm_create" name="frm_create" method="post" enctype="multipart/form-data">
         <div class="row">
-            <div class="col-9 col-xl-9">
+            <div class="col-12 col-xl-12">
                 <div class="card">
                     <div class="card-body" style="padding-bottom:0px">
                         <div class="row">
                             <div class="col-sm-12 mb-3">
-                                <label class="form-label">Customer <span style='color:red'>*</span></label>
-                                <input type="text" name="CustomerID" id="CustomerID" class="form-control" placeholder="Customer Name">
+                                <label class="form-label">Customers <span style='color:red'>*</span></label>
+                                <input type="text" name="CustomerID" id="CustomerID" class="form-control" placeholder="Customer Name/Mobile Number">
                                 <span id="ErrCustomerID" class="error_msg"></span>
                             </div>
                             <div class="col-sm-12 mb-3" id="CustomerResult">
@@ -17,7 +17,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-9 col-xl-9">
+            <div class="col-12 col-xl-12">
                 <div class="card">
                     <div class="card-body" style="padding-bottom:0px;">
                         <div class="row">
@@ -27,68 +27,38 @@
                                 <span id="ErrSchemeID" class="error_msg"></span>
                             </div>
                             <div class="col-sm-12 mb-3" id="SchemeResult">
-                                 
-                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+             <div class="col-12 col-xl-12">
+                <div class="card">
+                    <div class="card-body" style="padding-bottom:0px;">
+                        <div class="row">
+                            <div class="col-sm-6 mb-3">
+                                <label class="form-label">Due Amount<span style='color:red'>*</span></label>
+                                <input type="text" name="DueAmount" id="DueAmount" class="form-control" placeholder="Due Amount">
+                                <span id="ErrDueAmount" class="error_msg"></span>
+                            </div>
+                            
+                            <div class="col-sm-6  mb-3">
+                                <label class="form-label">Payment Mode<span style='color:red'>*</span></label>
+                                <select data-live-search="true" data-size="5" name="PaymentModeID" id="PaymentModeID" class="form-select mstateselect">
+                                    <option>loading...</option>
+                                </select>
+                                <span id="ErrPaymentModeID" class="error_msg"></span>
+                            </div>
+                            <div class="col-sm-12 mb-3">
+                                <label class="form-label">Payment Remarks<span style='color:red'>*</span></label>
+                                <input type="text" name="PaymentRemarks" id="PaymentRemarks" class="form-control" placeholder="Payment Remarks">
+                                <span id="ErrPaymentRemarks" class="error_msg"></span>
                             </div>
                         </div>
                     </div>
                 </div>
             </div> 
-            <div class="col-3 col-xl-3">
-                <div class="card"  style="display: none;">
-                    <div class="card-body" style="padding:10px 20px">
-                        <div class="row">
-                            <div class="col-sm-12">
-                                 
-                                <div class="row">
-                                <div class="col-sm-12">
-                                       <hr>
-                                    </div>
-                                    <div class="col-sm-12">
-                                        <label class="form-label">Recurring mode</label>
-                                    </div>
-                                    <div class="col-sm-12" style="margin-bottom:5px"><input type="radio"> One Time</div>
-                                    <div class="col-sm-12" style="margin-bottom:5px"><input type="radio"> Monthly</div>
-                                    <div class="col-sm-12" style="margin-bottom:5px"><input type="radio"> Yearly</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!--
-            <div class="col-9 col-xl-9">
-                <div class="card">
-                    <div class="card-body" style="padding-bottom:0px">
-                        <div class="row">
-                            <div class="col-sm-12 mb-3">
-                                <label class="form-label">Reffered By</label>
-                                <input type="text" name="RefferedBy" id="RefferedBy" class="form-control" placeholder="Reffered By">
-                                <span id="ErrRefferedBy" class="error_msg"></span>
-                            </div>
-                             
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-3 col-xl-3">
-                <div class="card">
-                    <div class="card-body" style="padding:10px 20px;padding-top: 12px;padding-bottom: 6px;">
-                        <div class="row">
-                            <div class="col-sm-12">
-                                <div class="row">
-                                    <div class="col-sm-12" style="margin-bottom:5px"><input type="radio"> Customer</div>
-                                    <div class="col-sm-12" style="margin-bottom:5px"><input type="radio"> Employee</div>
-                                    <div class="col-sm-12" style="margin-bottom:5px"><input type="radio"> Third Party</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            -->
-             
-            <div class="col-sm-9" style="text-align:right;">
+            <div class="col-sm-12" style="text-align:right;">
                 <a href="<?php echo URL;?>dashboard.php?action=contracts/list" class="btn btn-outline-primary">Back</a>&nbsp;&nbsp;
                 <button  type="button" onclick="Confirmationtoadd()" class="btn btn-primary">Create Contract</button>    
             </div>
@@ -256,7 +226,7 @@ function autocomplete(inp, arr) {
                                     + '</div>'
                                     + '<div class="col-sm-12" style="text-align:right;">'
                                         + '<!--<a href="'+URL +'dashboard.php?action=customers/view&edit='+item.value+'" class="btn btn-outline-primary btn-sm" target="_blank">View Details</a>-->'
-                                        + '<a href="javascript:void(0)" onclick="openLink(\''+URL +'dashboard.php?action=customers/view&edit='+item.value+'\')" class="btn btn-outline-primary btn-sm">View Details</a>'
+                                        + '<a href="'+URL+'dashboard.php?action=masters/customers/view&customer='+item.CustomerID+'" class="btn btn-outline-primary btn-sm">View Details</a>'
                                     + '</div>';
              $('#CustomerResult').html(txtHtml) ;
              $('#customersince').html(daysdifference(0,item.CreatedOn));
@@ -365,6 +335,7 @@ function scheme_autocomplete(inp, arr) {
             //html += "<span class='col-sm-2' style='background:none'>"+item.CustomerID+"</span>";
             html += "<span class='col-sm-8' style='background:none'>"+item.SchemeName+"</span>";
             html += "<span class='col-sm-4' style='background:none'>"+item.Amount+"</span>";
+            
             //html += "<span class='col-sm-3' style='background:none'>"+item.MobileNumber+"</span>";
             //html += "<span class='col-sm-3' style='background:none'>"+item.Address+"</span>";
           html += "</span>"
@@ -383,7 +354,7 @@ function scheme_autocomplete(inp, arr) {
               $('#ErrSchemeID').html("");
               
               
-              
+             $('#DueAmount').val(item.InstallmentAmount) ;
               txtHtml = '<div class="row">'
                                     + '<div class="col-sm-12" style="margin-bottom:10px">'
                                        +  item.SchemeName
@@ -403,7 +374,7 @@ function scheme_autocomplete(inp, arr) {
                                     + '</div>'
                                     + '<div class="col-sm-12" style="text-align:right;">'
                                         + '<!--<a href="'+URL +'dashboard.php?action=masters/services/view&edit='+item.value+'" class="btn btn-outline-primary btn-sm" target="_blank">View Details</a>-->'
-                                        + '<a href="javascript:void(0)" onclick="openLink(\''+URL +'dashboard.php?action=masters/services/view&edit='+item.value+'\')" class="btn btn-outline-primary btn-sm">View Details</a>'
+                                        + '<a href="'+URL+'dashboard.php?action=masters/schemes/view&edit='+item.SchemeID+'" class="btn btn-outline-primary btn-sm">View Details</a>'
                                     + '</div>';
              $('#SchemeResult').html(txtHtml) ;
              $('#SchemeResult').show() ;
@@ -478,7 +449,7 @@ function scheme_autocomplete(inp, arr) {
   document.addEventListener("click", function (e) {
       closeAllLists(e.target);
   });
-}
+}      
 
 /*An array containing all the country names in the world:*/
 <?php 
@@ -490,6 +461,7 @@ scheme_autocomplete(document.getElementById("SchemeID"), <?php echo json_encode(
 function Confirmationtoadd(){
    $('#confirmation').modal("show");  
  }
+ var CreatedContractID=0;
 function addNew() {
      $('#confirmation').modal("hide");
     var param = $('#frm_create').serialize();
@@ -505,9 +477,8 @@ function addNew() {
         success: function(data) {
              var obj = JSON.parse(data); 
              if (obj.status=="success") {
-                $('#frm_create').trigger("reset");
-                $('#SchemeCode').val(obj.SchemeCode);
-                $('#popupcontent').html(success_content(obj.message,'closePopup'));
+                CreatedContractID = obj.ContractID;
+                $('#popupcontent').html(success_content(obj.message,'closePopup(); opencontractview'));
              } else {
                 if (obj.div!="") {
                     $('#Err'+obj.div).html(obj.message)
@@ -519,6 +490,10 @@ function addNew() {
         }
     });
 }
+function opencontractview()  {
+  location.href=URL +'dashboard.php?action=contracts/view&view='+CreatedContractID;  
+}
+setTimeout("listpaymentmodes()",2000);
 function CreateContract() {
     if (selectedCustomerID==0) {
         $('#ErrCustomerID').html("please select customer");
@@ -549,6 +524,29 @@ function CreateContract() {
         
     });
 }
+
+function listpaymentmodes() {
+    $.post(URL+ "webservice.php?action=listAllActive&method=PaymentModes","",function(data){
+        var obj = JSON.parse(data);
+        if (obj.status=="success") {
+            var html = "<option value='0'> Select Payment Mode</option>";
+            $.each(obj.data, function (index, data) {
+                html += '<option value="'+data.PaymentModeID+'">'+data.PaymentMode+'</option>';
+            });   
+            $('#PaymentModeID').html(html);
+             $("#PaymentModeID").append($("#PaymentModeID option").remove().sort(function(a, b) {
+                var at = $(a).text(), bt = $(b).text();
+                return (at > bt)?1:((at < bt)?-1:0);
+            }));
+            $("#PaymentModeID").val("0");
+            setTimeout(function(){
+            },1500);
+        } else {
+            alert(obj.message);
+        }
+    });
+}
+
 </script>  
  <!--
  https://bootstrap-autocomplete.readthedocs.io/en/latest/

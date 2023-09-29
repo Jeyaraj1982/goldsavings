@@ -87,6 +87,14 @@ ON t1.EmployeeCategoryID=t2.EmployeeCategoryID
         return json_encode(array("status"=>"success","data"=>$data));
     }
     
+     public static function getDetailsByID($EmployeeCategoryID) {
+        
+        global $mysql;
+        
+        $data = $mysql->select("select * from _tbl_masters_employee_categories where EmployeeCategoryID='".$EmployeeCategoryID."'");
+        return json_encode(array("status"=>"success","data"=>$data));
+    }
+    
     
 }
 ?>

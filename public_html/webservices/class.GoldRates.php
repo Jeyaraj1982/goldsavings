@@ -53,9 +53,9 @@ class GoldRates {
         }
 
         $id = $mysql->insert("_tbl_masters_goldrates",array("Date"      => $_POST['Date'],
-                                                            "Gold18"    => $_POST['Gold18'],
-                                                            "Gold22"    => $_POST['Gold22'],
-                                                            "Gold24"    => $_POST['Gold24'],
+                                                            "GOLD_18"    => $_POST['Gold18'],
+                                                            "GOLD_22"    => $_POST['Gold22'],
+                                                            "GOLD_24"    => $_POST['Gold24'],
                                                             "Remarks"   => $_POST['Remarks'],
                                                             "CreatedOn" => date("Y-m-d H:i:s"),
                                                             "IsActive"  => '1'));
@@ -78,7 +78,7 @@ class GoldRates {
          
          global $mysql;
          
-         $data = $mysql->select("select `RateID`,DATE_FORMAT(`Date`,'%d/%m/%Y') AS `Date`,`Gold18`,`Gold22`,`Gold24`     from _tbl_masters_goldrates");
+         $data = $mysql->select("select `RateID`,DATE_FORMAT(`Date`,'%d/%m/%Y') AS `Date`,`GOLD_18`,`GOLD_22`,`GOLD_24` from _tbl_masters_goldrates");
          return json_encode(array("status"=>"success","data"=>$data));
      }
 
@@ -119,9 +119,9 @@ class GoldRates {
             }
         }
          
-         $mysql->execute("update _tbl_masters_goldrates set Gold18 ='".$_POST['Gold18']."',
-                                                            Gold22          ='".$_POST['Gold22']."',
-                                                            Gold24          ='".$_POST['Gold24']."',
+         $mysql->execute("update _tbl_masters_goldrates set GOLD_18 ='".$_POST['Gold18']."',
+                                                            GOLD_22          ='".$_POST['Gold22']."',
+                                                            GOLD_24          ='".$_POST['Gold24']."',
                                                             Remarks          ='".$_POST['Remarks']."' 
                                                             where RateID='".$_POST['RateID']."'");
                                                           
@@ -135,13 +135,13 @@ class GoldRates {
          $data = $mysql->select("select * from _tbl_masters_goldrates where RateID='".$_GET['id']."'");
          return json_encode(array("status"=>"success","data"=>$data));
      }
-}
-  /*
-{"data":
-{"id":3866885,
-"beneficiary":1463196,
-"payment_method":"IMPS","status":"Success","fees":413,"amount":100000,
-"bank_reference_id":"324112086553","metadata":{"ifsc_code":"CIUB0000452","account_number":"500101013599602"},"created_at":"2023-08-29T06:56:51.971559Z","updated_at":"2023-08-29T06:56:56.277939Z"},"success":true}
-*/
+     
+      public static function viewTodayGoldRate() {
+         
+         global $mysql;
+         
+         $data = $mysql->select("select * from _tbl_masters_goldrates where date(Date)=date('".date("Y-m-d")."')");
+         return json_encode(array("status"=>"success","data"=>$data));
+     }
+}   
 ?>
-

@@ -18,7 +18,7 @@
                                 <input type="text" value="" name="EventTitle" id="EventTitle" class="form-control" placeholder="Event Title">
                                 <span id="ErrEventTitle" class="error_msg"></span>
                             </div>
-                            <div class="col-sm-6 mb-3">
+                            <div class="col-sm-6">
                             </div>
                             <div class="col-sm-12 mb-3">
                                 <label class="form-label">Event Description <span style='color:red'>*</span></label>
@@ -78,7 +78,7 @@
                                 <select class="form-select" name="StartYear" id="StartYear">
                                     <option value="2023">2023</option>
                                     <option value="2023">2024</option>
-                                </select>
+                                </select> 
                                 <select class="form-select" name="StartHour" id="StartHour" style="text-align: center !important;">
                                     <option value="00">00</option>
                                     <option value="01">01</option>
@@ -104,7 +104,7 @@
                                     <option value="21">21</option>
                                     <option value="22">22</option>
                                     <option value="23">23</option>
-                                </select>
+                                </select>   
                                 <select class="form-select" name="StartMinute" id="StartMinute" style="text-align: center !important;">
                                     <option value="00">00</option>
                                     <option value="01">01</option>
@@ -168,7 +168,7 @@
                                     <option value="59">59</option>
                                 </select>
                                 </div>
-                                <span id="ErrScheduleDateTime" class="error_msg"></span>
+                                <span id="ErrEventStart" class="error_msg"></span>
                             </div>
                             <div class="col-sm-6 mb-3">
                             </div>
@@ -315,7 +315,7 @@
                                     <option value="59">59</option>
                                 </select>
                                 </div>
-                                <span id="ErrScheduleDateTime" class="error_msg"></span>
+                                <span id="ErrEventEnd" class="error_msg"></span>
                             </div>
                         </div>
                         <div class="col-sm-12">
@@ -340,11 +340,11 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        Do you want to Save ?
+        Do you want to Creat ?
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
-        <button type="button" onclick="addNew()" class="btn btn-primary">Yes, Save</button>
+        <button type="button" onclick="addNew()" class="btn btn-primary">Yes, Creat</button>
       </div>
     </div> 
   </div>

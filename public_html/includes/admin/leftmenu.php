@@ -15,8 +15,20 @@
             <ul id="customers" class="sidebar-dropdown list-unstyled collapse " data-bs-parent="#sidebar">
                 <li class="sidebar-item"><a class="sidebar-link" href="<?php echo URL;?>dashboard.php?action=masters/customers/new">New Customer</a></li>
                 <li class="sidebar-item"><a class="sidebar-link" href="<?php echo URL;?>dashboard.php?action=masters/customers/list">View Customers</a></li>
+                <li class="sidebar-item"><a class="sidebar-link" href="<?php echo URL;?>dashboard.php?action=masters/customers/searchcustomers">Search Customers</a></li>
             </ul>
         </li>
+        <li class="sidebar-item">
+            <a data-bs-target="#contracts" data-bs-toggle="collapse" class="sidebar-link collapsed">
+                <i class="align-middle" data-feather="layout"></i> <span class="align-middle">Contracts</span>
+            </a>
+            <ul id="contracts" class="sidebar-dropdown list-unstyled collapse " data-bs-parent="#sidebar">
+                <li class="sidebar-item"><a class="sidebar-link" href="<?php echo URL;?>dashboard.php?action=contracts/new">New Contract</a></li>
+                <li class="sidebar-item"><a class="sidebar-link" href="<?php echo URL;?>dashboard.php?action=contracts/list">View Contracts</a></li>
+                <li class="sidebar-item"><a class="sidebar-link" href="<?php echo URL;?>dashboard.php?action=contracts/voucher">Voucher</a></li>
+            </ul>
+        </li>
+        
         <li class="sidebar-item">
             <a data-bs-target="#addressbook" data-bs-toggle="collapse" class="sidebar-link collapsed">
                 <i class="align-middle" data-feather="layout"></i> <span class="align-middle">Address Book</span>
@@ -35,6 +47,19 @@
                 <li class="sidebar-item"><a class="sidebar-link" href="<?php echo URL;?>dashboard.php?action=events/list">View Events</a></li>
             </ul>
         </li>
+        <li class="sidebar-item">
+            <a data-bs-target="#reports" data-bs-toggle="collapse" class="sidebar-link collapsed">
+                <i class="align-middle" data-feather="layout"></i> <span class="align-middle">Reports</span>
+            </a>
+            <ul id="reports" class="sidebar-dropdown list-unstyled collapse " data-bs-parent="#sidebar">
+                <li class="sidebar-item"><a class="sidebar-link" href="<?php echo URL;?>dashboard.php?action=reports/customerwise">Customer Wise</a></li>
+                <li class="sidebar-item"><a class="sidebar-link" href="<?php echo URL;?>dashboard.php?action=reports/schemewise">Scheme Wise</a></li>
+                <li class="sidebar-item"><a class="sidebar-link" href="<?php echo URL;?>dashboard.php?action=reports/userwise">User Wise</a></li>
+                <li class="sidebar-item"><a class="sidebar-link" href="<?php echo URL;?>dashboard.php?action=reports/salesmanwise">Salesman Wise</a></li>
+                <li class="sidebar-item"><a class="sidebar-link" href="<?php echo URL;?>dashboard.php?action=reports/receipt">Receipt</a></li>
+                <li class="sidebar-item"><a class="sidebar-link" href="<?php echo URL;?>dashboard.php?action=reports/voucher">Voucher</a></li>
+            </ul> 
+        </li>  
         <li class="sidebar-header">
             App Masters & Settings
         </li>
@@ -49,22 +74,39 @@
                 <li class="sidebar-item"><a class="sidebar-link" href="<?php echo URL;?>dashboard.php?action=company/new">New Company</a></li>
                 <li class="sidebar-item"><a class="sidebar-link" href="<?php echo URL;?>dashboard.php?action=company/list">View Company</a></li>
                 </ul>
-            
-            <a data-bs-target="#app_employees" data-bs-toggle="collapse" class="sidebar-link collapsed">
+                <a data-bs-target="#app_employees" data-bs-toggle="collapse" class="sidebar-link collapsed">
                 <i class="align-middle" data-feather="grid"></i> <span class="align-middle">Employees</span>
             </a>
             <ul id="app_employees" class="sidebar-dropdown list-unstyled collapse " data-bs-parent="#sidebar">
                 <li class="sidebar-item"><a class="sidebar-link" href="<?php echo URL;?>dashboard.php?action=masters/employees/new">New Employee</a></li>
                 <li class="sidebar-item"><a class="sidebar-link" href="<?php echo URL;?>dashboard.php?action=masters/employees/list">View Employees</a></li>
-                <li class="sidebar-item"><a class="sidebar-link" href="<?php echo URL;?>dashboard.php?action=masters/employees/list_salesman">Salesman</a></li>
+                <li class="sidebar-item"><a class="sidebar-link" href="<?php echo URL;?>dashboard.php?action=masters/employees/searchemployees">Search Employees</a></li>
             </ul>
-            <a data-bs-target="#app_contracts" data-bs-toggle="collapse" class="sidebar-link collapsed">
-                <i class="align-middle" data-feather="grid"></i> <span class="align-middle">Contracts</span>
+            
+            <a data-bs-target="#app_users" data-bs-toggle="collapse" class="sidebar-link collapsed">
+                <i class="align-middle" data-feather="grid"></i> <span class="align-middle">Users</span>
             </a>
-            <ul id="app_contracts" class="sidebar-dropdown list-unstyled collapse " data-bs-parent="#sidebar">
-                <li class="sidebar-item"><a class="sidebar-link" href="<?php echo URL;?>dashboard.php?action=contracts/new">New Contract</a></li>
-                <li class="sidebar-item"><a class="sidebar-link" href="<?php echo URL;?>dashboard.php?action=contracts/list">View Contracts</a></li>
+            <ul id="app_users" class="sidebar-dropdown list-unstyled collapse " data-bs-parent="#sidebar">
+                <li class="sidebar-item"><a class="sidebar-link" href="<?php echo URL;?>dashboard.php?action=masters/users/new">New User</a></li>
+                <li class="sidebar-item"><a class="sidebar-link" href="<?php echo URL;?>dashboard.php?action=masters/users/list">View Users</a></li>
+                <li class="sidebar-item"><a class="sidebar-link" href="<?php echo URL;?>dashboard.php?action=masters/users/searchusers">Search Users</a></li>
             </ul>
+             <a data-bs-target="#app_userroles" data-bs-toggle="collapse" class="sidebar-link collapsed">
+                <i class="align-middle" data-feather="grid"></i> <span class="align-middle">User Role</span>
+            </a>
+            <ul id="app_userroles" class="sidebar-dropdown list-unstyled collapse " data-bs-parent="#sidebar">
+                <li class="sidebar-item"><a class="sidebar-link" href="<?php echo URL;?>dashboard.php?action=masters/userroles/new">New Userrole</a></li>
+                <li class="sidebar-item"><a class="sidebar-link" href="<?php echo URL;?>dashboard.php?action=masters/userroles/list">View Userroles</a></li>
+            </ul>
+            <a data-bs-target="#app_salesman" data-bs-toggle="collapse" class="sidebar-link collapsed">
+                <i class="align-middle" data-feather="grid"></i> <span class="align-middle">Salesman</span>
+            </a>
+            <ul id="app_salesman" class="sidebar-dropdown list-unstyled collapse " data-bs-parent="#sidebar">
+                <li class="sidebar-item"><a class="sidebar-link" href="<?php echo URL;?>dashboard.php?action=masters/salesman/new">New Salesman</a></li>
+                <li class="sidebar-item"><a class="sidebar-link" href="<?php echo URL;?>dashboard.php?action=masters/salesman/list">View Salesmans</a></li>
+                <li class="sidebar-item"><a class="sidebar-link" href="<?php echo URL;?>dashboard.php?action=masters/salesman/searchsalesman">Search Salesmans</a></li>
+            </ul>
+           
             <a data-bs-target="#app_masters" data-bs-toggle="collapse" class="sidebar-link collapsed">
                 <i class="align-middle" data-feather="grid"></i> <span class="align-middle">Masters</span>
             </a>
@@ -74,23 +116,20 @@
                 <li class="sidebar-item"><a class="sidebar-link" href="<?php echo URL;?>dashboard.php?action=masters/schemes/list"> Schemes</a></li>
                 <li class="sidebar-item"><a class="sidebar-link" href="<?php echo URL;?>dashboard.php?action=masters/goldprice/list"> Gold price</a></li>
                 <li class="sidebar-item"><a class="sidebar-link" href="<?php echo URL;?>dashboard.php?action=masters/documenttypes/list">Document Types</a></li>
+                <li class="sidebar-item"><a class="sidebar-link" href="<?php echo URL;?>dashboard.php?action=masters/file_extensions/list">File Extensions</a></li>
+                <li class="sidebar-item"><a class="sidebar-link" href="<?php echo URL;?>dashboard.php?action=masters/relationnames/list">Relation Names</a></li>
+                <li class="sidebar-item"><a class="sidebar-link" href="<?php echo URL;?>dashboard.php?action=masters/paymentmode/list">Payment Mode</a></li>
                 <li class="sidebar-item"><a class="sidebar-link" href="<?php echo URL;?>dashboard.php?action=masters/statenames/list">State Name Master</a></li>
                 <li class="sidebar-item"><a class="sidebar-link" href="<?php echo URL;?>dashboard.php?action=masters/districtnames/list">District Name Master</a></li>
                 <li class="sidebar-item"><a class="sidebar-link" href="<?php echo URL;?>dashboard.php?action=masters/areanames/list">Area Name Master</a></li>
                 <li class="sidebar-item"><a class="sidebar-link" href="<?php echo URL;?>dashboard.php?action=masters/benefits/list">Benefits</a></li>
             </ul>
-             <a data-bs-target="#app_reports" data-bs-toggle="collapse" class="sidebar-link collapsed">
-                <i class="align-middle" data-feather="grid"></i> <span class="align-middle">Reports</span>
-            </a>
-            <ul id="app_reports" class="sidebar-dropdown list-unstyled collapse " data-bs-parent="#sidebar">
-                <li class="sidebar-item"><a class="sidebar-link" href="<?php echo URL;?>dashboard.php?action=reports/customers">Customer </a></li>
-                <li class="sidebar-item"><a class="sidebar-link" href="<?php echo URL;?>dashboard.php?action=reports/schemewise">Scheme Wise</a></li>
-            </ul>
              <a data-bs-target="#app_settings" data-bs-toggle="collapse" class="sidebar-link collapsed">
                 <i class="align-middle" data-feather="grid"></i> <span class="align-middle">Settings</span>
             </a>
             <ul id="app_settings" class="sidebar-dropdown list-unstyled collapse " data-bs-parent="#sidebar">
-                <li class="sidebar-item"><a class="sidebar-link" href="<?php echo URL;?>dashboard.php?action=settings/smtp">SMTP</a></li>
+                <li class="sidebar-item"><a class="sidebar-link" href="<?php echo URL;?>dashboard.php?action=settings/list">View SMTP</a></li>
+                <li class="sidebar-item"><a class="sidebar-link" href="<?php echo URL;?>dashboard.php?action=settings/new">New SMTP</a></li>
                 </ul>
              
         </li>

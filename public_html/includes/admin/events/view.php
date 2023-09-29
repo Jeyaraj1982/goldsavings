@@ -64,7 +64,7 @@
                             <div class="col-sm-6 mb-3">
                             </div>
                              <div class="col-sm-6 mb-3">         
-                                <label class="form-label">Is Active </label>
+                                <label class="form-label">Status </label>
                                 <input type="text" value="<?php echo ($data[0]['IsActive']==1) ? " Active " : "Deactivated";?>" readonly="readonly" class="form-control" placeholder="Login Password">
                             </div>
                             <div class="col-sm-12 mb-3">

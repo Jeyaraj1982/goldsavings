@@ -44,7 +44,7 @@ class DocumentTypes {
         global $mysql;
         
         if (strlen(trim($_POST['DocumentTypeName']))==0) {
-            return json_encode(array("status"=>"failure","message"=>"Please enter Document Type Name","div"=>"CustomerTypeName"));    
+            return json_encode(array("status"=>"failure","message"=>"Please enter Document Type Name","div"=>"DocumentTypeName"));    
         } else {
             $dupCode = $mysql->select("select * from _tbl_masters_documenttypes where DocumentTypeName='".trim($_POST['DocumentTypeName'])."' and DocumentTypeID<>'".$_POST['DocumentTypeID']."'");
             if (sizeof($dupCode)>0) {

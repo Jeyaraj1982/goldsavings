@@ -1,41 +1,32 @@
-<?php
-    $data = $mysql->select("select * from _tbl_masters_customers where CustomerID='".$_GET['edit']."'");
-?>
-<div class="container-fluid p-0">
-    <h1 class="h3 mb-3">Edit Customer</h1>
-     <form id="frm_edit" name="frm_edit" method="post" enctype="multipart/form-data">
+<?php $data = $mysql->select("select * from _tbl_masters_customers where CustomerID='".$_GET['customer']."'"); ?>
+<div class="row">
+    <div class="col-6">
+        <h1 class="h3">Edit Customers</h1>
+    </div>
+</div>
+    <form id="frm_edit" name="frm_edit" method="post" enctype="multipart/form-data">
         <input type="hidden" value="<?php echo $data[0]['CustomerID'];?>" name="CustomerID">
-        <div class="row">
-            <div class="col-12 col-xl-6">
-                <div class="card">
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col-sm-6 mb-3">
-                                <label class="form-label">Customer Code</label>
-                                <input type="text" value="<?php echo $data[0]['CustomerCode'];?>" disabled="disabled"  class="form-control">
-                            </div>
-                            <div class="col-sm-6 mb-3">
-                                <label class="form-label">Profile Photo</label>
-                                <div class="row">
-                                    <div class="col-sm-12  mb-1">
-                                        <img src="<?php echo WEBAPP_URL;?>assets/docs/profiles/<?php echo $data[0]['CustomerID'];?>/<?php echo $data[0]['ProfilePhoto'];?>" style="max-width:100%">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-sm-6 mb-3">
-                                <label class="form-label">Customer Type <span style='color:red'>*</span></label>
-                                <div class="input-group mb-3">
-                                <select data-live-search="true" data-size="5" name="CustomerTypeNameID" id="CustomerTypeNameID" class="form-select mselect">
-                                    <option>loading...</option>
-                                </select>
-                                <button class="btn btn-success" onclick="customertypenew()" type="button">+</button>
-                                <span id="ErrCustomerTypeNameID" class="error_msg"></span>
-                            </div>
-                            </div>
-                            <div class="col-sm-6 mb-3">
-                                
-                                <input type="file" name="ProfilePhoto" id="ProfilePhoto" class="form-control">
-                                <span id="ErrProfilePhoto" class="error_msg"></span>
+<div class="row">
+    <div class="col-3 col-sm-3 col-xxl-3">
+        <?php include_once("customer_side_menu.php"); ?>
+    </div>
+    <div class="col-9 col-sm-9 col-xxl-9">
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-sm-6 mb-3">
+                        <label class="form-label">Customer ID</label>
+                        <input type="text" value="<?php echo $data[0]['CustomerCode'];?>" disabled="disabled"  class="form-control">
+                        <span id="ErrCustomerCode" class="error_msg"></span>
+                    </div>
+                    <div class="col-sm-6 mb-3">
+                     </div>
+                     <div class="col-sm-6 mb-3">
+                        <label class="form-label">Customer Type <span style='color:red'>*</span></label>
+                        <select data-live-search="true" data-size="5" name="CustomerTypeNameID" id="CustomerTypeNameID" class="form-select mselect">
+                            <option>loading...</option>
+                        </select>
+                        <span id="ErrCustomerTypeNameID" class="error_msg"></span>
                             </div>
                             <div class="col-sm-12 mb-3">
                                 <label class="form-label">Customer Name <span style='color:red'>*</span></label>
@@ -43,11 +34,30 @@
                                 <span id="ErrCustomerName" class="error_msg"></span>
                             </div>
                             <div class="col-sm-12 mb-3">
+                                <label class="form-label">Father/Husband's Name <span style='color:red'>*</span></label>
+                                <input type="text" value="<?php echo $data[0]['FatherName'];?>" name="FatherName" id="FatherName" class="form-control" placeholder="Father/Husband's Name">
+                                <span id="ErrFatherName" class="error_msg"></span>
+                            </div>
+                            <div class="col-sm-12 mb-3">
                                 <label class="form-label">EmailID <span style='color:red'>*</span></label>
                                 <input type="text" value="<?php echo $data[0]['EmailID'];?>" name="EmailID" id="EmailID" class="form-control" placeholder="EmailID">
                                 <span id="ErrEmailID" class="error_msg"></span>
                             </div>
-                            <div class="col-sm-6">
+                            <div class="col-sm-6 mb-3">
+                                <label class="form-label">Gender <span style='color:red'>*</span></label>
+                                <select class="form-select" name="Gender" id="Gender">
+                                    <option value="Male" <?php echo ($data[0]['Gender']=="Male") ? " selected='selected' " : "";?>>Male</option>
+                                    <option value="Female" <?php echo ($data[0]['Gender']=="Female") ? " selected='selected' " : "";?>>Female</option>
+                                    <option value="TransGender" <?php echo ($data[0]['Gender']=="TransGender") ? " selected='selected' " : "";?>>TransGender</option>
+                                </select>
+                                <span id="ErrGender" class="error_msg"></span>
+                            </div>
+                            <div class="col-sm-6 mb-3">
+                                <label class="form-label">Date Of Birth <span style='color:red'>*</span></label>
+                                <input type="date" name="DateOfBirth" id="DateOfBirth" value="<?php echo $data[0]['DateOfBirth'];?>" class="form-control" placeholder="Date Of Birth">
+                                <span id="ErrDateOfBirth" class="error_msg"></span>
+                            </div>
+                            <div class="col-sm-6 mb-3">
                                 <label class="form-label">Mobile Number <span style='color:red'>*</span></label>
                                 <div class="input-group mb-3">
                                     <div class="input-group-prepend">
@@ -57,7 +67,7 @@
                                 </div>
                                 <span id="ErrMobileNumber" class="error_msg"></span>
                             </div>
-                            <div class="col-sm-6">
+                            <div class="col-sm-6 mb-3">
                                 <label class="form-label">Whatsapp Number </label>
                                 <div class="input-group">
                                     <div class="input-group-prepend">
@@ -66,6 +76,16 @@
                                     <input type="text" value="<?php echo $data[0]['WhatsappNumber'];?>" name="WhatsappNumber" id="WhatsappNumber" class="form-control" placeholder="WhatsappNumber">
                                 </div>
                                 <span id="ErrWhatsappNumber" class="error_msg"></span>
+                            </div>
+                            <div class="col-sm-6">
+                                <label class="form-label">Alternative Mobile Number </label>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text" id="basic-addon1">+91</span>
+                                    </div>
+                                    <input type="text" value="<?php echo $data[0]['AlternativeMobileNumber'];?>" name="AlternativeMobileNumber" id="AlternativeMobileNumber" class="form-control" placeholder="Alternative Mobile Number">
+                                </div>
+                                <span id="ErrAlternativeMobileNumber" class="error_msg"></span>
                             </div>
                             <div class="col-sm-12">
                                 <hr>
@@ -81,7 +101,7 @@
                                 <span id="ErrLoginPassword" class="error_msg"></span>
                             </div>
                             <div class="col-sm-6 mb-3">         
-                                <label class="form-label">Is Active <span style='color:red'>*</span></label>
+                                <label class="form-label">Status <span style='color:red'>*</span></label>
                                 <select name="IsActive" id="IsActive" class="form-select">
                                     <option value="1" <?php echo ($data[0]['IsActive']==1) ? " selected='selected' " : "";?> >Active</option>
                                     <option value="0" <?php echo ($data[0]['IsActive']==0) ? " selected='selected' " : "";?> >Deactivated</option>
@@ -90,45 +110,24 @@
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="col-12 col-xl-6">
                 <div class="card">
                     <div class="card-body">
                         <div class="row">                            
                             <div class="col-sm-6 mb-3">
                                 <label class="form-label">PAN Card Number <span style='color:red'>*</span></label>
                                 <input type="text" value="<?php echo $data[0]['PancardNumber'];?>" name="PancardNumber" id="PancardNumber" class="form-control" placeholder="Pan Card Number">
-                                <span id="ErrPancardNumber" class="error_msg"></span>
-                            </div>
-                            <div class="col-sm-6 mb-3">
-                                <label class="form-label">PAN Card Attachment <span style='color:red'>*</span></label>
-                                <div class="row">
-                                    <div class="col-sm-12  mb-1">
-                                        <img src="<?php echo WEBAPP_URL;?>assets/docs/profiles/<?php echo $data[0]['CustomerID'];?>/<?php echo $data[0]['PanCardAttachment'];?>" style="max-width:100%">
-                                    </div>
+                                <span id="ErrPanCardNumber" class="error_msg"></span>
                                 </div>
-                                <input type="file" name="PanCardAttachment" id="PanCardAttachment" class="form-control">
-                            </div>
                             <div class="col-sm-6 mb-3">
                                 <label class="form-label">Aadhaar Card Number <span style='color:red'>*</span></label>
                                 <input type="text" value="<?php echo $data[0]['AadhaarCardNumber'];?>" name="AadhaarCardNumber" id="AadhaarCardNumber" class="form-control" placeholder="Aadhaar Card Number">
                                 <span id="ErrAadhaarCardNumber" class="error_msg"></span>
                             </div>
-                            <div class="col-sm-6 mb-3">
-                                 <label class="form-label">Aadhaar Attachment</label>
-                                 <div class="row">
-                                    <div class="col-sm-12 mb-1">
-                                        <img src="<?php echo WEBAPP_URL;?>assets/docs/profiles/<?php echo $data[0]['CustomerID'];?>/<?php echo $data[0]['AadhaarCardAttachment'];?>" style="max-width:100%">
-                                    </div>
-                                </div>
-                                 <input type="file" name="AadhaarCardAttachment" id="AadhaarCardAttachment" class="form-control">
-                            </div>
-                            <div class="col-sm-6">
-                            </div> 
-                        </div>
+                        </div> 
                     </div>
                 </div>
-                <div class="card">
+           
+            <div class="card">
                     <div class="card-body">
                         <div class="row">
                             <div class="col-sm-12 mb-3">
@@ -143,16 +142,12 @@
                             </div>
                             <div class="col-sm-6">
                                 <label class="form-label">State Name <span style='color:red'>*</span></label>
-                                
-                                <div class="input-group mb-3">
                                     <select data-live-search="true" data-size="5" name="StateNameID" id="StateNameID" class="form-select mstateselect" onchange="getDistrictNames()">
                                         <option>State Name</option>
                                     </select>
-                                    <button class="btn btn-success" onclick="statenew()" type="button">+</button>
-                                </div>
                                 <span id="ErrStateNameID" class="error_msg"></span>
                             </div>
-                            <div class="col-sm-6">
+                            <div class="col-sm-6 mb-3">
                                 <label class="form-label">District Name<span style='color:red'>*</span></label>
                                 
                                 <select data-live-search="true" data-size="5" name="DistrictNameID" id="DistrictNameID" class="form-select mdistrictselect" onchange="getAreaNames()">
@@ -176,7 +171,6 @@
                         </div>
                     </div>
                 </div>
-            </div>
             <div class="col-12">
                 <div class="card">
                     <div class="card-body">
@@ -185,32 +179,39 @@
                                 <label class="form-label">Referred By <span style='color:red'>*</span></label>
                                 <select name="ReferredBy" id="ReferredBy" class="form-select" placeholder="Referred By" onchange="printLable()">
                                     <option value="0" <?php echo ($data[0]['ReferredBy']==0) ? " selected='selected' " : "";?> >Select Referred By</option> 
-                                    <option value="1" <?php echo ($data[0]['ReferredBy']==1) ? " selected='selected' " : "";?> >Employee</option>
-                                    <option value="2" <?php echo ($data[0]['ReferredBy']==2) ? " selected='selected' " : "";?> >Customer</option>
+                                    <option value="1" <?php echo ($data[0]['ReferredBy']==1) ? " selected='selected' " : "";?> >Customer</option>
+                                    <option value="2" <?php echo ($data[0]['ReferredBy']==2) ? " selected='selected' " : "";?> >Employee</option>
+                                    <option value="3" <?php echo ($data[0]['ReferredBy']==3) ? " selected='selected' " : "";?> >Salesman</option>
                                 </select>
                                 <span id="ErrReferredBy" class="error_msg"></span>
                                 <script>
                                 function printLable() {
                                     if ($('#ReferredBy').val()=="1"){
-                                        $('#_printlabel').html("Employee's Mobile Number");    
+                                        $('#_printlabel').html("Customer's Mobile Number");    
                                     }
                                     if ($('#ReferredBy').val()=="2"){
-                                        $('#_printlabel').html("Customer's Mobile Number");    
+                                        $('#_printlabel').html("Employee's Mobile Number");    
                                     }
                                     if ($('#ReferredBy').val()=="0"){
                                         $('#_printlabel').html("Mobile Number");    
                                     }
+                                    if ($('#ReferredBy').val()=="3"){
+                                        $('#_printlabel').html("Salesman's Mobile Number");    
+                                    }
+                                    
                                 }
                                 </script>
                             </div>
-                            <div class="col-sm-6">
+                            <div class="col-sm-6 mb-3">
                                 <label class="form-label"><span id="_printlabel">Mobile Number</span> <span style='color:red'>*</span></label>
-                                <div class="input-group mb-3">
+                                <div class="input-group">
                                     <div class="input-group-prepend">
                                         <span class="input-group-text" id="basic-addon1">+91</span>
                                     </div>
                                     <input type="text" value="<?php echo $data[0]['RefMobileNumber'];?>" name="RefMobileNumber" id="RefMobileNumber" class="form-control" placeholder="Mobile Number">
+                                 <button onclick='fetchData()' type="button" class="btn btn-primary">Fetch</button>
                                 </div>
+                                <span id="ErrRefferalName" class="error_msg" style="color: green;"></span>
                                 <span id="ErrRefMobileNumber" class="error_msg"></span>
                             </div> 
                             <div class="col-sm-12">
@@ -222,11 +223,11 @@
                     </div>
                 </div>      
             </div>
-            <div class="col-sm-12" style="text-align:right;">
-                <a href="<?php echo URL;?>dashboard.php?action=customers/list" class="btn btn-outline-primary">Back</a>&nbsp;&nbsp;
-                <button onclick="confirmationtoUpdate()" type="button" class="btn btn-primary">Update Customer</button>
-            </div>
-        </div>
+     </div>
+       <div class="col-sm-12" style="text-align:right;">
+            <a href="<?php echo URL;?>dashboard.php?action=masters/customers/list" class="btn btn-outline-primary">Back</a>&nbsp;&nbsp;
+            <button onclick="confirmationtoUpdate()" type="button" class="btn btn-primary">Update Customer</button>
+       </div>
     </form>
 <div class="modal fade" id="confirmation" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog">
@@ -245,10 +246,7 @@
      </div>
   </div>                            
 </div>
-</div>
 
-
-  
 
 <div class="modal" id="page_popup" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="false">
   <div class="modal-dialog" role="document">
@@ -258,58 +256,48 @@
     </div>
   </div>
 </div>
- 
- <div class="modal fade" id="newstate" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-    <form name="frm_create_statename" id="frm_create_statename">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">State Name</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <div class="col-sm-6">
-            <label class="form-label">State Name <span style='color:red'>*</span></label>
-        <div class="input-group">
-            <input type="text" name="StateName" id="StateName" class="form-control" placeholder="State Name">
-        </div>
-            <span id="ErrStateName" class="error_msg"></span>
-        </div>
-    </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-outline-primary" data-bs-dismiss="modal">Cancel</button>
-        <button type="button" onclick="addNewStateName()" class="btn btn-primary">Add State Name</button>
-      </div>
-     </form> 
-    </div>
-  </div>
-</div>
 
-<div class="modal fade" id="newcustomertype" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="addconfirmation" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
-    <form name="frm_create_customertype" id="frm_create_customertype">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Customer Type</h5>
+        <h5 class="modal-title" id="exampleModalLabel">Manage Documents</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <div class="col-sm-6">
-            <label class="form-label">Customer Type <span style='color:red'>*</span></label>
-        <div class="input-group">
-            <input type="text" name="CustomerTypeName" id="CustomerTypeName" class="form-control" placeholder="Customer Type">
+        <div class="container-fluid p-0">
+    <form id="frm_create" name="frm_create" method="post" enctype="multipart/form-data">
+    <input type="hidden" value="<?php echo $data[0][' DocumentTypeID'];?>" name="DocumentTypeID" id=" DocumentTypeID">
+        <div class="row">
+                             <div class="col-sm-12  mb-3">
+                                <label class="form-label">Document Type<span style='color:red'>*</span></label>
+                                <select data-live-search="true" data-size="5" name="DocumentTypeID" id="DocumentTypeID" class="form-select mstateselect">
+                                    <option>loading...</option>
+                                </select>
+                                <span id="ErrDocumentTypeID" class="error_msg"></span>
+                            </div>
+                            <div class="col-sm-12 mb-3">
+                                <label class="form-label">Document File <span style='color:red'>*</span></label>
+                                <input type="file" name="DocumentFile" id="DocumentFile" class="form-control" placeholder="Document File">
+                                <span id="ErrDocumentFile" class="error_msg"></span>
+                            </div>
+                             <div class="col-sm-12 mb-3">
+                                <label class="form-label">Remarks</label>
+                                <input type="text" name="Remarks" id="Remarks" class="form-control" placeholder="Remarks">
+                                <span id="ErrRemarks" class="error_msg"></span>
+                            </div>
         </div>
-            <span id="ErrCustomerTypeName" class="error_msg"></span>
-        </div>
+    </form>
+    </div>
     </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-outline-primary" data-bs-dismiss="modal">Cancel</button>
-        <button type="button" onclick="addNewCustomerType()" class="btn btn-primary">Add Customer Type</button>
+        <button type="button" onclick="addNew()" class="btn btn-primary">Attach File</button>
       </div>
-     </form> 
     </div>
   </div>
-</div><br>
+</div> 
+
 <script>
 var _CustomerTypeNameID = "<?php echo $data[0]['CustomerTypeNameID'];?>";
 var _StateNameID = "<?php echo $data[0]['StateNameID'];?>";
@@ -322,7 +310,7 @@ function doUpdate() {
     $('#confirmation').modal("hide");
     var param = $('#frm_edit').serialize();
     openPopup();
-    clearDiv(['CustomerCode','CustomerTypeNameID','CustomerName','EmailID','MobileNumber','WhatsappNumber','AddressLine1','StateNameID','DistrictNameID','AreaNameID','PinCode','RefMobileNumberID','ReferredBy']);
+    clearDiv(['CustomerCode','CustomerTypeNameID','CustomerName','FatherName','Gender','DateOfBirth','EmailID','MobileNumber','WhatsappNumber','AlternativeMobileNumber','AddressLine1','StateNameID','DistrictNameID','AreaNameID','PinCode','RefMobileNumberID','ReferredBy','LoginUserName','LoginPassword','PancardNumber','AadhaarCardNumber']);
     
     jQuery.ajax({
         type: 'POST',
@@ -363,7 +351,7 @@ function doUpdate() {
 }
 
 function ListCustomerTypes() {
-    $.post(URL+ "webservice.php?action=ListAll&method=CustomerTypes","",function(data){
+    $.post(URL+ "webservice.php?action=listAllActive&method=CustomerTypes","",function(data){
         var obj = JSON.parse(data);
         if (obj.status=="success") {
             var html = "<option value='0'>Select Client Type</option>";
@@ -393,7 +381,7 @@ function ListCustomerTypes() {
 }
 
 function listStateNames() {
-    $.post(URL+ "webservice.php?action=ListAll&method=StateNames","",function(data){
+    $.post(URL+ "webservice.php?action=listAllActive&method=StateNames","",function(data){
         var obj = JSON.parse(data);
         if (obj.status=="success") {
             var html = "<option value='0'>Select State Name</option>";
@@ -421,7 +409,7 @@ function listStateNames() {
 }
 
 function getDistrictNames() {
-    $.post(URL+ "webservice.php?action=listDistrictNames&method=DistrictNames&StateNameID="+$('#StateNameID').val(),"",function(data){
+    $.post(URL+ "webservice.php?action=listAllActive&method=DistrictNames&StateNameID="+$('#StateNameID').val(),"",function(data){
         var obj = JSON.parse(data);
         if (obj.status=="success") {
             var html = "<option value='0'>Select District Name</option>";
@@ -449,7 +437,7 @@ function getDistrictNames() {
 }
 
 function getAreaNames() {
-    $.post(URL+ "webservice.php?action=ListAreaNames&method=AreaNames&DistrictNameID="+$('#DistrictNameID').val()+"&StateNameID="+$("#StateNameID").val(),"",function(data){
+    $.post(URL+ "webservice.php?action=listAllActive&method=AreaNames&DistrictNameID="+$('#DistrictNameID').val()+"&StateNameID="+$("#StateNameID").val(),"",function(data){
         var obj = JSON.parse(data);
         if (obj.status=="success") {
             var html = "<option value='0'>Select Area Name</option>";
@@ -473,59 +461,40 @@ function getAreaNames() {
             alert(obj.message);
         }
     });
-}   
-
-function statenew(){
-  $('#newstate').modal("show");   
-}
-function addNewStateName() {
-   
-    var param = $('#frm_create_statename').serialize();
-   
-    //clearDiv(['StateName','Remarks']);
-    $.post(URL+"webservice.php?action=addNew&method=StateNames",param,function(data){
-        var obj = JSON.parse(data); 
-        if (obj.status=="success") {
-            $('#frm_create_statename').trigger("reset");
-              openPopup();
-               $('#newstate').modal("hide");                                   
-            $('#popupcontent').html(success_content(obj.message,'closePopup();listStateNames')); 
-        } else {
-            if (obj.div!="") {
-                $('#Err'+obj.div).html(obj.message)
-            } else {
-                $('#failure_div').html(obj.message);
-            }
-            $('#process_popup').modal('hide');
+} 
+function fetchData() {
+    $('#confirmation').modal("hide");
+    var param = $('#frm_edit').serialize();
+    openPopup();
+    clearDiv([,'RefMobileNumberID','RefMobileNumber','ReferredBy','RefferalName']);
+    
+    jQuery.ajax({
+        type: 'POST',
+        url:URL+"webservice.php?action=fetchRefferalData&method=Customers",
+        data: new FormData($("#frm_edit")[0]),
+        processData: false, 
+        contentType: false, 
+        success: function(data) {
+             var obj = JSON.parse(data); 
+             if (obj.status=="success") {
+                 
+                   $('#ErrRefferalName').html(obj.Name);
+                    $('#process_popup').modal('hide');
+             } else {
+                if (obj.div!="") {
+                    $('#Err'+obj.div).html(obj.message)
+                } else {
+                    $('#failure_div').html(obj.message);
+                }
+                $('#process_popup').modal('hide');
+             }
         }
     });
+
 }
 
-function customertypenew(){
-  $('#newcustomertype').modal("show");   
-}
-function addNewCustomerType() {
-   
-    var param = $('#frm_create_customertype').serialize();
-   
-    //clearDiv(['StateName','Remarks']);
-    $.post(URL+"webservice.php?action=addNew&method=CustomerTypes",param,function(data){
-        var obj = JSON.parse(data); 
-        if (obj.status=="success") {
-            $('#frm_create_customertype').trigger("reset");
-              openPopup();
-               $('#newcustomertype').modal("hide");                           
-            $('#popupcontent').html(success_content(obj.message,'closePopup();ListCustomerTypes')); 
-        } else {
-            if (obj.div!="") {
-                $('#Err'+obj.div).html(obj.message)
-            } else {
-                $('#failure_div').html(obj.message);
-            }
-            $('#process_popup').modal('hide');
-        }
-    });
-}
+ 
+ 
 
 setTimeout(function(){
     ListCustomerTypes();

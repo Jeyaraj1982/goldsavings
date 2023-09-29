@@ -8,14 +8,13 @@ class AddressBook {
         if (strlen(trim($_POST['ContactCode']))==0) {
             return json_encode(array("status"=>"failure","message"=>"Please enter Contact Code","div"=>"ContactCode"));    
         }
-        
        
         if (strlen(trim($_POST['ContactPersonName']))==0) {
             return json_encode(array("status"=>"failure","message"=>"Please enter Contact Person Name","div"=>"ContactPersonName"));    
         }
         
         if (strlen(trim($_POST['EmailID']))==0) {
-            return json_encode(array("status"=>"failure","message"=>"Please enter EmailID","div"=>"EmailID"));    
+           // return json_encode(array("status"=>"failure","message"=>"Please enter EmailID","div"=>"EmailID"));    
         } else {
              
             //if (!(filter_var($email, FILTER_VALIDATE_EMAIL))) {
@@ -62,7 +61,6 @@ class AddressBook {
                 return json_encode(array("status"=>"failure","message"=>"Please enter valid MobileNumber","div"=>"MobileNumber"));    
             }
         }
-
              
         
         if (strlen(trim($_POST['AddressLine1']))==0) {
@@ -131,16 +129,13 @@ class AddressBook {
         
         global $mysql;
         
-        
-        
         if (strlen(trim($_POST['ContactPersonName']))==0) {
             return json_encode(array("status"=>"failure","message"=>"Please enter Contact Person Name","div"=>"ContactPersonName"));    
         }
         
         if (strlen(trim($_POST['EmailID']))==0) {
-            return json_encode(array("status"=>"failure","message"=>"Please enter EmailID","div"=>"EmailID"));    
+            //return json_encode(array("status"=>"failure","message"=>"Please enter EmailID","div"=>"EmailID"));    
         } else {
-             
             //if (!(filter_var($email, FILTER_VALIDATE_EMAIL))) {
             if (!checkemail(trim($_POST["EmailID"]))) {
                 return json_encode(array("status"=>"failure","message"=>"Please enter valid EmailID","div"=>"EmailID"));    
@@ -213,13 +208,8 @@ class AddressBook {
     
      public static function remove() {
          global $mysql;
-         //$data = $mysql->select("select * from _tbl_masters_customers where CustomerID='".$_GET['ID']."'");
-         //if (sizeof($data)==0) {
-            $mysql->execute("delete from _tbl_apps_addressbook where ContactID='".$_GET['ID']."'");
-            return json_encode(array("status"=>"success","message"=>"Deleted Successfully","data"=>$mysql->select("select * from _tbl_apps_addressbook")));
-         //} else {
-           // return json_encode(array("status"=>"failure","message"=>"already assigned to contacts."));
-         //}
+         $mysql->execute("delete from _tbl_apps_addressbook where ContactID='".$_GET['ID']."'");
+         return json_encode(array("status"=>"success","message"=>"Deleted Successfully","data"=>$mysql->select("select * from _tbl_apps_addressbook")));
      }
 }
 ?>

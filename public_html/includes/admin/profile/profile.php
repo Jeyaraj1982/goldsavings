@@ -2,68 +2,57 @@
     $data = $mysql->select("select * from _tbl_employees where EmployeeID='".$_SESSION['User']['EmployeeID']."'");
 ?>
 <div class="container-fluid p-0">
-    <h1 class="h3 mb-3">My Profile</h1>
+    <div class="row">
+        <div class="col-6">
+            <h1 class="h3">My Profile</h1>
+        </div>
+        </div>
      <form id="frm_edit" name="frm_edit" method="post" enctype="multipart/form-data">
-        <input type="hidden" value="<?php echo $data[0]['EmployeeID'];?>" name="EmployeeID" disabled="disabled">
-        <div class="row">
-            <div class="col-12 col-xl-6">
+    <div class="row">
+        <div class="col-3 col-sm-3 col-xxl-3">
+            <?php include_once("adminprofile_side_menu.php"); ?>
+        </div>
+            <div class="col-9 col-sm-9 col-xxl-9">
                 <div class="card">
                     <div class="card-body">
                         <div class="row">
                             <div class="col-sm-6 mb-3">
-                                <label class="form-label">Employee Code</label>
-                                <input type="text" value="<?php echo $data[0]['EmployeeCode'];?>" disabled="disabled"  class="form-control" disabled="disabled">
+                                <div style="font-weight: bold">Employee Code</div>
+                                <?php echo $data[0]['EmployeeCode'];?>
                             </div>
                             <div class="col-sm-12 mb-3">
-                                <label class="form-label">Employee Name </label>
-                                <input type="text" value="<?php echo $data[0]['EmployeeName'];?>" name="EmployeeName" id="Employee Name" class="form-control" placeholder="Employee Name" disabled="disabled">
-                                <span id="ErrEmployeeName" class="error_msg"></span>
+                                <div style="font-weight: bold">Employee Name </div>
+                                <?php echo $data[0]['EmployeeName'];?>
                             </div>
                             <div class="col-sm-12 mb-3">
-                                <label class="form-label">Father/Husband's Name </label>
-                                <input type="text" value="<?php echo $data[0]['FatherName'];?>" name="FatherName" id="FatherName" class="form-control" placeholder="Father/Husband's Name" disabled="disabled">
-                                <span id="ErrFatherName" class="error_msg"></span>
+                                <div style="font-weight: bold">Father/Husband's Name </div>
+                                <?php echo $data[0]['FatherName'];?>
                             </div>
                             <div class="col-sm-6 mb-3">
-                                <label class="form-label">Gender </label>
-                                <select class="form-select" name="Gender" id="Gender">
-                                    <option value="" <?php echo ($data[0]['Gender']=="Select Gender") ? " selected='selected' " : "";?>>Select Gender</option>
-                                    <option value="Male" <?php echo ($data[0]['Gender']=="Male") ? " selected='selected' " : "";?>>Male</option>
-                                    <option value="Female" <?php echo ($data[0]['Gender']=="Female") ? " selected='selected' " : "";?>>Female</option>
-                                    <option value="TransGender" <?php echo ($data[0]['Gender']=="TransGender") ? " selected='selected' " : "";?>>TransGender</option>
-                                </select>
-                                <span id="ErrGender" class="error_msg"></span>
+                                <div style="font-weight: bold">Gender </div>
+                                <?php echo $data[0]['Gender'];?>
                             </div>
                             <div class="col-sm-6 mb-3">
-                                <label class="form-label">Date Of Birth </label>
-                                <input type="date" value="<?php echo $data[0]['DateOfBirth'];?>" name="DateOfBirth" id="DateOfBirth" class="form-control" placeholder="Date Of Birth" disabled="disabled">
-                                <span id="ErrDateOfBirth" class="error_msg"></span>
+                                <div style="font-weight: bold">Date Of Birth </div>
+                                <?php echo $data[0]['DateOfBirth'];?>
                             </div>
                             <div class="col-sm-12 mb-3">
-                                <label class="form-label">EmailID </label>
-                                <input type="text" value="<?php echo $data[0]['EmailID'];?>" name="EmailID" id="EmailID" class="form-control" placeholder="EmailID" disabled="disabled">
-                                <span id="ErrEmailID" class="error_msg"></span>
+                                <div style="font-weight: bold">EmailID </div>
+                                <?php echo $data[0]['EmailID'];?>
                             </div>
                             <div class="col-sm-6">
-                                <label class="form-label">Mobile Number </label>
-                                <div class="input-group mb-3">
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-text" id="basic-addon1">+91</span>
-                                    </div>
-                                    <input type="text" value="<?php echo $data[0]['MobileNumber'];?>" name="MobileNumber" id="MobileNumber" class="form-control" placeholder="Mobile Number" disabled="disabled">
-                                </div>
-                                <span id="ErrMobileNumber" class="error_msg"></span>
+                                <div style="font-weight: bold">Mobile Number </div>
+                                    +91 <?php echo $data[0]['MobileNumber'];?>
                             </div>
-                            <div class="col-sm-6">
-                                <label class="form-label">Whatsapp Number </label>
-                                <div class="input-group mb-3">
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-text" id="basic-addon1">+91</span>
-                                    </div>
-                                    <input type="text" value="<?php echo $data[0]['WhatsappNumber'];?>" name="WhatsappNumber" id="WhatsappNumber" class="form-control" placeholder="Whatsapp Number" disabled="disabled">
-                                </div>
-                                <span id="ErrWhatsappNumber" class="error_msg"></span>
-                            </div>
+                           <div class="col-sm-6">
+                                <div style="font-weight: bold">Whatsapp Number</div>
+                                <?php 
+                                    if (strlen($data[0]['WhatsappNumber'])>0) {
+                                        echo "+91 ".$data[0]['WhatsappNumber'];  
+                                    } else {
+                                       echo "N/A";     
+                                    }
+                                ?>
                         </div>
                     </div>
                 </div>
@@ -72,23 +61,38 @@
                     <div class="card-body">
                         <div class="row">
                             <div class="col-sm-12 mb-3">
-                                <label class="form-label">Address Line 1 </label>
-                                <input type="text" value="<?php echo $data[0]['AddressLine1'];?>" name="AddressLine1" id="AddressLine1" class="form-control" placeholder="Address Line 1" disabled="disabled">
-                                <span id="ErrAddressLine1" class="error_msg"></span>
+                                <div style="font-weight: bold">Address Line 1 </div>
+                                <?php echo $data[0]['AddressLine1'];?>
                             </div>
                             <div class="col-sm-12 mb-3">
-                                <label class="form-label">Address Line 2</label>
-                                <input type="text" value="<?php echo $data[0]['AddressLine2'];?>" name="AddressLine2" id="EstimatedDuration" class="form-control" placeholder="Address Line 2" disabled="disabled">
-                                <span id="ErrAddressLine2" class="error_msg"></span>
+                                <div style="font-weight: bold">Address Line 2</div>
+                                <?php echo $data[0]['AddressLine2'];?>
+                            </div>
+                            <div class="col-sm-6  mb-3">
+                                <div style="font-weight: bold">State Name</div>
+                                <?php echo $data[0]['StateNameID'];?>
+                            </div>
+                            <div class="col-sm-6  mb-3">
+                                <div style="font-weight: bold">District Name</div>
+                               <?php echo $data[0]['DistrictNameID'];?>
+                            </div>
+                            <div class="col-sm-6">
+                                <div style="font-weight: bold">Area Name</div>
+                                <?php echo $data[0]['AreaNameID'];?>
+                            </div>
+                            <div class="col-sm-6">
+                                <div style="font-weight: bold">PinCode </div>
+                                <?php echo $data[0]['PinCode'];?>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="col-sm-12" style="text-align:right;">
-                <a href="<?php echo URL;?>dashboard.php" class="btn btn-outline-primary">Back</a>&nbsp;&nbsp;
             </div>
         </div>
+            <div class="col-sm-12 mb-3" style="text-align:right;">
+                <a href="<?php echo URL;?>dashboard.php" class="btn btn-outline-primary">Back</a>&nbsp;&nbsp;
+                <a href="<?php echo URL;?>dashboard.php?action=profile/edit" class="btn btn-primary">Edit</a>            
+            </div>
     </form>
 <div class="modal" id="page_popup" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="false">
   <div class="modal-dialog" role="document">

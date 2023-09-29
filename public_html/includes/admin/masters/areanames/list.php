@@ -46,8 +46,8 @@
                 Do you want to Delete ?
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
-                <button type="button" onclick="Remove()" class="btn btn-primary">Yes, Remove</button>
+                <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal">No</button>
+                <button type="button" onclick="Remove()" class="btn btn-danger">Yes, Remove</button>
             </div>
         </div>
     </div>
@@ -63,7 +63,6 @@
       <div class="modal-body">
         <div class="container-fluid p-0">
     <form id="frm_create" name="frm_create" method="post" enctype="multipart/form-data">
-    <input type="hidden" value="<?php echo $data[0][' StateNameID'];?>" name="StateNameID" id=" StateNameID">
         <div class="row">
                            <div class="col-sm-6 mb-3">
                                 <label class="form-label">Area Code <span style='color:red'>*</span></label>
@@ -76,19 +75,17 @@
                                 <span id="ErrAreaName" class="error_msg"></span>
                             </div>
                             <div class="col-sm-6  mb-3">
-                                <label class="form-label">State Name<span style='color:red'>*</span></label>
+                                <label class="form-label">State Name <span style='color:red'>*</span></label>
                                 <select data-live-search="true" data-size="5" name="StateNameID" id="StateNameID" class="form-select mstateselect" onchange="getDistrictNames()">
                                     <option>loading...</option>
                                 </select>
-                                <div style="text-align: right;"><a href="<?php echo URL;?>dashboard.php?action=masters/statenames/new">New State Name</a></div>
                                 <span id="ErrStateNameID" class="error_msg"></span>
                             </div>
                             <div class="col-sm-6  mb-3">
-                                <label class="form-label">District Name<span style='color:red'>*</span></label>
+                                <label class="form-label">District Name <span style='color:red'>*</span></label>
                                 <select data-live-search="true" data-size="5" name="DistrictNameID" id="DistrictNameID" class="form-select mdistrictselect">
                                     <option>District Name</option>
                                 </select>
-                                <div style="text-align: right;"><a href="<?php echo URL;?>dashboard.php?action=masters/district/new">New District Name</a></div>
                                 <span id="ErrDistrictNameID" class="error_msg"></span>
                             </div>
                             <div class="col-sm-12 mb-3">
@@ -125,28 +122,28 @@
                                 <span id="ErrAreaNameCode" class="error_msg"></span>
                             </div>
                             <div class="col-sm-12 mb-3">
-                                <label class="form-label">Area Name<span style='color:red'>*</span></label>
+                                <label class="form-label">Area Name <span style='color:red'>*</span></label>
                                 <input type="text" value="<?php echo $data[0]['AreaName'];?>" name="AreaName" id="editAreaName" class="form-control" placeholder="Area Name">
-                                <span id="ErrAreaName" class="error_msg"></span>
+                                <span id="ErreditAreaName" class="error_msg"></span>
                             </div>
                             <div class="col-sm-6  mb-3">
-                                <label class="form-label">State Name<span style='color:red'>*</span></label>
+                                <label class="form-label">State Name <span style='color:red'>*</span></label>
                                 <select data-live-search="true" data-size="5" name="StateNameID" id="editStateNameID" class="form-select mstateselect" onchange="editDistrictNames($('#editStateNameID').val(),'0')">
                                     <option>loading...</option>
                                 </select>
-                                <span id="ErrStateNameID" class="error_msg"></span>
+                                <span id="ErreditStateNameID" class="error_msg"></span>
                             </div>
                             <div class="col-sm-6  mb-3">
-                                <label class="form-label">District Name<span style='color:red'>*</span></label>
+                                <label class="form-label">District Name <span style='color:red'>*</span></label>
                                 <select data-live-search="true" data-size="5" name="DistrictNameID" id="editDistrictNameID" class="form-select mdistrictselect">
                                     <option>District Name</option>
                                 </select>
-                                <span id="ErrDistrictNameID" class="error_msg"></span>
+                                <span id="ErreditDistrictNameID" class="error_msg"></span>
                             </div>
                             <div class="col-sm-12 mb-3">
                                 <label class="form-label">Remarks</label>
                                 <input type="text" value="" name="Remarks" id="editRemarks" class="form-control" placeholder="Remarks">
-                                <span id="ErrRemarks" class="error_msg"></span>
+                                <span id="ErreditRemarks" class="error_msg"></span>
                             </div>
                             <div class="col-sm-6 mb-3">
                                 <label class="form-label">Status</label>
@@ -160,7 +157,7 @@
          </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-outline-primary" data-bs-dismiss="modal">Cancel</button>
-                <button onclick="doUpdate()" type="button" class="btn btn-primary" data-bs-dismiss="modal">Update</button>
+                <button onclick="doUpdate()" type="button" class="btn btn-primary">Update</button>
             </div>
           </div>
         </div>
@@ -188,12 +185,12 @@
                                 <span id="ErrAreaName" class="error_msg"></span>
                             </div>
                             <div class="col-sm-6 mb-3">
-                                <label class="form-label">State Name<span style='color:red'>*</span></label>
+                                <label class="form-label">State Name</label>
                                 <input type="text" value="" name="StateName" id="viewStateName" readonly="readonly" class="form-control" placeholder="State Name">
                                 <span id="ErrStateName" class="error_msg"></span>
                             </div>
                             <div class="col-sm-6 mb-3">
-                                <label class="form-label">District Name<span style='color:red'>*</span></label>
+                                <label class="form-label">District Name</label>
                                 <input type="text" value="" readonly="readonly" name="DistrictName" id="viewDistrictName" class="form-control" placeholder="District Name">
                                 <span id="ErrDistrictName" class="error_msg"></span>
                             </div>
@@ -259,11 +256,6 @@ function d() {
 }
 setTimeout("d()",2000);
 
-function addForm(){
-  $('#addconfirmation').modal("show");
-  listStateNames();   
-} 
-
 function listStateNames() {
     $.post(URL+ "webservice.php?action=listAllActive&method=StateNames","",function(data){
         var obj = JSON.parse(data);
@@ -273,13 +265,10 @@ function listStateNames() {
                 html += '<option value="'+data.StateNameID+'">'+data.StateName+'</option>';
             });   
             $('#StateNameID').html(html);
-            
-            
              $("#StateNameID").append($("#StateNameID option").remove().sort(function(a, b) {
                 var at = $(a).text(), bt = $(b).text();
                 return (at > bt)?1:((at < bt)?-1:0);
             }));
-            
             $("#StateNameID").val("0");
             setTimeout(function(){
             },1500);
@@ -309,19 +298,24 @@ function getDistrictNames() {
     });
 }
 
+function addForm(){
+  $('#addconfirmation').modal("show");
+  listStateNames();
+      clearDiv(['AreaNameCode','AreaName','StateNameID','DistrictNameID','Remarks','IsActive']);
+}
 function addNew() {
-    $('#addconfirmation').modal("hide"); 
     var param = $('#frm_create').serialize();
-    openPopup();
-    clearDiv(['AreaNameCode','AreaName','StateName','DistrictName','Remarks','IsActive']);
+    clearDiv(['AreaNameCode','AreaName','StateNameID','DistrictNameID','Remarks','IsActive']);
     $.post(URL+"webservice.php?action=addNew&method=AreaNames",param,function(data){
         var obj = JSON.parse(data); 
         if (obj.status=="success") {
+            $('#addconfirmation').modal("hide");
+             openPopup(); 
             $('#frm_create').trigger("reset");
             if (obj.AreaNameCode.length>3) {
                 $('#AreaNameCode').val(obj.AreaNameCode);
             }
-            $('#popupcontent').html(success_content(obj.message));
+            $('#popupcontent').html(success_content(obj.message,'closePopup=d()'));
         } else {
             if (obj.div!="") {
                 $('#Err'+obj.div).html(obj.message)
@@ -333,10 +327,11 @@ function addNew() {
     });
 }
 
-
+var _StateNameID = "<?php echo $data[0]['StateNameID'];?>";
+var _DistrictNameID = "<?php echo $data[0]['DistrictNameID'];?>";
 function edit(ID){
   $('#editForm').modal("show"); 
-  
+      clearDiv(['editAreaNameCode','editAreaName','editStateNameID','editDistrictNameID','editRemarks','editIsActive']);
     $.post(URL+ "webservice.php?action=getData&method=AreaNames&ID="+ID,"",function(data){
         closePopup();
         var obj = JSON.parse(data);
@@ -358,7 +353,24 @@ function edit(ID){
 }  
   });
 }
-
+function doUpdate() {
+    var param = $('#frm_edit').serialize();
+    clearDiv(['editAreaNameCode','editAreaName','editStateNameID','editDistrictNameID','editRemarks','editIsActive']);
+    $.post(URL+"webservice.php?action=doUpdate&method=AreaNames",param,function(data){
+        var obj = JSON.parse(data); 
+        if (obj.status=="success") {
+            $('#editForm').modal("hide");
+             openPopup();
+            $('#popupcontent').html(success_content(obj.message,'closePopup=d()'));
+        } else {
+            if (obj.div!="") {
+                $('#Erredit'+obj.div).html(obj.message)
+            } else {
+                $('#failure_div').html(obj.message);
+            }
+        }
+    });
+}
 function listeditStateNames(StateNameID,DistrictNameID) {
     $.post(URL+ "webservice.php?action=ListAll&method=StateNames","",function(data){
         var obj = JSON.parse(data);
@@ -400,24 +412,7 @@ function editDistrictNames(StateNameID,DistrictNameID) {
     });
 }
 
-function doUpdate() {
-    $('#confirmationtoupdate').modal("hide");
-    var param = $('#frm_edit').serialize();
-    openPopup();
-    clearDiv(['AreaNameCode','AreaName','StateName','DistrictName','Remarks','IsActive']);
-    $.post(URL+"webservice.php?action=doUpdate&method=AreaNames",param,function(data){
-        var obj = JSON.parse(data); 
-        if (obj.status=="success") {
-            $('#popupcontent').html(success_content(obj.message,'closePopup=d()'));
-        } else {
-            if (obj.div!="") {
-                $('#Err'+obj.div).html(obj.message)
-            } else {
-                $('#failure_div').html(obj.message);
-            }
-        }
-    });
-}
+
 
 
 function view(ID){

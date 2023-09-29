@@ -1,7 +1,7 @@
 <div class="container-fluid p-0">
     <h1 class="h3 mb-3">Edit State Name</h1>
     <div class="row">
-        <div class="col-12 col-xl-6">
+        <div class="col-12 col-xl-12">
             <div class="card">
                 <div class="card-body">
                     <?php $data = $mysql->select("select * from _tbl_masters_statenames where StateNameID='".$_GET['edit']."'"); ?>

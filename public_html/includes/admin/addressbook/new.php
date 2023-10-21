@@ -13,7 +13,7 @@
                                 <span id="ErrContactCode" class="error_msg"></span>
                             </div>
                             <div class="col-sm-12 mb-3">
-                                <label class="form-label">Contact Person Name <span style='color:red'>*</span></label>
+                                <label class="form-label">Person Name <span style='color:red'>*</span></label>
                                 <input type="text" name="ContactPersonName" id="ContactPersonName" class="form-control" placeholder="Contact Person Name">
                                 <span id="ErrContactPersonName" class="error_msg"></span>
                             </div>
@@ -23,8 +23,8 @@
                                 <span id="ErrBusinessName" class="error_msg"></span>
                             </div>
                             <div class="col-sm-12 mb-3">
-                                <label class="form-label">EmailID </label>
-                                <input type="text" name="EmailID" id="EmailID" class="form-control" placeholder="EmailID">
+                                <label class="form-label">Email ID </label>
+                                <input type="text" style="text-transform: lowercase;" name="EmailID" id="EmailID" class="form-control" placeholder="Email ID">
                                 <span id="ErrEmailID" class="error_msg"></span>
                             </div>
                             <div class="col-sm-6">
@@ -33,7 +33,7 @@
                                     <div class="input-group-prepend">
                                         <span class="input-group-text" id="basic-addon1">+91</span>
                                     </div>
-                                    <input type="text" name="MobileNumber" id="MobileNumber" class="form-control" placeholder="Mobile Number">
+                                    <input type="text" name="MobileNumber" id="MobileNumber" class="form-control" placeholder="Mobile Number" data-masked="" data-inputmask="'mask':'9999999999'">
                                 </div>
                                 <span id="ErrMobileNumber" class="error_msg"></span>
                             </div>
@@ -43,7 +43,7 @@
                                     <div class="input-group-prepend">
                                         <span class="input-group-text" id="basic-addon1">+91</span>
                                     </div>
-                                    <input type="text" name="WhatsappNumber" id="WhatsappNumber" class="form-control" placeholder="WhatsappNumber">
+                                    <input type="text" name="WhatsappNumber" id="WhatsappNumber" class="form-control" placeholder="Whatsapp Number" data-masked="" data-inputmask="'mask':'9999999999'">
                                 </div>
                                 <span id="ErrWhatsappNumber" class="error_msg"></span>
                             </div>
@@ -95,7 +95,7 @@
                             </div>
                             <div class="col-sm-6">
                                 <label class="form-label">PinCode <span style='color:red'>*</span></label>
-                                <input type="text" value="" name="PinCode" id="PinCode" class="form-control" placeholder="Pincode">
+                                <input type="text" value="" name="PinCode" id="PinCode" class="form-control" placeholder="Pincode" data-masked="" data-inputmask="'mask':'999 999'">
                                 <span id="ErrPinCode" class="error_msg"></span>
                             </div>
                         </div>
@@ -246,6 +246,9 @@
   </div>
   
 <script>
+var newstatename="";
+var newdistrictname="";
+var newareaname="";
 
 function confirmationtoadd(){
   $('#confirmation').modal("show");   
@@ -281,22 +284,25 @@ function addNew() {
 }
 
 function listStateNames() {
-    $.post(URL+ "webservice.php?action=ListAll&method=StateNames","",function(data){
+    var i=0;
+    $.post(URL+ "webservice.php?action=listAllActive&method=StateNames","",function(data){
         var obj = JSON.parse(data);
         if (obj.status=="success") {
             var html = "<option value='0'>Select State Name</option>";
             $.each(obj.data, function (index, data) {
-                html += '<option value="'+data.StateNameID+'">'+data.StateName+'</option>';
+                if ((newstatename==data.StateName)) {
+                    i=data.StateNameID;
+                }
+                html += '<option value="'+data.StateNameID+'" '+((newstatename==data.StateName) ? '"selected=selected"' : '')+'>'+data.StateName+'</option>';
             });   
             $('#StateNameID').html(html);
-            $("#StateNameID").append($("#StateNameID option").remove().sort(function(a, b) {
+            /*$("#CustomerTypeNameID").append($("#CustomerTypeNameID option").remove().sort(function(a, b) {
                 var at = $(a).text(), bt = $(b).text();
                 return (at > bt)?1:((at < bt)?-1:0);
-            }));
-            $("#StateNameID").val("0");
-            setTimeout(function(){
-                //$('.mstateselect').selectpicker();
-            },1500);
+            }));*/
+           
+                 $("#StateNameID").val(i);
+           
         } else {
             alert(obj.message);
         }
@@ -304,21 +310,25 @@ function listStateNames() {
 }
 
 function getDistrictNames() {
-    $.post(URL+ "webservice.php?action=listDistrictNames&method=DistrictNames&StateNameID="+$('#StateNameID').val(),"",function(data){
+     var i=0;
+    $.post(URL+ "webservice.php?action=listAllActive&method=DistrictNames&StateNameID="+$('#StateNameID').val(),"",function(data){
         var obj = JSON.parse(data);
         if (obj.status=="success") {
             var html = "<option value='0'>Select District Name</option>";
             $.each(obj.data, function (index, data) {
-                html += '<option value="'+data.DistrictNameID+'">'+data.DistrictName+'</option>';
+                 if ((newdistrictname==data.DistrictName)) {
+                    i=data.DistrictNameID;
+                }
+                html += '<option value="'+data.DistrictNameID+'" '+((newdistrictname==data.DistrictName) ? '"selected=selected"' : '')+'>'+data.DistrictName+'</option>';
+
             });   
             $('#DistrictNameID').html(html);
-            $("#DistrictNameID").append($("#DistrictNameID option").remove().sort(function(a, b) {
+            /*$("#DistrictNameID").append($("#DistrictNameID option").remove().sort(function(a, b) {
                 var at = $(a).text(), bt = $(b).text();
                 return (at > bt)?1:((at < bt)?-1:0);
-            }));
-            $("#DistrictNameID").val("0");
+            })); */
+            $("#DistrictNameID").val(i);
             setTimeout(function(){
-                //$('.mdistrictselect').selectpicker();
             },1500);
         } else {
             alert(obj.message);
@@ -327,19 +337,23 @@ function getDistrictNames() {
 }
 
 function getAreaNames() {
-    $.post(URL+ "webservice.php?action=ListAreaNames&method=AreaNames&DistrictNameID="+$('#DistrictNameID').val()+"&StateNameID="+$("#StateNameID").val(),"",function(data){
+    var i=0;
+    $.post(URL+ "webservice.php?action=listAllActive&method=AreaNames&DistrictNameID="+$('#DistrictNameID').val()+"&StateNameID="+$("#StateNameID").val(),"",function(data){
         var obj = JSON.parse(data);
         if (obj.status=="success") {
             var html = "<option value='0'>Select Area Name</option>";
             $.each(obj.data, function (index, data) {
-                html += '<option value="'+data.AreaNameID+'">'+data.AreaName+'</option>';
+                 if ((newareaname==data.AreaName)) {
+                    i=data.AreaNameID;
+                }
+                html += '<option value="'+data.AreaNameID+'" '+((newareaname==data.AreaName) ? '"selected=selected"' : '')+'>'+data.AreaName+'</option>';
             });   
             $('#AreaNameID').html(html);
-            $("#AreaNameID").append($("#AreaNameID option").remove().sort(function(a, b) {
+            /*$("#AreaNameID").append($("#AreaNameID option").remove().sort(function(a, b) {
                 var at = $(a).text(), bt = $(b).text();
                 return (at > bt)?1:((at < bt)?-1:0);
-            }));
-            $("#AreaNameID").val("0");
+            }));*/
+            $("#AreaNameID").val(i);
             setTimeout(function(){
                // $('.mareaselect').selectpicker();
             },1500);
@@ -353,13 +367,14 @@ function statenew(){
   $('#newstate').modal("show");   
 }
 function addNewStateName() {
-   
+     newstatename="";
     var param = $('#frm_create_statename').serialize();
    
     //clearDiv(['StateName','Remarks']);
     $.post(URL+"webservice.php?action=addNew&method=StateNames",param,function(data){
         var obj = JSON.parse(data); 
         if (obj.status=="success") {
+            newstatename=$('#StateName').val();
             $('#frm_create_statename').trigger("reset");
               openPopup();
                $('#newstate').modal("hide");                                   
@@ -381,11 +396,13 @@ function districtnew(){
   $('#StateNameByDistrictName').val( $('#StateNameID  option:selected').text() );  
 }
 function addNewDistrictName() {
+    newdistrictname="";
     var param = $('#frm_create_districtname').serialize();
     clearDiv(['DistricName','StateName','Remarks']);
     $.post(URL+"webservice.php?action=addNew&method=DistrictNames",param,function(data){
         var obj = JSON.parse(data); 
         if (obj.status=="success") {
+            newdistrictname=$('#DistrictName').val();
             $('#frm_create_districtname').trigger("reset");
               openPopup();
                $('#newdistrict').modal("hide");                                   
@@ -409,11 +426,13 @@ function areanew(){
   $('#DistrictNameByAreaName').val( $('#DistrictNameID  option:selected').text() );  
 }
 function addNewAreaName() {
+    newareaname="";
     var param = $('#frm_create_areaname').serialize();
     clearDiv(['DistricName','StateName','AreaName','Remarks']);
     $.post(URL+"webservice.php?action=addNew&method=AreaNames",param,function(data){
         var obj = JSON.parse(data); 
         if (obj.status=="success") {
+             newareaname=$('#AreaName').val();
             $('#frm_create_areaname').trigger("reset");
               openPopup();
                $('#newarea').modal("hide");                                   
@@ -431,5 +450,18 @@ function addNewAreaName() {
 
 setTimeout(function(){
     listStateNames();
+    
+    $('#ContactPersonName').keydown(function (e) {
+          if (e.shiftKey || e.ctrlKey || e.altKey) {
+              e.preventDefault();
+          } else {
+              var key = e.keyCode;
+              if (!((key == 8) || (key == 32) || (key == 46) || (key >= 35 && key <= 40) || (key >= 65 && key <= 90))) {
+                  e.preventDefault();
+              }
+          }
+      });
+      
+      
 },2000);
 </script>

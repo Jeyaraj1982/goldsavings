@@ -14,14 +14,13 @@
                     <table id="datatables-fixed-header" class="table table-striped" style="width:100%">
                         <thead>
                             <tr>
-                                <th style="width:100px">Code</th>
+                                <th>Customer ID</th>
                                 <th>Customer Name</th>
                                 <th>Mobile Number</th>
-                                <th>Email ID</th>
                                 <th>Type</th>
-                                <th>Remarks</th>
-                                <th style="width:100px">Status</th>
-                                <th style="width:220px"></th>
+                                <th>Joined On</th>
+                                <th style="width:50px">Status</th>
+                                <th style="width:50px"></th>
                             </tr>
                         </thead>
                         <tbody id="tbl_content">
@@ -65,16 +64,24 @@ function d() {
             var html = "";
             $.each(obj.data, function (index, data) {
                 html += '<tr>'
-                            + '<td>' + data.CustomerCode + '</td>'
+                             + '<td>' + data.CustomerCode + '</td>'
                             + '<td>' + data.CustomerName + '</td>'
                             + '<td>' + data.MobileNumber + '</td>'
-                            + '<td>' + data.EmailID + '</td>'
                             + '<td>' + data.CustomerTypeName + '</td>'
-                            + '<td>' + data.Remarks + '</td>'
+                            + '<td>' + data.CreatedOn + '</td>'
                             + '<td>' + ( (data.IsActive=="1") ? "<span class='badge bg-success'>Active</span>" : "<span class='badge bg-secondary'>Disabled</span>" ) + '</td>'
-                            + '<td style="text-align:right"><a href="'+URL+'dashboard.php?action=customers/view&customer='+data.CustomerID+'" class="btn btn-success btn-sm">View</a></td>'
+                            + '<td style="text-align:right">' 
+                                + '<div class="dropdown position-relative">'
+                                        + '<a href="javascript:void(0)" data-bs-toggle="dropdown" data-bs-display="static">'
+                                            + '<img src="'+URL+'assets/icons/more.png">'
+                                        + '</a>'
+                                        + '<div class="dropdown-menu dropdown-menu-end">'
+                                                + '<a class="dropdown-item" href="'+URL+'dashboard.php?action=customers/view&customer='+data.CustomerID+'">View</a>'
+                                        + '</div>'
+                                + '</div>'
+                            + '</td>'
                       + '</tr>';
-            });   
+    });
             $('#tbl_content').html(html);
             // document.addEventListener("DOMContentLoaded", function() {
             $("#datatables-fixed-header").DataTable({
@@ -107,16 +114,24 @@ function Remove() {
             $('#popupcontent').html(success_content(obj.message,'closePopup'));
             $.each(obj.data, function (index, data) {
                 html += '<tr>'
-                            + '<td>' + data.CustomerCode + '</td>'
+                           + '<td>' + data.CustomerCode + '</td>'
                             + '<td>' + data.CustomerName + '</td>'
                             + '<td>' + data.MobileNumber + '</td>'
-                            + '<td>' + data.EmailID + '</td>'
                             + '<td>' + data.CustomerTypeName + '</td>'
-                            + '<td>' + data.Remarks + '</td>'
+                            + '<td>' + data.CreatedOn + '</td>'
                             + '<td>' + ( (data.IsActive=="1") ? "<span class='badge bg-success'>Active</span>" : "<span class='badge bg-secondary'>Disabled</span>" ) + '</td>'
-                            + '<td style="text-align:right"><a href="javascript:void(0)" onclick="confirmationtoDelete(\''+data.CustomerID+'\')" class="btn btn-outline-danger btn-sm">Delete</a>&nbsp;&nbsp;<a href="'+URL+'dashboard.php?action=customers/edit&edit='+data.CustomerID+'" class="btn btn-primary btn-sm">Edit</a>&nbsp;&nbsp;<a href="'+URL+'dashboard.php?action=customers/view&edit='+data.CustomerID+'" class="btn btn-success btn-sm">View</a></td>'
+                            + '<td style="text-align:right">' 
+                                + '<div class="dropdown position-relative">'
+                                        + '<a href="javascript:void(0)" data-bs-toggle="dropdown" data-bs-display="static">'
+                                            + '<img src="'+URL+'assets/icons/more.png">'
+                                        + '</a>'
+                                        + '<div class="dropdown-menu dropdown-menu-end">'
+                                                + '<a class="dropdown-item" href="'+URL+'dashboard.php?action=customers/view&customer='+data.CustomerID+'">View</a>'
+                                        + '</div>'
+                                + '</div>'
+                            + '</td>'
                       + '</tr>';
-            });    
+    });
             $('#tbl_content').html(html);
             // document.addEventListener("DOMContentLoaded", function() {
             //$("#datatables-fixed-header").DataTable({

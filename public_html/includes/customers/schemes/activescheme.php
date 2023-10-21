@@ -10,14 +10,14 @@
             <div class="card">
                 <div class="card-body" style="padding-top:25px">
                     <table id="datatables-fixed-header" class="table table-striped" style="width:100%">
-                        <thead>
+                       <thead>
                             <tr>
-                               
+                                <th style="width: 100px;">Scheme ID</th>
                                 <th>Scheme Name</th>
-                                <th>Amount</th>
-                                <th>Installments</th>
-                                <th>InstallmentMode</th>
-                                <th style="width:50px"></th>
+                                <th style="width: 140px; text-align: right;">Wastage<br>Discount(%)</th>
+                                <th style="width: 140px; text-align: right;">Making Charge<br>Discount(%)</th>
+                                <th style="width: 140px; text-align: right;">Contracts</th>
+                                <th></th>
                             </tr>
                         </thead>
                         <tbody id="tbl_content">
@@ -64,15 +64,25 @@ function d() {
             var html = "";
             $.each(obj.data, function (index, data) {
                 html += '<tr>'
+                           + '<td>' + data.SchemeCode + '</td>'
                             + '<td>' + data.SchemeName + '</td>'
-                            + '<td>' + data.Amount + '</td>'
-                            + '<td>' + data.Installments + '</td>'
-                            + '<td>' + data.InstallmentMode + '</td>'
-                            + '<td style="text-align:right">'
-                                + '<a href="'+URL+'dashboard.php?action=schemes/view&edit='+data.SchemeID+'" class="btn btn-success btn-sm">View</a>'
+                            + '<td style="text-align: right">' + data.WastageDiscount + '</td>'
+                            + '<td style="text-align: right">' + data.MakingChargeDiscount + '</td>'
+                             + '<td style="text-align:right">'+ data.ContractCount + '</td>'
+                            + '<td style="text-align:right">' 
+                                + '<div class="dropdown position-relative">'
+                                        + '<a href="javascript:void(0)" data-bs-toggle="dropdown" data-bs-display="static">'
+                                            + '<img src="'+URL+'assets/icons/more.png">'
+                                        + '</a>'
+                                        + '<div class="dropdown-menu dropdown-menu-end">'
+                                                + '<a class="dropdown-item" href="'+URL+'dashboard.php?action=contracts/new&scheme='+data.SchemeCode+'">Join Scheme</a>'
+                                                + '<a class="dropdown-item" href="'+URL+'dashboard.php?action=schemes/view&edit='+data.SchemeID+'">View Scheme</a>'
+                                        + '</div>'
+                                + '</div>'
                             + '</td>'
                       + '</tr>';
-            });   
+    });
+                           
              $('#tbl_content').html(html);
         } else {
             $('#popupcontent').html(errorcontent(obj.message));            

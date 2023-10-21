@@ -18,17 +18,18 @@
     <div class="col-9 col-sm-9 col-xxl-9">
     <div class="row">
          <div class="card">
-                <div class="card-body" style="padding-top:25px">
+                <div class="card-body" style="padding-top:15px">
                     <table id="datatables-fixed-header" class="table table-striped" style="width:100%">
                         <thead>
                             <tr>
                                 <th>Document Type</th>
                                 <th>File Name</th>
+                                <th> </th>
                             </tr>
                         </thead>
                         <tbody id="tbl_content">
                             <tr>
-                                <td colspan="2" style="text-align: center;background:#fff !important">Loading Documents ...</td>
+                                <td colspan="3" style="text-align: center;background:#fff !important">Loading Documents ...</td>
                             </tr>
                         </tbody>
                     </table>
@@ -105,11 +106,12 @@ function listdocuments() {
                 html += '<tr>'
                             + '<td>' + data.DocumentTypeName + '</td>'
                             + '<td>' + data.FileName + '</td>'
+                            + '<td> <a href="'+URL+'download.php?file='+data.AttachmentID+'" style="outline:none" target="_blank"><img src="'+URL+'assets/icons/download.png"</a></td>'
                       + '</tr>';
             });
             if (obj.data.length==0) {
                  html += '<tr>'
-                            + '<td colspan="2" style="text-align: center;background:#fff !important">No Data Found</td>'
+                            + '<td colspan="3" style="text-align: center;background:#fff !important">No Data Found</td>'
                        + '</tr>';
             }   
             $('#tbl_content').html(html);

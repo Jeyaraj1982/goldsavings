@@ -47,8 +47,8 @@
                                 <span id="ErrDateOfBirth" class="error_msg"></span>
                             </div>
                             <div class="col-sm-12 mb-3">
-                                <label class="form-label">EmailID <span style='color:red'>*</span></label>
-                                <input type="text" name="EmailID" id="EmailID" class="form-control" placeholder="EmailID">
+                                <label class="form-label">Email ID <span style='color:red'>*</span></label>
+                                <input type="text" style="text-transform: lowercase;" name="EmailID" id="EmailID" class="form-control" placeholder="Email ID">
                                 <span id="ErrEmailID" class="error_msg"></span>
                             </div>
                             <div class="col-sm-6 mb-3">
@@ -57,7 +57,7 @@
                                     <div class="input-group-prepend">
                                         <span class="input-group-text" id="basic-addon1">+91</span>
                                     </div>
-                                    <input type="text" name="MobileNumber" id="MobileNumber" class="form-control" placeholder="Mobile Number">
+                                    <input type="text" name="MobileNumber" id="MobileNumber" class="form-control" placeholder="Mobile Number" data-masked="" data-inputmask="'mask':'9999999999'">
                                 </div>
                                 <span id="ErrMobileNumber" class="error_msg"></span>
                             </div>
@@ -67,7 +67,7 @@
                                     <div class="input-group-prepend">
                                         <span class="input-group-text" id="basic-addon1">+91</span>
                                     </div>
-                                    <input type="text" name="WhatsappNumber" id="WhatsappNumber" class="form-control" placeholder="WhatsappNumber">
+                                    <input type="text" name="WhatsappNumber" id="WhatsappNumber" class="form-control" placeholder="WhatsappNumber" data-masked="" data-inputmask="'mask':'9999999999'">
                                 </div>
                                 <span id="ErrWhatsappNumber" class="error_msg"></span>
                             </div>
@@ -77,7 +77,7 @@
                                     <div class="input-group-prepend">
                                         <span class="input-group-text" id="basic-addon1">+91</span>
                                     </div>
-                                    <input type="text" name="AlternativeMobileNumber" id="AlternativeMobileNumber" class="form-control" placeholder="Alternative Mobile Number">
+                                    <input type="text" name="AlternativeMobileNumber" id="AlternativeMobileNumber" class="form-control" placeholder="Alternative Mobile Number" data-masked="" data-inputmask="'mask':'9999999999'">
                                 </div>
                                 <span id="ErrAlternativeMobileNumber" class="error_msg"></span>
                             </div>
@@ -104,12 +104,12 @@
                         <div class="row">                            
                             <div class="col-sm-6 mb-3">
                                 <label class="form-label">PAN Card Number <span style='color:red'>*</span></label>
-                                <input type="text"  name="PancardNumber" id="PancardNumber" class="form-control" placeholder="Pan Card Number">
+                                <input type="text"  name="PancardNumber" id="PancardNumber" class="form-control" placeholder="ABCTY1234D" data-masked="" data-inputmask="'mask':'aaaaa9999a'" style="text-transform: uppercase;">
                                 <span id="ErrPancardNumber" class="error_msg"></span>
                             </div>
                             <div class="col-sm-6 mb-3">
                                 <label class="form-label">Aadhaar Card Number <span style='color:red'>*</span></label>
-                                <input type="text" value="" name="AadhaarCardNumber" id="AadhaarCardNumber" class="form-control" placeholder="Aadhaar Card Number">
+                                <input type="text" value="" name="AadhaarCardNumber" id="AadhaarCardNumber" class="form-control" placeholder="Aadhaar Card Number" data-masked="" data-inputmask="'mask':'9999 9999 9999'">
                                 <span id="ErrAadhaarCardNumber" class="error_msg"></span>
                             </div>
                             <div class="col-sm-6">
@@ -153,7 +153,7 @@
                             </div>
                             <div class="col-sm-6">
                                 <label class="form-label">PinCode <span style='color:red'>*</span></label>
-                                <input type="text" value="" name="PinCode" id="PinCode" class="form-control" placeholder="Pincode">
+                                <input type="text" value="" name="PinCode" id="PinCode" class="form-control" placeholder="Pincode" data-masked="" data-inputmask="'mask':'999 999'">
                                 <span id="ErrPinCode" class="error_msg"></span>
                             </div>
                         </div>
@@ -375,12 +375,10 @@ function ListCustomerTypes() {
                 html += '<option value="'+data.CustomerTypeNameID+'">'+data.CustomerTypeName+'</option>';
             });   
             $('#CustomerTypeNameID').html(html);
-            
-            
-            $("#CustomerTypeNameID").append($("#CustomerTypeNameID option").remove().sort(function(a, b) {
+            /*$("#CustomerTypeNameID").append($("#CustomerTypeNameID option").remove().sort(function(a, b) {
                 var at = $(a).text(), bt = $(b).text();
                 return (at > bt)?1:((at < bt)?-1:0);
-            }));
+            })); */
             
             $("#CustomerTypeNameID").val("0");
             setTimeout(function(){
@@ -402,10 +400,10 @@ function listStateNames() {
                 html += '<option value="'+data.StateNameID+'">'+data.StateName+'</option>';
             });   
             $('#StateNameID').html(html);
-            $("#StateNameID").append($("#StateNameID option").remove().sort(function(a, b) {
+            /*$("#StateNameID").append($("#StateNameID option").remove().sort(function(a, b) {
                 var at = $(a).text(), bt = $(b).text();
                 return (at > bt)?1:((at < bt)?-1:0);
-            }));
+            }));*/
             $("#StateNameID").val("0");
             setTimeout(function(){
                 //$('.mstateselect').selectpicker();
@@ -425,10 +423,10 @@ function getDistrictNames() {
                 html += '<option value="'+data.DistrictNameID+'">'+data.DistrictName+'</option>';
             });   
             $('#DistrictNameID').html(html);
-            $("#DistrictNameID").append($("#DistrictNameID option").remove().sort(function(a, b) {
+           /* $("#DistrictNameID").append($("#DistrictNameID option").remove().sort(function(a, b) {
                 var at = $(a).text(), bt = $(b).text();
                 return (at > bt)?1:((at < bt)?-1:0);
-            }));
+            })); n*/
             $("#DistrictNameID").val("0");
             setTimeout(function(){
             },1500);
@@ -447,10 +445,10 @@ function getAreaNames() {
                 html += '<option value="'+data.AreaNameID+'">'+data.AreaName+'</option>';
             });   
             $('#AreaNameID').html(html);
-            $("#AreaNameID").append($("#AreaNameID option").remove().sort(function(a, b) {
+            /*$("#AreaNameID").append($("#AreaNameID option").remove().sort(function(a, b) {
                 var at = $(a).text(), bt = $(b).text();
                 return (at > bt)?1:((at < bt)?-1:0);
-            }));
+            }));*/
             $("#AreaNameID").val("0");
             setTimeout(function(){
                // $('.mareaselect').selectpicker();
@@ -465,5 +463,27 @@ function getAreaNames() {
 setTimeout(function(){
     ListCustomerTypes();
     listStateNames();
+    
+$('#CustomerName').keydown(function (e) {
+          if (e.shiftKey || e.ctrlKey || e.altKey) {
+              e.preventDefault();
+          } else {
+              var key = e.keyCode;
+              if (!((key == 8) || (key == 32) || (key == 46) || (key >= 35 && key <= 40) || (key >= 65 && key <= 90))) {
+                  e.preventDefault();
+              }
+          }
+      });
+      
+      $('#FatherName').keydown(function (e) {
+          if (e.shiftKey || e.ctrlKey || e.altKey) {
+              e.preventDefault();
+          } else {
+              var key = e.keyCode;
+              if (!((key == 8) || (key == 32) || (key == 46) || (key >= 35 && key <= 40) || (key >= 65 && key <= 90))) {
+                  e.preventDefault();
+              }
+          }
+      });
 },2000);
 </script>

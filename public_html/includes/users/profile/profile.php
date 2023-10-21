@@ -92,6 +92,10 @@
                     <div class="card-body">
                         <div class="row">
                             <div class="col-sm-6">
+                                <div style="font-weight: bold;">Entry Date</div>
+                                <div id="EntryDate"></div>
+                            </div>
+                            <div class="col-sm-6">
                                 <div style="font-weight: bold;">Joined On</div>
                                 <div id="JoinedOn"></div>
                             </div> 
@@ -138,6 +142,7 @@ function view(){
                  $('#DistrictName').html(data.DistrictName);
                  $('#AreaName').html(data.AreaName);
                  $('#PinCode').html(data.PinCode);
+                 $('#EntryDate').html(data.EntryDate);
                  $('#JoinedOn').html(data.CreatedOn);
             });   
 }  

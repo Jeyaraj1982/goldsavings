@@ -3,11 +3,21 @@ class Customers {
     
     function addNew() {
         
-        global $mysql;
+        global $mysql;                                   
         
         if (strlen(trim($_POST['CustomerCode']))==0) {
             return json_encode(array("status"=>"failure","message"=>"Please enter Customer Code","div"=>"CustomerCode"));    
+        } else {
+             $dup = $mysql->select("select * from _tbl_masters_customers where CustomerCode='".trim($_POST['CustomerCode'])."'");
+             if (sizeof($dup)>0) {
+                 return json_encode(array("status"=>"failure","message"=>"Customer Code already exists","div"=>"CustomerCode"));    
+             }
         }
+        
+        if (strlen(trim($_POST['EntryDate']))==0) {
+            return json_encode(array("status"=>"failure","message"=>"Please select Date","div"=>"EntryDate"));    
+        }
+        
         
         if ($_POST['CustomerTypeNameID']==0) {
             return json_encode(array("status"=>"failure","message"=>"Please select Customer Type","div"=>"CustomerTypeNameID"));    
@@ -103,6 +113,9 @@ class Customers {
         if (strlen(trim($_POST['PancardNumber']))==0) {
             return json_encode(array("status"=>"failure","message"=>"Please enter Pancard Number","div"=>"PancardNumber"));    
         } else {
+            if (!(IsValidPanCard(trim($_POST['PancardNumber'])))) {
+                return json_encode(array("status"=>"failure","message"=>"Pancard Number is invalid format","div"=>"PancardNumber"));        
+            }
             $dupPancard = $mysql->select("select * from _tbl_masters_customers where PancardNumber='".trim($_POST['PancardNumber'])."'");
             if (sizeof($dupPancard)>0) {
                 return json_encode(array("status"=>"failure","message"=>"Pancard Number is already used","div"=>"PancardNumber"));    
@@ -155,13 +168,12 @@ class Customers {
         
         } else {
             
-            if (trim($_POST['ReferredBy'])==0) {
-                return json_encode(array("status"=>"failure","message"=>"Please select ReferredBy","div"=>"ReferredBy"));    
-            }
-        
-            if (strlen(trim($_POST['RefMobileNumber']))==0) {
-                return json_encode(array("status"=>"failure","message"=>"Please enter Mobile Number","div"=>"RefMobileNumber"));    
+            if (trim($_POST['ReferredBy'])=="0") {
+                //return json_encode(array("status"=>"failure","message"=>"Please select ReferredBy","div"=>"ReferredBy"));    
             } else {
+                if (strlen(trim($_POST['RefMobileNumber']))==0) {
+                    return json_encode(array("status"=>"failure","message"=>"Please enter Mobile Number","div"=>"RefMobileNumber"));    
+                } else {
                 if (strlen(trim($_POST['RefMobileNumber']))==10) { 
                     if (!($_POST['RefMobileNumber']>=6000000000 && $_POST['RefMobileNumber']<=9999999999)) {
                         return json_encode(array("status"=>"failure","message"=>"Please enter valid Mobile Number.","div"=>"RefMobileNumber"));    
@@ -203,6 +215,7 @@ class Customers {
                     return json_encode(array("status"=>"failure","message"=>"Please enter valid Mobile Number","div"=>"RefMobileNumber"));    
                 }
             }
+            }
         }
                                             
         $cus_type = json_decode(CustomerTypes::getDetailsByID($_POST['CustomerTypeNameID']),true);
@@ -218,6 +231,7 @@ class Customers {
         $AreaName = $AreaName['data'];
         
         $CustomerID = $mysql->insert("_tbl_masters_customers",array("CustomerCode"              => $_POST['CustomerCode'],
+                                                                    "EntryDate"        => $_POST['EntryDate'],
                                                                     "CustomerTypeNameID"        => $cus_type[0]['CustomerTypeNameID'],
                                                                     "CustomerTypeName"          => $cus_type[0]['CustomerTypeName'],
                                                                     "CustomerName"              => $_POST['CustomerName'],
@@ -283,6 +297,11 @@ class Customers {
     function doUpdate() {
         
         global $mysql;
+        
+         if (strlen(trim($_POST['EntryDate']))==0) {
+            return json_encode(array("status"=>"failure","message"=>"Please select Date","div"=>"EntryDate"));    
+        }
+        
         
         if ($_POST['CustomerTypeNameID']==0) {
             return json_encode(array("status"=>"failure","message"=>"Please select Customer Type","div"=>"CustomerTypeNameID"));    
@@ -375,48 +394,49 @@ class Customers {
         }
         
         if (trim($_POST['ReferredBy'])==0) {
-            return json_encode(array("status"=>"failure","message"=>"Please select ReferredBy","div"=>"ReferredBy"));    
-        }          
+           // return json_encode(array("status"=>"failure","message"=>"Please select ReferredBy","div"=>"ReferredBy"));    
+        } else {          
         
-        if (strlen(trim($_POST['RefMobileNumber']))==0) {
-            return json_encode(array("status"=>"failure","message"=>"Please enter Mobile Number","div"=>"RefMobileNumber"));    
-        } else {
-            if (strlen(trim($_POST['RefMobileNumber']))==10) {
-                if (!($_POST['RefMobileNumber']>=6000000000 && $_POST['RefMobileNumber']<=9999999999)) {
-                    return json_encode(array("status"=>"failure","message"=>"Please enter valid Mobile Number.","div"=>"RefMobileNumber"));    
-                } else {
-                    if ($_POST['ReferredBy']=="1") {
-                        $dupMobile = $mysql->select("select * from _tbl_masters_customers where MobileNumber='".trim($_POST['RefMobileNumber'])."'");
-                        if (sizeof($dupMobile)==0) {
-                            return json_encode(array("status"=>"failure","message"=>"Customer's Mobile Number is not found","div"=>"RefMobileNumber"));    
-                        }
-                        $ReferByText = "Customer";
-                        $RefID = $dupMobile[0]['CustomerID']; 
-                        $RefName = $dupMobile[0]['CustomerName']; 
-                    }
-                    
-                    if ($_POST['ReferredBy']=="2") {
-                        $dupMobile = $mysql->select("select * from _tbl_employees where MobileNumber='".trim($_POST['RefMobileNumber'])."'");
-                        if (sizeof($dupMobile)==0) {
-                            return json_encode(array("status"=>"failure","message"=>"Employee's Mobile Number is not found","div"=>"RefMobileNumber"));    
-                        }
-                        $ReferByText = "Employee";
-                        $RefID = $dupMobile[0]['EmployeeID']; 
-                        $RefName = $dupMobile[0]['EmployeeName'];
-                    }
-                    
-                    if ($_POST['ReferredBy']=="3") {
-                        $dupMobile = $mysql->select("select * from _tbl_masters_salesman where MobileNumber='".trim($_POST['RefMobileNumber'])."'");
-                        if (sizeof($dupMobile)==0) {
-                            return json_encode(array("status"=>"failure","message"=>"Sales's Mobile Number is not found","div"=>"RefMobileNumber"));    
-                        }
-                        $ReferByText = "Salesman";
-                        $RefID = $dupMobile[0]['Salesman']; 
-                        $RefName = $dupMobile[0]['SalesmanName'];
-                    }
-                }
+            if (strlen(trim($_POST['RefMobileNumber']))==0) {
+                return json_encode(array("status"=>"failure","message"=>"Please enter Mobile Number","div"=>"RefMobileNumber"));    
             } else {
-                return json_encode(array("status"=>"failure","message"=>"Please enter valid Mobile Number","div"=>"MobileNumber"));    
+                if (strlen(trim($_POST['RefMobileNumber']))==10) {
+                    if (!($_POST['RefMobileNumber']>=6000000000 && $_POST['RefMobileNumber']<=9999999999)) {
+                        return json_encode(array("status"=>"failure","message"=>"Please enter valid Mobile Number.","div"=>"RefMobileNumber"));    
+                    } else {
+                        if ($_POST['ReferredBy']=="1") {
+                            $dupMobile = $mysql->select("select * from _tbl_masters_customers where MobileNumber='".trim($_POST['RefMobileNumber'])."'");
+                            if (sizeof($dupMobile)==0) {
+                                return json_encode(array("status"=>"failure","message"=>"Customer's Mobile Number is not found","div"=>"RefMobileNumber"));    
+                            }
+                            $ReferByText = "Customer";
+                            $RefID = $dupMobile[0]['CustomerID']; 
+                            $RefName = $dupMobile[0]['CustomerName']; 
+                        }
+                        
+                        if ($_POST['ReferredBy']=="2") {
+                            $dupMobile = $mysql->select("select * from _tbl_employees where MobileNumber='".trim($_POST['RefMobileNumber'])."'");
+                            if (sizeof($dupMobile)==0) {
+                                return json_encode(array("status"=>"failure","message"=>"Employee's Mobile Number is not found","div"=>"RefMobileNumber"));    
+                            }
+                            $ReferByText = "Employee";
+                            $RefID = $dupMobile[0]['EmployeeID']; 
+                            $RefName = $dupMobile[0]['EmployeeName'];
+                        }
+                        
+                        if ($_POST['ReferredBy']=="3") {
+                            $dupMobile = $mysql->select("select * from _tbl_masters_salesman where MobileNumber='".trim($_POST['RefMobileNumber'])."'");
+                            if (sizeof($dupMobile)==0) {
+                                return json_encode(array("status"=>"failure","message"=>"Sales's Mobile Number is not found","div"=>"RefMobileNumber"));    
+                            }
+                            $ReferByText = "Salesman";
+                            $RefID = $dupMobile[0]['SalesmanID']; 
+                            $RefName = $dupMobile[0]['SalesmanName'];
+                        }
+                    }
+                } else {
+                    return json_encode(array("status"=>"failure","message"=>"Please enter valid Mobile Number","div"=>"MobileNumber"));    
+                }
             }
         }
         
@@ -433,6 +453,7 @@ class Customers {
         $AreaName = $AreaName['data'];
         
         $id = $mysql->execute("update _tbl_masters_customers set CustomerName   = '".$_POST['CustomerName']."',
+                                                                 EntryDate   = '".$_POST['EntryDate']."',
                                                                  FatherName   = '".$_POST['FatherName']."',
                                                                  EmailID        = '".$_POST['EmailID']."',
                                                                  MobileNumber   = '".$_POST['MobileNumber']."',

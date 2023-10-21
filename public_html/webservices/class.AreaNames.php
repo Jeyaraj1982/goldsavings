@@ -74,23 +74,23 @@ class AreaNames {
 
      public static function listAll() {
          global $mysql;
-         $data = $mysql->select("select * from _tbl_masters_areanames");
+         $data = $mysql->select("select * from _tbl_masters_areanames order by AreaName");
          return json_encode(array("status"=>"success","data"=>$data));
      }
      
      public static function listAllActive() {
          global $mysql;
          if (isset($_GET['DistrictNameID'])) {
-            $data = $mysql->select("select * from _tbl_masters_areanames where IsActive='1' and DistrictNameID='".$_GET['DistrictNameID']."'");
+            $data = $mysql->select("select * from _tbl_masters_areanames where IsActive='1' and DistrictNameID='".$_GET['DistrictNameID']."' order by AreaName");
          } else {
-            $data = $mysql->select("select * from _tbl_masters_areanames where IsActive='1'");
+            $data = $mysql->select("select * from _tbl_masters_areanames where IsActive='1' order by AreaName");
          }
          return json_encode(array("status"=>"success","data"=>$data));
      }
      
      public static function ListAreaNames() {
          global $mysql;
-         $data = $mysql->select("select * from _tbl_masters_areanames where StateNameID='".$_GET['StateNameID']."' and DistrictNameID='".$_GET['DistrictNameID']."'");
+         $data = $mysql->select("select * from _tbl_masters_areanames where StateNameID='".$_GET['StateNameID']."' and DistrictNameID='".$_GET['DistrictNameID']."' order by AreaName");
          return json_encode(array("status"=>"success","data"=>$data));
      }
      
@@ -145,7 +145,7 @@ class AreaNames {
      
      public static function listByAreaNames() {
          global $mysql;                                             
-         $data = $mysql->select("select * from _tbl_masters_areanames where DistrictNameID='".$_GET['DistrictNameID']."'");
+         $data = $mysql->select("select * from _tbl_masters_areanames where DistrictNameID='".$_GET['DistrictNameID']."' order by AreaName");
          return json_encode(array("status"=>"success","data"=>$data));
      }
 }

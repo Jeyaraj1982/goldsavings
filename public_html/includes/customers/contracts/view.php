@@ -1,5 +1,15 @@
 <div class="container-fluid p-0">
-    <h1 style="font-weight: bold;" class="h3">Contract</h1>
+    <div class="col-sm-12">
+    <div class="row">
+        <div class="col-6">
+            <h1 class="h3" style="font-weight: bold;">Contracts</h1>
+        </div>
+        <div class="col-6" style="text-align:right;">
+            <a href="<?php echo URL;?>dashboard.php?action=contracts/list" class="btn btn-outline-primary btn-sm">Back</a> &nbsp;
+            <a href="<?php echo URL;?>dashboard.php?action=" class="btn btn-primary btn-sm">Download</a>
+     </div>
+     </div>
+     </div>
     <div class="row"> 
         <div class="col-sm-12 col-xl-12">
     <div class="card">
@@ -7,7 +17,7 @@
     <div class="row">
         <div class="col-6">
             <div id="ContractCode">CONTRACT_CODE</div>        
-            <div id="ContractCreatedOn">CONTRACT CREATED ON</div>
+            <div id="EntryDate">ENTRY DATE</div>
             <div id="ContractIsActive">STATUS</div> 
         </div>
         <div class="col-6" style="text-align:right;">
@@ -50,14 +60,24 @@
                             <a style="color:#888;text-decoration:none;" id="viewscheme" href=""><i class="align-middle me-2" data-feather="eye"></i><span class="align-middle">View</span></a>
                         </div>
                     </div>
-                    <div id="SchemeCode">SCHEME_CODE</div>
-                    <div id="SchemeName">SCHEME_NAME</div>
-                    <div id="ModeOfBenifits">MODE OF BENEFITS</div>
-                    <div id="MaterialType">MATERIAL</div>
-                    <div id="Amount">AMOUNT</div>
-                    <div id="Installments">INSTALLMENTS</div>
-                    <div id="InstallmentMode">INSTALLMENT MODE</div>
-                    <div id="InstallmentAmount">INSTALLMENT AMOUNT</div>
+                    <div style="font-weight: bold;"> Scheme Code</div>
+                    <div id="SchemeCode"></div>
+                    <div style="font-weight: bold;"> Scheme Name</div>
+                    <div id="SchemeName"></div>
+                    <div style="font-weight: bold;"> Mode Of Benifits</div>
+                    <div id="ModeOfBenifits"></div>
+                    <div id="gold" style="display: none;">
+                        <div style="font-weight: bold;">Material Type</div>
+                        <div id="MaterialType"></div>
+                    </div>
+                    <div id="amount" style="display: none;">
+                        <div style="font-weight: bold;">Amount <span>(₹)</span></div>
+                        <div id="Amount"></div>
+                    </div>
+                    <div style="font-weight: bold;">Installment</div>
+                    <div id="Installments"></div>
+                    <div style="font-weight: bold;">Installment Amount <span>(₹)</span></div>
+                    <div id="InstallmentAmount"></div>
                 </div>
             </div>
         </div>
@@ -73,8 +93,8 @@
                     <tr>
                       <th scope="col">Due</th>
                       <th scope="col">Date</th>
-                      <th scope="col">Amount</th>
-                      <th scope="col">Gold</th>
+                      <th scope="col" style="text-align: right;">Amount</th>
+                      <th scope="col" style="text-align: right;">Gold</th>
                       <th scope="col">Gold Price<br>On Date</th>
                       <th scope="col">Receipt<br>Number</th>
                       <th scope="col">Payment<br>Date</th>
@@ -102,19 +122,31 @@
         <div class="modal-body">
             <div class="container-fluid p-0">
                 <form id="frm_collect" name="frm_collect" method="post" enctype="multipart/form-data">
-                <input type="hidden" value="<?php echo $data[0]['DueID'];?>" name="DueID" id="DueID">
+                <input type="hidden" value="" name="DueID" id="DueID">
         <div class="row">
-            <div class="col-sm-4 mb-3">
-                <label class="form-label">DueAmount </label>
-                <input type="text" style="text-align: right;" name="DueAmount" id="viewDueAmount" readonly="readonly" class="form-control" placeholder="DueAmount">
+        <div class="col-sm-4 mb-3">
+            <label class="form-label">Payment Date <span style='color:red'>*</span></label>
+            <input type="date" name="PaymentDate" value="<?php echo date("Y-m-d");?>" id="PaymentDate" class="form-control" placeholder="Payment Date">
+            <span id="ErrPaymentDate" class="error_msg"></span>
+        </div>
+            <div class="col-sm-9">
             </div>
             <div class="col-sm-4 mb-3">
-                <label class="form-label">Gold in Grams </label>
-                <input type="text" style="text-align: right;" name="GoldInGrams" id="viewGoldInGrams" readonly="readonly" class="form-control" placeholder="GoldInGrams">
+                <label class="form-label">Installment Number</label>
+                <input type="text" style="text-align: right;" name="Installment" id="viewInstallment" class="form-control" placeholder="Installment">
+                <span id="ErrInstallment" class="error_msg"></span>
+            </div>
+             <div class="col-sm-4 mb-3">
+                <label class="form-label">Due Amount </label>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="basic-addon1">(₹)</span>
+                    </div>
+                    <input type="text" style="text-align: right;" name="DueAmount" id="viewDueAmount" class="form-control" placeholder="Due Amount">
+                </div>
+                <span id="ErrDueAmount" class="error_msg"></span>
             </div>
             <div class="col-sm-4 mb-3">
-                <label class="form-label">Gold Price</label>
-                <input type="text" style="text-align: right;" name="GoldPrice" id="viewGoldPrice" readonly="readonly" class="form-control" placeholder="GoldPrice">
             </div>
             <div class="col-sm-4 mb-3">
                 <label class="form-label">Mode Of Benifits</label>
@@ -122,9 +154,18 @@
                 <span id="ErrModeOfBenefits" class="error_msg"></span>
             </div>
             <div class="col-sm-4 mb-3">
-                <label class="form-label">Installment Number</label>
-                <input type="text" style="text-align: right;" name="Installment" id="viewInstallment" class="form-control" placeholder="Installment">
-                <span id="ErrInstallment" class="error_msg"></span>
+                <label class="form-label">Gold Price </label>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="basic-addon1">(₹)</span>
+                    </div>
+                    <input type="text" style="text-align: right;" name="GoldPrice" id="viewGoldPrice" class="form-control" placeholder="Gold Price">
+                </div>
+                <span id="ErrGoldPrice" class="error_msg"></span>
+            </div>
+            <div class="col-sm-4 mb-3">
+                <label class="form-label">Gold in Grams </label>
+                <input type="text" style="text-align: right;" name="GoldInGrams" id="viewGoldInGrams" readonly="readonly" class="form-control" placeholder="GoldInGrams">
             </div>
             <div class="col-sm-8  mb-3">
                 <label class="form-label">Payment Mode<span style='color:red'>*</span></label>
@@ -168,7 +209,7 @@ function getData(){
             $('#CustomerName').html(CustomerData.CustomerName);
             $('#MobileNumber').html(CustomerData.MobileNumber);
             $('#EmailID').html(CustomerData.EmailID);
-            $('#CustomerCreatedOn').html(CustomerData.CreatedOn);
+            $('#EntryDate').html(CustomerData.EntryDate);
                 if(CustomerData.IsActive=="1"){
                     $('#IsActive').html("Active");    
                 }
@@ -181,11 +222,18 @@ function getData(){
             $('#SchemeCode').html(SchemeData.SchemeCode);
             $('#SchemeName').html(SchemeData.SchemeName);
             $('#ModeOfBenifits').html(SchemeData.ModeOfBenifits);
-            $('#MaterialType').html(SchemeData.MaterialType);
+                    if (SchemeData.ModeOfBenifits == "AMOUNT") {
+                        $('#Amount').html(SchemeData.Amount);
+                        $('#amount').show();
+                    } else {
+                        $('#MaterialType').html(SchemeData.MaterialType);  
+                        $('#gold').show();  
+                    }
+            
             $('#Amount').html(SchemeData.Amount);
-            $('#Installments').html(SchemeData.Installments);
+            $('#Installments').html(SchemeData.Installments + ' / '+SchemeData.InstallmentMode);
             $('#InstallmentAmount').html(SchemeData.InstallmentAmount);
-            $('#InstallmentMode').html(SchemeData.InstallmentMode);
+           // $('#InstallmentMode').html(SchemeData.InstallmentMode);
             $('#ContractCode').html(ContractData.ContractCode);
             $('#ContractCreatedOn').html(ContractData.CreatedOn);
             $('#CreatedBy').html(ContractData.CreatedBy);
@@ -201,22 +249,28 @@ function getData(){
                 html += '<tr>'
                            + '<td>' + duedata.DueNumber + '</td>'
                            + '<td>' + duedata.DueDate + '</td>'
-                           + '<td>' + duedata.DueAmount + '</td>'
-                           + '<td>' + (duedata.GoldInGram!="0" ? duedata.GoldInGram : '')+ '</td>'
+                           + '<td style="text-align: right;">' + duedata.DueAmount + '</td>'
+                           + '<td style="text-align: right;">' + (duedata.GoldInGram!="0" ? duedata.GoldInGram : '')+ '</td>'
                            + '<td>' + (duedata.GoldPriceOnDate!=null ? duedata.GoldPrice +'<br>'+duedata.GoldPriceOnDate : '')+ '</td>'
                            + '<td>' + (duedata.ReceiptNumber!="0" ? duedata.ReceiptNumber : '')+ '</td>'
                            + '<td>' + (duedata.PaymentDate!=null ? duedata.PaymentDate : '')+ '</td>'
                            + '<td style="text-align:right">';
                                if  (duedata.ReceiptID!="0") {
                                    html += '<a href="'+URL+'dashboard.php?action=receipts/receipt&number='+duedata.ReceiptNumber+'" class="btn btn-outline-primary btn-sm">View Receipt</a>';
-                               } //else {
-                                   //if  (duedata.IsShowPayButton=="1") {
-                                       //html+= '<a href="javascript:void(0)" onclick="paymentForm(\''+duedata.DueID+'\')" class="btn btn-primary btn-sm">Pay</a>';
-                                   //} 
-                                   else {
-                                              
-                                   }
-                               //}
+                               } else {
+                                   if  (duedata.IsShowPayButton=="1") {
+                                       html += '' 
+                                       + '<div class="dropdown position-relative">'
+                                       + '<a href="javascript:void(0)" data-bs-toggle="dropdown" data-bs-display="static">'
+                                       + '<img src="'+URL+'assets/icons/more.png">'
+                                        + '</a>'
+                                        + '<div class="dropdown-menu dropdown-menu-end">'
+                                                + '<a class="dropdown-item" href="'+URL+'dashboard.php?action=contracts/offlinepayment&due='+duedata.DueID+'">Make Offline Payment</a>'
+                                                + '<a class="dropdown-item" href="'+URL+'dashboard.php?action=contracts/onlinepayment&due='+duedata.DueID+'">Make Online Payment</a>'
+                                        + '</div>'
+                                + '</div>';
+                                   } 
+                               }
                            html+=  '</td>'
                       + '</tr>';
              });
@@ -224,109 +278,6 @@ $('#tbl_content').html(html);
                closePopup();
         }
   });
-}
-
-function paymentForm(DueID){
-    $('#Dueconfirmation').modal("show");
-    clearDiv(['PaymentModeID','PaymentRemarks']);
-    $.post(URL+"webservice.php?action=getPreCollectDueInformation&method=Contracts&ID="+DueID,"",function(data){
-        var obj = JSON.parse(data); 
-        if (obj.status=="success") {
-               $('#viewDueAmount').val(obj.data.DueAmount);
-               $('#viewGoldInGrams').val(obj.data.GoldInGrams);
-               $('#viewGoldPrice').val(obj.data.GoldPrice);
-               $('#viewModeOfBenifits').val(obj.data.ModeOfBenifits +' / '+obj.data.MaterialType);
-               //$('#viewMaterialType').val(obj.data.MaterialType);
-               $('#viewInstallment').val(obj.data.Installment);
-               $('#DueID').val(obj.data.DueID);
-               $('#PaymentModeID').val("0");
-               $('#PaymentRemarks').val("");
-               
-        } else {
-            if (obj.div!="") {
-                $('#Err'+obj.div).html(obj.message)
-            } else {
-                $('#failure_div').html(obj.message);
-            }
-            $('#process_popup').modal('hide');
-        }
-    });
-}  
-
-function collectNew() {
-    var param = $('#frm_collect').serialize();
-    clearDiv(['PaymentModeID','PaymentRemarks']);
-    $.post(URL+"webservice.php?action=CollectDue&method=Contracts",param,function(data){
-        var obj = JSON.parse(data); 
-        if (obj.status=="success") {
-            $('#Dueconfirmation').modal("hide");
-             openPopup();
-            $('#popupcontent').html(success_content(obj.message,'closePopup() ; getData')); 
-        } else {
-            if (obj.div!="") {
-                $('#Err'+obj.div).html(obj.message)
-            } else {
-                $('#failure_div').html(obj.message);
-            }
-            $('#process_popup').modal('hide');
-        }
-    });
-}
-
-setTimeout("getData(),listpaymentmodes()",2000);
-   
-
-var CloseID="";
-function CloseModal(ID){
-    CloseID=ID;
-    $('#closetoconfirmation').modal("show"); 
-}
-function CloseContract(ID) {
-     $('#closetoconfirmation').modal("hide"); 
-  openPopup();
-    $.post(URL+ "webservice.php?action=close&method=Contracts&ID="+CloseID,"",function(data){
-        var obj = JSON.parse(data);
-        if (obj.status=="success") {
-            html = "";
-            $('#popupcontent').html(success_content(obj.message,'closePopup'));
-            $.each(obj.data, function (index, data) {
-                 html += '<tr>'
-                           
-
-                      + '</tr>';
-             });
-            if(obj.data.legth==0){
-                    html +=  '<tr>'
-                    + '<td colspan="7" style="text-align: center;background:#fff !important">No data found</td>'
-                    + '</tr>'
-            }  
-            $('#tbl_content').html(html);
-        } else {
-            $('#popupcontent').html(errorcontent(obj.message));            
-        }
-    });
-      
-}
-function listpaymentmodes() {
-    $.post(URL+ "webservice.php?action=listAllActive&method=PaymentModes","",function(data){
-        var obj = JSON.parse(data);
-        if (obj.status=="success") {
-            var html = "<option value='0'> Select Payment Mode</option>";
-            $.each(obj.data, function (index, data) {
-                html += '<option value="'+data.PaymentModeID+'">'+data.PaymentMode+'</option>';
-            });   
-            $('#PaymentModeID').html(html);
-             $("#PaymentModeID").append($("#PaymentModeID option").remove().sort(function(a, b) {
-                var at = $(a).text(), bt = $(b).text();
-                return (at > bt)?1:((at < bt)?-1:0);
-            }));
-            $("#PaymentModeID").val("0");
-            setTimeout(function(){
-            },1500);
-        } else {
-            alert(obj.message);
-        }
-    });
-}
-  
+}                  
+setTimeout("getData()",2000);
 </script>

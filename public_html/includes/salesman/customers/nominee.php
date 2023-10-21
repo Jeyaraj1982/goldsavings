@@ -160,9 +160,18 @@ function listnominees() {
                             + '<td>' + data.RelationName + '</td>'
                             + '<td>' + data.Age + '</td>'
                             + '<td>' + ( (data.IsActive=="1") ? "<span class='badge bg-success'>Active</span>" : "<span class='badge bg-secondary'>Disabled</span>" ) + '</td>'
-                            + '<td style="text-align:right"><a onclick="view(\''+data.NomineeID+'\')" class="btn btn-success btn-sm">VIEW</a></td>'
+                             + '<td style="text-align:right">' 
+                                + '<div class="dropdown position-relative">'
+                                        + '<a href="javascript:void(0)" data-bs-toggle="dropdown" data-bs-display="static">'
+                                        + '<img src="'+URL+'assets/icons/more.png">'
+                                        + '</a>'
+                                        + '<div class="dropdown-menu dropdown-menu-end">'
+                                                + '<a class="dropdown-item" onclick="view(\''+data.NomineeID+'\')">View</a>'
+                                        + '</div>'
+                                + '</div>'
+                            + '</td>'
                       + '</tr>';
-             });
+    });                 
             if (obj.data.length==0) {
                  html += '<tr>'
                             + '<td colspan="6" style="text-align: center;background:#fff !important">No Data Found</td>'

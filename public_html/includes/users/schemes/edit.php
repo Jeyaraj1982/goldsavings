@@ -27,7 +27,7 @@
                             </div>
                             <div class="col-sm-3 mb-3">
                                 <label class="form-label"> Amount <span style='color:red'>*</span></label>
-                                <input type="text" style="text-align: right;" value="<?php echo $data[0]['Amount'];?>" name="Amount" id="Amount" class="form-control" placeholder="0.00" onkeyup="getInstallmentAmount()">
+                                <input type="text" style="text-align: right;" value="<?php echo $data[0]['Amount'];?>" name="Amount" id="Amount" class="form-control" placeholder="0" onkeyup="getInstallmentAmount()">
                                 <span id="ErrAmount" class="error_msg"></span>
                                 <script>
                                 function getInstallmentAmount() {
@@ -77,7 +77,7 @@
                                 </script>
                             <div class="col-sm-3 mb-3">
                                 <label class="form-label"><span id="_printlabel"></span> Installment Amount <span style='color:red'>*</span></label>
-                                <input type="text" style="text-align: right" value="<?php echo $data[0]['InstallmentAmount'];?>" name="InstallmentAmount" id="InstallmentAmount" class="form-control" placeholder="0.00">
+                                <input type="text" style="text-align: right" value="<?php echo $data[0]['InstallmentAmount'];?>" name="InstallmentAmount" id="InstallmentAmount" class="form-control" placeholder="0">
                                 <span id="ErrInstallmentAmount" class="error_msg"></span>
                             </div>
                              <div class="col-sm-6 mb-3">
@@ -278,4 +278,107 @@ function doUpdate() {
     });
     */
 }
+
+document.addEventListener('DOMContentLoaded', function () {
+    const ele = document.getElementById('MaxDueAmount');
+    const state = {
+        value: ele.value,
+    };
+
+    ele.addEventListener('keydown', function (e) {
+        const target = e.target;
+        state.selectionStart = target.selectionStart;
+        state.selectionEnd = target.selectionEnd;
+    });
+
+    ele.addEventListener('input', function (e) {
+        const target = e.target;
+
+        if (/^[0-9\s]*$/.test(target.value)) {
+            state.value = target.value;
+        } else {
+            // Users enter the not supported characters
+            // Restore the value and selection
+            target.value = state.value;
+            target.setSelectionRange(state.selectionStart, state.selectionEnd);
+        }
+    });
+});
+
+document.addEventListener('DOMContentLoaded', function () {
+    const ele = document.getElementById('MinDueAmount');
+    const state = {
+        value: ele.value,
+    };
+
+    ele.addEventListener('keydown', function (e) {
+        const target = e.target;
+        state.selectionStart = target.selectionStart;
+        state.selectionEnd = target.selectionEnd;
+    });
+
+    ele.addEventListener('input', function (e) {
+        const target = e.target;
+
+        if (/^[0-9\s]*$/.test(target.value)) {
+            state.value = target.value;
+        } else {
+            // Users enter the not supported characters
+            // Restore the value and selection
+            target.value = state.value;
+            target.setSelectionRange(state.selectionStart, state.selectionEnd);
+        }
+    });
+});
+document.addEventListener('DOMContentLoaded', function () {
+    const ele = document.getElementById('MaxDuration');
+    const state = {
+        value: ele.value,
+    };
+
+    ele.addEventListener('keydown', function (e) {
+        const target = e.target;
+        state.selectionStart = target.selectionStart;
+        state.selectionEnd = target.selectionEnd;
+    });
+
+    ele.addEventListener('input', function (e) {
+        const target = e.target;
+
+        if (/^[0-9\s]*$/.test(target.value)) {
+            state.value = target.value;
+        } else {
+            // Users enter the not supported characters
+            // Restore the value and selection
+            target.value = state.value;
+            target.setSelectionRange(state.selectionStart, state.selectionEnd);
+        }
+    });
+});
+
+document.addEventListener('DOMContentLoaded', function () {
+    const ele = document.getElementById('MinDuration');
+    const state = {
+        value: ele.value,
+    };
+
+    ele.addEventListener('keydown', function (e) {
+        const target = e.target;
+        state.selectionStart = target.selectionStart;
+        state.selectionEnd = target.selectionEnd;
+    });
+
+    ele.addEventListener('input', function (e) {
+        const target = e.target;
+
+        if (/^[0-9\s]*$/.test(target.value)) {
+            state.value = target.value;
+        } else {
+            // Users enter the not supported characters
+            // Restore the value and selection
+            target.value = state.value;
+            target.setSelectionRange(state.selectionStart, state.selectionEnd);
+        }
+    });
+});
 </script> 

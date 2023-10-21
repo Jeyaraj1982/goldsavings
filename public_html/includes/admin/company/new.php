@@ -28,14 +28,14 @@
                                  <span id="ErrLogo" class="error_msg"></span>
                             </div>
                             </div>
-                            </div>
-                            </div>
+                        </div>
+                    </div>
                     <div class="card">
                         <div class="card-body">
                             <div class="row"> 
                             <div class="col-sm-12 mb-3">
-                                <label class="form-label">EmailID </label>
-                                <input type="text" name="EmailID" id="EmailID" class="form-control" placeholder="EmailID">
+                                <label class="form-label">Email ID </label>
+                                <input type="text" style="text-transform: lowercase;" name="EmailID" id="EmailID" class="form-control" placeholder="Email ID">
                                 <span id="ErrEmailID" class="error_msg"></span>
                             </div>
                             <div class="col-sm-12 mb-3">
@@ -52,7 +52,7 @@
                                     <div class="input-group-prepend">
                                         <span class="input-group-text" id="basic-addon1">+91</span>
                                     </div>
-                                    <input type="text" name="MobileNumber" id="MobileNumber" class="form-control" placeholder="Mobile Number">
+                                    <input type="text" name="MobileNumber" id="MobileNumber" class="form-control" placeholder="Mobile Number" data-masked="" data-inputmask="'mask':'9999999999'">
                                 </div>
                                 <span id="ErrMobileNumber" class="error_msg"></span>
                             </div>
@@ -62,16 +62,16 @@
                                     <div class="input-group-prepend">
                                         <span class="input-group-text" id="basic-addon1">+91</span>
                                     </div>
-                                    <input type="text" name="WhatsappNumber" id="WhatsappNumber" class="form-control" placeholder="WhatsappNumber">
+                                    <input type="text" name="WhatsappNumber" id="WhatsappNumber" class="form-control" placeholder="Whatsapp Number" data-masked="" data-inputmask="'mask':'9999999999'">
                                 </div>
                                 <span id="ErrWhatsappNumber" class="error_msg"></span>
                             </div>
-                             <div class="col-sm-6 mb-3">
+                            <div class="col-sm-6 mb-3">
                                 <label class="form-label">Landline Number </label>
                                     <input type="text" name="LandlineNumber" id="LandlineNumber" class="form-control" placeholder="Landline Number">
                                 <span id="ErrLandlineNumber" class="error_msg"></span>
                             </div>
-                             <div class="col-sm-6 mb-3">
+                            <div class="col-sm-6 mb-3">
                                 <label class="form-label">Fax Number </label>
                                     <input type="text" name="FaxNumber" id="FaxNumber" class="form-control" placeholder="Fax Number">
                                 <span id="ErrFaxNumber" class="error_msg"></span>
@@ -116,7 +116,7 @@
                             </div>
                             <div class="col-sm-6">
                                 <label class="form-label">PinCode <span style='color:red'>*</span></label>
-                                <input type="text" value="" name="PinCode" id="PinCode" class="form-control" placeholder="Pincode">
+                                <input type="text" value="" name="PinCode" id="PinCode" class="form-control" placeholder="Pincode" data-masked="" data-inputmask="'mask':'999 999'">
                                 <span id="ErrPinCode" class="error_msg"></span>
                             </div>
                         </div>
@@ -284,7 +284,8 @@
 </div>
 
 <script>
-
+ var newstatename="";
+ var newdistrictname="";
 function confirmationtoadd(){
   $('#confirmation').modal("show");   
 }     
@@ -320,22 +321,25 @@ function addNew() {
    
 
 function listStateNames() {
+    var i=0;
     $.post(URL+ "webservice.php?action=listAllActive&method=StateNames","",function(data){
         var obj = JSON.parse(data);
         if (obj.status=="success") {
             var html = "<option value='0'>Select State Name</option>";
             $.each(obj.data, function (index, data) {
-                html += '<option value="'+data.StateNameID+'">'+data.StateName+'</option>';
+                if ((newstatename==data.StateName)) {
+                    i=data.StateNameID;
+                }
+                html += '<option value="'+data.StateNameID+'" '+((newstatename==data.StateName) ? '"selected=selected"' : '')+'>'+data.StateName+'</option>';
             });   
             $('#StateNameID').html(html);
-            $("#StateNameID").append($("#StateNameID option").remove().sort(function(a, b) {
+            /*$("#CustomerTypeNameID").append($("#CustomerTypeNameID option").remove().sort(function(a, b) {
                 var at = $(a).text(), bt = $(b).text();
                 return (at > bt)?1:((at < bt)?-1:0);
-            }));
-            $("#StateNameID").val("0");
-            setTimeout(function(){
-                //$('.mstateselect').selectpicker();
-            },1500);
+            }));*/
+           
+                 $("#StateNameID").val(i);
+           
         } else {
             alert(obj.message);
         }
@@ -343,21 +347,25 @@ function listStateNames() {
 }
 
 function getDistrictNames() {
+     var i=0;
     $.post(URL+ "webservice.php?action=listAllActive&method=DistrictNames&StateNameID="+$('#StateNameID').val(),"",function(data){
         var obj = JSON.parse(data);
         if (obj.status=="success") {
             var html = "<option value='0'>Select District Name</option>";
             $.each(obj.data, function (index, data) {
-                html += '<option value="'+data.DistrictNameID+'">'+data.DistrictName+'</option>';
+                 if ((newdistrictname==data.DistrictName)) {
+                    i=data.DistrictNameID;
+                }
+                html += '<option value="'+data.DistrictNameID+'" '+((newdistrictname==data.DistrictName) ? '"selected=selected"' : '')+'>'+data.DistrictName+'</option>';
+
             });   
             $('#DistrictNameID').html(html);
-            $("#DistrictNameID").append($("#DistrictNameID option").remove().sort(function(a, b) {
+            /*$("#DistrictNameID").append($("#DistrictNameID option").remove().sort(function(a, b) {
                 var at = $(a).text(), bt = $(b).text();
                 return (at > bt)?1:((at < bt)?-1:0);
-            }));
-            $("#DistrictNameID").val("0");
+            })); */
+            $("#DistrictNameID").val(i);
             setTimeout(function(){
-                //$('.mdistrictselect').selectpicker();
             },1500);
         } else {
             alert(obj.message);
@@ -365,18 +373,18 @@ function getDistrictNames() {
     });
 }
 
-
 function statenew(){
   $('#newstate').modal("show");   
 }
 function addNewStateName() {
-   
+     newstatename="";
     var param = $('#frm_create_statename').serialize();
    
     //clearDiv(['StateName','Remarks']);
     $.post(URL+"webservice.php?action=addNew&method=StateNames",param,function(data){
         var obj = JSON.parse(data); 
         if (obj.status=="success") {
+            newstatename=$('#StateName').val();
             $('#frm_create_statename').trigger("reset");
               openPopup();
                $('#newstate').modal("hide");                                   
@@ -398,11 +406,13 @@ function districtnew(){
   $('#StateNameByDistrictName').val( $('#StateNameID  option:selected').text() );  
 }
 function addNewDistrictName() {
+    newdistrictname="";
     var param = $('#frm_create_districtname').serialize();
     clearDiv(['DistricName','StateName','Remarks']);
     $.post(URL+"webservice.php?action=addNew&method=DistrictNames",param,function(data){
         var obj = JSON.parse(data); 
         if (obj.status=="success") {
+            newdistrictname=$('#DistrictName').val();
             $('#frm_create_districtname').trigger("reset");
               openPopup();
                $('#newdistrict').modal("hide");                                   
@@ -417,6 +427,8 @@ function addNewDistrictName() {
         }
     });
 }
+
+
 
 setTimeout(function(){
     listStateNames();

@@ -1,7 +1,7 @@
 <div class="container-fluid p-0">
      <div class="row">
         <div class="col-6">
-            <h1 class="h3">Scheme</h1>
+            <h1 class="h3">Schemes</h1>
             <h6 class="card-subtitle text-muted mb-3">Deactivated Schemes</h6>
         </div>
      </div>
@@ -12,17 +12,17 @@
                     <table id="datatables-fixed-header" class="table table-striped" style="width:100%">
                         <thead>
                             <tr>
-                               
+                                <th style="width: 100px;">Scheme ID</th>
                                 <th>Scheme Name</th>
-                                <th>Amount</th>
-                                <th>Installments</th>
-                                <th>InstallmentMode</th>
-                                <th style="width:700px"></th>
+                                <th style="width: 140px; text-align: right;">Wastage<br>Discount(%)</th>
+                                <th style="width: 140px; text-align: right;">Making Charge<br>Discount(%)</th>
+                                <th style="width: 140px; text-align: right;">Contracts</th>
+                                <th style="width:70px;"></th>
                             </tr>
                         </thead>
                         <tbody id="tbl_content">
                             <tr>
-                                <td colspan="8" style="text-align: center;background:#fff !important">NO DATA FOUND</td>
+                                <td colspan="7" style="text-align: center;background:#fff !important">loading schemes...</td>
                             </tr>
                         </tbody>
                     </table>
@@ -50,11 +50,7 @@
 </div>
 <script>
 
-var RemoveID=0;
-function confirmationtoDelete(ID){
-    RemoveID=ID;
-    $('#confirmation').modal("show"); 
-}
+
 function d() { 
     openPopup();
     $.post(URL+ "webservice.php?action=listAllDeactivated&method=Schemes","",function(data){
@@ -64,25 +60,47 @@ function d() {
             var html = "";
             $.each(obj.data, function (index, data) {
                 html += '<tr>'
+                             + '<td>' + data.SchemeCode + '</td>'
                             + '<td>' + data.SchemeName + '</td>'
-                            + '<td>' + data.Amount + '</td>'
-                            + '<td>' + data.Installments + '</td>'
-                            + '<td>' + data.InstallmentMode + '</td>'
-                            + '<td style="text-align:right">'
-                                + '<a href="'+URL+'dashboard.php?action=schemes/view&edit='+data.SchemeID+'" class="btn btn-success btn-sm">View</a>'
+                            + '<td style="text-align: right">' + data.WastageDiscount + '</td>'
+                            + '<td style="text-align: right">' + data.MakingChargeDiscount + '</td>'
+                             + '<td style="text-align:right">'+ data.ContractCount + '</td>'
+                            + '<td style="text-align:right">' 
+                                + '<div class="dropdown position-relative">'
+                                        + '<a href="javascript:void(0)" data-bs-toggle="dropdown" data-bs-display="static">'
+                                            + '<img src="'+URL+'assets/icons/more.png">'
+                                        + '</a>'
+                                        + '<div class="dropdown-menu dropdown-menu-end">'
+                                                + '<a class="dropdown-item" href="'+URL+'dashboard.php?action=schemes/viewdeactivescheme&edit='+data.SchemeID+'">View</a>'
+                                        + '</div>'
+                                + '</div>'
                             + '</td>'
                       + '</tr>';
-            });   
-             $('#tbl_content').html(html);
+            });
+            if (obj.data.length==0) {
+                 html += '<tr>'
+                            + '<td colspan="7" style="text-align: center;background:#fff !important">No Data Found</td>'
+                       + '</tr>';
+            }   
+            $('#tbl_content').html(html);
+             if (($.fn.dataTable.isDataTable("#datatables-fixed-header"))) {
+                $("#datatables-fixed-header").DataTable({
+                    fixedHeader: true,
+                    pageLength: 25
+                });
+            }
         } else {
-            $('#popupcontent').html(errorcontent(obj.message));            
+            alert(obj.message);
         }
     });
-      
-}
+} 
 setTimeout("d()",2000);
 
-
+var RemoveID=0;
+function confirmationtoDelete(ID){
+    RemoveID=ID;
+    $('#confirmation').modal("show"); 
+}
 function Remove(ID) {
     $('#confirmation').modal("hide");
   openPopup();

@@ -13,6 +13,7 @@ class GoldRates {
         if (strlen(trim($_POST['Date']))==0) {
             return json_encode(array("status"=>"failure","message"=>"Please Select Date","div"=>"Date"));    
         }  else {
+            
             $dupCode = $mysql->select("select * from _tbl_masters_goldrates where Date='".trim($_POST['Date'])."'");
             if (sizeof($dupCode)>0) {
                 return json_encode(array("status"=>"failure","message"=>"Date is already used","div"=>"Date"));    
@@ -70,15 +71,39 @@ class GoldRates {
          
          global $mysql;
          
+         //Check Recepit
+         //Check voucher
          $mysql->execute("delete from _tbl_masters_goldrates where RateID='".$_GET['ID']."'");
-         return json_encode(array("status"=>"success","message"=>"Deleted Successfully","data"=>$mysql->select("select * from _tbl_masters_goldrates")));
+         $data = $mysql->select("select `RateID`,DATE_FORMAT(`Date`,'%d-%m-%Y') AS `Date`,`GOLD_18`,`GOLD_22`,`GOLD_24` from _tbl_masters_goldrates order by Date(Date) desc");
+         return json_encode(array("status"=>"success","message"=>"Deleted Successfully","data"=>$data));
      }
 
      public static function listAll() {
-         
+                                                                    
          global $mysql;
-         
-         $data = $mysql->select("select `RateID`,DATE_FORMAT(`Date`,'%d/%m/%Y') AS `Date`,`GOLD_18`,`GOLD_22`,`GOLD_24` from _tbl_masters_goldrates");
+                 if (strlen(trim($_POST['FromDate']))==0) {
+        return json_encode(array("status"=>"failure","message"=>"Please select Start date","div"=>"message"));    
+    } else {
+        $fromDate = strtotime($_POST['FromDate']);
+        if (!($fromDate<=strtotime(date("Y-m-d")))) {
+            return json_encode(array("status"=>"failure","message"=>"Please select valid Start date (date must have lessthan or equal to ".date("d-m-Y")."","div"=>"message"));        
+        }
+    }
+    
+    if (strlen(trim($_POST['ToDate']))==0) {
+        return json_encode(array("status"=>"failure","message"=>"Please select End date","div"=>"message"));    
+    } else {
+        $toDate = strtotime($_POST['ToDate']);
+        if (!($toDate<=strtotime(date("Y-m-d")))) {
+            return json_encode(array("status"=>"failure","message"=>"Please select valid End date (date must have lessthan or equal to ".date("d-m-Y")."","div"=>"message"));        
+        }
+    }
+    
+    if (!(strtotime($_POST['FromDate'])<=strtotime($_POST['ToDate']))) {
+        return json_encode(array("status"=>"failure","message"=>"Please select valid date (Start date must be equal or lessthan End Date)","div"=>"message"));        
+    }
+    
+         $data = $mysql->select("select `RateID`,DATE_FORMAT(`Date`,'%d-%m-%Y') AS `Date`,`GOLD_18`,`GOLD_22`,`GOLD_24` from _tbl_masters_goldrates where  date(Date)>=date('".$_POST['FromDate']."') and date(Date)<=date('".$_POST['ToDate']."') order by Date(Date) desc");
          return json_encode(array("status"=>"success","data"=>$data));
      }
 
@@ -142,6 +167,23 @@ class GoldRates {
          
          $data = $mysql->select("select * from _tbl_masters_goldrates where date(Date)=date('".date("Y-m-d")."')");
          return json_encode(array("status"=>"success","data"=>$data));
+     }
+     
+      public static function getGoldRate() {
+         
+         global $mysql;
+         
+         if (isset($_GET['date'])) {
+             $data = $mysql->select("select Date,GOLD_18,GOLD_22,GOLD_24 from _tbl_masters_goldrates where date(Date)=Date('".$_GET['date']."') ");     
+         } else {
+            $data = $mysql->select("select Date,GOLD_18,GOLD_22,GOLD_24 from _tbl_masters_goldrates where date(Date)=Date('".date("Y-m-d")."') ");     
+         }
+         
+         if (sizeof($data)==1) {
+            return json_encode(array("status"=>"success","data"=>$data[0]));
+         } else {
+            return json_encode(array("status"=>"failure","message"=>"gold rate not found"));    
+         }
      }
 }   
 ?>

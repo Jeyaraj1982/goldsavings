@@ -38,12 +38,12 @@ class EmployeeCategories {
         
         global $mysql;
         
-        $data = $mysql->select("select * from _tbl_masters_employee_categories");
+        $data = $mysql->select("select * from _tbl_masters_employee_categories order by EmployeeCategoryTitle");
         $data = $mysql->select("
         SELECT t1.*, IFNULL(t2.cnt,0) AS EmployeeCount FROM _tbl_masters_employee_categories AS t1
 LEFT JOIN 
 (SELECT EmployeeCategoryID, COUNT(*) AS cnt FROM _tbl_employees GROUP BY EmployeeCategoryID) AS t2
-ON t1.EmployeeCategoryID=t2.EmployeeCategoryID
+ON t1.EmployeeCategoryID=t2.EmployeeCategoryID  order by t1.EmployeeCategoryTitle
         ");
         return json_encode(array("status"=>"success","data"=>$data));
     }
@@ -52,7 +52,7 @@ ON t1.EmployeeCategoryID=t2.EmployeeCategoryID
         
         global $mysql;
         
-        $data = $mysql->select("select * from _tbl_masters_employee_categories where IsActive='1'");
+        $data = $mysql->select("select * from _tbl_masters_employee_categories where IsActive='1' order by EmployeeCategoryTitle");
         return json_encode(array("status"=>"success","data"=>$data));
     }
     
@@ -91,10 +91,8 @@ ON t1.EmployeeCategoryID=t2.EmployeeCategoryID
         
         global $mysql;
         
-        $data = $mysql->select("select * from _tbl_masters_employee_categories where EmployeeCategoryID='".$EmployeeCategoryID."'");
+        $data = $mysql->select("select * from _tbl_masters_employee_categories where EmployeeCategoryID='".$EmployeeCategoryID."' ordre by EmployeeCategoryTitle");
         return json_encode(array("status"=>"success","data"=>$data));
     }
-    
-    
 }
 ?>

@@ -47,23 +47,53 @@
                 <li class="sidebar-item"><a class="sidebar-link" href="<?php echo URL;?>dashboard.php?action=contracts/list">View Contracts</a></li>
             </ul>
         </li>
+        <li class="sidebar-item">
+            <a data-bs-target="#recentpayments" data-bs-toggle="collapse" class="sidebar-link collapsed">
+                <i class="align-middle" data-feather="layout"></i> <span class="align-middle">Recent Payments</span>
+            </a>
+            <ul id="recentpayments" class="sidebar-dropdown list-unstyled collapse " data-bs-parent="#sidebar">
+                <li class="sidebar-item"><a class="sidebar-link" href="<?php echo URL;?>dashboard.php?action=recentpayments/list">View Payments</a></li>
+            </ul>
+        </li>
             <li class="sidebar-item">
             <a data-bs-target="#schemes" data-bs-toggle="collapse" class="sidebar-link collapsed">
                 <i class="align-middle" data-feather="layout"></i> <span class="align-middle">Schemes</span>
             </a>
             <ul id="schemes" class="sidebar-dropdown list-unstyled collapse " data-bs-parent="#sidebar">
-                <li class="sidebar-item"><a class="sidebar-link" href="<?php echo URL;?>dashboard.php?action=schemes/activescheme">Acive Schemes</a></li>
-                <li class="sidebar-item"><a class="sidebar-link" href="<?php echo URL;?>dashboard.php?action=schemes/deactivatedscheme">DeActivated Schemes</a></li>
+                <li class="sidebar-item"><a class="sidebar-link" href="<?php echo URL;?>dashboard.php?action=schemes/scheme&type=active">Active Schemes</a></li>
+                <li class="sidebar-item"><a class="sidebar-link" href="<?php echo URL;?>dashboard.php?action=schemes/schemetype=deactive">Deactivated Schemes</a></li>
+            </ul>
+            <li class="sidebar-item">
+            <a data-bs-target="#app_masters" data-bs-toggle="collapse" class="sidebar-link collapsed">
+                <i class="align-middle" data-feather="grid"></i> <span class="align-middle">Masters</span>
+            </a>
+            <ul id="app_masters" class="sidebar-dropdown list-unstyled collapse " data-bs-parent="#sidebar">
+                <li class="sidebar-item"><a class="sidebar-link" href="<?php echo URL;?>dashboard.php?action=masters/areanames/list">Area Name Master</a></li>
+                <li class="sidebar-item"><a class="sidebar-link" href="<?php echo URL;?>dashboard.php?action=masters/customertypes/list">Customer Types</a></li>
+                <li class="sidebar-item"><a class="sidebar-link" href="<?php echo URL;?>dashboard.php?action=masters/districtnames/list">District Name Master</a></li>
+                <li class="sidebar-item"><a class="sidebar-link" href="<?php echo URL;?>dashboard.php?action=masters/documenttypes/list">Document Types</a></li>
+                <li class="sidebar-item"><a class="sidebar-link" href="<?php echo URL;?>dashboard.php?action=masters/employeecategory/list">Employee Category</a></li>
+                <li class="sidebar-item"><a class="sidebar-link" href="<?php echo URL;?>dashboard.php?action=masters/file_extensions/list">File Extensions</a></li>
+                <li class="sidebar-item"><a class="sidebar-link" href="<?php echo URL;?>dashboard.php?action=masters/goldprice/list"> Gold price</a></li>
+                <li class="sidebar-item"><a class="sidebar-link" href="<?php echo URL;?>dashboard.php?action=masters/paymentbank/list">Payment Bank</a></li>
+                <li class="sidebar-item"><a class="sidebar-link" href="<?php echo URL;?>dashboard.php?action=masters/paymentmode/list">Payment Mode</a></li>
+                <li class="sidebar-item"><a class="sidebar-link" href="<?php echo URL;?>dashboard.php?action=masters/relationnames/list">Relation Names</a></li>
+                <li class="sidebar-item"><a class="sidebar-link" href="<?php echo URL;?>dashboard.php?action=masters/statenames/list">State Name Master</a></li>
             </ul>
         </li>
-            <li class="sidebar-item">
+        <li class="sidebar-item">
             <a data-bs-target="#reports" data-bs-toggle="collapse" class="sidebar-link collapsed">
                 <i class="align-middle" data-feather="layout"></i> <span class="align-middle">Reports</span>
             </a>
             <ul id="reports" class="sidebar-dropdown list-unstyled collapse " data-bs-parent="#sidebar">
-               <li class="sidebar-item"><a class="sidebar-link" href="<?php echo URL;?>dashboard.php?action=reports/customers">Customer </a></li>
+                <li class="sidebar-item"><a class="sidebar-link" href="<?php echo URL;?>dashboard.php?action=reports/customerwise">Customer Wise</a></li>
                 <li class="sidebar-item"><a class="sidebar-link" href="<?php echo URL;?>dashboard.php?action=reports/schemewise">Scheme Wise</a></li>
-            </ul>
+                <li class="sidebar-item"><a class="sidebar-link" href="<?php echo URL;?>dashboard.php?action=reports/salesmanwise">Salesman Wise</a></li>
+                <li class="sidebar-item"><a class="sidebar-link" href="<?php echo URL;?>dashboard.php?action=reports/pendingdues">Pending dues</a></li>
+                <li class="sidebar-item"><a class="sidebar-link" href="<?php echo URL;?>dashboard.php?action=reports/upcommingdues">Upcomming dues</a></li>
+                <li class="sidebar-item"><a class="sidebar-link" href="<?php echo URL;?>dashboard.php?action=reports/receipt">Receipts</a></li>
+                <li class="sidebar-item"><a class="sidebar-link" href="<?php echo URL;?>dashboard.php?action=reports/voucher">Vouchers</a></li>
+            </ul> 
         </li>
         <li class="sidebar-item">
             <a data-bs-target="#addressbook" data-bs-toggle="collapse" class="sidebar-link collapsed">

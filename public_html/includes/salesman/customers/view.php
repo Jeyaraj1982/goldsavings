@@ -22,8 +22,10 @@
                                 <?php echo $data[0]['CustomerCode'];?>
                             </div>
                             <div class="col-sm-6 mb-3">
-                            </div>
-                            <div class="col-sm-6 mb-3">
+                                <div style="font-weight: bold;">Entry Date</div>
+                                <?php echo date("d-m-Y",strtotime($data[0]["EntryDate"])) ;?>
+                            </div>                          
+                              <div class="col-sm-6 mb-3">
                                 <div style="font-weight: bold">Customer Type</div>
                                 <?php echo $data[0]['CustomerTypeName'];?>
                             </div>
@@ -47,8 +49,7 @@
                             </div>
                             <div class="col-sm-6 mb-3">
                                 <div style="font-weight: bold">Date Of Birth </div>
-                                <?php echo $data[0]['DateOfBirth'];?>
-                                <span id="ErrDateOfBirth" class="error_msg"></span>
+                                <?php echo date("d-m-Y",strtotime($data[0]["DateOfBirth"])) ;?>          
                             </div>
                             <div class="col-sm-6 mb-3">
                                 <div style="font-weight: bold">Mobile Number</div>
@@ -140,11 +141,11 @@
                         <div class="row">
                             <div class="col-sm-6">         
                                 <div style="font-weight: bold">Referred By </div>
-                                <?php echo $data[0]['ReferredBy'];?>
+                                <?php echo $data[0]['ReferByText'];?>
                             </div>
                             <div class="col-sm-6">
-                                <div style="font-weight: bold">Mobile Number </div>
-                                    +91 <?php echo $data[0]['RefMobileNumber'];?>
+                                <div style="font-weight: bold"> <?php echo $data[0]['ReferredByName'];?></div>
+                                +91 <?php echo $data[0]['RefMobileNumber'];?>
                             </div>
                         </div>
                     </div>
@@ -159,8 +160,8 @@
                                 <?php echo ($data[0]['IsActive']==1) ? " Active " : "Deactivated";?>
                             </div>
                             <div class="col-sm-6">
-                                <div style="font-weight: bold">Created On </div>
-                                    <?php echo $data[0]['CreatedOn'];?>
+                                <div style="font-weight: bold;">Joined On </div>
+                                <?php echo date("d-m-Y H:i",strtotime($data[0]["CreatedOn"])) ;?>
                             </div>
                         </div>
                     </div>

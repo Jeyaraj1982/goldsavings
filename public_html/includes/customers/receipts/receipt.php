@@ -1,39 +1,116 @@
 <?php $data= $mysql->select("select * from _tbl_receipts where ReceiptNumber='".$_GET['number']."'");?>
-
 <div class="container-fluid p-0">
-    <h1 style="font-weight: bold;" class="h3">Receipt</h1>
-    <div class="row"> 
-        <div class="col-sm-12 col-xl-12">
+ <div class="col-sm-12">
+    <div class="row">
+        <div class="col-6">
+            <h1 class="h3">Receipts</h1>
+        </div>
+        <div class="col-6" style="text-align:right;">
+            <a href="<?php echo URL;?>dashboard.php?" class="btn btn-outline-primary btn-sm">Back</a>
+     </div>
+     </div>
+     </div>
+    <!--<div class="row">
+        <div class="col-sm-12">
             <div class="card">
                 <div class="card-body">
+                    <form id="frm_receipt" name="frm_receipt" id="frm_receipt">
                     <div class="row">
-                         <div class="col-6">
-                            <img src="<?php echo WEB_URL."/assets/qrcodes/".md5($data[0]["ReceiptNumber"]).".png";?>">
-                        </div>
-                         <div class="col-6 mb-2" style="text-align: right;">
-                           <div style="font-weight: bold" id="CustomerName"> Customer Information</div>
-                           <div class="mb-4"><?php echo $data[0]["CustomerName"];?><br>#.<?php echo $data[0]["ContractCode"];?></div>
-                           <div style="font-weight: bold" id="PaymentDate"> Payment Information</div>
-                           <div class="mb-2"><?php echo $data[0]["ReceiptDate"];?><br>#.<?php echo $data[0]["ReceiptNumber"];?></div>
-                         </div>
-                         <div class="col-12">
-                         <h3 class="mb-4" style="text-align: center;">Payment Receipt</h3>
-                            <p>We have received some of (Rs)<b><?php echo $data[0]["DueAmount"];?></b> (amount in words <?php echo getIndianCurrency($data[0]["DueAmount"]);?>) from <b><?php echo $data[0]["CustomerName"];?></b>(Customer ID: <?php echo $data[0]["CustomerCode"];?>) due to contract ID <b><?php echo $data[0]["ContractCode"];?></b> with <b><?php echo addOrdinalNumnberSuffix($data[0]["DueNumber"]);?></b> credited by <b><?php echo $data[0]["PaymentMode"];?></b>.</p>  
-                         </div>
-                         <div class="col-12" style="text-align: right;">
-                            <p>By</p>    
-                         </div>
+                    <div class="col-sm-9 mb-3">
+                                <label class="form-label">Date Range <span style='color:red'>*</span></label>
+                                <div class="input-group">
+                                    <input type="date" name="FromDate" value="<?php echo date("Y-m-d");?>" id="FromDate" class="form-control" placeholder="From Date">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text" id="basic-addon1">To</span>
+                                </div>
+                                <input type="date" value="<?php echo date("Y-m-d");?>" name="ToDate" id="ToDate" class="form-control" placeholder="To Date">
+                                <button type="button" onclick="getData()" class="btn btn-primary">Get Data</button>
+                            </div> 
+                           <span id="Errmessage" class="error_msg"></span>
                     </div>
+                    </div>
+                    </form>
                 </div>
             </div>
         </div>
-</div>
-    <div class="col-sm-12 mb-3" style="text-align: center;">
-        <button type="button" onclick="print()" class="btn btn-primary">Print this Receipt</button>
-        </div>
-        <div class="col-sm-12" style="text-align: center;">
-        <a style="color: #999 !important;" href="<?php echo URL;?>dashboard.php?action=contracts/view&view=<?php echo $data[0]['ContractCode'];?>">Back</a>
+    </div>-->
+    <div class="row" id="listData">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body" style="padding-top:25px">
+                    <table id="datatables-fixed-header" class="table table-striped" style="width:100%">
+                        <thead>
+                            <tr>
+                                <th >Receipt<br>Number</th>
+                                <th>Receipt<br>Date</th>
+                                <th>Contract<br>ID</th>
+                                <th style="text-align:right";>Due<br>Number</th>
+                                <th style="text-align:right";>Gold<br>(Grams)</th>
+                                <th style="text-align:right";>Paid<br>Amount(₹)</th>
+                                <th> </th>
+                            </tr>
+                        </thead>
+                        <tbody id="tbl_content">
+                            <tr>
+                                <td colspan="7" style="text-align: center;background:#fff !important">No data found</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
     </div>
+</div>
 
+<script>
+
+function listReceipts() {
+    var param = $('#frm_receipt').serialize();
+    openPopup();
+    clearDiv(['message']);
+    $.post(URL+ "webservice.php?action=getReceipts",param,function(data){
+        closePopup();
+        var obj = JSON.parse(data);
+        if (obj.status=="success") {
+            var html = "";
+            $.each(obj.data, function (index, data) {
+                html += '<tr>'
+                    + '<td>' + data.ReceiptNumber + '</td>'
+                    + '<td>' + data.ReceiptDate + '</td>'
+                    + '<td>' + data.ContractCode + '</td>'
+                    + '<td style="text-align:right">' + data.DueNumber + '</td>'
+                    + '<td style="text-align:right">' + data.DueGold + '</td>'
+                    + '<td style="text-align:right">' + data.DueAmount + '</td>'
+                    + '<td style="text-align:right">' 
+                                + '<div class="dropdown position-relative">'
+                                        + '<a href="javascript:void(0)" data-bs-toggle="dropdown" data-bs-display="static">'
+                                            + '<img src="'+URL+'assets/icons/more.png">'
+                                        + '</a>'
+                                        + '<div class="dropdown-menu dropdown-menu-end">'
+                                                + '<a class="dropdown-item" href="'+URL+'dashboard.php?action=receipts/viewreceipt&number='+data.ReceiptNumber+'">View Receipt</a>'
+                                                + '<a class="dropdown-item" href="'+URL+'dashboard.php?action=contracts/viewcontract&view='+data.ContractCode+'">View Contract</a>'
+                                        + '</div>'
+                                + '</div>'
+                            + '</td>'
+                      + '</tr>';
+            });
+             if (obj.data.length==0) {
+         html += '<tr>'
+                    + '<td colspan="7" style="text-align: center;background:#fff !important">No Data Found</td>'
+               + '</tr>';
+    }
+            $('#tbl_content').html(html);
+            $('#listData').show();
+             
+            if (obj.div!="") {
+                $('#Err'+obj.div).html(obj.message)
+            } else {
+                $('#failure_div').html(obj.message);
+            }
+            $('#process_popup').modal('hide');
+        }
+    });
+}
+setTimeout("listReceipts()",2000)
+</script>
          

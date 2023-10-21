@@ -21,7 +21,7 @@
                 <div class="card">
                     <div class="card-body" style="padding-bottom:0px;">
                         <div class="row">
-                            <div class="col-sm-12 mb-1">
+                            <div class="col-sm-12 mb-3">
                                 <label class="form-label">Schemes <span style='color:red'>*</span></label>
                                 <input type="text" name="SchemeID" id="SchemeID" class="form-control" placeholder="Scheme">
                                 <span id="ErrSchemeID" class="error_msg"></span>
@@ -31,55 +31,108 @@
                         </div>
                     </div>
                 </div>
-            </div> 
-            <div class="col-3 col-xl-3">
-                <div class="card"  style="display: none;">
-                    <div class="card-body" style="padding:10px 20px">
-                        <div class="row">
-                            <div class="col-sm-12">
-                                 
-                                <div class="row">
-                                <div class="col-sm-12">
-                                       <hr>
-                                    </div>
-                                    <div class="col-sm-12">
-                                        <label class="form-label">Recurring mode</label>
-                                    </div>
-                                    <div class="col-sm-12" style="margin-bottom:5px"><input type="radio"> One Time</div>
-                                    <div class="col-sm-12" style="margin-bottom:5px"><input type="radio"> Monthly</div>
-                                    <div class="col-sm-12" style="margin-bottom:5px"><input type="radio"> Yearly</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
             </div>
-            <div class="col-12 col-xl-12">
+             <div class="col-12 col-xl-12" id="contractinformation" >
                 <div class="card">
                     <div class="card-body" style="padding-bottom:0px;">
                         <div class="row">
-                            <div class="col-sm-6 mb-3">
-                                <label class="form-label">Due Amount<span style='color:red'>*</span></label>
-                                <input type="text" name="DueAmount" id="DueAmount" class="form-control" placeholder="Due Amount">
+                        <div class="col-sm-4 mb-3">
+                                <label class="form-label">Due Amount <span style='color:red'>*</span></label>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text" id="basic-addon1">₹</span>
+                                    </div>
+                                    <input type="text" style="text-align: right;" name="DueAmount" id="DueAmount" class="form-control" placeholder="0"  onkeyup="getTotalAmount();">
+                                </div>
                                 <span id="ErrDueAmount" class="error_msg"></span>
                             </div>
-                            
+                            <div class="col-sm-4 mb-3">
+                                <label class="form-label">Duration <span style='color:red'>*</span></label>
+                                <div class="input-group">
+                                <select data-live-search="true" data-size="2" name="InstallmentMode" id="InstallmentMode" class="form-select mselect" onchange="printLable()">
+                                     <!-- <option value="0">Select Mode</option>
+                                    <option  value="WEEKLY">WEEKLY</option> -->
+                                    <option value="MONTHLY">MONTHLY</option>
+                                </select>
+                                <input type="text" style="text-align: right;" name="Duration" id="Duration" class="form-control" placeholder="0" onkeyup="getTotalAmount()">
+                            </div>
+                            <span id="ErrDuration" class="error_msg"></span>
+                            </div>
+                            <script>
+                                function printLable() {
+                                    if ($('#InstallmentMode').val()=="WEEKLY"){
+                                        $('#_printlabel').html("Weekly");    
+                                    }
+                                    if ($('#InstallmentMode').val()=="MONTHLY"){
+                                        $('#_printlabel').html("Monthly");    
+                                    }
+                                    if ($('#InstallmentMode').val()=="0"){
+                                        $('#_printlabel').html("");    
+                                    }
+                                }
+                                </script>
+                                <div class="col-sm-4 mb-3">
+                                <label class="form-label">Total Amount</label>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text" id="basic-addon1">₹</span>
+                                    </div>
+                                    <input type="text" readonly="readonly" style="text-align: right; "name="Amount" id="Amount" class="form-control" placeholder="0">
+                                </div>
+                                <script>
+                                function getTotalAmount() {
+                                    var _dueamount=$('#DueAmount').val()==""?0:$('#DueAmount').val();
+                                    var _intallment=$('#Duration').val()==""?0:$('#Duration').val();
+                                     var amount= parseFloat(_dueamount);       
+                                     var installments= parseFloat(_intallment); 
+                                     var Amount= amount*installments;
+                                     $('#Amount').val(Amount.toFixed(2));
+                                     
+                                     calculateGold();
+                                }
+                                </script>
+                            </div>
+                                <div class="col-sm-4 mb-3">
+                                <div id="Gold_benefits">
+                                    <label class="form-label"><span id="_printChange"></span> Material Type <span style='color:red'>*</span></label>
+                                    <select class="form-select" name="MaterialType" id="MaterialType" onchange="calculateGold()">
+                                        <option value="0">Select Material Type </option>
+                                        <option value="GOLD_18">GOLD_18</option>
+                                        <option value="GOLD_22">GOLD_22</option>
+                                        <option value="GOLD_24">GOLD_24</option>
+                                    </select>
+                                    <span id="ErrMaterialType" class="error_msg"></span> 
+                                </div>
+                            </div>
+                            <div class="col-sm-4 mb-3">
+                                <label class="form-label">Gold price</label>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text" id="basic-addon1">₹</span>
+                                    </div>
+                                    <input type="text" readonly="readonly" style="text-align: right; "name="GoldRate" id="GoldRate" class="form-control" placeholder="0.00">
+                                </div>
+                            </div>
+                            <div class="col-sm-4 mb-3">
+                                <label class="form-label">Gold (Grams) </label>
+                                <input type="text" style="text-align: right;" readonly="readonly" name="GoldInGrams" id="GoldInGrams" class="form-control" placeholder="0.000">
+                            </div>
                             <div class="col-sm-6  mb-3">
-                                <label class="form-label">Payment Mode<span style='color:red'>*</span></label>
+                                <label class="form-label">Payment Mode <span style='color:red'>*</span></label>
                                 <select data-live-search="true" data-size="5" name="PaymentModeID" id="PaymentModeID" class="form-select mstateselect">
                                     <option>loading...</option>
                                 </select>
                                 <span id="ErrPaymentModeID" class="error_msg"></span>
                             </div>
                             <div class="col-sm-12 mb-3">
-                                <label class="form-label">Payment Remarks<span style='color:red'>*</span></label>
+                                <label class="form-label">Payment Remarks <span style='color:red'>*</span></label>
                                 <input type="text" name="PaymentRemarks" id="PaymentRemarks" class="form-control" placeholder="Payment Remarks">
                                 <span id="ErrPaymentRemarks" class="error_msg"></span>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> 
             <div class="col-sm-12" style="text-align:right;">
                 <a href="<?php echo URL;?>dashboard.php?action=contracts/list" class="btn btn-outline-primary">Back</a>&nbsp;&nbsp;
                 <button  type="button" onclick="Confirmationtoadd()" class="btn btn-primary">Create Contract</button>    
@@ -92,7 +145,7 @@
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Confimation</h5>
+        <h5 class="modal-title" id="exampleModalLabel">Confirmation</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
@@ -150,6 +203,9 @@
 
 <script>  
 
+var goldRates_18;
+var goldRates_22;
+var goldRates_24;
 
 var selectedCustomerID=0; 
 var selectedSchemeID=0; 
@@ -248,7 +304,7 @@ function autocomplete(inp, arr) {
                                     + '</div>'
                                     + '<div class="col-sm-12" style="text-align:right;">'
                                         + '<!--<a href="'+URL +'dashboard.php?action=customers/view&edit='+item.value+'" class="btn btn-outline-primary btn-sm" target="_blank">View Details</a>-->'
-                                        + '<a href="javascript:void(0)" onclick="openLink(\''+URL +'dashboard.php?action=customers/view&edit='+item.value+'\')" class="btn btn-outline-primary btn-sm">View Details</a>'
+                                        + '<a href="'+URL+'dashboard.php?action=customers/view&customer='+item.CustomerID+'" class="btn btn-outline-primary btn-sm">View Details</a>'
                                     + '</div>';
              $('#CustomerResult').html(txtHtml) ;
              $('#customersince').html(daysdifference(0,item.CreatedOn));
@@ -355,8 +411,10 @@ function scheme_autocomplete(inp, arr) {
           /*make the matching letters bold:*/
           html = "<span class='row' style='background:none;'>";
             //html += "<span class='col-sm-2' style='background:none'>"+item.CustomerID+"</span>";
-            html += "<span class='col-sm-8' style='background:none'>"+item.SchemeName+"</span>";
-            html += "<span class='col-sm-4' style='background:none'>"+item.Amount+"</span>";
+            html += "<span class='col-sm-4' style='background:none'>"+item.SchemeName+"</span>";
+            html += "<span class='col-sm-4' style='background:none'>"+item.WastageDiscount+"<span>%</span></span>";
+            html += "<span class='col-sm-4' style='background:none'>"+item.MakingChargeDiscount+"<span>%</span></span>";
+            
             //html += "<span class='col-sm-3' style='background:none'>"+item.MobileNumber+"</span>";
             //html += "<span class='col-sm-3' style='background:none'>"+item.Address+"</span>";
           html += "</span>"
@@ -375,27 +433,31 @@ function scheme_autocomplete(inp, arr) {
               $('#ErrSchemeID').html("");
               
               
-               $('#DueAmount').val(item.InstallmentAmount) ;
+             $('#DueAmount').val(item.InstallmentAmount) ;
               txtHtml = '<div class="row">'
-                                    + '<div class="col-sm-12" style="margin-bottom:10px">'
-                                       +  item.SchemeName
-                                    + '</div>' 
                                     + '<div class="col-sm-4">'
-                                        + '<label class="form-label" style="font-weight:bold;margin-bottom:0px !important">Amount</label><br>'
-                                        +  item.Amount
+                                        + '<label class="form-label" style="font-weight:bold;margin-bottom:0px !important">Scheme Name </label><br>'
+                                        +  item.SchemeName
                                     + '</div>'
                                     + '<div class="col-sm-4">'
-                                        + '<label class="form-label" style="font-weight:bold;margin-bottom:0px !important">Duration</label><br>'
-                                        + item.Installments+ ', ' + item.InstallmentMode
+                                        + '<label class="form-label" style="font-weight:bold;margin-bottom:0px !important">Due Amount <span>(₹)</span></label><br>'
+                                        +  item.MinDueAmount+ '&nbsp; - &nbsp;'  + item.MaxDueAmount
+                                    + '</div>'+ 
+                                    '<div class="col-sm-4">'
+                                        + '<label class="form-label" style="font-weight:bold;margin-bottom:0px !important">Duration (Months) </label><br>'
+                                        +  item.MinDuration+ '&nbsp; - &nbsp;'  + item.MaxDuration
                                     + '</div>' 
                                     + '<div class="col-sm-4">'
-                                        + '<label class="form-label" style="font-weight:bold;margin-bottom:0px !important">Due Amount</label><br>'
-                                        +  item.InstallmentAmount
-                                       
+                                        + '<label class="form-label" style="font-weight:bold;margin-bottom:0px !important">Wastage Discount <span>(%)</span></label><br>'
+                                        +  item.WastageDiscount 
                                     + '</div>'
+                                    + '<div class="col-sm-4">'
+                                        + '<label class="form-label" style="font-weight:bold;margin-bottom:0px !important">Making Charge Discount <span>(%)</span></label><br>'
+                                        + item.MakingChargeDiscount
+                                    + '</div>' 
                                     + '<div class="col-sm-12" style="text-align:right;">'
-                                        + '<!--<a href="'+URL +'dashboard.php?action=masters/services/view&edit='+item.value+'" class="btn btn-outline-primary btn-sm" target="_blank">View Details</a>-->'
-                                        + '<a href="javascript:void(0)" onclick="openLink(\''+URL +'dashboard.php?action=masters/services/view&edit='+item.value+'\')" class="btn btn-outline-primary btn-sm">View Details</a>'
+                                        + '<!--<a href="'+URL +'dashboard.php?action=services/view&edit='+item.value+'" class="btn btn-outline-primary btn-sm" target="_blank">View Details</a>-->'
+                                        + '<a href="'+URL+'dashboard.php?action=schemes/view&edit='+item.SchemeID+'" class="btn btn-outline-primary btn-sm">View Details</a>'
                                     + '</div>';
              $('#SchemeResult').html(txtHtml) ;
              $('#SchemeResult').show() ;
@@ -470,7 +532,7 @@ function scheme_autocomplete(inp, arr) {
   document.addEventListener("click", function (e) {
       closeAllLists(e.target);
   });
-}
+}      
 
 /*An array containing all the country names in the world:*/
 <?php 
@@ -482,11 +544,13 @@ scheme_autocomplete(document.getElementById("SchemeID"), <?php echo json_encode(
 function Confirmationtoadd(){
    $('#confirmation').modal("show");  
  }
+ var CreatedContractID=0;
 function addNew() {
+        clearDiv(['CustomerName','MobileNumber','PaymentModeID','EntryDate','DueAmount','Amount','Duration','InstallmentMode','InstallmentAmount','MaterialType','ModeOfBenifits','Remarks','IsActive']);
      $('#confirmation').modal("hide");
     var param = $('#frm_create').serialize();
     openPopup();
-    clearDiv(['CustomerName','MobileNumber','Amount','Installments','InstallmentMode','InstallmentAmount','MaterialType','ModeOfBenifits','Remarks','IsActive']);
+    clearDiv(['CustomerName','MobileNumber','EntryDate','PaymentModeID','DueAmount','Amount','Duration','InstallmentMode','InstallmentAmount','MaterialType','ModeOfBenifits','Remarks','IsActive']);
     
     jQuery.ajax({
         type: 'POST',
@@ -496,7 +560,7 @@ function addNew() {
         contentType: false, 
         success: function(data) {
              var obj = JSON.parse(data); 
-              if (obj.status=="success") {
+             if (obj.status=="success") {
                 CreatedContractID = obj.ContractID;
                 $('#popupcontent').html(success_content(obj.message,'closePopup(); opencontractview'));
              } else {
@@ -510,12 +574,75 @@ function addNew() {
         }
     });
 }
-
 function opencontractview()  {
   location.href=URL +'dashboard.php?action=contracts/view&view='+CreatedContractID;  
 }
+setTimeout("listpaymentmodes();getGoldRate();",2000);
 
-setTimeout("listpaymentmodes()",2000);
+
+function calculateGold() {
+    
+    $('#GoldRate').val("");
+        $('#GoldInGrams').val("");
+        $('#ErrDueAmount').html("");  
+        if ($('#DueAmount').val()=="") {
+       $('#ErrDueAmount').html("Please Enter Due Amount"); 
+       return false; 
+     } 
+        var dueamount=parseInt($('#DueAmount').val());  
+     if (dueamount==0) {
+       $('#ErrDueAmount').html("Please Enter Due Amount"); 
+       return false; 
+     } 
+     
+     if ( $('#MaterialType').val()=="0") {
+          $('#GoldRate').val("");
+          $('#GoldInGrams').val("");
+          $('#ErrDueAmount').html("");  
+          return false; 
+     } 
+     
+         if ($('#MaterialType').val()=="GOLD_18") {
+              var goldrate=parseInt(goldRates_18);                   
+              $('#GoldRate').val(goldrate);
+              $('#GoldInGrams').val( (dueamount/goldrate).toFixed(3)); 
+         }
+         
+          if ($('#MaterialType').val()=="GOLD_22") {
+              var goldrate=parseInt(goldRates_22);  
+              $('#GoldRate').val(goldrate);
+              $('#GoldInGrams').val( (dueamount/goldrate).toFixed(3)); 
+         }
+         
+          if ($('#MaterialType').val()=="GOLD_24") {
+              var goldrate=parseInt(goldRates_24);  
+              $('#GoldRate').val(goldrate);
+              $('#GoldInGrams').val( (dueamount/goldrate).toFixed(3)); 
+         }
+}
+
+function getGoldRate() {
+    openPopup();
+    $.post(URL+"webservice.php?action=getGoldRate&method=goldRates","",function(data){
+        var obj = JSON.parse(data); 
+        if (obj.status=="success") {
+         
+            goldRates_18=obj.data.GOLD_18;
+            goldRates_22=obj.data.GOLD_22;
+            goldRates_24=obj.data.GOLD_24; 
+            calculateGold(); 
+        } else {
+            if (obj.div!="") {
+                $('#Err'+obj.div).html(obj.message)
+            } else {
+                $('#failure_div').html(obj.message);
+            }
+            $('#process_popup').modal('hide');
+        }
+        closePopup();
+        
+    });
+}
 
 function CreateContract() {
     if (selectedCustomerID==0) {
@@ -569,6 +696,32 @@ function listpaymentmodes() {
         }
     });
 }
+document.addEventListener('DOMContentLoaded', function () {
+    const ele = document.getElementById('DueAmount');
+    const state = {
+        value: ele.value,
+    };
+
+    ele.addEventListener('keydown', function (e) {
+        const target = e.target;
+        state.selectionStart = target.selectionStart;
+        state.selectionEnd = target.selectionEnd;
+    });
+
+    ele.addEventListener('input', function (e) {
+        const target = e.target;
+
+        if (/^[0-9\s]*$/.test(target.value)) {
+            state.value = target.value;
+        } else {
+            // Users enter the not supported characters
+            // Restore the value and selection
+            target.value = state.value;
+            target.setSelectionRange(state.selectionStart, state.selectionEnd);
+        }
+    });
+});
+
 
 </script>  
  <!--

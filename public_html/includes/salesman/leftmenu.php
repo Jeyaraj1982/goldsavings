@@ -23,8 +23,8 @@
                 <i class="align-middle" data-feather="layout"></i> <span class="align-middle">Schemes</span>
             </a>
             <ul id="schemes" class="sidebar-dropdown list-unstyled collapse " data-bs-parent="#sidebar">
-                <li class="sidebar-item"><a class="sidebar-link" href="<?php echo URL;?>dashboard.php?action=schemes/activescheme">Acive Schemes</a></li>
-                <li class="sidebar-item"><a class="sidebar-link" href="<?php echo URL;?>dashboard.php?action=schemes/deactivatedscheme">DeActivated Schemes</a></li>
+                <li class="sidebar-item"><a class="sidebar-link" href="<?php echo URL;?>dashboard.php?action=schemes/scheme&type=active">Active Schemes</a></li>
+                <li class="sidebar-item"><a class="sidebar-link" href="<?php echo URL;?>dashboard.php?action=schemes/scheme&type=deactive">Deactivate Schemes</a></li>
             </ul>
         </li>
          <li class="sidebar-item">
@@ -34,6 +34,13 @@
             <ul id="contracts" class="sidebar-dropdown list-unstyled collapse " data-bs-parent="#sidebar">
                 <li class="sidebar-item"><a class="sidebar-link" href="<?php echo URL;?>dashboard.php?action=contracts/new">New Contract</a></li>
                 <li class="sidebar-item"><a class="sidebar-link" href="<?php echo URL;?>dashboard.php?action=contracts/list">View Contracts</a></li>
+            </ul>
+            <li class="sidebar-item">
+            <a data-bs-target="#pendingdues" data-bs-toggle="collapse" class="sidebar-link collapsed">
+                <i class="align-middle" data-feather="layout"></i> <span class="align-middle">Pending Dues</span>
+            </a>
+            <ul id="pendingdues" class="sidebar-dropdown list-unstyled collapse " data-bs-parent="#sidebar">
+                <li class="sidebar-item"><a class="sidebar-link" href="<?php echo URL;?>dashboard.php?action=pendingdues/pendingdueslist">View Pending Dues</a></li>
             </ul>
             <li class="sidebar-item">
             <a data-bs-target="#events" data-bs-toggle="collapse" class="sidebar-link collapsed">
@@ -48,9 +55,11 @@
                 <i class="align-middle" data-feather="layout"></i> <span class="align-middle">Reports</span>
             </a>
             <ul id="reports" class="sidebar-dropdown list-unstyled collapse " data-bs-parent="#sidebar">
-               <li class="sidebar-item"><a class="sidebar-link" href="<?php echo URL;?>dashboard.php?action=reports/customers">Customer </a></li>
+                <li class="sidebar-item"><a class="sidebar-link" href="<?php echo URL;?>dashboard.php?action=reports/customerwise">Customer Wise</a></li>
                 <li class="sidebar-item"><a class="sidebar-link" href="<?php echo URL;?>dashboard.php?action=reports/schemewise">Scheme Wise</a></li>
-            </ul>
+                <li class="sidebar-item"><a class="sidebar-link" href="<?php echo URL;?>dashboard.php?action=reports/receipt">Receipt</a></li>
+                <li class="sidebar-item"><a class="sidebar-link" href="<?php echo URL;?>dashboard.php?action=reports/voucher">Voucher</a></li>
+            </ul> 
         </li>
         <li class="sidebar-item">
             <a data-bs-target="#addressbook" data-bs-toggle="collapse" class="sidebar-link collapsed">

@@ -1,7 +1,7 @@
 <div class="container-fluid p-0">
      <div class="row">
         <div class="col-6">
-            <h1 class="h3">AreaNames By DistrictNames</h1>
+            <h1 class="h3">AreaNames By District Names</h1>
             <h6 class="card-subtitle text-muted mb-3">List all area names</h6>
         </div>
         <div class="col-6" style="text-align:right;">

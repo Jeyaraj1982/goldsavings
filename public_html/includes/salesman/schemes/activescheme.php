@@ -16,7 +16,7 @@
                                 <th>Scheme Name</th>
                                 <th>Amount</th>
                                 <th>Installments</th>
-                                <th>InstallmentMode</th>
+                                <th>Installment Mode</th>
                                 <th style="width:50px"></th>
                             </tr>
                         </thead>
@@ -69,10 +69,18 @@ function d() {
                             + '<td>' + data.Installments + '</td>'
                             + '<td>' + data.InstallmentMode + '</td>'
                             + '<td style="text-align:right">'
-                                + '<a href="'+URL+'dashboard.php?action=schemes/view&edit='+data.SchemeID+'" class="btn btn-success btn-sm">View</a>'
+                             + '<td style="text-align:right">' 
+                                + '<div class="dropdown position-relative">'
+                                        + '<a href="javascript:void(0)" data-bs-toggle="dropdown" data-bs-display="static">'
+                                        + '<img src="'+URL+'assets/icons/more.png">'
+                                        + '</a>'
+                                        + '<div class="dropdown-menu dropdown-menu-end">'
+                                                + '<a class="dropdown-item" href="'+URL+'dashboard.php?action=schemes/view&edit='+data.SchemeID+'">View</a>'
+                                        + '</div>'
+                                + '</div>'
                             + '</td>'
                       + '</tr>';
-            });   
+    });
              $('#tbl_content').html(html);
         } else {
             $('#popupcontent').html(errorcontent(obj.message));            

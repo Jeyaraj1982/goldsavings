@@ -91,15 +91,21 @@
                 </div>
                 <div class="card">
                     <div class="card-body">
+                    <div class="col-sm-12">
                         <div class="row">
                             <div class="col-sm-6">
+                                <div style="font-weight: bold;">Entry Date</div>
+                                <div id="EntryDate"></div>
+                            </div> 
+                            <div class="col-sm-6">
                                 <div style="font-weight: bold;">Joined On</div>
-                                <div id="JoinedOn"></div>
+                                <div id="CreatedOn"></div>
                             </div> 
                         </div>
                     </div>
                 </div>
             </div>
+        </div>      
         </div>      
             <div class="col-sm-12 mb-3" style="text-align:right;">
                 <a href="<?php echo URL;?>dashboard.php?" class="btn btn-outline-primary">Back</a>&nbsp;&nbsp;
@@ -139,7 +145,8 @@ function view(){
                  $('#DistrictName').html(data.DistrictName);
                  $('#AreaName').html(data.AreaName);
                  $('#PinCode').html(data.PinCode);
-                 $('#JoinedOn').html(data.CreatedOn);
+                 $('#EntryDate').html(data.EntryDate);
+                 $('#CreatedOn').html(data.CreatedOn);
             });   
 }  
   });

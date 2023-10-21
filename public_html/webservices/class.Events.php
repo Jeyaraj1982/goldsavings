@@ -11,15 +11,11 @@ class Events {
             } else {
                 $dupCode = $mysql->select("select * from _tbl_apps_events where EventCode='".trim($_POST['EventCode'])."'");
                 if (sizeof($dupCode)>0) {
-                    return json_encode(array("status"=>"failure","message"=>"Code is already used","div"=>"StateNameCode"));    
+                    return json_encode(array("status"=>"failure","message"=>"Code is already used","div"=>"EventCode"));    
                 }
             }
         } else {
           $_POST['EventCode']= SequnceList::updateNumber("_tbl_apps_events"); 
-        }
-        
-        if (strlen(trim($_POST['EventDescription']))==0) {
-            return json_encode(array("status"=>"failure","message"=>"Please enter Event Description","div"=>"EventDescription"));    
         }
         
         if (strlen(trim($_POST['EventTitle']))==0) {
@@ -30,6 +26,10 @@ class Events {
                 return json_encode(array("status"=>"failure","message"=>"Event Title is already used","div"=>"EventTitle"));    
             }
         }
+        if (strlen(trim($_POST['EventDescription']))==0) {
+            return json_encode(array("status"=>"failure","message"=>"Please enter Event Description","div"=>"EventDescription"));    
+        }
+       
         $EventStart = $_POST['StartYear']."-".$_POST['StartMonth']."-".$_POST['StartDay']." ".$_POST['StartHour'].":".$_POST['StartMinute'].":00";
         if (!(strtotime(date("Y-m-d H:i:s"))<strtotime($EventStart))) {
             return json_encode(array("status"=>"failure","message"=>"Please select valid date","div"=>"EventStart"));    
@@ -39,15 +39,15 @@ class Events {
         if (!(strtotime($EventStart)<strtotime($EventEnd))) {
             return json_encode(array("status"=>"failure","message"=>"Please select valid date","div"=>"EventEnd"));    
         }
-        $id = $mysql->insert("_tbl_apps_events",array("EventCode" => $_POST['EventCode'],
-                                                             "EventTitle"     => $_POST['EventTitle'],
-                                                             "EventDescription"     => $_POST['EventDescription'],
-                                                             "EventStart"       => $EventStart,
-                                                             "EventEnd"       => $EventEnd,
-                                                             "Remarks"       => $_POST['Remarks'],
-                                                             "CreatedOn"     => date("Y-m-d H:i:s"),
-                                                             "IsActive"      => '1'));
-                                                             
+        
+        $id = $mysql->insert("_tbl_apps_events",array("EventCode"        => $_POST['EventCode'],
+                                                      "EventTitle"       => $_POST['EventTitle'],
+                                                      "EventDescription" => $_POST['EventDescription'],
+                                                      "EventStart"       => $EventStart,
+                                                      "EventEnd"         => $EventEnd,
+                                                      "Remarks"          => $_POST['Remarks'],
+                                                      "CreatedOn"        => date("Y-m-d H:i:s"),
+                                                      "IsActive"         => '1'));
         if ($id>0) {
             return json_encode(array("status"=>"success","message"=>"successfully created","div"=>"","EventCode"=>SequnceList::updateNumber("_tbl_apps_events")));
         } else {

@@ -1,4 +1,5 @@
 <?php $data = $mysql->select("select * from _tbl_masters_customers where CustomerID='".$_GET['customer']."'"); ?>
+<div class="container-fluid p-0">
 <div class="row">
     <div class="col-6">
         <h1 class="h3">Edit Customers</h1>
@@ -20,7 +21,12 @@
                         <span id="ErrCustomerCode" class="error_msg"></span>
                     </div>
                     <div class="col-sm-6 mb-3">
-                     </div>
+                        <label class="form-label">Entry Date <span style='color:red'>*</span></label>
+                        <div class="input-group">
+                            <input type="date" value="<?php echo $data[0]['EntryDate'];?>" value="<?php echo date("Y-m-d");?>" name="EntryDate" id="EntryDate" class="form-control" placeholder="Entry Date">
+                        </div>
+                        <span id="ErrEntryDate" class="error_msg"></span>
+                    </div>
                      <div class="col-sm-6 mb-3">
                         <label class="form-label">Customer Type <span style='color:red'>*</span></label>
                         <select data-live-search="true" data-size="5" name="CustomerTypeNameID" id="CustomerTypeNameID" class="form-select mselect">
@@ -39,8 +45,8 @@
                                 <span id="ErrFatherName" class="error_msg"></span>
                             </div>
                             <div class="col-sm-12 mb-3">
-                                <label class="form-label">EmailID <span style='color:red'>*</span></label>
-                                <input type="text" value="<?php echo $data[0]['EmailID'];?>" name="EmailID" id="EmailID" class="form-control" placeholder="EmailID">
+                                <label class="form-label">Email ID <span style='color:red'>*</span></label>
+                                <input type="text" style="text-transform: lowercase;" value="<?php echo $data[0]['EmailID'];?>" name="EmailID" id="EmailID" class="form-control" placeholder="Email ID">
                                 <span id="ErrEmailID" class="error_msg"></span>
                             </div>
                             <div class="col-sm-6 mb-3">
@@ -63,7 +69,7 @@
                                     <div class="input-group-prepend">
                                         <span class="input-group-text" id="basic-addon1">+91</span>
                                     </div>
-                                    <input type="text" value="<?php echo $data[0]['MobileNumber'];?>" name="MobileNumber" id="MobileNumber" class="form-control" placeholder="Mobile Number">
+                                    <input type="text" value="<?php echo $data[0]['MobileNumber'];?>" name="MobileNumber" id="MobileNumber" class="form-control" placeholder="Mobile Number" data-masked="" data-inputmask="'mask':'9999999999'">
                                 </div>
                                 <span id="ErrMobileNumber" class="error_msg"></span>
                             </div>
@@ -73,7 +79,7 @@
                                     <div class="input-group-prepend">
                                         <span class="input-group-text" id="basic-addon1">+91</span>
                                     </div>
-                                    <input type="text" value="<?php echo $data[0]['WhatsappNumber'];?>" name="WhatsappNumber" id="WhatsappNumber" class="form-control" placeholder="WhatsappNumber">
+                                    <input type="text" value="<?php echo $data[0]['WhatsappNumber'];?>" name="WhatsappNumber" id="WhatsappNumber" class="form-control" placeholder="Whatsapp Number" data-masked="" data-inputmask="'mask':'9999999999'">
                                 </div>
                                 <span id="ErrWhatsappNumber" class="error_msg"></span>
                             </div>
@@ -83,7 +89,7 @@
                                     <div class="input-group-prepend">
                                         <span class="input-group-text" id="basic-addon1">+91</span>
                                     </div>
-                                    <input type="text" value="<?php echo $data[0]['AlternativeMobileNumber'];?>" name="AlternativeMobileNumber" id="AlternativeMobileNumber" class="form-control" placeholder="Alternative Mobile Number">
+                                    <input type="text" value="<?php echo $data[0]['AlternativeMobileNumber'];?>" name="AlternativeMobileNumber" id="AlternativeMobileNumber" class="form-control" placeholder="Alternative Mobile Number" data-masked="" data-inputmask="'mask':'9999999999'">
                                 </div>
                                 <span id="ErrAlternativeMobileNumber" class="error_msg"></span>
                             </div>
@@ -115,12 +121,12 @@
                         <div class="row">                            
                             <div class="col-sm-6 mb-3">
                                 <label class="form-label">PAN Card Number <span style='color:red'>*</span></label>
-                                <input type="text" value="<?php echo $data[0]['PancardNumber'];?>" name="PancardNumber" id="PancardNumber" class="form-control" placeholder="Pan Card Number">
+                                <input type="text" value="<?php echo $data[0]['PancardNumber'];?>" name="PancardNumber" id="PancardNumber" class="form-control" placeholder="ABCTY1234D" data-masked="" data-inputmask="'mask':'aaaaa9999a'" style="text-transform: uppercase;">
                                 <span id="ErrPanCardNumber" class="error_msg"></span>
                                 </div>
                             <div class="col-sm-6 mb-3">
                                 <label class="form-label">Aadhaar Card Number <span style='color:red'>*</span></label>
-                                <input type="text" value="<?php echo $data[0]['AadhaarCardNumber'];?>" name="AadhaarCardNumber" id="AadhaarCardNumber" class="form-control" placeholder="Aadhaar Card Number">
+                                <input type="text" value="<?php echo $data[0]['AadhaarCardNumber'];?>" name="AadhaarCardNumber" id="AadhaarCardNumber" class="form-control" placeholder="Aadhaar Card Number" data-masked="" data-inputmask="'mask':'9999 9999 9999'">
                                 <span id="ErrAadhaarCardNumber" class="error_msg"></span>
                             </div>
                         </div> 
@@ -165,7 +171,7 @@
                             </div>
                             <div class="col-sm-6">
                                 <label class="form-label">PinCode <span style='color:red'>*</span></label>
-                                <input type="text" value="<?php echo $data[0]['PinCode'];?>" name="PinCode" id="PinCode" class="form-control" placeholder="Pincode">
+                                <input type="text" value="<?php echo $data[0]['PinCode'];?>" name="PinCode" id="PinCode" class="form-control" placeholder="Pincode" data-masked="" data-inputmask="'mask':'999 999'">
                                 <span id="ErrPinCode" class="error_msg"></span>
                             </div>
                         </div>
@@ -176,7 +182,7 @@
                     <div class="card-body">
                         <div class="row">
                             <div class="col-sm-6">         
-                                <label class="form-label">Referred By <span style='color:red'>*</span></label>
+                                <label class="form-label">Referred By </label>
                                 <select name="ReferredBy" id="ReferredBy" class="form-select" placeholder="Referred By" onchange="printLable()">
                                     <option value="0" <?php echo ($data[0]['ReferredBy']==0) ? " selected='selected' " : "";?> >Select Referred By</option> 
                                     <option value="1" <?php echo ($data[0]['ReferredBy']==1) ? " selected='selected' " : "";?> >Customer</option>
@@ -224,11 +230,13 @@
                 </div>      
             </div>
      </div>
+     </div>
        <div class="col-sm-12" style="text-align:right;">
             <a href="<?php echo URL;?>dashboard.php?action=masters/customers/list" class="btn btn-outline-primary">Back</a>&nbsp;&nbsp;
             <button onclick="confirmationtoUpdate()" type="button" class="btn btn-primary">Update Customer</button>
        </div>
     </form>
+    </div>
 <div class="modal fade" id="confirmation" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -310,7 +318,7 @@ function doUpdate() {
     $('#confirmation').modal("hide");
     var param = $('#frm_edit').serialize();
     openPopup();
-    clearDiv(['CustomerCode','CustomerTypeNameID','CustomerName','FatherName','Gender','DateOfBirth','EmailID','MobileNumber','WhatsappNumber','AlternativeMobileNumber','AddressLine1','StateNameID','DistrictNameID','AreaNameID','PinCode','RefMobileNumberID','ReferredBy','LoginUserName','LoginPassword','PancardNumber','AadhaarCardNumber']);
+    clearDiv(['EnrtyDate','CustomerCode','CustomerTypeNameID','CustomerName','FatherName','Gender','DateOfBirth','EmailID','MobileNumber','WhatsappNumber','AlternativeMobileNumber','AddressLine1','StateNameID','DistrictNameID','AreaNameID','PinCode','RefMobileNumberID','ReferredBy','LoginUserName','LoginPassword','PancardNumber','AadhaarCardNumber']);
     
     jQuery.ajax({
         type: 'POST',
@@ -359,12 +367,10 @@ function ListCustomerTypes() {
                 html += '<option value="'+data.CustomerTypeNameID+'">'+data.CustomerTypeName+'</option>';
             });   
             $('#CustomerTypeNameID').html(html);
-            
-            
-             $("#CustomerTypeNameID").append($("#CustomerTypeNameID option").remove().sort(function(a, b) {
+             /*$("#CustomerTypeNameID").append($("#CustomerTypeNameID option").remove().sort(function(a, b) {
                 var at = $(a).text(), bt = $(b).text();
                 return (at > bt)?1:((at < bt)?-1:0);
-            }));
+            }));*/
             setTimeout(function(){
                 //$('.mselect').selectpicker();
                 $('#CustomerTypeNameID option').each(function() {
@@ -389,10 +395,10 @@ function listStateNames() {
                 html += '<option value="'+data.StateNameID+'">'+data.StateName+'</option>';
             });   
             $('#StateNameID').html(html);
-            $("#StateNameID").append($("#StateNameID option").remove().sort(function(a, b) {
+            /*$("#StateNameID").append($("#StateNameID option").remove().sort(function(a, b) {
                 var at = $(a).text(), bt = $(b).text();
                 return (at > bt)?1:((at < bt)?-1:0);
-            }));
+            }));*/
             $('#StateNameID option').each(function() {
                 if($(this).val() == _StateNameID) {
                     $(this).prop("selected", true);
@@ -417,10 +423,10 @@ function getDistrictNames() {
                 html += '<option value="'+data.DistrictNameID+'">'+data.DistrictName+'</option>';
             });   
             $('#DistrictNameID').html(html);
-            $("#DistrictNameID").append($("#DistrictNameID option").remove().sort(function(a, b) {
+            /*$("#DistrictNameID").append($("#DistrictNameID option").remove().sort(function(a, b) {
                 var at = $(a).text(), bt = $(b).text();
                 return (at > bt)?1:((at < bt)?-1:0);
-            }));
+            })); */
             $('#DistrictNameID option').each(function() {
                 if($(this).val() == _DistrictNameID) {
                     $(this).prop("selected", true);
@@ -445,10 +451,10 @@ function getAreaNames() {
                 html += '<option value="'+data.AreaNameID+'">'+data.AreaName+'</option>';
             });   
             $('#AreaNameID').html(html);
-            $("#AreaNameID").append($("#AreaNameID option").remove().sort(function(a, b) {
+            /*$("#AreaNameID").append($("#AreaNameID option").remove().sort(function(a, b) {
                 var at = $(a).text(), bt = $(b).text();
                 return (at > bt)?1:((at < bt)?-1:0);
-            }));
+            })); */
             $('#AreaNameID option').each(function() {
                     if($(this).val() == _AreaNameID) {
                         $(this).prop("selected", true);
@@ -499,5 +505,26 @@ function fetchData() {
 setTimeout(function(){
     ListCustomerTypes();
     listStateNames();
+    
+    $('#CustomerName').keydown(function (e) {
+          if (e.shiftKey || e.ctrlKey || e.altKey) {
+              e.preventDefault();
+          } else {
+              var key = e.keyCode;
+              if (!((key == 8) || (key == 32) || (key == 46) || (key >= 35 && key <= 40) || (key >= 65 && key <= 90))) {
+                  e.preventDefault();
+              }
+          }
+      });
+      $('#FatherName').keydown(function (e) {
+          if (e.shiftKey || e.ctrlKey || e.altKey) {
+              e.preventDefault();
+          } else {
+              var key = e.keyCode;
+              if (!((key == 8) || (key == 32) || (key == 46) || (key >= 35 && key <= 40) || (key >= 65 && key <= 90))) {
+                  e.preventDefault();
+              }
+          }
+      });
 },2000);
 </script>

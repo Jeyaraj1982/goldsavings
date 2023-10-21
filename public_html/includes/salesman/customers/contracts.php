@@ -20,17 +20,17 @@
                     <table id="datatables-fixed-header" class="table table-striped" style="width:100%">
                         <thead>
                             <tr>
-                                <th style="width:100px">Code</th>
-                                <th>Customer Name</th>
+                                <th>Contract<br>ID</th>
                                 <th>Scheme</th>
-                                <th>Created On</th>
-                                <th style="width:100px">Status</th>
-                                <th style="width:200px"></th>
+                                <th style="text-align:right;">Contract<br>Amount(₹)</th>
+                                <th>Start<br>Date</th>
+                                <th>End<br>Date</th>
+                                <th></th>
                             </tr>
                         </thead>
                         <tbody id="tbl_content">
                             <tr>
-                                <td colspan="6" style="text-align: center;background:#fff !important">Loading Contracts ...</td>
+                                <td colspan="7" style="text-align: center;background:#fff !important">Loading Contracts ...</td>
                             </tr>
                         </tbody>
                     </table>
@@ -51,17 +51,28 @@ function listContracts() {
             var html = "";
             $.each(obj.data, function (index, data) {
                 html += '<tr>'
-                            + '<td>' + data.ContractCode + '</td>'
-                            + '<td>' + data.CustomerName + '</td>'
-                            + '<td>' + data.SchemeName + '</td>'
-                            + '<td>' + data.CreatedOn + '</td>'
-                            + '<td>' + ( (data.IsActive=="1") ? "<span class='badge bg-success'>Active</span>" : "<span class='badge bg-secondary'>Disabled</span>" ) + '</td>'                                                                   
-                            + '<td style="text-align:right"><a href="'+URL+'dashboard.php?action=customers/viewcontract&view='+data.ContractCode+'&customer=<?php echo $data[0]['CustomerID']; ?>" class="btn btn-success btn-sm">View</a></td>'
+                        + '<td>' + data.ContractCode + '</td>'
+                        + '<td>' + data.SchemeName + '</td>'
+                        + '<td style="text-align:right">' + data.ContractAmount + '</td>'
+                        + '<td style="text-align:right;">' + data.StartDate + '</td>'
+                        + '<td style="text-align:right;">' + data.EndDate + '</td>'
+              + '<td style="text-align:right">' 
+                                + '<div class="dropdown position-relative">'
+                                        + '<a href="javascript:void(0)" data-bs-toggle="dropdown" data-bs-display="static">'
+                                            + '<img src="'+URL+'assets/icons/more.png">'
+                                        + '</a>'
+                                        + '<div class="dropdown-menu dropdown-menu-end">'
+                                                + '<a class="dropdown-item" href="'+URL+'dashboard.php?action=contracts/view&view='+data.ContractCode+'">View Contract</a>'
+                                                + '<a class="dropdown-item" href="'+URL+'dashboard.php?action=schemes/view&edit='+data.SchemeID+'">View Scheme</a>'
+
+                                        + '</div>'
+                                + '</div>'
+                            + '</td>'
                       + '</tr>';
-            });
+    });
             if (obj.data.length==0) {
                  html += '<tr>'
-                            + '<td colspan="5" style="text-align: center;background:#fff !important">No Data Found</td>'
+                            + '<td colspan="7" style="text-align: center;background:#fff !important">No Data Found</td>'
                        + '</tr>';
             }   
             $('#tbl_content').html(html);

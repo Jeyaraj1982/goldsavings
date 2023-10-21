@@ -70,10 +70,6 @@
                 </div>
             </div>
             -->
-             
-            <div class="col-sm-9" style="text-align:right;">
-                <button  type="button" onclick="Confirmationtoadd()" class="btn btn-primary">View</button>    
-            </div>
         </div>                
     </form>
 </div>
@@ -221,7 +217,7 @@ function autocomplete(inp, arr) {
                                     + '</div>'
                                     + '<div class="col-sm-12" style="text-align:right;">'
                                         + '<!--<a href="'+URL +'dashboard.php?action=customers/viewdetails='+item.value+'" class="btn btn-outline-primary btn-sm" target="_blank">View Details</a>-->'
-                                        + '<a href="'+URL +'dashboard.php?action=customers/view&customer='+item.value+'\)" class="btn btn-outline-primary btn-sm">View Details</a>'
+                                        + '<a href="'+URL +'dashboard.php?action=customers/view&customer='+item.value+'" class="btn btn-outline-primary btn-sm">View Details</a>'
                                     + '</div>';
              $('#CustomerResult').html(txtHtml) ;
              $('#customersince').html(daysdifference(0,item.CreatedOn));

@@ -328,7 +328,7 @@
             </form>
 <div class="col-sm-12 mb-3" style="text-align:right;">
     <a href="<?php echo URL;?>dashboard.php?action=events/list" class="btn btn-outline-primary">Back</a>&nbsp;&nbsp;
-    <button onclick="confirmationtoadd()" type="button" class="btn btn-primary">Creat Event</button>    
+    <button onclick="confirmationtoadd()" type="button" class="btn btn-primary">Create Event</button>    
 </div>
 </div>
 
@@ -336,15 +336,15 @@
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Confimation</h5>
+        <h5 class="modal-title" id="exampleModalLabel">Confirmation</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        Do you want to Creat ?
+        Do you want to Create ?
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
-        <button type="button" onclick="addNew()" class="btn btn-primary">Yes, Creat</button>
+        <button type="button" onclick="addNew()" class="btn btn-primary">Yes, Create</button>
       </div>
     </div> 
   </div>
@@ -385,5 +385,4 @@ function addNew() {
     });
     
 }
-setTimeout("d()",2000);
 </script>

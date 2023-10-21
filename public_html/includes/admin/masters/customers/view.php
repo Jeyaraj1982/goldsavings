@@ -23,7 +23,9 @@
                                 <div style="font-weight: bold;">Customer ID</div>
                                 <?php echo $data[0]['CustomerCode'];?>
                             </div>
-                            <div class="col-sm-6 mb-3">
+                           <div class="col-sm-6 mb-3">
+                                <div style="font-weight: bold;">Entry Date</div>
+                                <?php echo date("d-m-Y",strtotime($data[0]["EntryDate"])) ;?>
                             </div>
                             <div class="col-sm-6 mb-3">
                                 <div style="font-weight: bold;">Customer Type</div>
@@ -36,22 +38,18 @@
                             <div class="col-sm-12 mb-3">
                                 <div style="font-weight: bold;">Father/Husband's Name</div>
                                 <?php echo $data[0]['FatherName'];?>
-                                <span id="ErrFatherName" class="error_msg"></span>
                             </div>
                             <div class="col-sm-6 mb-3">
                                 <div style="font-weight: bold;">Gender</div>
                                 <?php echo $data[0]['Gender'];?>
-                                <span id="ErrGender" class="error_msg"></span>
                             </div>
                             <div class="col-sm-6 mb-3">
                                 <div style="font-weight: bold;">Date Of Birth</div>
-                                <?php echo $data[0]['DateOfBirth'];?>
-                                <span id="ErrDateOfBirth" class="error_msg"></span>
+                                    <?php echo date("d-m-Y",strtotime($data[0]["DateOfBirth"])) ;?>
                             </div>
                             <div class="col-sm-12 mb-3">
                                 <div style="font-weight: bold;">Email ID </div> 
                                 <?php echo $data[0]['EmailID'];?>
-                                <span id="ErrEmailID" class="error_msg"></span>
                             </div>
                              <div class="col-sm-6 mb-3">
                                 <div style="font-weight: bold">Mobile Number</div>
@@ -126,28 +124,10 @@
                         <div class="row">
                         <div class="col-sm-6">         
                                 <div style="font-weight: bold;">Referred By </div>
-                                 <?php echo $data[0]['ReferredBy'];?>
-                                
-                                <script>
-                                function printLable() {
-                                    if ($('#ReferredBy').val()=="1"){
-                                        $('#_printlabel').html("Customer's Mobile Number");    
-                                    }
-                                    if ($('#ReferredBy').val()=="2"){
-                                        $('#_printlabel').html("Employee's Mobile Number");    
-                                    }
-                                    if ($('#ReferredBy').val()=="0"){
-                                        $('#_printlabel').html("Mobile Number");    
-                                    }
-                                    if ($('#ReferredBy').val()=="3"){
-                                        $('#_printlabel').html("Salesman's Mobile Number");    
-                                    }
-                                    
-                                }
-                                </script>
+                                 <?php echo $data[0]['ReferByText'];?>
                             </div>
                             <div class="col-sm-6">
-                                <div style="font-weight: bold">Mobile Number</div>
+                                <div style="font-weight: bold"> <?php echo $data[0]['ReferredByName'];?></div>
                                 +91 <?php echo $data[0]['RefMobileNumber'];?>
                             </div>
                         </div>
@@ -161,8 +141,8 @@
                                 <?php echo ($data[0]['IsActive']==1) ? " Active " : "Deactivated";?>
                             </div>
                             <div class="col-sm-6 mb-3">
-                                <div style="font-weight: bold;">Created On </div>
-                                <?php echo $data[0]['CreatedOn'];?>
+                                <div style="font-weight: bold;">Joined On </div>
+                                <?php echo date("d-m-Y H:i",strtotime($data[0]["CreatedOn"])) ;?>
                             </div>
                         <div class="col-sm-12">
                             <div style="font-weight: bold">Remarks</div>

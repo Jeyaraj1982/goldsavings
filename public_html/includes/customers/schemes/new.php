@@ -1,62 +1,53 @@
 <div class="container-fluid p-0">
-    <h1 class="h3 mb-3">New Scheme</h1>
+    <h1 class="h3 mb-3">Joined Scheme</h1>
     <form id="frm_create" name="frm_create" method="post" enctype="multipart/form-data">
         <div class="row">
             <div class="col-12 col-xl-12">
                 <div class="card">
-                    <div class="card-body">
+                    <div class="card-body" style="padding-bottom:0px;">
                         <div class="row">
-                            <div class="col-sm-6 mb-2">
-                                <label class="form-label">Scheme Code <span style='color:red'>*</span></label>
-                                <input type="text" value="<?php echo SequnceList::getNextNumber("_tbl_masters_schemes");?>" name="SchemeCode" id="SchemeCode" class="form-control" placeholder="Scheme Code">
-                                <span id="ErrCode" class="error_msg"></span>
+                            <div class="col-sm-12 mb-2">
+                                <h1 class="h4 mb-3">Scheme Information</h1>
+                                </div>
+                            <div class="col-sm-12 mb-2">
+                                <div style="font-weight: bold;"> Scheme Name</div>
+                                <div id="SchemeName"> Scheme Name</div>
                             </div>
                             <div class="col-sm-12 mb-2">
-                                <label class="form-label">Scheme Name <span style='color:red'>*</span></label>
-                                <input type="text" value="" name="SchemeName" id="SchemeName" class="form-control" placeholder="Scheme Name">
-                                <span id="ErrSchemeName" class="error_msg"></span>
+                                <div style="font-weight: bold;" id="basic-addon3" style="width:200px">Wastage Discount <span>(%)</span></div>
+                                <div id="WastageDiscount">Wastage Discount</div>
                             </div>
-                            <div class="col-sm-12 mb-2">
-                                <label class="form-label">Short Description <span style='color:red'>*</span></label>
-                                <input type="text" value="" name="ShortDescription" id="ShortDescription" class="form-control" placeholder="Short Description">
-                                <span id="ErrShortDescription" class="error_msg"></span>
-                            </div>  
-                            <div class="col-sm-3 mb-3">
-                                <label class="form-label"> Amount <span style='color:red'>*</span></label>
-                                <input type="text" style="text-align: right;" name="Amount" id="Amount" class="form-control" placeholder="0.00" onkeyup="getInstallmentAmount()">
-                                <span id="ErrAmount" class="error_msg"></span>
-                                <script>
-                                function getInstallmentAmount() {
-                                     var amount= parseFloat($('#Amount').val()); 
-                                     var installments= parseFloat($('#Installments').val()); 
-                                     var installmentamount= amount/installments;
-                                     $('#InstallmentAmount').val(installmentamount.toFixed(2));
-                                }
-                                </script>
+                            <div class="col-sm-12 mb-2">    
+                                <div style="font-weight: bold;" id="basic-addon3" style="width:200px">Making Charge Discount <span>(%)</span></div>
+                                <div id="MakingChargeDiscount">Making Charge Discount</div>
                             </div>
-                            <div class="col-sm-6 mb-3">
+                        </div>
+                    </div>
+                </div>
+            </div>
+             <div class="col-12 col-xl-12">
+                <div class="card">
+                    <div class="card-body" style="padding-bottom:0px;">
+                        <div class="row">
+                        <div class="col-sm-4 mb-3">
+                                <label class="form-label">Due Amount <span style='color:red'>*</span></label>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text" id="basic-addon1">₹</span>
+                                    </div>
+                                    <input type="text" style="text-align: right;" name="DueAmount" id="DueAmount" class="form-control" placeholder="Due Amount"  onkeyup="getTotalAmount()">
+                                </div>
+                                <span id="ErrDueAmount" class="error_msg"></span>
+                            </div>
+                            <div class="col-sm-4 mb-3">
                                 <label class="form-label">Duration <span style='color:red'>*</span></label>
                                 <div class="input-group">
                                 <select data-live-search="true" data-size="2" name="InstallmentMode" id="InstallmentMode" class="form-select mselect" onchange="printLable()">
-                                      <option value="0">Select Mode</option>
-                                    <option value="WEEKLY">WEEKLY</option>
+                                     <!-- <option value="0">Select Mode</option>
+                                    <option  value="WEEKLY">WEEKLY</option> -->
                                     <option value="MONTHLY">MONTHLY</option>
                                 </select>
-                                <select data-live-search="true" data-size="12" style="text-align: right;" name="Installments" id="Installments" class="form-select mselect" readonly="readonly" onchange="getInstallmentAmount()" >
-                                    <option value="01">01</option>
-                                    <option value="02">02</option>
-                                    <option value="03">03</option>
-                                    <option value="04">04</option>
-                                    <option value="05">05</option>
-                                    <option value="06">06</option>
-                                    <option value="07">07</option>
-                                    <option value="08">08</option>
-                                    <option value="09">09</option>
-                                    <option value="10">10</option>
-                                    <option value="11">11</option>
-                                    <option value="12">12</option>
-                                    
-                                </select>                                               
+                                <input type="text" style="text-align: right;" name="Installments" id="Installments" class="form-control" placeholder="Installments" data-masked="" data-inputmask="'mask':'99'"  onkeyup="getTotalAmount()">
                             </div>
                             <span id="ErrInstallments" class="error_msg"></span>
                             </div>
@@ -73,38 +64,28 @@
                                     }
                                 }
                                 </script>
-                            <div class="col-sm-3 mb-3">
-                                <label class="form-label"><span id="_printlabel"> </span> Installment Amount</label>
-                                <input type="text" style="text-align: right;" readonly="readonly" name="InstallmentAmount" id="InstallmentAmount" class="form-control" placeholder="0.00">
-                                <span id="ErrInstallmentAmount" class="error_msg"></span>
-                            </div>
-                             <div class="col-sm-6 mb-3">
-                                <label class="form-label">Based On</label>
-                                <select class="form-select" name="ModeOfBenifits" id="ModeOfBenifits" onchange="printChange()">
-                                    <option value="0">Select Mode Of Benifits </option>
-                                    <option value="AMOUNT">AMOUNT</option>
-                                    <option value="GOLD">GOLD</option>
-                                </select>
-                                <span id="ErrModeOfBenifits" class="error_msg"></span>
-                             <script>
-                                function printChange() {
-                                    if ($('#ModeOfBenifits').val()=="AMOUNT"){
-                                        $('#Cash_benefits').show();  
-                                        $('#Gold_benefits').hide();  
-                                    }
-                                    if ($('#ModeOfBenifits').val()=="GOLD"){
-                                         $('#Cash_benefits').hide();  
-                                        $('#Gold_benefits').show(); 
-                                    }
-                                    if ($('#ModeOfBenifits').val()=="0"){
-                                       $('#Cash_benefits').hide();  
-                                        $('#Gold_benefits').hide();  
-                                    }
+                                <div class="col-sm-4 mb-3">
+                                <label class="form-label">Total Amount <span style='color:red'>*</span></label>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text" id="basic-addon1">₹</span>
+                                    </div>
+                                    <input type="text" readonly="readonly" style="text-align: right; "name="Amount" id="Amount" class="form-control" placeholder="0.00">
+                                </div>
+                                <span id="ErrAmount" class="error_msg"></span>
+                                <script>
+                                function getTotalAmount() {
+                                    var _dueamount=$('#DueAmount').val()==""?0:$('#DueAmount').val();
+                                    var _intallment=$('#Installments').val()==""?0:$('#Installments').val();
+                                     var amount= parseFloat(_dueamount);       
+                                     var installments= parseFloat(_intallment); 
+                                     var Amount= amount*installments;
+                                     $('#Amount').val(Amount.toFixed(2));
                                 }
                                 </script>
-                                </div>
-                            <div class="col-sm-6 mb-3">
-                                <div id="Gold_benefits" style="display:none">
+                            </div>
+                                <div class="col-sm-6 mb-3">
+                                <div id="Gold_benefits">
                                     <label class="form-label"><span id="_printChange"></span> Material Type <span style='color:red'>*</span></label>
                                     <select class="form-select" name="MaterialType" id="MaterialType">
                                         <option value="0">Select Material Type </option>
@@ -114,96 +95,40 @@
                                     </select>
                                     <span id="ErrMaterialType" class="error_msg"></span> 
                                 </div>
-                                <div id="Cash_benefits" style="display:none">
-                                 <label class="form-label"><span id="_printChange"></span>Bonus <span style='color:red'>*</span></label>
-                                 <div class="input-group">
-                                <select data-live-search="true" data-size="12" style="text-align: right;" name="BonusPercentage" id="BonusPercentage" class="form-select mselect" >
-                                    <option value="">Select Bonus</option>
-                                    <?php for($i=0;$i<=100;$i++){?>
-                                    <option value="<?php echo $i;?>"><?php echo $i;?></option>
-                                    <?php } ?>
+                            </div>
+                            <div class="col-sm-6  mb-3">
+                                <label class="form-label">Payment Mode <span style='color:red'>*</span></label>
+                                <select data-live-search="true" data-size="5" name="PaymentModeID" id="PaymentModeID" class="form-select mstateselect">
+                                    <option>loading...</option>
                                 </select>
-                                <span class="input-group-text" id="basic-addon3">%</span>
-                                 </div>
-                                </div>
-                                <span id="ErrBonusPercentage" class="error_msg"></span>
+                                <span id="ErrPaymentModeID" class="error_msg"></span>
                             </div>
-                            <div class="col-sm-6 mb-3">
-                            </div>
-                            <div class="col-sm-6 mb-3">
-                            <div class="input-group mb-3">
-                             <span class="input-group-text" id="basic-addon3">Making Charge Discount <span style='color:red'>*</span></span>
-                                <select data-live-search="true" data-size="12" style="text-align: right;" name="MakingChargeDiscount" id="MakingChargeDiscount" class="form-select mselect" >
-                                    <option value="0">0</option>
-                                    <?php for($i=1;$i<=100;$i++){?>
-                                    <option value="<?php echo $i;?>"><?php echo $i;?></option>
-                                    <?php } ?>
-                                </select>
-                                <span class="input-group-text" id="basic-addon3">%</span>
-                                </div>
-                            <div class="input-group">
-                             <span class="input-group-text" id="basic-addon3">Wastage Discount <span style='color:red'>*</span></span>
-                                <select data-live-search="true" data-size="12" style="text-align: right;" name="WastageDiscount" id="WastageDiscount" class="form-select mselect" >
-                                    <option value="0">0</option>
-                                    <?php for($i=1;$i<=100;$i++){?>
-                                    <option value="<?php echo $i;?>"><?php echo $i;?></option>
-                                    <?php } ?>
-                                </select>
-                                <span class="input-group-text" id="basic-addon3">%</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    </div>
-                    <div class="card">
-                        <div class="card-body">
-                            <div class="row">
-                              <div class="col-sm-12 mb-3">
-                                <label class="form-label">Benefits <span style='color:red'>*</span></label>
-                                <textarea id="Benefits" name="Benefits" class="form-control" rows="4" cols="50"></textarea>
-                                <span id="ErrBenefits" class="error_msg"></span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="card">
-                    <div class="card-body">
-                        <div class="row">      
                             <div class="col-sm-12 mb-3">
-                                <label class="form-label">Terms of Condition <span style='color:red'>*</span></label>
-                                <textarea id="TermsOfConditions" name="TermsOfConditions" class="form-control" rows="4" cols="50"></textarea>
-                                <span id="ErrTermsOfConditions" class="error_msg"></span>
+                                <label class="form-label">Payment Remarks <span style='color:red'>*</span></label>
+                                <input type="text" name="PaymentRemarks" id="PaymentRemarks" class="form-control" placeholder="Payment Remarks">
+                                <span id="ErrPaymentRemarks" class="error_msg"></span>
                             </div>
                         </div>
                     </div>
                 </div>
-                 <div class="card">
-                        <div class="card-body">
-                            <div class="row">
-                              <div class="col-sm-12 mb-3">
-                                <label class="form-label">Remarks </label>
-                                <input type="text" id="Remarks" name="Remarks" placeholder="Remarks" class="form-control"></input>
-                                <span id="ErrRemarks" class="error_msg"></span>
-                            </div>
-                        </div>
-                    </div>
-                </div>           
-            </form>
-        </div>
-                <div class="col-sm-12" style="text-align:right;">
-                    <a href="<?php echo URL;?>dashboard.php?action=masters/schemes/list" class="btn btn-outline-primary">Back</a>&nbsp;&nbsp;
-                        <button onclick="confirmation()" type="button" class="btn btn-primary">Create Scheme</button>    
-                </div>
+            </div> 
+            <div class="col-sm-12" style="text-align:right;">
+                <a href="<?php echo URL;?>dashboard.php?action=schemes/list" class="btn btn-outline-primary">Back</a>&nbsp;&nbsp;
+                <button  type="button" onclick="Confirmationtoadd()" class="btn btn-primary">Joined Scheme</button>    
+            </div>
+        </div>                
+    </form>
+</div>
 
-<div class="modal fade" id="confimation" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="confirmation" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Confimation</h5>
+        <h5 class="modal-title" id="exampleModalLabel">Confirmation</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        Do you want to create scheme ? 
+        Do you want to create Contract ? 
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
@@ -212,37 +137,161 @@
     </div>
   </div>
 </div>
-<script>
- function confirmation(){
-   $('#confimation').modal("show");  
+            <style>
+              
+              .autocomplete {
+  position: relative;
+  display: inline-block;
+}
+.autocomplete-items {
+  /*position: absolute;*
+  border: 1px solid #d4d4d4;
+  border-bottom: none;
+  border-top: none;
+  z-index: 99;
+  /*position the autocomplete items to be the same width as the container:*/
+  top: 100%;
+  left: 0;
+  right: 0;
+  margin:0px 10px;
+  
+  border: 1px solid #ccc;border-top: 0px;
+}
+
+.autocomplete-items div {
+  padding: 5px;
+  cursor: pointer;
+  background-color: #fff; 
+  border-bottom: 1px solid #d4d4d4; 
+}
+
+/*when hovering an item:*/
+.autocomplete-items div:hover {
+  background-color: #e9e9e9; 
+}
+
+/*when navigating through the items using the arrow keys:*/
+.autocomplete-active {
+  background-color: DodgerBlue !important; 
+  color: #ffffff; 
+}
+              </style>              
+                           
+  
+  
+
+<script>  
+                                                       
+function Confirmationtoadd(){
+   $('#confirmation').modal("show");  
  }
+ var CreatedContractID=0;
 function addNew() {
-     $('#confimation').modal("hide");
+     $('#confirmation').modal("hide");
     var param = $('#frm_create').serialize();
     openPopup();
-    clearDiv(['SchemeName','Amount','ShortDescription','Installments','InstallmentMode','InstallmentAmount','MaterialType','ModeOfBenifits','Remarks','Benefits','TermsOfConditions']);
+    clearDiv(['CustomerName','MobileNumber','ReferralName','Amount','Installments','InstallmentMode','InstallmentAmount','MaterialType','ModeOfBenifits','Remarks','IsActive']);
     
     jQuery.ajax({
         type: 'POST',
-        url:URL+"webservice.php?action=addNew&method=Schemes",
+        url:URL+"webservice.php?action=addNew&method=Contracts&Customer="+selectedCustomerID+"&Scheme="+selectedSchemeID,
         data: new FormData($("#frm_create")[0]),
         processData: false, 
         contentType: false, 
         success: function(data) {
              var obj = JSON.parse(data); 
              if (obj.status=="success") {
-                $('#frm_create').trigger("reset");
-                $('#SchemeCode').val(obj.SchemeCode);
-                $('#popupcontent').html(success_content(obj.message,'closePopup'));
+                CreatedContractID = obj.ContractID;
+                $('#popupcontent').html(success_content(obj.message,'closePopup(); opencontractview'));
              } else {
                 if (obj.div!="") {
                     $('#Err'+obj.div).html(obj.message)
                 } else {
-                    $('#failure_div').html(obj.message);
+                    $('#popupcontent').html(errorcontent(obj.message));
                 }
                 $('#process_popup').modal('hide');
              }
         }
     });
 }
-</script>
+setTimeout("listpaymentmodes()",2000);
+
+/*function opencontractview()  {
+  location.href=URL +'dashboard.php?action=contracts/view&view='+CreatedContractID;  
+}
+
+function CreateContract() {
+    if (selectedCustomerID==0) {
+        $('#ErrCustomerID').html("please select customer");
+        return;
+    }
+    if (selectedSchemeID==0) {
+        $('#ErrSchemeID').html("please select scheme");
+        return;
+    }
+    openPopup();
+    $.post(URL+"webservice.php?action=addNew&method=Contracts&Customer="+selectedCustomerID+"&Service="+selectedSchemeID,"",function(data){
+        
+        var obj = JSON.parse(data); 
+        if (obj.status=="success") {
+            //$('#frm_create').trigger("reset");
+            //if (obj.BankNameCode.length>3) {
+                //$('#BankNameCode').val(obj.BankNameCode);
+            //}                   
+            $('#popupcontent').html(successcontent(obj.message,'dashboard.php?action=contracts/edit&edit='+obj.id));
+        } else {
+            if (obj.div!="") {
+                $('#Err'+obj.div).html(obj.message)
+            } else {
+                $('#failure_div').html(obj.message);
+            }
+            $('#process_popup').modal('hide');
+        }
+        
+    });
+}    */
+
+function listpaymentmodes() {
+    $.post(URL+ "webservice.php?action=listAllActive&method=PaymentModes","",function(data){
+        var obj = JSON.parse(data);
+        if (obj.status=="success") {
+            var html = "<option value='0'> Select Payment Mode</option>";
+            $.each(obj.data, function (index, data) {
+                html += '<option value="'+data.PaymentModeID+'">'+data.PaymentMode+'</option>';
+            });   
+            $('#PaymentModeID').html(html);
+             $("#PaymentModeID").append($("#PaymentModeID option").remove().sort(function(a, b) {
+                var at = $(a).text(), bt = $(b).text();
+                return (at > bt)?1:((at < bt)?-1:0);
+            }));
+            $("#PaymentModeID").val("0");
+            setTimeout(function(){
+            },1500);
+        } else {
+            alert(obj.message);
+        }
+    });
+}
+
+function getData(){
+    openPopup();
+    $.post(URL+ "webservice.php?action=getData&method=schemes&contract=<?php echo $_GET['view'];?>","",function(data){
+        var  obj = JSON.parse(data);
+        if (obj.status=="success") {
+            var data = obj.data;
+            var html="";
+            $('#SchemeName').html(data.SchemeName);
+            $('#WastageDiscount').html(data.CustomerName);
+            $('#MobileNumber').html(data.WastageDiscount);
+            $('#MakingChargeDiscount').html(data.MakingChargeDiscount);
+$('#tbl_content').html(html);
+               closePopup();
+        }
+  });
+}   
+
+</script>  
+ <!--
+ https://bootstrap-autocomplete.readthedocs.io/en/latest/
+ https://www.w3schools.com/howto/howto_js_autocomplete.asp
+  -->

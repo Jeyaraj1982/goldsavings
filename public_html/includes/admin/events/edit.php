@@ -29,7 +29,7 @@
                                 <span id="ErrEventDescription" class="error_msg"></span>
                             </div>
                             <div class="col-sm-6 mb-3">
-                                <label class="form-label">Event <span style='color:red'>*</span></label>
+                                <label class="form-label">Event Start <span style='color:red'>*</span></label>
                                 <div class="input-group">
                                 <?php             
                                     $day = date("d",strtotime($data[0]['EventStart']));                                                            
@@ -364,7 +364,7 @@
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Confimation</h5>
+        <h5 class="modal-title" id="exampleModalLabel">Confirmation</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">

@@ -7,6 +7,11 @@ class AddressBook {
         
         if (strlen(trim($_POST['ContactCode']))==0) {
             return json_encode(array("status"=>"failure","message"=>"Please enter Contact Code","div"=>"ContactCode"));    
+        } else {
+             $dup = $mysql->select("select * from _tbl_apps_addressbook where ContactCode='".trim($_POST['ContactCode'])."'");
+             if (sizeof($dup)>0) {
+                 return json_encode(array("status"=>"failure","message"=>"Contact Code already exists","div"=>"ContactCode"));    
+             }
         }
        
         if (strlen(trim($_POST['ContactPersonName']))==0) {

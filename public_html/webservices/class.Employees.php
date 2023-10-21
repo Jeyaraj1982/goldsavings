@@ -7,6 +7,15 @@ class Employees {
         
         if (strlen(trim($_POST['EmployeeCode']))==0) {
             return json_encode(array("status"=>"failure","message"=>"Please enter Employee Code","div"=>"EmployeeCode"));    
+        } else {
+             $dup = $mysql->select("select * from _tbl_employees where EmployeeCode='".trim($_POST['EmployeeCode'])."'");
+             if (sizeof($dup)>0) {
+                 return json_encode(array("status"=>"failure","message"=>"Employee Code already exists","div"=>"EmployeeCode"));    
+             }
+        }
+        
+        if (strlen(trim($_POST['EntryDate']))==0) {
+            return json_encode(array("status"=>"failure","message"=>"Please select Date","div"=>"EntryDate"));    
         }
         
         if ($_POST['EmployeeCategoryID']==0) {
@@ -154,6 +163,7 @@ class Employees {
         $AllowToChangePasswordFirstLogin = (isset($_POST['AllowToChangePasswordFirstLogin']) && $_POST['AllowToChangePasswordFirstLogin']==1) ? 1 : 0;
         
         $EmployeeID = $mysql->insert("_tbl_employees",array("EmployeeCode"          => $_POST['EmployeeCode'],
+                                                                    "EntryDate"          => $_POST['EntryDate'],
                                                                     "EmployeeName"          => $_POST['EmployeeName'],
                                                                     "ProfilePhoto"          => $ProfilePhoto,
                                                                     "FatherName"            => $_POST['FatherName'],
@@ -227,6 +237,11 @@ class Employees {
     function doUpdate() {
         
         global $mysql;
+        
+         if (strlen(trim($_POST['EntryDate']))==0) {
+            return json_encode(array("status"=>"failure","message"=>"Please select Date","div"=>"EntryDate"));    
+        }
+        
         
         if (strlen(trim($_POST['EmployeeName']))==0) {
             return json_encode(array("status"=>"failure","message"=>"Please enter Employee Name","div"=>"EmployeeName"));    
@@ -316,6 +331,7 @@ class Employees {
         $AreaName = $AreaName['data'];
         
         $id = $mysql->execute("update _tbl_employees set EmployeeName   = '".$_POST['EmployeeName']."',
+                                                         EntryDate     = '".$_POST['EntryDate']."',
                                                          FatherName     = '".$_POST['FatherName']."',
                                                          Gender         = '".$_POST['Gender']."',
                                                          DateOfBirth    = '".$_POST['DateOfBirth']."',

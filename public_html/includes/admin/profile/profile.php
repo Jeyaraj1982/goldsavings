@@ -87,6 +87,20 @@
                         </div>
                     </div>
                 </div>
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-sm-6 mb-3">
+                                <div style="font-weight: bold">EntryDate </div>
+                                <?php echo $data[0]['EntryDate'];?>
+                            </div>
+                            <div class="col-sm-6 mb-3">
+                                <div style="font-weight: bold">Joined On </div>
+                                <?php echo $data[0]['CreatedOn'];?>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
             <div class="col-sm-12 mb-3" style="text-align:right;">

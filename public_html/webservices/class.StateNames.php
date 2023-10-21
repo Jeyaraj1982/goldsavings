@@ -66,13 +66,13 @@ class StateNames {
 
      public static function listAll() {
          global $mysql;
-         $data = $mysql->select("select * from _tbl_masters_statenames");
+         $data = $mysql->select("select * from _tbl_masters_statenames order by StateName");
          return json_encode(array("status"=>"success","data"=>$data));
      }
      
      public static function listAllActive() {
          global $mysql;
-         $data = $mysql->select("select * from _tbl_masters_statenames where IsActive='1'");
+         $data = $mysql->select("select * from _tbl_masters_statenames where IsActive='1' order by StateName");
          return json_encode(array("status"=>"success","data"=>$data));
      }
      

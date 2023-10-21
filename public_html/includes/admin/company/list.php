@@ -17,10 +17,10 @@
                             <tr>
                                 <th style="width:100px">Code</th>
                                 <th>Company Name</th>
-                                <th>GSTIN</th>
-                                <th>Created On</th>
-                                <th style="width:100px">Status</th>
-                                <th style="width:220px"></th>
+                                <th style="width: 100px;">GSTIN</th>
+                                <th style="width: 100px;">Created On</th>
+                                <th style="width:70px">Status</th>
+                                <th style="width:50px"></th>
                             </tr>
                         </thead>
                         <tbody id="tbl_content">
@@ -67,21 +67,31 @@ function d() {
                             + '<td>' + data.GSTIN + '</td>'
                             + '<td>' + data.CreatedOn + '</td>'
                             + '<td>' + ( (data.IsActive=="1") ? "<span class='badge bg-success'>Active</span>" : "<span class='badge bg-secondary'>Disabled</span>" ) + '</td>'
-                            + '<td style="text-align:right"><a href="javascript:void(0)" onclick="confirmationtoDelete(\''+data.CompanyID+'\')" class="btn btn-outline-danger btn-sm">Delete</a>&nbsp;&nbsp;<a href="'+URL+'dashboard.php?action=company/view&edit='+data.CompanyID+'" class="btn btn-success btn-sm">View</a></td>'
+                            + '<td style="text-align:right">' 
+                                + '<div class="dropdown position-relative">'
+                                        + '<a href="javascript:void(0)" data-bs-toggle="dropdown" data-bs-display="static">'
+                                            + '<img src="'+URL+'assets/icons/more.png">'
+                                        + '</a>'
+                                        + '<div class="dropdown-menu dropdown-menu-end">'
+                                                + '<a class="dropdown-item" href="'+URL+'dashboard.php?action=company/view&edit='+data.CompanyID+'" >View</a>'
+                                                + '<a class="dropdown-item" href="javascript:void(0)" onclick="confirmationtoDelete(\''+data.CompanyID+'\')">Delete</a>'
+                                        + '</div>'
+                                + '</div>'
+                            + '</td>'                                                                                                    
                       + '</tr>';
-            });  
+            });
             if (obj.data.length==0) {
                  html += '<tr>'
                             + '<td colspan="6" style="text-align: center;background:#fff !important">No Data Found</td>'
                        + '</tr>';
-            }  
+            }   
             $('#tbl_content').html(html);
-            if (($.fn.dataTable.isDataTable("#datatables-fixed-header"))) {
+             if (($.fn.dataTable.isDataTable("#datatables-fixed-header"))) {
                 $("#datatables-fixed-header").DataTable({
                     fixedHeader: true,
                     pageLength: 25
                 });
-            }                                        
+            }
         } else {
             alert(obj.message);
         }
@@ -109,19 +119,34 @@ function Remove() {
                             + '<td>' + data.GSTIN + '</td>'
                             + '<td>' + data.CreatedOn + '</td>'
                             + '<td>' + ( (data.IsActive=="1") ? "<span class='badge bg-success'>Active</span>" : "<span class='badge bg-secondary'>Disabled</span>" ) + '</td>'
-                            + '<td style="text-align:right"><a href="javascript:void(0)" onclick="confirmationtoDelete(\''+data.CompanyID+'\')" class="btn btn-outline-danger btn-sm">Delete</a>&nbsp;&nbsp;<a href="'+URL+'dashboard.php?action=company/view&edit='+data.CompanyID+'" class="btn btn-success btn-sm">View</a></td>'
+                           + '<td style="text-align:right">' 
+                                + '<div class="dropdown position-relative">'
+                                        + '<a href="javascript:void(0)" data-bs-toggle="dropdown" data-bs-display="static">'
+                                            + '<img src="'+URL+'assets/icons/more.png">'
+                                        + '</a>'
+                                        + '<div class="dropdown-menu dropdown-menu-end">'
+                                                + '<a class="dropdown-item" href="'+URL+'dashboard.php?action=company/view&edit='+data.CompanyID+'" >View</a>'
+                                                + '<a class="dropdown-item" href="javascript:void(0)" onclick="confirmationtoDelete(\''+data.CompanyID+'\')">Delete</a>'
+                                        + '</div>'
+                                + '</div>'
+                            + '</td>'                                                                                                    
                       + '</tr>';
-            });
+             });
             if (obj.data.length==0) {
                  html += '<tr>'
                             + '<td colspan="6" style="text-align: center;background:#fff !important">No Data Found</td>'
                        + '</tr>';
-            }    
+            }   
             $('#tbl_content').html(html);
+             if (($.fn.dataTable.isDataTable("#datatables-fixed-header"))) {
+                $("#datatables-fixed-header").DataTable({
+                    fixedHeader: true,
+                    pageLength: 25
+                });
+            }
         } else {
-            $('#popupcontent').html(errorcontent(obj.message));            
+            alert(obj.message);
         }
     });
-      
 }
 </script>

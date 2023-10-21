@@ -7,6 +7,11 @@ class Companies {
         
         if (strlen(trim($_POST['CompanyCode']))==0) {
             return json_encode(array("status"=>"failure","message"=>"Please enter Company Code","div"=>"CompanyCode"));    
+        } else {
+            $dup = $mysql->select("select * from _tbl_companies where CompanyCode='".trim($_POST['CompanyCode'])."'");
+            if (sizeof($dup)>0) {
+                return json_encode(array("status"=>"failure","message"=>"Company Code already exists","div"=>"CompanyCode"));    
+            }
         }
         
         if (strlen(trim($_POST['CompanyName']))==0) {

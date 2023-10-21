@@ -24,6 +24,8 @@
                                 <?php echo $data[0]['EmployeeCode'];?>
                             </div>
                             <div class="col-sm-6 mb-3">
+                                <div style="font-weight: bold;">Entry Date</div>
+                                <?php echo $data[0]['EntryDate'];?>
                             </div>   
                             <div class="col-sm-6 mb-3">   
                                 <div style="font-weight: bold;">Employee Category</div>
@@ -136,6 +138,10 @@
             <div class="card">
                     <div class="card-body">
                         <div class="row">
+                            <div class="col-sm-6">
+                                <div style="font-weight: bold;">Joined On </div>
+                                <?php echo date("d-m-Y H:i",strtotime($data[0]["CreatedOn"])) ;?>
+                            </div>
                             <div class="col-sm-6">
                                 <div style="font-weight: bold">Remarks</div>
                                 <?php 

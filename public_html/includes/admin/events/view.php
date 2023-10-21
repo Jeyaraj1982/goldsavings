@@ -20,11 +20,10 @@
                                 <label class="form-label">Event Title</label>
                                 <input type="text" value="<?php echo $data[0]['EventTitle'];?>" readonly="readonly"  class="form-control">
                             </div>
-                            <div class="col-sm-6">
-                            </div>
                             <div class="col-sm-12 mb-3">
                                 <label class="form-label">Event Description </label>
                                 <textarea id="EventDescription"  readonly="readonly"  class="form-control" rows="4" cols="50"><?php echo $data[0]['EventDescription'];?></textarea>
+                             </div>     
                             <div class="col-sm-6 mb-3">
                                 <label class="form-label">Event Starts </label>
                                 <div class="input-group">

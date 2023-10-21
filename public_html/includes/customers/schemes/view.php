@@ -12,7 +12,7 @@
                     <div class="card-body">
                         <div class="row">
                             <div class="col-sm-6 mb-2">
-                                <div style="font-weight: bold;">Scheme Code </div>
+                                <div style="font-weight: bold;">Scheme ID </div>
                                 <?php echo $data[0]['SchemeCode'];?>
                             </div>
                             <div class="col-sm-12 mb-2">
@@ -23,52 +23,28 @@
                                 <div style="font-weight: bold;">Short Description </div>
                                 <?php echo $data[0]['ShortDescription'];?>
                             </div>
-                            <div class="col-sm-4 mb-3">
-                                <div style="font-weight: bold;"> Amount </div>
-                                   <span>₹</span> <?php echo $data[0]['Amount'];?> 
-                            </div>                                      
-                            <div class="col-sm-4 mb-3">
-                                <div style="font-weight: bold;"> Duration </div>
-                                  <?php echo $data[0]['InstallmentMode'];?>, <?php echo $data[0]['Installments'];?>
+                            <div class="col-sm-12 mb-2">
+                                <div class="row" >
+                                    <div class="col-sm-6">
+                                        <div style="font-weight: bold;">Due Amount(₹) </div>
+                                         Min&nbsp;:&nbsp;<?php echo $data[0]['MinDueAmount'];?>&nbsp;
+                                         Max&nbsp;:&nbsp;<?php echo $data[0]['MaxDueAmount'];?>
+                                    </div>
+                            <div class="col-sm-6">
+                                <div style="font-weight: bold;">Duration(Months) </div>
+                                    Min&nbsp;:&nbsp;<?php echo $data[0]['MinDuration'];?>&nbsp;
+                                    Max&nbsp;:&nbsp;<?php echo $data[0]['MaxDuration'];?>
                             </div>
-                            <div class="col-sm-4 mb-3">
-                                <div style="font-weight: bold;"><span id="_printlabel"></span> Installment Amount </div>
-                                 <span>₹</span> <?php echo $data[0]['InstallmentAmount'];?>
                             </div>
-                            <div class="col-sm-4  mb-3">
-                                <div style="font-weight: bold;">Based On </div>
-                                    <?php echo ($data[0]['ModeOfBenifits']=="AMOUNT") ? " AMOUNT " : "GOLD";?>
-                            </div>       
-                            <?php if ($data[0]['ModeOfBenifits']=="GOLD"){?>
-                            <div class="col-sm-4  mb-3">
-                                <div style="font-weight: bold;">Material Type </div>
-                                 <?php echo $data[0]['MaterialType'];?>
                             </div>
-                            <?php } else { ?>
-                              <div class="col-sm-4 mb-3">
-                                <div id="Cash_benefits" >
-                                    <div style="font-weight: bold;"><span id="_printChange"></span>Bonus</div>
-                                    <?php echo $data[0]['BonusPercentage'];?>
-                                </div>
-                            </div>
-                            <?php } ?>      
-                           
-                            <div class="col-sm-4 mb-3">
-                            </div>
-                            <div class="col-sm-4 mb-3">
+                            <div class="col-sm-6 mb-2">
                                 <div style="font-weight: bold;" id="basic-addon3" style="width:200px">Making Charge Discount</div>
                                     <?php echo $data[0]['MakingChargeDiscount'];?> <span>%</span>
                             </div>
-                            
-                            
-                            <div class="col-sm-4 mb-3">
+                            <div class="col-sm-6 mb-2">
                                 <div style="font-weight: bold;" id="basic-addon3" style="width:200px">Wastage Discount</div>
                                     <?php echo $data[0]['WastageDiscount'];?> <span>%</span>
                              </div>
-                            <div class="col-sm-6">         
-                                <div style="font-weight: bold;">Status </div>
-                                    <?php echo ($data[0]['IsActive']==1) ? " Active " : "Deactivated";?>
-                            </div>
                         </div>
                     </div>
                 </div>
@@ -86,7 +62,7 @@
                     <div class="card-body">
                         <div class="row">      
                             <div class="col-sm-12">
-                                <div style="font-weight: bold;">Terms of Condition </div>
+                                <div style="font-weight: bold;">Terms and Condition </div>
                                     <?php echo $data[0]['TermsOfConditions'];?>
                             </div>
                         </div>

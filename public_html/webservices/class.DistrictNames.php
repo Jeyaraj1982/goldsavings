@@ -67,29 +67,29 @@ class DistrictNames {
 
      public static function listAll() {
          global $mysql;
-         $data = $mysql->select("select * from _tbl_masters_districtnames");
+         $data = $mysql->select("select * from _tbl_masters_districtnames order by DistrictName");
          return json_encode(array("status"=>"success","data"=>$data));
      }
      
       public static function listAllActive() {
          global $mysql;
          if (isset($_GET['StateNameID'])) {
-            $data = $mysql->select("select * from _tbl_masters_districtnames where IsActive='1' and StateNameID='".$_GET['StateNameID']."' ");
+            $data = $mysql->select("select * from _tbl_masters_districtnames where IsActive='1' and StateNameID='".$_GET['StateNameID']."' order by DistrictName ");
          } else { 
-            $data = $mysql->select("select * from _tbl_masters_districtnames where IsActive='1' "); 
+            $data = $mysql->select("select * from _tbl_masters_districtnames where IsActive='1' order by DistrictName "); 
          }
          return json_encode(array("status"=>"success","data"=>$data));
      }
      
      public static function getDetailsByID($DistrictNameID) {
          global $mysql;
-         $data = $mysql->select("select * from _tbl_masters_districtnames where DistrictNameID='".$DistrictNameID."'");
+         $data = $mysql->select("select * from _tbl_masters_districtnames where DistrictNameID='".$DistrictNameID."' order by DistrictName");
          return json_encode(array("status"=>"success","data"=>$data));
      } 
      
      public static function listDistrictNames() {
          global $mysql;
-         $data = $mysql->select("select * from _tbl_masters_districtnames where StateNameID='".$_GET['StateNameID']."'");
+         $data = $mysql->select("select * from _tbl_masters_districtnames where StateNameID='".$_GET['StateNameID']."' order by DistrictName");
          return json_encode(array("status"=>"success","data"=>$data));
      }
 

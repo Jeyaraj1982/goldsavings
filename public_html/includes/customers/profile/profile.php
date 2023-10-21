@@ -111,7 +111,11 @@
                             </div>
                             <div class="col-sm-6">
                                 <div style="font-weight: bold">Name </div>
-                                    <div id="Name"></div>
+                                    <div id="ReferredByName"></div>
+                            </div> 
+                            <div class="col-sm-6">
+                                <div style="font-weight: bold">Entry Date</div>
+                                <div id="EntryDate"></div>
                             </div> 
                             <div class="col-sm-6">
                                 <div style="font-weight: bold">Joined On</div>
@@ -171,7 +175,8 @@ function view(){
                  if(data.IsActive=="0"){
                 $('#ReferredBy').html("Customer");    
                 }
-                 $('#Name').html(data.Name);
+                 $('#ReferredByName').html(data.ReferredByName);
+                 $('#EntryDate').html(data.EntryDate);
                  $('#JoinedOn').html(data.CreatedOn);
             });   
 }  

@@ -24,6 +24,8 @@
                                 <?php echo $data[0]['EmployeeCode'];?>
                             </div>
                             <div class="col-sm-6 mb-3">
+                                <div style="font-weight: bold;">Entry Date</div>
+                                <?php echo $data[0]['EntryDate'];?>
                             </div>   
                             <div class="col-sm-6 mb-3">   
                                 <div style="font-weight: bold;">Employee Category</div>
@@ -49,7 +51,7 @@
                                 <div style="font-weight: bold;">Email ID </div> 
                                 <?php echo $data[0]['EmailID'];?>
                             </div>
-                            <div class="col-sm-6">
+                            <div class="col-sm-6 mb-3">
                                 <div style="font-weight: bold">Mobile Number</div>
                                 +91 <?php echo $data[0]['MobileNumber'];?>
                             </div>
@@ -66,26 +68,29 @@
                             <div class="col-sm-12">
                                 <hr>
                             </div>
-                            <div class="col-sm-6">         
+                            <div class="col-sm-6 mb-3">         
                                 <div style="font-weight: bold;">Login User Name</div>
                                 <?php echo $data[0]['LoginUserName'];?>
                             </div>
-                            <div class="col-sm-6">
+                            <div class="col-sm-6 mb-3">
                                 <div style="font-weight: bold;">Login Password</div>
                                 <?php echo $data[0]['LoginPassword'];?>
                             </div>
-                            
+                            <div class="col-sm-6 mb-3">         
+                                <div style="font-weight: bold;">Status </div>
+                                <?php echo ($data[0]['IsActive']==1) ? " Active " : "Deactivated";?>
+                            </div>
                             </div>
                         </div>
                     </div>
                 <div class="card">
                     <div class="card-body">
                         <div class="row">                            
-                            <div class="col-sm-6">
+                            <div class="col-sm-6 mb-3">
                                 <div style="font-weight: bold;">PAN Card Number </div>
                                 <?php echo $data[0]['PancardNumber'];?>
                             </div>
-                            <div class="col-sm-6">
+                            <div class="col-sm-6 mb-3">
                                 <div style="font-weight: bold;">Aadhaar Card Number</div>
                                 <?php echo $data[0]['AadhaarCardNumber'];?>
                             </div>
@@ -119,7 +124,7 @@
                                 <div style="font-weight: bold;">District Name</div>
                                 <?php echo $data[0]['DistrictName'];?>
                             </div>
-                            <div class="col-sm-6">
+                            <div class="col-sm-6  mb-3">
                                 <div style="font-weight: bold;">State Name</div>
                                 <?php echo $data[0]['StateName'];?>
                             </div>
@@ -133,15 +138,11 @@
             <div class="card">
                     <div class="card-body">
                         <div class="row">
-                        <div class="col-sm-6 mb-3">         
-                                <div style="font-weight: bold;">Status </div>
-                                <?php echo ($data[0]['IsActive']==1) ? " Active " : "Deactivated";?>
+                            <div class="col-sm-6">
+                                <div style="font-weight: bold;">Joined On </div>
+                                <?php echo date("d-m-Y H:i",strtotime($data[0]["CreatedOn"])) ;?>
                             </div>
                             <div class="col-sm-6">
-                                <div style="font-weight: bold;">Created On </div>
-                                <?php echo $data[0]['CreatedOn'];?>
-                            </div>
-                            <div class="col-sm-12">
                                 <div style="font-weight: bold">Remarks</div>
                                 <?php 
                                     if (strlen($data[0]['Remarks'])>0) {
@@ -157,7 +158,7 @@
             </div>
                       
             <div class="col-sm-12 mb-3" style="text-align:right;">
-                <a href="<?php echo URL;?>dashboard.php?action=masters/employees/list" class="btn btn-outline-primary">Back</a>&nbsp;&nbsp;
+                <a href="<?php echo URL;?>dashboard.php?action=employees/list" class="btn btn-outline-primary">Back</a>&nbsp;&nbsp;
             </div> 
     </form>                            
  </div>

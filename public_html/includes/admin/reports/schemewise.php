@@ -70,10 +70,6 @@
                 </div>
             </div>
             -->
-             
-            <div class="col-sm-9" style="text-align:right;">
-                <button  type="button" onclick="Confirmationtoadd()" class="btn btn-primary">View</button>    
-            </div>
         </div>                
     </form>
 </div>

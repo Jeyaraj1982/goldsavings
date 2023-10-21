@@ -78,10 +78,11 @@ class CustomerTypes {
                                     t1.CustomerTypeNameID=t2.CustomerTypeNameID");
         return json_encode(array("status"=>"success","data"=>$data));
     }
+    
     public static function listAllActive() {
         global $mysql;
-        $data = $mysql->select("select * from _tbl_masters_customertypename where IsActive='1'");
-        return json_encode(array("status"=>"success","data"=>$data));
+        $data = $mysql->select("select * from _tbl_masters_customertypename where IsActive='1' order by CustomerTypeName");
+        return json_encode(array("status"=>"success","data"=>$data));   
     }
     
     public static function getDetailsByID($CustomerTypeNameID) {

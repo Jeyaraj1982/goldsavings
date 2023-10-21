@@ -9,15 +9,17 @@
         </li>
         <li class="sidebar-header">Quick Links</li> 
         <li class="sidebar-item"><a class="sidebar-link" href="<?php echo URL;?>dashboard.php?action=myreferrel/list_customer">My Referrel</a></li>
-        <li class="sidebar-item"><a class="sidebar-link" href="<?php echo URL;?>dashboard.php?action=upcommingdues/list">Upcomming Dues</a></li>
-        <li class="sidebar-item"><a class="sidebar-link" href="<?php echo URL;?>dashboard.php?action=pendingdues/list">Pending Dues</a></li>
-        <li class="sidebar-item"><a class="sidebar-link" href="<?php echo URL;?>dashboard.php?action=recentpayments/list">Recent Payments</a></li>
+        <li class="sidebar-item"><a class="sidebar-link" href="<?php echo URL;?>dashboard.php?action=contracts/upcommingdues">Upcomming Dues</a></li>
+        <li class="sidebar-item"><a class="sidebar-link" href="<?php echo URL;?>dashboard.php?action=contracts/pendingdues">Pending Dues</a></li>
+        <li class="sidebar-item"><a class="sidebar-link" href="<?php echo URL;?>dashboard.php?action=contracts/list_paymentrequests">Recent Payments</a></li>
+        <li class="sidebar-item"><a class="sidebar-link" href="<?php echo URL;?>dashboard.php?action=receipts/receipt">Receipts</a></li>
+        <li class="sidebar-item"><a class="sidebar-link" href="<?php echo URL;?>dashboard.php?action=vouchers/voucher">Vouchers</a></li>
         <li class="sidebar-item">
             <a data-bs-target="#schemes" data-bs-toggle="collapse" class="sidebar-link collapsed">
                 <i class="align-middle" data-feather="layout"></i> <span class="align-middle">Schemes</span>
             </a>
             <ul id="schemes" class="sidebar-dropdown list-unstyled collapse " data-bs-parent="#sidebar">
-                <li class="sidebar-item"><a class="sidebar-link" href="<?php echo URL;?>dashboard.php?action=schemes/activescheme">Acive Schemes</a></li>
+                <li class="sidebar-item"><a class="sidebar-link" href="<?php echo URL;?>dashboard.php?action=schemes/activescheme">Active Schemes</a></li>
             </ul>
         </li>
         <li class="sidebar-item">
@@ -30,21 +32,19 @@
             </ul>
         </li>
         <li class="sidebar-item">
-            <a data-bs-target="#addressbook" data-bs-toggle="collapse" class="sidebar-link collapsed">
-                <i class="align-middle" data-feather="layout"></i> <span class="align-middle">Address Book</span>
-            </a>
-            <ul id="addressbook" class="sidebar-dropdown list-unstyled collapse " data-bs-parent="#sidebar">
-                <li class="sidebar-item"><a class="sidebar-link" href="<?php echo URL;?>dashboard.php?action=addressbook/new">New Contact</a></li>
-                <li class="sidebar-item"><a class="sidebar-link" href="<?php echo URL;?>dashboard.php?action=addressbook/list">View Contacts</a></li>
-            </ul>
-        </li>
-        <li class="sidebar-item">
             <a data-bs-target="#events" data-bs-toggle="collapse" class="sidebar-link collapsed">
                 <i class="align-middle" data-feather="layout"></i> <span class="align-middle">Events</span>
             </a>
             <ul id="events" class="sidebar-dropdown list-unstyled collapse " data-bs-parent="#sidebar">
-                <li class="sidebar-item"><a class="sidebar-link" href="<?php echo URL;?>dashboard.php?action=events/activeevents">Active Events</a></li>
-                <li class="sidebar-item"><a class="sidebar-link" href="<?php echo URL;?>dashboard.php?action=events/recentlogin">Recent Login</a></li>
+                <li class="sidebar-item"><a class="sidebar-link" href="<?php echo URL;?>dashboard.php?action=events/currentevents">Current Events</a></li>
+            </ul>
+        </li>
+        <li class="sidebar-item">
+            <a data-bs-target="#activities" data-bs-toggle="collapse" class="sidebar-link collapsed">
+                <i class="align-middle" data-feather="layout"></i> <span class="align-middle">Activities</span>
+            </a>
+            <ul id="activities" class="sidebar-dropdown list-unstyled collapse " data-bs-parent="#sidebar">
+                <li class="sidebar-item"><a class="sidebar-link" href="<?php echo URL;?>dashboard.php?action=activities/recentlogin">Recent Login</a></li>
             </ul>
         </li>
     </ul>

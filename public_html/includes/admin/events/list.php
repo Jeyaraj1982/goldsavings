@@ -15,16 +15,16 @@
                     <table id="datatables-fixed-header" class="table table-striped" style="width:100%">
                         <thead>
                             <tr>
-                                <th style="width:100px">Event Title</th>
-                                <th>Event Start</th>
-                                <th>Event End</th>
-                                <th>CreatedOn</th>
-                                <th style="width:220px"></th>
+                                <th>Event Title</th>
+                                <th style="width: 200px;">Event Start</th>
+                                <th style="width: 200px;">Event End</th>
+                                <th style="width: 200px;">Created On</th>
+                                <th style="width:50px"></th>
                             </tr>
                         </thead>
                         <tbody id="tbl_content">
                             <tr>
-                                <td colspan="5" style="text-align: center;background:#fff !important">No data available</td>
+                                <td colspan="5" style="text-align: center;background:#fff !important">loading events...</td>
                             </tr>
                         </tbody>
                     </table>
@@ -65,21 +65,37 @@ function d() {
                             + '<td>' + data.EventStart + '</td>'
                             + '<td>' + data.EventEnd + '</td>'
                             + '<td>' + data.CreatedOn + '</td>'
-                            + '<td style="text-align:right"><a href="javascript:void(0)" onclick="confirmationtoDelete(\''+data.EventID+'\')" class="btn btn-outline-danger btn-sm">Delete</a>&nbsp;&nbsp;<a href="'+URL+'dashboard.php?action=events/edit&edit='+data.EventID+'" class="btn btn-primary btn-sm">Edit</a>&nbsp;&nbsp;<a href="'+URL+'dashboard.php?action=events/view&edit='+data.EventID+'" class="btn btn-success btn-sm">View</a></td>'
+                            + '<td style="text-align:right">' 
+                                + '<div class="dropdown position-relative">'
+                                        + '<a href="javascript:void(0)" data-bs-toggle="dropdown" data-bs-display="static">'
+                                            + '<img src="'+URL+'assets/icons/more.png">'
+                                        + '</a>'
+                                        + '<div class="dropdown-menu dropdown-menu-end">'
+                                                + '<a class="dropdown-item" href="'+URL+'dashboard.php?action=events/view&edit='+data.EventID+'" >View</a>'
+                                                + '<a class="dropdown-item" href="'+URL+'dashboard.php?action=events/edit&edit='+data.EventID+'">Edit</a>'
+                                                + '<a class="dropdown-item" href="javascript:void(0)" onclick="confirmationtoDelete(\''+data.EventID+'\')">Delete</a>'
+                                        + '</div>'
+                                + '</div>'
+                            + '</td>'                                                                                                    
                       + '</tr>';
-            });   
+           });
+            if (obj.data.length==0) {
+                 html += '<tr>'
+                            + '<td colspan="5" style="text-align: center;background:#fff !important">No Data Found</td>'
+                       + '</tr>';
+            }   
             $('#tbl_content').html(html);
-            $("#datatables-fixed-header").DataTable({
-                fixedHeader: true,
-                pageLength: 25
-            });
+             if (($.fn.dataTable.isDataTable("#datatables-fixed-header"))) {
+                $("#datatables-fixed-header").DataTable({
+                    fixedHeader: true,
+                    pageLength: 25
+                });
+            }
         } else {
             alert(obj.message);
         }
     });
 }
-
-
 setTimeout("d()",2000);
  
 var RemoveID=0;
@@ -101,14 +117,35 @@ function Remove() {
                             + '<td>' + data.EventStart + '</td>'
                             + '<td>' + data.EventEnd + '</td>'
                             + '<td>' + data.CreatedOn + '</td>'
-                            + '<td style="text-align:right"><a href="javascript:void(0)" onclick="confirmationtoDelete(\''+data.EventID+'\')" class="btn btn-outline-danger btn-sm">Delete</a>&nbsp;&nbsp;<a href="'+URL+'dashboard.php?action=events/edit&edit='+data.EventID+'" class="btn btn-primary btn-sm">Edit</a>&nbsp;&nbsp;<a href="'+URL+'dashboard.php?action=events/view&edit='+data.EventID+'" class="btn btn-success btn-sm">View</a></td>'
+                           + '<td style="text-align:right">' 
+                                + '<div class="dropdown position-relative">'
+                                        + '<a href="javascript:void(0)" data-bs-toggle="dropdown" data-bs-display="static">'
+                                            + '<img src="'+URL+'assets/icons/more.png">'
+                                        + '</a>'
+                                        + '<div class="dropdown-menu dropdown-menu-end">'
+                                                + '<a class="dropdown-item" href="'+URL+'dashboard.php?action=events/view&edit='+data.EventID+'" >View</a>'
+                                                + '<a class="dropdown-item" href="'+URL+'dashboard.php?action=events/edit&edit='+data.EventID+'">Edit</a>'
+                                                + '<a class="dropdown-item" href="javascript:void(0)" onclick="confirmationtoDelete(\''+data.EventID+'\')">Delete</a>'
+                                        + '</div>'
+                                + '</div>'
+                            + '</td>'                                                                                                    
                       + '</tr>';
-            });    
+          });
+            if (obj.data.length==0) {
+                 html += '<tr>'
+                            + '<td colspan="5" style="text-align: center;background:#fff !important">No Data Found</td>'
+                       + '</tr>';
+            }   
             $('#tbl_content').html(html);
+             if (($.fn.dataTable.isDataTable("#datatables-fixed-header"))) {
+                $("#datatables-fixed-header").DataTable({
+                    fixedHeader: true,
+                    pageLength: 25
+                });
+            }
         } else {
-            $('#popupcontent').html(errorcontent(obj.message));            
+            alert(obj.message);
         }
     });
-      
 }
 </script>

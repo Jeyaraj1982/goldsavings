@@ -1,4 +1,5 @@
 <div class="container-fluid p-0">
+<div class="col-sm-12">
     <div class="row">
         <div class="col-6">
             <h1 class="h3">Customers</h1>
@@ -7,23 +8,24 @@
         <div class="col-6" style="text-align:right;">
             <a href="<?php echo URL;?>dashboard.php?action=masters/customers/new" class="btn btn-primary btn-sm">New Customer</a>
      </div>
+     </div>
+     </div>
      <div class="row">
         <div class="col-12">
             <div class="card">
                 <div class="card-body" style="padding-top:25px">
                     <table id="datatables-fixed-header" class="table table-striped" style="width:100%">
-                        <thead>
-                            <tr>
-                                <th style="width:100px">Code</th>
-                                <th>Customer Name</th>
-                                <th>Mobile Number</th>
-                                <th>Email ID</th>
-                                <th>Type</th>
-                                <th>Remarks</th>
-                                <th style="width:100px">Status</th>
-                                <th style="width:220px"></th>
-                            </tr>
-                        </thead>
+                      <thead>
+                                <tr>
+                                    <th>Customer ID</th>
+                                    <th>Customer Name</th>
+                                    <th>Mobile Number</th>
+                                    <th>Type</th>
+                                    <th>Joined On</th>
+                                    <th>Referred By</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
                         <tbody id="tbl_content">
                             <tr>
                                 <td colspan="8" style="text-align: center;background:#fff !important">Loading customers ...</td>
@@ -68,21 +70,41 @@ function d() {
                             + '<td>' + data.CustomerCode + '</td>'
                             + '<td>' + data.CustomerName + '</td>'
                             + '<td>' + data.MobileNumber + '</td>'
-                            + '<td>' + data.EmailID + '</td>'
                             + '<td>' + data.CustomerTypeName + '</td>'
-                            + '<td>' + data.Remarks + '</td>'
-                            + '<td>' + ( (data.IsActive=="1") ? "<span class='badge bg-success'>Active</span>" : "<span class='badge bg-secondary'>Disabled</span>" ) + '</td>'
-                            + '<td style="text-align:right"><a href="javascript:void(0)" onclick="confirmationtoDelete(\''+data.CustomerID+'\')" class="btn btn-outline-danger btn-sm">Delete</a>&nbsp;&nbsp;<a href="'+URL+'dashboard.php?action=masters/customers/edit&customer='+data.CustomerID+'" class="btn btn-primary btn-sm">Edit</a>&nbsp;&nbsp;<a href="'+URL+'dashboard.php?action=masters/customers/view&customer='+data.CustomerID+'" class="btn btn-success btn-sm">View</a></td>'
+                            + '<td>' + data.CreatedOn + '</td>'
+                            + '<td>' + data.ReferredByName + ' ('+ data.ReferByText +')</td>'
+                            + '<td style="text-align:right">' 
+                                + '<div class="dropdown position-relative">'
+                                        + '<a href="javascript:void(0)" data-bs-toggle="dropdown" data-bs-display="static">'
+                                            + '<img src="'+URL+'assets/icons/more.png">'
+                                        + '</a>'
+                                        + '<div class="dropdown-menu dropdown-menu-end">'
+                                                + '<a class="dropdown-item" href="'+URL+'dashboard.php?action=masters/customers/view&customer='+data.CustomerID+'">View</a>'
+                                                + '<a class="dropdown-item" href="'+URL+'dashboard.php?action=masters/customers/edit&customer='+data.CustomerID+'">Edit</a>'
+                                                + '<a class="dropdown-item" href="javascript:void(0)" onclick="confirmationtoDelete(\''+data.CustomerID+'\')">Delete</a>'
+                                                + '<hr style="margin:0px !important">'
+                                                + '<a class="dropdown-item" href="'+URL+'dashboard.php?action=masters/customers/contracts&customer='+data.CustomerID+'">View Contracts</a>'
+                                                + '<a class="dropdown-item" href="'+URL+'dashboard.php?action=reports/receipt&customer='+data.CustomerID+'">View Receipts</a>'
+                                                + '<a class="dropdown-item" href="'+URL+'dashboard.php?action=reports/voucher&customer='+data.CustomerID+'">View Vouchers</a>'
+                                                + '<a class="dropdown-item" href="'+URL+'dashboard.php?action=masters/customers/list_myreferrel&customer='+data.CustomerID+'">View Referrals</a>'
+                                        + '</div>'
+                                + '</div>'
+                            + '</td>'                                                                                                    
                       + '</tr>';
-            });   
-            $('#tbl_content').html(html);
-            // document.addEventListener("DOMContentLoaded", function() {
-            $("#datatables-fixed-header").DataTable({
-                fixedHeader: true,
-                pageLength: 25
-                
+                           
             });
-            //});                                        
+            if(obj.data.length==0){
+            html += '<tr>'
+                + '<td colspan="8" style="text-align: center;background:#fff !important">No data found</td>'
+                + '</tr>'
+            }   
+            $('#tbl_content').html(html);
+             if (($.fn.dataTable.isDataTable("#datatables-fixed-header"))) {
+                $("#datatables-fixed-header").DataTable({
+                    fixedHeader: true,
+                    pageLength: 25
+                });
+            }
         } else {
             alert(obj.message);
         }
@@ -107,27 +129,47 @@ function Remove() {
             $('#popupcontent').html(success_content(obj.message,'closePopup'));
             $.each(obj.data, function (index, data) {
                 html += '<tr>'
-                            + '<td>' + data.CustomerCode + '</td>'
+                           + '<td>' + data.CustomerCode + '</td>'
                             + '<td>' + data.CustomerName + '</td>'
                             + '<td>' + data.MobileNumber + '</td>'
-                            + '<td>' + data.EmailID + '</td>'
                             + '<td>' + data.CustomerTypeName + '</td>'
-                            + '<td>' + data.Remarks + '</td>'
-                            + '<td>' + ( (data.IsActive=="1") ? "<span class='badge bg-success'>Active</span>" : "<span class='badge bg-secondary'>Disabled</span>" ) + '</td>'
-                            + '<td style="text-align:right"><a href="javascript:void(0)" onclick="confirmationtoDelete(\''+data.CustomerID+'\')" class="btn btn-outline-danger btn-sm">Delete</a>&nbsp;&nbsp;<a href="'+URL+'dashboard.php?action=masters/customers/edit&customer='+data.CustomerID+'" class="btn btn-primary btn-sm">Edit</a>&nbsp;&nbsp;<a href="'+URL+'dashboard.php?action=masters/customers/view&customer='+data.CustomerID+'" class="btn btn-success btn-sm">View</a></td>'
+                            + '<td>' + data.CreatedOn + '</td>'
+                            + '<td>' + data.ReferredByName + ' ('+ data.ReferByText +')</td>'
+                            + '<td style="text-align:right">' 
+                                + '<div class="dropdown position-relative">'
+                                        + '<a href="javascript:void(0)" data-bs-toggle="dropdown" data-bs-display="static">'
+                                            + '<img src="'+URL+'assets/icons/more.png">'
+                                        + '</a>'
+                                        + '<div class="dropdown-menu dropdown-menu-end">'
+                                                + '<a class="dropdown-item" href="'+URL+'dashboard.php?action=masters/customers/view&customer='+data.CustomerID+'">View</a>'
+                                                + '<a class="dropdown-item" href="'+URL+'dashboard.php?action=masters/customers/edit&customer='+data.CustomerID+'">Edit</a>'
+                                                + '<a class="dropdown-item" href="javascript:void(0)" onclick="confirmationtoDelete(\''+data.CustomerID+'\')">Delete</a>'
+                                                + '<hr style="margin:0px !important">'
+                                                + '<a class="dropdown-item" href="'+URL+'dashboard.php?action=masters/customers/contracts&customer='+data.CustomerID+'">View Contracts</a>'
+                                                + '<a class="dropdown-item" href="'+URL+'dashboard.php?action=reports/receipt&customer='+data.CustomerID+'">View Receipts</a>'
+                                                + '<a class="dropdown-item" href="'+URL+'dashboard.php?action=reports/voucher&customer='+data.CustomerID+'">View Voucher</a>'
+                                                + '<a class="dropdown-item" href="'+URL+'dashboard.php?action=masters/customers/list_myreferrel&customer='+data.CustomerID+'">View Referrals</a>'
+                                        + '</div>'
+                                + '</div>'
+                            + '</td>'                                                                                                    
                       + '</tr>';
-            });    
+                           
+            });
+            if(obj.data.length==0){
+            html += '<tr>'
+                + '<td colspan="8" style="text-align: center;background:#fff !important">No data found</td>'
+                + '</tr>'
+            }   
             $('#tbl_content').html(html);
-            // document.addEventListener("DOMContentLoaded", function() {
-            //$("#datatables-fixed-header").DataTable({
-              //  fixedHeader: true,
-               // pageLength: 25
-           // });
-            
+             if (($.fn.dataTable.isDataTable("#datatables-fixed-header"))) {
+                $("#datatables-fixed-header").DataTable({
+                    fixedHeader: true,
+                    pageLength: 25
+                });
+            }
         } else {
-            $('#popupcontent').html(errorcontent(obj.message));            
+            alert(obj.message);
         }
     });
-      
 }
 </script>

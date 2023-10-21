@@ -12,22 +12,46 @@
             </div>
      </div>
      <div class="row">
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-body">
+                    <form id="frm_goldprice" name="frm_goldprice" id="frm_goldprice">
+                    <div class="row">
+                    <div class="col-sm-9 mb-3">
+                                <label class="form-label">Date Range <span style='color:red'>*</span></label>
+                                <div class="input-group">
+                                    <input type="date" name="FromDate" value="<?php echo date("Y-m-d");?>" id="FromDate" class="form-control" placeholder="From Date">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text" id="basic-addon1">To</span>
+                                </div>
+                                <input type="date" value="<?php echo date("Y-m-d");?>" name="ToDate" id="ToDate" class="form-control" placeholder="To Date">
+                                <button type="button" onclick="getData()" class="btn btn-primary">Get Data</button>
+                            </div> 
+                           <span id="Errmessage" class="error_msg"></span>
+                    </div>
+                    </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+     <div class="row" id="listData" style="display:none">
         <div class="col-12">
             <div class="card">
-                <div class="card-body" style="padding-top:25px">
+                <div class="card-body" style="padding-top:15px">
                     <table id="datatables-fixed-header" class="table table-striped" style="width:100%">
                         <thead>
                             <tr>
-                                <th style="width:100px">Date</th>
-                                <th>18kt</th>
-                                <th>22kt</th>
-                                <th>24kt</th>
-                                <th style="width:200px"></th>
+                                <th>Date</th>
+                                <th style="width:100px">18kt</th>
+                                <th style="width:100px">22kt</th>
+                                <th style="width:100px">24kt</th>
+                                <th style="width:70px"></th>
                             </tr>
                         </thead>
                         <tbody id="tbl_content">
                             <tr>
-                                <td colspan="5" style="text-align: center;background:#fff !important">Loading Goldprice ...</td>
+                                <td colspan="5" style="text-align: center;background:#fff !important">Loading Gold price ...</td>
                             </tr>
                         </tbody>
                     </table>
@@ -51,7 +75,7 @@
               <div class="row">
                 <div class="col-sm-4 mb-3">
                     <label class="form-label">Date <span style='color:red'>*</span></label>
-                    <input type="date" name="Date" id="Date" class="form-control" placeholder="Date">
+                    <input type="date"  value="<?php echo date("Y-m-d");?>" name="Date" id="Date" class="form-control" placeholder="Date">
                         <span id="ErrDate" class="error_msg"></span>
                             </div>
                             <div class="col-sm-6 mb-3">
@@ -82,7 +106,7 @@
 </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-outline-primary" data-bs-dismiss="modal">Cancel</button>
-        <button type="button" onclick="addNew()" class="btn btn-primary">Creat</button>
+        <button type="button" onclick="addNew()" class="btn btn-primary">Save</button>
       </div>
     </div>
   </div>
@@ -109,7 +133,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">GoldPrice Information</h5>
+                <h5 class="modal-title" id="exampleModalLabel">Gold Price Information</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
@@ -155,7 +179,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">GoldPrice Information</h5>
+                <h5 class="modal-title" id="exampleModalLabel">Gold Price Information</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
@@ -217,7 +241,7 @@ function addNew() {
                  openPopup();
                 $('#frm_create').trigger("reset");
                 $('#GoldRates').val(obj.GoldRates);
-                $('#popupcontent').html(success_content(obj.message,'listAll'));
+                $('#popupcontent').html(success_content(obj.message,"getData"));
              } else {
                 if (obj.div!="") {
                     $('#Err'+obj.div).html(obj.message)
@@ -233,9 +257,10 @@ function addNew() {
 
 
 
-function listAll() {
+function getData() {
+     var param = $('#frm_goldprice').serialize();
     openPopup();
-    $.post(URL+ "webservice.php?action=listAll&method=GoldRates","",function(data){
+    $.post(URL+ "webservice.php?action=listAll&method=GoldRates",param,function(data){
         closePopup();
         var obj = JSON.parse(data);
         if (obj.status=="success") {
@@ -246,27 +271,41 @@ function listAll() {
                             + '<td>' + data.GOLD_18 + '</td>'
                             + '<td>' + data.GOLD_22 + '</td>'
                             + '<td>' + data.GOLD_24 + '</td>'
-                            + '<td style="text-align:right"><a href="javascript:void(0)" onclick="Remove(\''+data.RateID+'\')" class="btn btn-outline-danger btn-sm">Delete</a>&nbsp;&nbsp;<a onclick="edit(\''+data.RateID+'\')" class="btn btn-primary btn-sm">Edit</a>&nbsp;&nbsp;<a onclick="view(\''+data.RateID+'\')" class="btn btn-success btn-sm">View</a></td>'
+                            + '<td style="text-align:right">' 
+                                + '<div class="dropdown position-relative">'
+                                        + '<a href="javascript:void(0)" data-bs-toggle="dropdown" data-bs-display="static">'
+                                            + '<img src="'+URL+'assets/icons/more.png">'
+                                        + '</a>'
+                                        + '<div class="dropdown-menu dropdown-menu-end">'
+                                                + '<a class="dropdown-item" onclick="view(\''+data.RateID+'\')">View</a>'
+                                                + '<a class="dropdown-item" onclick="edit(\''+data.RateID+'\')">Edit</a>'
+                                                + '<a class="dropdown-item" href="javascript:void(0)" onclick="confirmationtoDelete(\''+data.RateID+'\')">Delete</a>'
+                                        + '</div>'
+                                + '</div>'
+                            + '</td>'
                             + '</tr>';
-            });
-            if (obj.data.length==0) {
-                 html += '<tr>'
-                            + '<td colspan="5" style="text-align: center;background:#fff !important">No Data Found</td>'
-                       + '</tr>';
-            }   
+                             });
+           if (obj.data.length==0) {
+         html += '<tr>'
+                    + '<td colspan="5" style="text-align: center;background:#fff !important">No Data Found</td>'
+               + '</tr>';
+    }
             $('#tbl_content').html(html);
-             if (($.fn.dataTable.isDataTable("#datatables-fixed-header"))) {
-                $("#datatables-fixed-header").DataTable({
-                    fixedHeader: true,
-                    pageLength: 25
-                });
-            }
+            $('#listData').show();
+             
+            
         } else {
-            alert(obj.message);
+            if (obj.div!="") {
+                $('#Err'+obj.div).html(obj.message)
+            } else {
+                $('#failure_div').html(obj.message);
+            }
+             $('#tbl_content').html("");
+            $('#listData').hide();
+            $('#process_popup').modal('hide');
         }
     });
-} 
-setTimeout("listAll()",2000);
+}
   
 function edit(ID){
   $('#editForm').modal("show");
@@ -322,9 +361,9 @@ function view(ID){
             var html = "";
             $.each(obj.data, function (index, data) {
                 $('#viewDate').val(data.Date);
-                $('#viewGold18').val(data.Gold18);
-                $('#viewGold22').val(data.Gold22);
-                $('#viewGold24').val(data.Gold24);
+                $('#viewGold18').val(data.GOLD_18);
+                $('#viewGold22').val(data.GOLD_22);
+                $('#viewGold24').val(data.GOLD_24);
                  $('#viewRemarks').val(data.Remarks);
                 $('#viewRateID').val(data.RateID);
             });   
@@ -333,7 +372,7 @@ function view(ID){
 }
 
 var RemoveID=0;
-function Remove(ID){
+function confirmationtoDelete(ID){
     RemoveID=ID;
     $('#confirmation').modal("show");
 }
@@ -348,10 +387,21 @@ function confirmRemove() {
             $.each(obj.data, function (index, data) {
                 html += '<tr>'
                           + '<td>' + data.Date + '</td>'
-                            + '<td>' + data.Gold18 + '</td>'
-                            + '<td>' + data.Gold22 + '</td>'
-                            + '<td>' + data.Gold24 + '</td>'
-                            + '<td style="text-align:right"><a href="javascript:void(0)" onclick="Remove(\''+data.RateID+'\')" class="btn btn-outline-danger btn-sm">Delete</a>&nbsp;&nbsp;<a onclick="edit(\''+data.RateID+'\')" class="btn btn-primary btn-sm">Edit</a>&nbsp;&nbsp;<a onclick="view(\''+data.RateID+'\')" class="btn btn-success btn-sm">View</a></td>'
+                            + '<td>' + data.GOLD_18 + '</td>'
+                            + '<td>' + data.GOLD_22 + '</td>'
+                            + '<td>' + data.GOLD_24 + '</td>'
+                            + '<td style="text-align:right">' 
+                                + '<div class="dropdown position-relative">'
+                                        + '<a href="javascript:void(0)" data-bs-toggle="dropdown" data-bs-display="static">'
+                                            + '<img src="'+URL+'assets/icons/more.png">'
+                                        + '</a>'
+                                        + '<div class="dropdown-menu dropdown-menu-end">'
+                                                + '<a class="dropdown-item" onclick="view(\''+data.RateID+'\')">View</a>'
+                                                + '<a class="dropdown-item" onclick="edit(\''+data.RateID+'\')">Edit</a>'
+                                                + '<a class="dropdown-item" href="javascript:void(0)" onclick="confirmationtoDelete(\''+data.RateID+'\')">Delete</a>'
+                                        + '</div>'
+                                + '</div>'
+                            + '</td>'
                             + '</tr>';
             });
             if (obj.data.length==0) {

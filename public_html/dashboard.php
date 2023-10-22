@@ -1,7 +1,4 @@
-<?php include_once("config.php"); ?>
-<?php
-
-
+<?php include_once("config.php"); 
 if (isset($_SESSION['User']['UserRole'])) {
      define("UserRole",$_SESSION['User']['UserRole']);
 }
@@ -11,7 +8,6 @@ if ($_GET['action']!='profile/changepassword') {
         exit; 
     }                                     
 }
-define("URL","https://goldsavings.nexifysoftware.in/");
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -22,27 +18,24 @@ define("URL","https://goldsavings.nexifysoftware.in/");
 	<meta name="description" content="Responsive Bootstrap 5 Admin &amp; Dashboard Template">
 	<meta name="author" content="Bootlab">
     <base href="https://appstack.bootlab.io" />
-	<title>Auditor Office Manangement</title>
-
+	<title>Gold Chit Management Software</title>
 	<link rel="canonical" href="https://appstack.bootlab.io/dashboard-default.html" />
 	<link rel="shortcut icon" href="img/favicon.ico">
-
 	<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
-
-	 
-	 
-	 
-
-	 
-	 
 	<link class="js-stylesheet" href="css/light.css" rel="stylesheet">
-	 
-	 
-    <style>
-        #success_div {}
-        #failure_div {}
+	<style>
+     /*
+     .modal-footer{padding: 3px !important;background: #cfdbee !important;}
+     .modal-header{background: #474779;padding: 6px 14px !important}
+     .modal-header .modal-title{color:#fff !important;}
+     .modal-header .btn-close{color:#fff !important;}
+     */
+     #btn-back-to-top {position: fixed;bottom: 20px;right: 20px;display: none;}
+     
+     #success_div {}
+     #failure_div {}
         
- .error_msg {color:red;font-size:11px}
+     .error_msg {color:red;font-size:11px}
  
   /* The switch - the box around the slider */
 .switch {
@@ -141,7 +134,26 @@ input:checked + .slider:before {
             $('#Err'+divs[i]).html("");
         }
     }
-    </script>
+    
+    function printDate(d) {
+        var formattedDate = new Date(d);
+        var d = formattedDate.getDate();
+        var m =  formattedDate.getMonth();
+        m += 1;  // JavaScript months are 0-11
+        var y = formattedDate.getFullYear();
+        return d + "-" + m + "-" + y;
+    }
+    function printDateTime(d) {
+        var formattedDate = new Date(d);
+        var d = formattedDate.getDate();
+        var m =  formattedDate.getMonth();
+        m += 1;  // JavaScript months are 0-11
+        var y = formattedDate.getFullYear();
+        h=formattedDate.getHours();
+        i=formattedDate.getMinutes();
+        return d + "-" + m + "-" + y + " "+ h +":"+i;
+    }
+    </script>                                   
     
     <style>
 .ath_container {width: 100%;}
@@ -189,8 +201,9 @@ input:checked + .slider:before {
     .ath_container textarea,
     .ath_container select {width: 100%;}
 }
-</style>
+</style> 
 </head>
+ 
 <body data-theme="default" data-layout="fluid" data-sidebar-position="left" data-sidebar-behavior="sticky">
 	<div class="wrapper">
 		<nav id="sidebar" class="sidebar">
@@ -446,7 +459,7 @@ input:checked + .slider:before {
 		</div>
 	</div>
 
-	<script src="js/app.js"></script>
+	<script src="<?php echo WEB_URL;?>assets/app.js"></script>
       
     
     <div class="modal" id="process_popup" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="false">
@@ -457,6 +470,10 @@ input:checked + .slider:before {
     </div>
   </div>
 </div>
+
+<button type="button" class="btn btn-danger btn-floating btn-lg" style="font-size: 10px; " id="btn-back-to-top">
+                       <i class="fas fa-arrow-up" data-feather="arrow-up-circle"></i>
+                   </button>
 </body>
 <script>
 function uploadFiles() {
@@ -548,5 +565,35 @@ function uploadFile(file) {
     xhr.send(formData);
     //https://bootstrapfriendly.com/blog/uploading-multiple-files-with-progress-bar-via-ajax-and-php
 }
+
+let mybutton = document.getElementById("btn-back-to-top");
+
+// When the user scrolls down 20px from the top of the document, show the button
+window.onscroll = function () {
+  scrollFunction();
+};
+
+function scrollFunction() {
+  if (
+    document.body.scrollTop > 20 ||
+    document.documentElement.scrollTop > 20
+  ) {
+    mybutton.style.display = "block";
+  } else {
+    mybutton.style.display = "none";
+  }
+}
+// When the user clicks on the button, scroll to the top of the document
+mybutton.addEventListener("click", backToTop);
+
+function backToTop() {
+  document.body.scrollTop = 0;
+  document.documentElement.scrollTop = 0;
+}
+
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.inputmask/3.3.3/jquery.inputmask.bundle.min.js"></script>
+<script>
+$(":input").inputmask();
 </script>
 </html>

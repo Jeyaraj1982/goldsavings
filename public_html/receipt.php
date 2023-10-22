@@ -18,12 +18,12 @@ include_once("config.php");
                          <div class="col-6 mb-2" style="text-align: right;">
                            <div style="font-weight: bold" id="CustomerName"> Customer Information</div>
                            <div class="mb-4"><?php echo $data[0]["CustomerName"];?><br>#.<?php echo $data[0]["ContractCode"];?></div>
-                           <div style="font-weight: bold" id="PaymentDate"> Payment Information</div>
-                           <div class="mb-2"><?php echo $data[0]["ReceiptDate"];?><br>#.<?php echo $data[0]["ReceiptNumber"];?></div>
+                           <div style="font-weight: bold" id="PaymentDate"> Receipt Information</div>
+                           <div class="mb-2"><?php echo date("d-m-Y",strtotime($data[0]["ReceiptDate"])) ;?><br>#.<?php echo $data[0]["ReceiptNumber"];?></div>
                          </div>
                          <div class="col-12">
                          <h3 class="mb-4" style="text-align: center;">Payment Receipt</h3>
-                            <p>We have received some of (Rs)<b><?php echo $data[0]["DueAmount"];?></b> (amount in words <?php echo getIndianCurrency($data[0]["DueAmount"]);?>) from <b><?php echo $data[0]["CustomerName"];?></b>(Customer ID: <?php echo $data[0]["CustomerCode"];?>) due to contract ID <b><?php echo $data[0]["ContractCode"];?></b> with <b><?php echo addOrdinalNumnberSuffix($data[0]["DueNumber"]);?></b> credited by <b><?php echo $data[0]["PaymentMode"];?></b>.</p>  
+                            <p>We have received sum of ₹<b>&nbsp;<?php echo $data[0]["DueAmount"];?></b> (in words <?php echo getIndianCurrency($data[0]["DueAmount"]);?>) from <b><?php echo $data[0]["CustomerName"];?></b>&nbsp;(Customer ID: <?php echo $data[0]["CustomerCode"];?>) due to contract ID <b><?php echo $data[0]["ContractCode"];?></b> with <b><?php echo addOrdinalNumnberSuffix($data[0]["DueNumber"]);?></b> credited by <b><?php echo $data[0]["PaymentMode"];?></b>.</p>  
                          </div>
                          <div class="col-12" style="text-align: right;">
                             <p>By</p>    

@@ -16,13 +16,13 @@ if (isset($_POST['loginBtn'])) {
     }
     
     if ($_POST['captcha_code']=="") {
-      //  $error++;
-      //  $ErrCaptcha = "Please enter captcha.";
+        $error++;
+        $ErrCaptcha = "Please enter captcha.";
     }
     
     if ($_POST['captcha_code']!=$_SESSION['captcha_code']) {
-       // $error++;
-       // $ErrCaptcha = "captcha is invalid.";
+        $error++;
+        $ErrCaptcha = "captcha is invalid.";
     }
     
     if ($error==0) {
@@ -91,7 +91,7 @@ if (isset($_POST['loginBtn'])) {
         <meta name="description" content="Responsive Bootstrap 5 Admin &amp; Dashboard Template">
         <meta name="author" content="Bootlab">
         <base href="https://appstack.bootlab.io/">
-        <title></title>
+        <title>Gold Chit Management Software</title>
         <link rel="canonical" href="https://appstack.bootlab.io/pages-sign-in.html" />
         <link rel="shortcut icon" href="img/favicon.ico">
         <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">

@@ -2,6 +2,7 @@ RewriteRule ^admin index.php?role=admin [QSA,L]
 RewriteRule ^customers index.php?role=customers [QSA,L] 
 RewriteRule ^salesman index.php?role=salesman [QSA,L] 
 RewriteRule ^users index.php?role=users [QSA,L]
+RewriteRule ^receipt(.*)$ receipt.php?receipt=$1 [QSA,L]
 
 # php -- BEGIN cPanel-generated handler, do not edit
 # Set the “ea-php73” package as the default “PHP” programming language.

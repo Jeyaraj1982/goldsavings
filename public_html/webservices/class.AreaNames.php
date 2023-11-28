@@ -23,12 +23,12 @@ class AreaNames {
         } else {
             $dupCode = $mysql->select("select * from _tbl_masters_areanames where AreaName='".trim($_POST['AreaName'])."'");
             if (sizeof($dupCode)>0) {
-                return json_encode(array("status"=>"failure","message"=>"AreaName is already used","div"=>"AreaName"));    
+                return json_encode(array("status"=>"failure","message"=>"Area Name is already used","div"=>"AreaName"));    
             }
         }
      
         if ($_POST['StateNameID']=="0") {
-            return json_encode(array("status"=>"failure","message"=>"Please select statename","div"=>"StateNameID"));        
+            return json_encode(array("status"=>"failure","message"=>"Please select state name","div"=>"StateNameID"));        
         }
         
            if ($_POST['DistrictNameID']=="0") {
@@ -108,7 +108,7 @@ class AreaNames {
          }  
          
          if ($_POST['StateNameID']=="0") {
-            return json_encode(array("status"=>"failure","message"=>"Please select statename","div"=>"StateNameID"));        
+            return json_encode(array("status"=>"failure","message"=>"Please select state name","div"=>"StateNameID"));        
          }
         
          if ($_POST['DistrictNameID']=="0") {

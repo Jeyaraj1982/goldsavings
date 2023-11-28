@@ -2,6 +2,8 @@
 class GeneralSettings {
     const GOLD_MAXIMUM_RATE = 8000;
     const GOLD_MINIMUM_RATE = 5000;
+    const SILVER_MAXIMUM_RATE = 150;
+    const SILVER_MINIMUM_RATE = 50;
 }
 
 class GoldRates {
@@ -52,11 +54,23 @@ class GoldRates {
                 return json_encode(array("status"=>"failure","message"=>"Please enter Gold value min.".GeneralSettings::GOLD_MINIMUM_RATE,"div"=>"Gold24"));    
             }
         }
+        
+        if (strlen(trim($_POST['Silver']))==0) {
+            return json_encode(array("status"=>"failure","message"=>"Please enter Silver value","div"=>"Silver"));    
+        } else {
+            if ($_POST['Silver']>GeneralSettings::SILVER_MAXIMUM_RATE) {
+                return json_encode(array("status"=>"failure","message"=>"Please enter silver value max.".GeneralSettings::SILVER_MAXIMUM_RATE,"div"=>"Silver"));    
+            }
+            if ($_POST['Silver']<GeneralSettings::SILVER_MINIMUM_RATE) {
+                return json_encode(array("status"=>"failure","message"=>"Please enter silver value min.".GeneralSettings::SILVER_MINIMUM_RATE,"div"=>"Silver"));    
+            }
+        }
 
         $id = $mysql->insert("_tbl_masters_goldrates",array("Date"      => $_POST['Date'],
-                                                            "GOLD_18"    => $_POST['Gold18'],
-                                                            "GOLD_22"    => $_POST['Gold22'],
-                                                            "GOLD_24"    => $_POST['Gold24'],
+                                                            "GOLD_18"   => $_POST['Gold18'],
+                                                            "GOLD_22"   => $_POST['Gold22'],
+                                                            "GOLD_24"   => $_POST['Gold24'],
+                                                            "SILVER"    => $_POST['Silver'],
                                                             "Remarks"   => $_POST['Remarks'],
                                                             "CreatedOn" => date("Y-m-d H:i:s"),
                                                             "IsActive"  => '1'));
@@ -74,7 +88,7 @@ class GoldRates {
          //Check Recepit
          //Check voucher
          $mysql->execute("delete from _tbl_masters_goldrates where RateID='".$_GET['ID']."'");
-         $data = $mysql->select("select `RateID`,DATE_FORMAT(`Date`,'%d-%m-%Y') AS `Date`,`GOLD_18`,`GOLD_22`,`GOLD_24` from _tbl_masters_goldrates order by Date(Date) desc");
+         $data = $mysql->select("select `RateID`,DATE_FORMAT(`Date`,'%d-%m-%Y') AS `Date`,`GOLD_18`,`GOLD_22`,`GOLD_24`,`SILVER` from _tbl_masters_goldrates order by Date(Date) desc");
          return json_encode(array("status"=>"success","message"=>"Deleted Successfully","data"=>$data));
      }
 
@@ -103,7 +117,7 @@ class GoldRates {
         return json_encode(array("status"=>"failure","message"=>"Please select valid date (Start date must be equal or lessthan End Date)","div"=>"message"));        
     }
     
-         $data = $mysql->select("select `RateID`,DATE_FORMAT(`Date`,'%d-%m-%Y') AS `Date`,`GOLD_18`,`GOLD_22`,`GOLD_24` from _tbl_masters_goldrates where  date(Date)>=date('".$_POST['FromDate']."') and date(Date)<=date('".$_POST['ToDate']."') order by Date(Date) desc");
+         $data = $mysql->select("select `RateID`,DATE_FORMAT(`Date`,'%d-%m-%Y') AS `Date`,`GOLD_18`,`GOLD_22`,`GOLD_24`,`SILVER` from _tbl_masters_goldrates where  date(Date)>=date('".$_POST['FromDate']."') and date(Date)<=date('".$_POST['ToDate']."') order by Date(Date) desc");
          return json_encode(array("status"=>"success","data"=>$data));
      }
 
@@ -147,6 +161,7 @@ class GoldRates {
          $mysql->execute("update _tbl_masters_goldrates set GOLD_18 ='".$_POST['Gold18']."',
                                                             GOLD_22          ='".$_POST['Gold22']."',
                                                             GOLD_24          ='".$_POST['Gold24']."',
+                                                            SILVER          ='".$_POST['Silver']."',
                                                             Remarks          ='".$_POST['Remarks']."' 
                                                             where RateID='".$_POST['RateID']."'");
                                                           
@@ -174,9 +189,9 @@ class GoldRates {
          global $mysql;
          
          if (isset($_GET['date'])) {
-             $data = $mysql->select("select Date,GOLD_18,GOLD_22,GOLD_24 from _tbl_masters_goldrates where date(Date)=Date('".$_GET['date']."') ");     
+             $data = $mysql->select("select Date,GOLD_18,GOLD_22,GOLD_24,SILVER from _tbl_masters_goldrates where date(Date)=Date('".$_GET['date']."') ");     
          } else {
-            $data = $mysql->select("select Date,GOLD_18,GOLD_22,GOLD_24 from _tbl_masters_goldrates where date(Date)=Date('".date("Y-m-d")."') ");     
+            $data = $mysql->select("select Date,GOLD_18,GOLD_22,GOLD_24,SILVER from _tbl_masters_goldrates where date(Date)=Date('".date("Y-m-d")."') ");     
          }
          
          if (sizeof($data)==1) {

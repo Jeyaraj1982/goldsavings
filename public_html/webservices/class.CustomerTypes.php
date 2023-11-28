@@ -23,7 +23,7 @@ class CustomerTypes {
         } else {
             $dupCode = $mysql->select("select * from _tbl_masters_customertypename where CustomerTypeName='".trim($_POST['CustomerTypeName'])."'");
             if (sizeof($dupCode)>0) {
-                return json_encode(array("status"=>"failure","message"=>"CustomerTypeName is already used","div"=>"CustomerTypeName"));    
+                return json_encode(array("status"=>"failure","message"=>"Customer Type Name is already used","div"=>"CustomerTypeName"));    
             }
         }
      
@@ -48,7 +48,7 @@ class CustomerTypes {
          } else {
             $dupCode = $mysql->select("select * from _tbl_masters_customertypename where CustomerTypeName='".trim($_POST['CustomerTypeName'])."' and CustomerTypeNameID<>'".$_POST['CustomerTypeNameID']."'");
             if (sizeof($dupCode)>0) {
-                return json_encode(array("status"=>"failure","message"=>"CustomerTypeName is already used","div"=>"CustomerTypeName"));    
+                return json_encode(array("status"=>"failure","message"=>"Customer Type Name is already used","div"=>"CustomerTypeName"));    
             }
         }
         $mysql->execute("update _tbl_masters_customertypename set CustomerTypeName ='".$_POST['CustomerTypeName']."',

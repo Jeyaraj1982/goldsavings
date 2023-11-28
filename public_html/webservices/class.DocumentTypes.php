@@ -22,7 +22,7 @@ class DocumentTypes {
         }  else {
             $dupCode = $mysql->select("select * from _tbl_masters_documenttypes where DocumentTypeName='".trim($_POST['DocumentTypeName'])."'");
             if (sizeof($dupCode)>0) {
-                return json_encode(array("status"=>"failure","message"=>"DocumentTypeName is already used","div"=>"DocumentTypeName"));    
+                return json_encode(array("status"=>"failure","message"=>"Document Type Name is already used","div"=>"DocumentTypeName"));    
             }
         }
      
@@ -48,7 +48,7 @@ class DocumentTypes {
         } else {
             $dupCode = $mysql->select("select * from _tbl_masters_documenttypes where DocumentTypeName='".trim($_POST['DocumentTypeName'])."' and DocumentTypeID<>'".$_POST['DocumentTypeID']."'");
             if (sizeof($dupCode)>0) {
-                return json_encode(array("status"=>"failure","message"=>"DocumentTypeName is already used","div"=>"DocumentTypeName"));    
+                return json_encode(array("status"=>"failure","message"=>"Document Type Name is already used","div"=>"DocumentTypeName"));    
             }
         }
         

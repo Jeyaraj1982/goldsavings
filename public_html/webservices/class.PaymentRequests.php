@@ -53,7 +53,7 @@ class PaymentRequests {
                                                           "CustomerCode"        => $_SESSION['User']['CustomerCode'],
                                                           "CustomerName"        => $_SESSION['User']['CustomerName'],
                                                           "ContractID"          => $due_information[0]['ContractID'],
-                                                          "ContactCode"         => $due_information[0]['ContractCode'],
+                                                          "ContractCode"        => $due_information[0]['ContractCode'],
                                                           "DueID"               => $due_information[0]['DueID'],
                                                           "DueDate"             => $due_information[0]['DueDate'],
                                                           "DueNumber"           => $due_information[0]['DueNumber'],
@@ -76,38 +76,55 @@ class PaymentRequests {
      }
      
     public static function listPendings() {
-     global $mysql;
-     
-     if (isset($_GET['customer'])) {
-     $data = $mysql->select("select * from _tbl_payemt_requests where CustomerID='".$_GET['customer']."' and RequestStatus='REQUEST' order by PaymentRequestID desc");
-     } elseif (isset($_SESSION['User']['CustomerID'])) {
-     $data = $mysql->select("select * from _tbl_payemt_requests where CustomerID='".$_SESSION['User']['CustomerID']."' and RequestStatus='REQUEST' order by PaymentRequestID desc");
-     } else {
-        $data = $mysql->select("select * from _tbl_payemt_requests where  RequestStatus='REQUEST' order by PaymentRequestID desc");    
-     }
-     return json_encode(array("status"=>"success","data"=>$data));
+        global $mysql;
+        if (isset($_GET['customer'])) {
+            $data = $mysql->select("select PaymentRequestID,
+                                           RequestCode,
+                                           DATE_FORMAT(PaymentDate,'".appConfig::DATEFORMAT."') as `PaymentDate`,
+                                           FORMAT(DueAmount, 2) as `DueAmount`,
+                                           BankReferenceNumber ,
+                                           RequestStatus
+                                           from _tbl_payemt_requests where CustomerID='".$_GET['customer']."' and RequestStatus='REQUEST' order by PaymentRequestID desc");
+        } elseif (isset($_SESSION['User']['CustomerID'])) {
+            $data = $mysql->select("select * from _tbl_payemt_requests where CustomerID='".$_SESSION['User']['CustomerID']."' and RequestStatus='REQUEST' order by PaymentRequestID desc");
+        } else {
+            $data = $mysql->select("select * from _tbl_payemt_requests where  RequestStatus='REQUEST' order by PaymentRequestID desc");    
+        }
+        return json_encode(array("status"=>"success","data"=>$data));
     }
 
     public static function listApproved() {
-     global $mysql;
-     if (isset($_GET['customer'])) {
-        $data = $mysql->select("select * from _tbl_payemt_requests where CustomerID='".$_GET['customer']."' and RequestStatus='APPROVED' order by PaymentRequestID desc");
-     } elseif (isset($_SESSION['User']['CustomerID'])) {
-        $data = $mysql->select("select * from _tbl_payemt_requests where CustomerID='".$_SESSION['User']['CustomerID']."' and RequestStatus='APPROVED' order by PaymentRequestID desc");
-     } else {
-        $data = $mysql->select("select * from _tbl_payemt_requests where  RequestStatus='APPROVED' order by PaymentRequestID desc");    
-     }
-     return json_encode(array("status"=>"success","data"=>$data));
+        global $mysql;
+        if (isset($_GET['customer'])) {
+            $data = $mysql->select("select PaymentRequestID,
+                                           RequestCode,
+                                           DATE_FORMAT(PaymentDate,'".appConfig::DATEFORMAT."') as `PaymentDate`,
+                                           FORMAT(DueAmount, 2) as `DueAmount`,
+                                           BankReferenceNumber ,
+                                           RequestStatus
+                                           from _tbl_payemt_requests where CustomerID='".$_GET['customer']."' and RequestStatus='APPROVED' order by PaymentRequestID desc");
+        } elseif (isset($_SESSION['User']['CustomerID'])) {
+            $data = $mysql->select("select * from _tbl_payemt_requests where CustomerID='".$_SESSION['User']['CustomerID']."' and RequestStatus='APPROVED' order by PaymentRequestID desc");
+        } else {
+            $data = $mysql->select("select * from _tbl_payemt_requests where  RequestStatus='APPROVED' order by PaymentRequestID desc");    
+        }
+        return json_encode(array("status"=>"success","data"=>$data));
     }
                                                                                                       
     public static function listRejected() {
-     global $mysql;
-     if (isset($_GET['customer'])) {
-        $data = $mysql->select("select * from _tbl_payemt_requests where CustomerID='".$_GET['customer']."' and RequestStatus='REJECTED' order by PaymentRequestID desc");
-     } else {
-        $data = $mysql->select("select * from _tbl_payemt_requests where  RequestStatus='REJECTED' order by PaymentRequestID desc");
-     }
-     return json_encode(array("status"=>"success","data"=>$data));
+        global $mysql;
+        if (isset($_GET['customer'])) {
+            $data = $mysql->select("select PaymentRequestID,
+                                           RequestCode,
+                                           DATE_FORMAT(PaymentDate,'".appConfig::DATEFORMAT."') as `PaymentDate`,
+                                           FORMAT(DueAmount, 2) as `DueAmount`,
+                                           BankReferenceNumber ,
+                                           RequestStatus
+                                           from _tbl_payemt_requests where CustomerID='".$_GET['customer']."' and RequestStatus='REJECTED' order by PaymentRequestID desc");
+        } else {
+            $data = $mysql->select("select * from _tbl_payemt_requests where  RequestStatus='REJECTED' order by PaymentRequestID desc");
+        }
+        return json_encode(array("status"=>"success","data"=>$data));
     }
      
     public static function listAll() {
@@ -173,7 +190,26 @@ class PaymentRequests {
      
     public static function getData() {
         global $mysql;
-        $data = $mysql->select("select * from _tbl_payemt_requests where PaymentRequestID='".$_GET['ID']."'");
+//        $data = $mysql->select("select * from _tbl_payemt_requests where PaymentRequestID='".$_GET['ID']."'");
+        
+        $data = $mysql->select("select PaymentRequestID,
+                                           RequestCode,
+                                           DATE_FORMAT(PaymentDate,'".appConfig::DATEFORMAT."') as `PaymentDate`,
+                                           FORMAT(DueAmount, 2) as `DueAmount`,
+                                           BankReferenceNumber ,
+                                           RequestStatus,
+                                           CustomerCode,
+                                           CustomerName,
+                                           PaymentBankAccountHolderName,
+                                           PaymentBankName,
+                                           PaymentBankNumber,
+                                           PaymentBankIFSCode,
+                                           ContractCode,
+                                           DueNumber,
+                                           DATE_FORMAT(RequestedOn,'".appConfig::DATEFORMAT."') as `RequestedOn`,
+                                           PaymentRemarks
+                                           
+                                           from _tbl_payemt_requests where PaymentRequestID='".$_GET['ID']."'");
         return json_encode(array("status"=>"success","data"=>$data));
     }
                   

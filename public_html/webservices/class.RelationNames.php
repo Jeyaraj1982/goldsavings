@@ -23,7 +23,7 @@ class RelationNames {
         } else {
             $dupCode = $mysql->select("select * from _tbl_masters_relationnames where RelationName='".trim($_POST['RelationName'])."'");
             if (sizeof($dupCode)>0) {
-                return json_encode(array("status"=>"failure","message"=>"RelationName is already used","div"=>"RelationName"));    
+                return json_encode(array("status"=>"failure","message"=>"Relation Name is already used","div"=>"RelationName"));    
             }
         }
         
@@ -70,7 +70,7 @@ class RelationNames {
          } else {
              $dupCode = $mysql->select("select * from _tbl_masters_relationnames where RelationName='".trim($_POST['RelationName'])."' and RelationNameID<>'".$_POST['RelationNameID']."'");
              if (sizeof($dupCode)>0) {
-                return json_encode(array("status"=>"failure","message"=>"RelationName is already used","div"=>"RelationName"));    
+                return json_encode(array("status"=>"failure","message"=>"Relation Name is already used","div"=>"RelationName"));    
              }
          }
          $mysql->execute("update _tbl_masters_relationnames set RelationName ='".$_POST['RelationName']."',

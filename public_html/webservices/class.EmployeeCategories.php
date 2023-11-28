@@ -20,6 +20,11 @@ class EmployeeCategories {
         
         if (strlen(trim($_POST['EmployeeCategoryTitle']))==0) {
             return json_encode(array("status"=>"failure","message"=>"Please enter Employee Category Title","div"=>"EmployeeCategoryTitle"));    
+        } else {
+            $dupCode = $mysql->select("select * from _tbl_masters_employee_categories where EmployeeCategoryTitle='".trim($_POST['EmployeeCategoryTitle'])."'");
+            if (sizeof($dupCode)>0) {
+                return json_encode(array("status"=>"failure","message"=>"Employee Category Title is already used","div"=>"EmployeeCategoryTitle"));    
+            }
         }
      
         $id = $mysql->insert("_tbl_masters_employee_categories",array("EmployeeCategoryCode"  => $_POST['EmployeeCategoryCode'],
@@ -51,7 +56,6 @@ ON t1.EmployeeCategoryID=t2.EmployeeCategoryID  order by t1.EmployeeCategoryTitl
     public static function listAllActive() {
         
         global $mysql;
-        
         $data = $mysql->select("select * from _tbl_masters_employee_categories where IsActive='1' order by EmployeeCategoryTitle");
         return json_encode(array("status"=>"success","data"=>$data));
     }
@@ -74,9 +78,9 @@ ON t1.EmployeeCategoryID=t2.EmployeeCategoryID  order by t1.EmployeeCategoryTitl
     public static function remove() {
         
         global $mysql;
-        
         $mysql->execute("delete from _tbl_masters_employee_categories where EmployeeCategoryID='".$_GET['ID']."'");
-        return json_encode(array("status"=>"success","message"=>"Deleted Successfully","data"=>$mysql->select("select * from _tbl_masters_employee_categories order by EmployeeCategoryTitle")));
+        $list = json_decode(self::listAll(),true);
+        return json_encode(array("status"=>"success","message"=>"Deleted Successfully","data"=>$list['data']));
     }
     
     public static function getData() {
@@ -87,11 +91,12 @@ ON t1.EmployeeCategoryID=t2.EmployeeCategoryID  order by t1.EmployeeCategoryTitl
         return json_encode(array("status"=>"success","data"=>$data));
     }
     
-     public static function getDetailsByID($EmployeeCategoryID) {
+    public static function getDetailsByID($EmployeeCategoryID) {
         
         global $mysql;
         
-        $data = $mysql->select("select * from _tbl_masters_employee_categories where EmployeeCategoryID='".$EmployeeCategoryID."' ordre by EmployeeCategoryTitle");
+        $data = $mysql->select("select * from _tbl_masters_employee_categories where EmployeeCategoryID='".$EmployeeCategoryID."' ORDER by EmployeeCategoryTitle");
+        
         return json_encode(array("status"=>"success","data"=>$data));
     }
 }

@@ -27,7 +27,7 @@ class PaymentBanks {
         } else {
             $dupCode = $mysql->select("select * from _tbl_masters_paymentbanks where AccountNumber='".trim($_POST['AccountNumber'])."'");
             if (sizeof($dupCode)>0) {
-                return json_encode(array("status"=>"failure","message"=>"AccountNumber is already used","div"=>"AccountNumber"));    
+                return json_encode(array("status"=>"failure","message"=>"Account Number is already used","div"=>"AccountNumber"));    
             }
         }
         
@@ -36,7 +36,7 @@ class PaymentBanks {
         }
         
         if (strlen(trim($_POST['IFSCode']))==0) {
-            return json_encode(array("status"=>"failure","message"=>"Please enter IFSCode","div"=>"IFSCode"));    
+            return json_encode(array("status"=>"failure","message"=>"Please enter IFSC Code","div"=>"IFSCode"));    
         }
         
         if (strlen(trim($_POST['Branch']))==0) {
@@ -104,7 +104,7 @@ class PaymentBanks {
          }
          
          if (strlen(trim($_POST['IFSCode']))==0) {
-            return json_encode(array("status"=>"failure","message"=>"Please enter IFSCode","div"=>"IFSCode"));    
+            return json_encode(array("status"=>"failure","message"=>"Please enter IFSC Code","div"=>"IFSCode"));    
         }
         
         

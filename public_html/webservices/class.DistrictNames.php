@@ -21,11 +21,11 @@ class DistrictNames {
         }
         
         if (strlen(trim($_POST['DistrictName']))==0) {
-            return json_encode(array("status"=>"failure","message"=>"Please enter District Name","div"=>"DistrictName"));    
+            return json_encode(array("status"=>"failure","message"=>"Please enter district name","div"=>"DistrictName"));    
         } 
         
         if ($_POST['StateNameID']=="0") {
-            return json_encode(array("status"=>"failure","message"=>"Please select statename","div"=>"StateNameID"));        
+            return json_encode(array("status"=>"failure","message"=>"Please select state name","div"=>"StateNameID"));        
         }
         
         $StatName = json_decode(StateNames::getDetailsByID($_POST['StateNameID']),true);
@@ -33,7 +33,7 @@ class DistrictNames {
         
         $dupCode = $mysql->select("select * from _tbl_masters_districtnames where StateNameID='".$_POST['StateNameID']."' and DistrictName='".trim($_POST['DistrictName'])."'");
         if (sizeof($dupCode)>0) {   
-            return json_encode(array("status"=>"failure","message"=>"DistrictName is already in ".$StatName[0]['StateName'],"div"=>"DistrictName"));    
+            return json_encode(array("status"=>"failure","message"=>"District name is already in ".$StatName[0]['StateName'],"div"=>"DistrictName"));    
         }
      
         $id = $mysql->insert("_tbl_masters_districtnames",array("DistrictNameCode" => $_POST['DistrictNameCode'],
@@ -109,7 +109,7 @@ class DistrictNames {
         
         $dupCode = $mysql->select("select * from _tbl_masters_districtnames where StateNameID='".$_POST['StateNameID']."' and DistrictName='".trim($_POST['DistrictName'])."'");
         if (sizeof($dupCode)>0) {   
-            return json_encode(array("status"=>"failure","message"=>"DistrictName is already in ".$StatName[0]['StateName'],"div"=>"DistrictName"));    
+            return json_encode(array("status"=>"failure","message"=>"District Name is already in ".$StatName[0]['StateName'],"div"=>"DistrictName"));    
         }
         
          $mysql->execute("update _tbl_masters_districtnames set DistrictName ='".$_POST['DistrictName']."',

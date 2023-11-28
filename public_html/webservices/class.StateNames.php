@@ -23,7 +23,7 @@ class StateNames {
         } else {
             $dupCode = $mysql->select("select * from _tbl_masters_statenames where StateName='".trim($_POST['StateName'])."'");
             if (sizeof($dupCode)>0) {
-                return json_encode(array("status"=>"failure","message"=>"StateName is already used","div"=>"StateName"));    
+                return json_encode(array("status"=>"failure","message"=>"State Name is already used","div"=>"StateName"));    
             }
         }
         
@@ -89,7 +89,7 @@ class StateNames {
          } else {
              $dupCode = $mysql->select("select * from _tbl_masters_statenames where StateName='".trim($_POST['StateName'])."' and StateNameID<>'".$_POST['StateNameID']."'");
              if (sizeof($dupCode)>0) {
-                return json_encode(array("status"=>"failure","message"=>"StateName is already used","div"=>"StateName"));    
+                return json_encode(array("status"=>"failure","message"=>"State Name is already used","div"=>"StateName"));    
              }
          }
          $mysql->execute("update _tbl_masters_statenames set StateName ='".$_POST['StateName']."',

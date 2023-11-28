@@ -89,9 +89,7 @@ class Contracts {
         if (sizeof($todayGoldPrice)==0) {
            return json_encode(array("status"=>"failure","message"=>"Please update gold price on ".date("d-m-Y",strtotime($_POST['EntryDate'])),"div"=>"PaymentModeID"));     
         }
-         
-        //$ContractCode= SequnceList::updateNumber("_tbl_contracts"); 
-        
+
         $CustomerData = json_decode(Customers::getDetailsByID($_GET['Customer']),true);
         $CustomerData = $CustomerData['data'];                              
         
@@ -151,7 +149,7 @@ class Contracts {
                                                             "MakingChargeDiscount" => $SchemeData[0]['MakingChargeDiscount'],
                                                             "CreatedByName"        => $CreatedByName));
         if ($ContractID>0) {
-            
+
             $scheme_information = $mysql->select("select * from _tbl_masters_schemes where SchemeID='".$_GET['Scheme']."'");
             
             if ($_POST['InstallmentMode']=="MONTHLY") {
@@ -247,8 +245,60 @@ class Contracts {
          global $mysql;
          
          if (isset($_SESSION['User']['SalesmanID'])) {
-             $data = $mysql->select("select * from _tbl_contracts");
-             return json_encode(array("status"=>"success","data"=>$data));
+             if (isset($_POST['SelectType'])) {
+                 switch($_POST['SelectType']) {
+                     case 'ALL':
+                        $data = $mysql->select("select * from _tbl_contracts where date(CreatedOn)>=date('".$_POST['FromDate']."') and date(CreatedOn)<=date('".$_POST['ToDate']."')");
+                        break;
+                     case 'ACTIVE':
+                        $data = $mysql->select("select * from _tbl_contracts where (date(CreatedOn)>=date('".$_POST['FromDate']."') and date(CreatedOn)<=date('".$_POST['ToDate']."')) and IsClosed='0'");
+                        break;
+                     case 'CLOSED':
+                        $data = $mysql->select("select * from _tbl_contracts where (date(CreatedOn)>=date('".$_POST['FromDate']."') and date(CreatedOn)<=date('".$_POST['ToDate']."')) and  IsClosed='1'");
+                        break;
+                     default:
+                        $data = $mysql->select("select * from _tbl_contracts");
+                        break;
+                 }
+             } else {
+                $data = $mysql->select("select * from _tbl_contracts");
+             }
+             
+             $_recentContracts=array();
+             foreach($data as $recentContract) {
+                 
+                $dues = $mysql->select("select * from _tbl_contracts_dues where ReceiptID>0 and ContractID='".$recentContract['ContractID']."'");
+                $golds = $mysql->select("select sum(GoldInGram) as GoldInGram from _tbl_contracts_dues where ReceiptID>0 and ContractID='".$recentContract['ContractID']."'");
+                $totaldues = $mysql->select("select * from _tbl_contracts_dues where  ContractID='".$recentContract['ContractID']."'");
+                 
+                $tmp=array();
+                $tmp['CustomerName']    = $recentContract['CustomerName'];
+                $tmp['ContractCode']    = $recentContract['ContractCode'];
+                $tmp['SchemeID']        =  $recentContract['SchemeID'];
+                $tmp['SchemeName']      = $recentContract['SchemeName'];
+                $tmp['ContractAmount']  = number_format($recentContract['ContractAmount'],2);
+                $tmp['StartDate']       = date("d-m-Y",strtotime($recentContract['StartDate']));
+                $tmp['EndDate']         = date("d-m-Y",strtotime($recentContract['EndDate']));
+                $tmp['IsActive']        = $recentContract['IsActive'];
+                $tmp['GoldInGram']      = number_format($golds[0]['GoldInGram'],3);
+                $tmp['PaidDues']        = sizeof($dues);
+                $tmp['UnPaidDues']      = sizeof($totaldues)-sizeof($dues);
+                $tmp['IsClosed']        = $recentContract['IsClosed'];   
+                $tmp['InstallmentMode'] = $recentContract['InstallmentMode'];   
+                if ($tmp['IsActive']=="1"){
+                    $tmp['StatusString']= "Active";
+                }
+                if ($recentContract['IsClosed']=="1"){
+                    $tmp['IsActive']    = "3";
+                    
+                    $tmp['StatusString']= "Closed";
+                    $tmp['ClosedOn']    = date("d-m-Y",strtotime($recentContract['ClosedOn']));
+                }
+                $tmp['Receipts']        = sizeof($dues);
+                $tmp['VoucherNumber']   = $recentContract['VoucherNumber'];
+                $_recentContracts[] = $tmp; 
+             }
+             return json_encode(array("status"=>"success","data"=>$_recentContracts));
              
              
          } elseif (isset($_SESSION['User']['CustomerID'])) {
@@ -257,20 +307,272 @@ class Contracts {
              $_recentContracts=array();
              foreach($data as $recentContract) {
                 $dues = $mysql->select("select * from _tbl_contracts_dues where ReceiptID>0 and ContractID='".$recentContract['ContractID']."'");
+                $golds = $mysql->select("select sum(GoldInGram) as GoldInGram from _tbl_contracts_dues where ReceiptID>0 and ContractID='".$recentContract['ContractID']."'");
+                $totaldues = $mysql->select("select * from _tbl_contracts_dues where  ContractID='".$recentContract['ContractID']."'");
+               
                 $tmp=array();
                 $tmp['ContractCode']= $recentContract['ContractCode'];
                 $tmp['SchemeID']=  $recentContract['SchemeID'];
                 $tmp['SchemeName']= $recentContract['SchemeName'];
-                $tmp['ContractAmount']= $recentContract['ContractAmount'];
+                $tmp['ContractAmount']= number_format($recentContract['ContractAmount'],2);
                 $tmp['StartDate']= date("d-m-Y",strtotime($recentContract['StartDate']));
                 $tmp['EndDate']= date("d-m-Y",strtotime($recentContract['EndDate']));
                 $tmp['IsActive']= $recentContract['IsActive'];
+                $tmp['GoldInGram']      = number_format($golds[0]['GoldInGram'],3);
+                $tmp['PaidDues']        = sizeof($dues);
+                $tmp['UnPaidDues']      = sizeof($totaldues)-sizeof($dues);
+                $tmp['IsClosed']        = $recentContract['IsClosed'];   
+                $tmp['InstallmentMode'] = $recentContract['InstallmentMode'];  
                 if ($tmp['IsActive']=="1"){
                     $tmp['StatusString']= "Active";
                 }
                 if ($recentContract['IsClosed']=="1"){
                     $tmp['IsActive']="3";
                     $tmp['StatusString']= "Closed";
+                    $tmp['ClosedOn']=date("d-m-Y",strtotime($recentContract['ClosedOn']));
+                }
+                $tmp['Receipts']= sizeof($dues);
+                $tmp['VoucherNumber']= $recentContract['VoucherNumber'];
+                $_recentContracts[]=$tmp; 
+             }
+             return json_encode(array("status"=>"success","data"=>$_recentContracts));
+             
+         } else {
+             
+             if (strlen(trim($_POST['FromDate']))==0) {
+                return json_encode(array("status"=>"failure","message"=>"Please select Start date","div"=>"message"));    
+             } else {
+                $fromDate = strtotime($_POST['FromDate']);
+                if (!($fromDate<=strtotime(date("Y-m-d")))) {
+                    return json_encode(array("status"=>"failure","message"=>"Please select valid Start date (date must have lessthan or equal to ".date("d-m-Y")."","div"=>"message"));        
+                }
+             }
+             
+             if (strlen(trim($_POST['ToDate']))==0) {
+                return json_encode(array("status"=>"failure","message"=>"Please select End date","div"=>"message"));    
+             } else {
+                $toDate = strtotime($_POST['ToDate']);
+                if (!($toDate<=strtotime(date("Y-m-d")))) {
+                    return json_encode(array("status"=>"failure","message"=>"Please select valid End date (date must have lessthan or equal to ".date("d-m-Y")."","div"=>"message"));        
+                }           
+             }
+             
+             if (!(strtotime($_POST['FromDate'])<=strtotime($_POST['ToDate']))) {
+                return json_encode(array("status"=>"failure","message"=>"Please select valid date (Start date must be equal or lessthan End Date)","div"=>"message"));        
+             }
+             
+             if ((trim($_POST['SelectType']))=="0") {
+                return json_encode(array("status"=>"failure","message"=>"Please select Type","div"=>"SelectType"));    
+             }
+             
+             $data = array();
+             
+             if ($_POST['SelectType']=="ALL") {
+                 $data = $mysql->select("select * from _tbl_contracts where date(StartDate)>=date('".$_POST['FromDate']."') and date(StartDate)<=date('".$_POST['ToDate']."')");
+             }
+             
+             if ($_POST['SelectType']=="ACTIVE") {
+                 $data = $mysql->select("select * from _tbl_contracts where IsClosed='0' and (date(StartDate)>=date('".$_POST['FromDate']."') and date(StartDate)<=date('".$_POST['ToDate']."')) ");
+             }
+             
+             if ($_POST['SelectType']=="CLOSED") {
+                 $data = $mysql->select("select * from _tbl_contracts where IsClosed='1' and (date(StartDate)>=date('".$_POST['FromDate']."') and date(StartDate)<=date('".$_POST['ToDate']."')) ");
+             }
+             
+             $_recentContracts=array();
+             foreach($data as $recentContract) {
+                 $dues = $mysql->select("select * from _tbl_contracts_dues where ReceiptID>0 and   ContractID='".$recentContract['ContractID']."'");
+                 $golds = $mysql->select("select sum(GoldInGram) as GoldInGram from _tbl_contracts_dues where ReceiptID>0 and ContractID='".$recentContract['ContractID']."'");
+                $totaldues = $mysql->select("select * from _tbl_contracts_dues where  ContractID='".$recentContract['ContractID']."'");
+               
+                 $tmp=array();
+                 $tmp['ContractCode']= $recentContract['ContractCode'];
+                 $tmp['SchemeID']=  $recentContract['SchemeID'];
+                 $tmp['SchemeName']= $recentContract['SchemeName'];
+                 $tmp['ContractAmount']= number_format($recentContract['ContractAmount'],2);
+                 $tmp['StartDate']= date("d-m-Y",strtotime($recentContract['StartDate']));
+                 $tmp['EndDate']= date("d-m-Y",strtotime($recentContract['EndDate']));
+                 $tmp['CustomerName']= $recentContract['CustomerName'];
+                 $tmp['CustomerID']= $recentContract['CustomerID'];
+                 $tmp['CustomerCode']= $recentContract['CustomerCode'];
+                 $tmp['IsActive']= $recentContract['IsActive'];
+                  $tmp['GoldInGram']      = number_format($golds[0]['GoldInGram'],3);
+                $tmp['PaidDues']        = sizeof($dues);
+                $tmp['UnPaidDues']      = sizeof($totaldues)-sizeof($dues);
+                $tmp['IsClosed']        = $recentContract['IsClosed'];   
+                 $tmp['IsClosed']        = $recentContract['IsClosed'];   
+                $tmp['InstallmentMode'] = $recentContract['InstallmentMode']; 
+                 if ($tmp['IsActive']=="1"){
+                    $tmp['StatusString']= "Active";
+                 }
+                 if ($recentContract['IsClosed']=="1"){
+                    $tmp['IsActive']="3";
+                    $tmp['StatusString']= "Closed";
+                 }
+                 $tmp['Receipts']= sizeof($dues);
+                 $tmp['VoucherNumber']= $recentContract['VoucherNumber'];
+                 $_recentContracts[]=$tmp; 
+             } 
+             return json_encode(array("status"=>"success","data"=>$_recentContracts));
+         }
+     }
+     
+     public static function listAllActive() {
+         
+         global $mysql;
+         
+         if (isset($_SESSION['User']['SalesmanID'])) {
+             
+             $data = $mysql->select("select * from _tbl_contracts");
+             return json_encode(array("status"=>"success","data"=>$data));
+             
+         } elseif (isset($_SESSION['User']['CustomerID'])) {
+             
+             $data = $mysql->select("select * from _tbl_contracts where CustomerID='".$_SESSION['User']['CustomerID']."' and IsClosed='0' order by ContractID");
+             $_recentContracts=array();
+             
+             foreach($data as $recentContract) {
+                 
+                 $dues = $mysql->select("select * from _tbl_contracts_dues where ReceiptID>0 and ContractID='".$recentContract['ContractID']."'");
+                 $golds = $mysql->select("select sum(GoldInGram) as GoldInGram from _tbl_contracts_dues where ReceiptID>0 and ContractID='".$recentContract['ContractID']."'");
+                 $totaldues = $mysql->select("select * from _tbl_contracts_dues where  ContractID='".$recentContract['ContractID']."'");
+                 
+                 $tmp=array();
+                 $tmp['ContractCode']   = $recentContract['ContractCode'];
+                 $tmp['SchemeID']       = $recentContract['SchemeID'];
+                 $tmp['SchemeName']     = $recentContract['SchemeName'];
+                 $tmp['ContractAmount'] = number_format($recentContract['ContractAmount'],2);
+                 $tmp['StartDate']      = date("d-m-Y",strtotime($recentContract['StartDate']));
+                 $tmp['EndDate']        = date("d-m-Y",strtotime($recentContract['EndDate']));
+                 $tmp['GoldInGram']    = number_format($golds[0]['GoldInGram'],3);
+                 $tmp['PaidDues']       = sizeof($dues);
+                 $tmp['UnPaidDues']     = sizeof($totaldues)-sizeof($dues);
+                 $tmp['IsActive']       = $recentContract['IsActive'];
+                 $tmp['InstallmentMode'] = $recentContract['InstallmentMode']; 
+                 if ($tmp['IsActive']=="1") {
+                     $tmp['StatusString']= "Active";
+                 }
+                 if ($recentContract['IsClosed']=="1") {
+                     $tmp['IsActive']="3";
+                     $tmp['StatusString']= "Closed";
+                     $tmp['ClosedOn']=date("d-m-Y",strtotime($recentContract['ClosedOn']));
+                     $tmp['VoucherNumber']= $recentContract['VoucherNumber'];
+                 }
+                 $_recentContracts[]=$tmp; 
+             }
+             return json_encode(array("status"=>"success","data"=>$_recentContracts));
+             
+         } else {
+             
+             if (strlen(trim($_POST['FromDate']))==0) {
+             return json_encode(array("status"=>"failure","message"=>"Please select Start date","div"=>"message"));    
+             } else {
+        $fromDate = strtotime($_POST['FromDate']);
+        if (!($fromDate<=strtotime(date("Y-m-d")))) {
+            return json_encode(array("status"=>"failure","message"=>"Please select valid Start date (date must have lessthan or equal to ".date("d-m-Y")."","div"=>"message"));        
+        }
+    }
+    
+    if (strlen(trim($_POST['ToDate']))==0) {
+        return json_encode(array("status"=>"failure","message"=>"Please select End date","div"=>"message"));    
+    } else {
+        $toDate = strtotime($_POST['ToDate']);
+        if (!($toDate<=strtotime(date("Y-m-d")))) {
+            return json_encode(array("status"=>"failure","message"=>"Please select valid End date (date must have lessthan or equal to ".date("d-m-Y")."","div"=>"message"));        
+        }
+    }
+    
+    if (!(strtotime($_POST['FromDate'])<=strtotime($_POST['ToDate']))) {
+        return json_encode(array("status"=>"failure","message"=>"Please select valid date (Start date must be equal or lessthan End Date)","div"=>"message"));        
+    }
+    
+    if ((trim($_POST['SelectType']))=="0") {
+        return json_encode(array("status"=>"failure","message"=>"Please select Type","div"=>"SelectType"));    
+    }
+    
+    $data = array();
+    
+    if ($_POST['SelectType']=="ALL") {
+        $data = $mysql->select("select * from _tbl_contracts where date(StartDate)>=date('".$_POST['FromDate']."') and date(StartDate)<=date('".$_POST['ToDate']."')");
+    }
+    
+    if ($_POST['SelectType']=="ACTIVE") {
+        $data = $mysql->select("select * from _tbl_contracts where IsClosed='0' and (date(StartDate)>=date('".$_POST['FromDate']."') and date(StartDate)<=date('".$_POST['ToDate']."')) ");
+    }
+      
+    if ($_POST['SelectType']=="CLOSED") {
+        $data = $mysql->select("select * from _tbl_contracts where IsClosed='1' and (date(StartDate)>=date('".$_POST['FromDate']."') and date(StartDate)<=date('".$_POST['ToDate']."')) ");
+    }       
+    
+    $_recentContracts=array();
+             foreach($data as $recentContract) {
+                 $dues = $mysql->select("select * from _tbl_contracts_dues where ReceiptID>0 and   ContractID='".$recentContract['ContractID']."'");
+                 $tmp=array();
+                 $tmp['ContractCode']= $recentContract['ContractCode'];
+                 $tmp['SchemeID']=  $recentContract['SchemeID'];
+                 $tmp['SchemeName']= $recentContract['SchemeName'];
+                 $tmp['ContractAmount']= $recentContract['ContractAmount'];
+                 $tmp['StartDate']= date("d-m-Y",strtotime($recentContract['StartDate']));
+                 $tmp['EndDate']= date("d-m-Y",strtotime($recentContract['EndDate']));
+                 $tmp['CustomerName']= $recentContract['CustomerName'];
+                 $tmp['CustomerID']= $recentContract['CustomerID'];
+                 $tmp['CustomerCode']= $recentContract['CustomerCode'];
+                 $tmp['IsActive']= $recentContract['IsActive'];
+                 $tmp['InstallmentMode'] = $recentContract['InstallmentMode']; 
+                 if ($tmp['IsActive']=="1"){
+                    $tmp['StatusString']= "Active";
+                 }
+                 if ($recentContract['IsClosed']=="1"){
+                    $tmp['IsActive']="3";
+                    $tmp['StatusString']= "Closed";
+                 }
+                 $tmp['Receipts']= sizeof($dues);
+                 $tmp['VoucherNumber']= $recentContract['VoucherNumber'];
+                 $_recentContracts[]=$tmp; 
+             } 
+             return json_encode(array("status"=>"success","data"=>$_recentContracts));
+         }
+         
+     }
+     
+     public static function listAllClosed() {
+         
+         global $mysql;
+         
+         if (isset($_SESSION['User']['SalesmanID'])) {
+             $data = $mysql->select("select * from _tbl_contracts");
+             return json_encode(array("status"=>"success","data"=>$data));
+             
+             
+         } elseif (isset($_SESSION['User']['CustomerID'])) {
+             
+             $data = $mysql->select("select * from _tbl_contracts where CustomerID='".$_SESSION['User']['CustomerID']."'  and IsClosed='1'");
+             $_recentContracts=array();
+             foreach($data as $recentContract) {
+                $dues = $mysql->select("select * from _tbl_contracts_dues where ReceiptID>0 and ContractID='".$recentContract['ContractID']."'");
+                  $golds = $mysql->select("select sum(GoldInGram) as GoldInGram from _tbl_contracts_dues where ReceiptID>0 and ContractID='".$recentContract['ContractID']."'");
+                 $totaldues = $mysql->select("select * from _tbl_contracts_dues where  ContractID='".$recentContract['ContractID']."'");
+               
+                
+                $tmp=array();
+                $tmp['ContractCode']   = $recentContract['ContractCode'];
+                $tmp['SchemeID']       =  $recentContract['SchemeID'];
+                $tmp['SchemeName']     = $recentContract['SchemeName'];
+                $tmp['ContractAmount'] = number_format($recentContract['ContractAmount'],2);
+                $tmp['StartDate']      = date("d-m-Y",strtotime($recentContract['StartDate']));
+                $tmp['EndDate']        = date("d-m-Y",strtotime($recentContract['EndDate']));
+                $tmp['GoldInGram']     = number_format($golds[0]['GoldInGram'],3);
+                $tmp['PaidDues']       = sizeof($dues);
+                $tmp['UnPaidDues']     = sizeof($totaldues)-sizeof($dues);
+                $tmp['IsActive']= $recentContract['IsActive'];
+                $tmp['InstallmentMode'] = $recentContract['InstallmentMode']; 
+                if ($tmp['IsActive']=="1"){
+                    $tmp['StatusString']= "Active";
+                }
+                if ($recentContract['IsClosed']=="1"){
+                    $tmp['IsActive']="3";
+                    $tmp['StatusString']= "Closed";
+                    $tmp['ClosedOn']=date("d-m-Y",strtotime($recentContract['ClosedOn']));
                 }
                 $tmp['Receipts']= sizeof($dues);
                 $tmp['VoucherNumber']= $recentContract['VoucherNumber'];
@@ -350,10 +652,51 @@ class Contracts {
          
      }
      
-     public static function listBySchemes() {   
+     public static function listBySchemes() {
+         
          global $mysql;
-         $data = $mysql->select("select * from _tbl_contracts where SchemeID='".$_GET['SchemeID']."'");
-         return json_encode(array("status"=>"success","data"=>$data));
+         
+         if (isset($_SESSION['User']['CustomerID'])) {
+             
+             $data = $mysql->select("select * from _tbl_contracts where SchemeID='".$_GET['SchemeID']."' and CustomerID='".$_SESSION['User']['CustomerID']."'  order by ContractID desc");
+             
+             $_recentContracts=array();
+             foreach($data as $recentContract) {
+                 
+                 $dues = $mysql->select("select * from _tbl_contracts_dues where ReceiptID>0 and ContractID='".$recentContract['ContractID']."'");
+                 $golds = $mysql->select("select sum(GoldInGram) as GoldInGram from _tbl_contracts_dues where ReceiptID>0 and ContractID='".$recentContract['ContractID']."'");
+                 $totaldues = $mysql->select("select * from _tbl_contracts_dues where  ContractID='".$recentContract['ContractID']."'");
+                 
+                 $tmp=array();
+                 $tmp['ContractCode']   = $recentContract['ContractCode'];
+                 $tmp['SchemeID']       = $recentContract['SchemeID'];
+                 $tmp['SchemeName']     = $recentContract['SchemeName'];
+                 $tmp['ContractAmount'] = number_format($recentContract['ContractAmount'],2);
+                 $tmp['StartDate']      = date("d-m-Y",strtotime($recentContract['StartDate']));
+                 $tmp['EndDate']        = date("d-m-Y",strtotime($recentContract['EndDate']));
+                 $tmp['GoldInGram']     = number_format($golds[0]['GoldInGram'],3);
+                 $tmp['PaidDues']       = sizeof($dues);
+                 $tmp['UnPaidDues']     = sizeof($totaldues)-sizeof($dues);
+                 $tmp['IsActive']       = $recentContract['IsActive'];
+                 if ($tmp['IsActive']=="1") {
+                     $tmp['StatusString']= "Active";
+                     $tmp['VoucherNumber']= "";
+                 }
+                 if ($recentContract['IsClosed']=="1") {
+                     $tmp['IsActive']="3";
+                     $tmp['StatusString']= "Closed";
+                     $tmp['ClosedOn']=date("d-m-Y",strtotime($recentContract['ClosedOn']));
+                     $tmp['VoucherNumber']= $recentContract['VoucherNumber'];
+                 }
+                 $tmp['Receipts']       = sizeof($dues);
+                 $_recentContracts[]=$tmp; 
+             }
+             return json_encode(array("status"=>"success","data"=>$_recentContracts));
+             
+         } else {
+             $data = $mysql->select("select * from _tbl_contracts where SchemeID='".$_GET['SchemeID']."'");
+             return json_encode(array("status"=>"success","data"=>$data));
+         }
     }
     
     public static function getData() {
@@ -377,10 +720,20 @@ class Contracts {
          $data = array();
          
          $data['CustomerData'] = json_decode(str_replace("\r\n","<br>",$contract_data[0]['CustomerData']),true);
-         //$data['SchemeData']   = json_decode(str_replace("\r\n","<br>",$contract_data[0]['SchemeData']),true);
-         
          $contract_data[0]['EntryDate']=date("d-m-Y",strtotime($contract_data[0]['EntryDate']));
          $contract_data[0]['CreatedOn']=date("d-m-Y",strtotime($contract_data[0]['CreatedOn']));
+         
+         $dues = $mysql->select("select * from _tbl_contracts_dues where ReceiptID>0 and ContractID='".$contract_data[0]['ContractID']."'");
+         $golds = $mysql->select("select sum(GoldInGram) as GoldInGram from _tbl_contracts_dues where ReceiptID>0 and ContractID='".$contract_data[0]['ContractID']."'");
+         $totaldues = $mysql->select("select * from _tbl_contracts_dues where  ContractID='".$contract_data[0]['ContractID']."'");
+                
+         $contract_data[0]['GoldInGram']= number_format($golds[0]['GoldInGram'],3);
+         $contract_data[0]['DueAmount']= number_format($contract_data[0]['DueAmount'],2);
+         $contract_data[0]['StartDate']= date("d-m-Y",strtotime($contract_data[0]['StartDate']));
+         $contract_data[0]['EndDate']= date("d-m-Y",strtotime($contract_data[0]['EndDate']));
+         $contract_data[0]['PaidDues']= sizeof($dues);
+         $contract_data[0]['UnPaidDues']= sizeof($totaldues)-sizeof($dues);
+                
          $data['ContractData'] = $contract_data[0];
          
          $data['DueData'] = $mysql->select("select DATE_FORMAT(DueDate,'%d-%m-%Y') AS DueDate,
@@ -400,7 +753,7 @@ class Contracts {
          return json_encode(array("status"=>"success","data"=>$data));
      }
      
-      public static function listCustomerWise() {
+    public static function listCustomerWise() {
          global $mysql;
          $data = $mysql->select("select 
          ContractID,
@@ -415,7 +768,7 @@ class Contracts {
          return json_encode(array("status"=>"success","data"=>$data));
      }
      
-     public static function getPreCollectDueInformation() {
+    public static function getPreCollectDueInformation() {
          
          global $mysql;
          $GoldPrice = array();
@@ -449,18 +802,19 @@ class Contracts {
         // } else {
          //    $DueGold = 0;
         // }
-         $data = array("MaterialType"   => $contract_information[0]['MaterialType'],
-                       "DueAmount"      => $contract_information[0]['DueAmount'],
-                       "GoldPrice"      => $GoldPrice[0][$contract_information[0]['MaterialType']],
-                       "GoldInGrams"    => $DueGold,
-                       "DueID"          => $due_information[0]['DueID'],
-                       "Installment"    => $due_information[0]['DueNumber'],
-                       "ActualDueDate"  => date("d-m-Y",strtotime($due_information[0]['DueDate'])));
+         $data = array("MaterialType"    => $contract_information[0]['MaterialType'],
+                       "ModeOfBenifits"  => $contract_information[0]['ModeOfBenifits'],
+                       "DueAmount"       => $contract_information[0]['DueAmount'],
+                       "GoldPrice"       => $GoldPrice[0][$contract_information[0]['MaterialType']],
+                       "GoldInGrams"     => $DueGold,
+                       "DueID"           => $due_information[0]['DueID'],
+                       "Installment"     => $due_information[0]['DueNumber'],
+                       "ActualDueDate"   => date("d-m-Y",strtotime($due_information[0]['DueDate'])));
 
          return json_encode(array("status"=>"success","data"=>$data));
      }
-     
-     public static function collectDue() {
+    
+    public static function collectDue() {
          
          global $mysql;
          
@@ -479,12 +833,7 @@ class Contracts {
          $scheme_information = $mysql->select("select * from _tbl_masters_schemes where SchemeID='".$contract_information[0]['SchemeID']."'");
          $CustomerData = $mysql->select("select * from _tbl_masters_customers where CustomerID='".$contract_information[0]['CustomerID']."'");
 
-        // if ($scheme_information[0]['ModeOfBenifits']=="GOLD") {
-             $DueGold = number_format($contract_information[0]['DueAmount']/$todayGoldPrice[0][$contract_information[0]['MaterialType']],3);    
-         //} else {
-          //   $DueGold = 0;
-         //}
-         
+         $DueGold = number_format($contract_information[0]['DueAmount']/$todayGoldPrice[0][$contract_information[0]['MaterialType']],3);    
          $RecepitNumber = SequnceList::updateNumber("_tbl_receipts");
          
          $RecepitID = $mysql->insert("_tbl_receipts",array("ReceiptNumber"        => $RecepitNumber,
@@ -498,11 +847,11 @@ class Contracts {
                                                            "DueNumber"            => $due_information[0]['DueNumber'],
                                                            "DueAmount"            => $contract_information[0]['DueAmount'],
                                                            "DueGold"              => $DueGold,
-                                                           "PriceOnDate"              => $_POST['PaymentDate'],
+                                                           "PriceOnDate"          => $_POST['PaymentDate'],
                                                            "PaidAmount"           => $contract_information[0]['DueAmount'],
                                                            "PaymentModeID"        => $PaymentMode[0]['PaymentModeID'],
                                                            "PaymentMode"          => $PaymentMode[0]['PaymentMode'],
-                                                           "CreatedOn"          => date("Y-m-d H:i:s"),
+                                                           "CreatedOn"            => date("Y-m-d H:i:s"),
                                                            "PaymentRemarks"       => $_POST['PaymentRemarks']));
                 
          $mysql->execute("update _tbl_contracts_dues set ReceiptID       = '".$RecepitID."', 
@@ -517,12 +866,11 @@ class Contracts {
          $dues = $mysql->select("select * from _tbl_contracts_dues where DueID>'".$due_information[0]['DueID']."'");
          $mysql->execute("update _tbl_contracts_dues set IsShowPayButton='1' where DueID = '".$dues[0]['DueID']."'");
          include SERVER_PATH."/lib/phpqrcode/qrlib.php";   
-         //QRcode::png('PHP QR Code :)', $filename, $errorCorrectionLevel, $matrixPointSize, 2);   
          $url = WEB_URL."receipt".md5($RecepitNumber);
          QRcode::png($url, SERVER_PATH."/assets/qrcodes/".md5($RecepitNumber).".png");  
          $paiddues = $mysql->select("select * from _tbl_contracts_dues where ContractID='".$contract_information[0]['ContractID']."' and ReceiptID>0");
-         if (sizeof($paiddues)==$scheme_information[0]['Installments']) {
-                 self::closeContract($contract_information[0]['ContractID']);
+         if (sizeof($paiddues)==$contract_information[0]['Duration']) {
+            self::closeContract($contract_information[0]['ContractID'],$_POST['PaymentDate'],"Regular");
          }
          return json_encode(array("status"=>"success","message"=>"successfully Credited"));
      } 
@@ -583,10 +931,10 @@ class Contracts {
          global $mysql;
          
          $contract_information = $mysql->select("Select * from _tbl_contracts where ContractCode='".$_POST['ContractID']."'");
-         return self::closeContract($contract_information[0]['ContractID']);
+         return self::closeContract($contract_information[0]['ContractID'],date("Y-m-d"),"PreClosure");
      } 
      
-     function closeContract($ContractID) {
+     function closeContract($ContractID,$PaymentDate,$closeType) {
          
          global $mysql;
          
@@ -605,23 +953,16 @@ class Contracts {
          
          $CashBonusAmount = 0;
          $BonusPercentage = 0;
+         $totalGoldInGrams     = number_format($totalGoldInGrams,3);
+         $VoucherType          = "GOLD";
          
-        // if ($scheme_information[0]['ModeOfBenifits']=="GOLD") {
-             $totalGoldInGrams     = number_format($totalGoldInGrams,3);
-             $VoucherType          = "GOLD";
-        // } else {
-          //   $BonusPercentage = $scheme_information[0]['BonusPercentage'];
-          //   $CashBonusAmount = $totalPaidAmount * $scheme_information[0]['BonusPercentage']/100;
-           //  $VoucherType     = "CASH";
-        // }
-         
-          if (sizeof($due_information)<=3) {
+         if (sizeof($due_information)<=3) {
              $WastageDiscount      = "0";
              $MakingChargeDiscount = "0"; 
              $BonusPercentage      = "0";
              $CashBonusAmount      = $totalPaidAmount;
-             
          }
+         
          $WastageDiscount = ($WastageDiscount=="") ? "0" : $WastageDiscount;
          $MakingChargeDiscount = ($MakingChargeDiscount=="") ? "0" : $MakingChargeDiscount;
          $BonusPercentage = ($BonusPercentage=="") ? "0" : $BonusPercentage;
@@ -629,7 +970,7 @@ class Contracts {
          
          $VoucherNumber = SequnceList::updateNumber("_tbl_vouchers");
          $VoucherID = $mysql->insert("_tbl_vouchers",array("VoucherNumber"        => $VoucherNumber,
-                                                           "VoucherDate"          => date("Y-m-d H:i:s"),
+                                                           "VoucherDate"          => $PaymentDate,
                                                            "CustomerID"           => $CustomerData[0]['CustomerID'],
                                                            "CustomerName"         => $CustomerData[0]['CustomerName'],
                                                            "CustomerCode"         => $CustomerData[0]['CustomerCode'],
@@ -642,11 +983,13 @@ class Contracts {
                                                            "MakingChargeDiscount" => $MakingChargeDiscount,
                                                            "BonusPercentage"      => $BonusPercentage,
                                                            "VoucherType"          => $VoucherType,
+                                                           "MaterialType"         => $contract_information[0]['MaterialType'], 
+                                                           "CreatedOn"            => date("Y-m-d H:i:s"),
                                                            "BonusAmount"          => $CashBonusAmount));
          
          $mysql->execute("update _tbl_contracts set IsClosed='1',
-                                                    ClosedOn='".date("Y-m-d H:i:s")."',
-                                                    ClosedModel='PreClosure',
+                                                    ClosedOn='".$PaymentDate."',
+                                                    ClosedModel='".$closeType."',
                                                     
                                                     TotalPaidAmount='".$totalPaidAmount."',
                                                     SettlementGold='".$totalGoldInGrams."',
@@ -659,8 +1002,13 @@ class Contracts {
                                                     
                                                     VoucherID='".$VoucherID."',
                                                     VoucherNumber='".$VoucherNumber."' where ContractID = '".$contract_information[0]['ContractID']."'") ;
-                                                    
-         $mysql->execute("update _tbl_contracts_dues set IsShowPayButton='0' where ContractID = '".$contract_information[0]['ContractID']."'");
+         if ($closeType=="Regular") {
+            $mysql->execute("update _tbl_contracts_dues set IsShowPayButton='0' where ContractID = '".$contract_information[0]['ContractID']."'");    
+         }
+         if ($closeType=="PreClosure") {
+            $mysql->execute("update _tbl_contracts_dues set IsShowPayButton='0' where ContractID = '".$contract_information[0]['ContractID']."'");    
+         }
+         
          return json_encode(array("status"=>"success","message"=>"Contract Closed Successfully"));
      }
 }

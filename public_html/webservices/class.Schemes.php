@@ -18,6 +18,20 @@ class Schemes {
           $_POST['SchemeCode']= SequnceList::updateNumber("_tbl_masters_schemes"); 
         }
         
+        if (strlen(trim($_POST['EntryDate']))==0) {
+            return json_encode(array("status"=>"failure","message"=>"Please select Date","div"=>"EntryDate"));    
+        }  else {
+            if (strlen(trim($_POST['EntryDate']))==0) {
+                return json_encode(array("status"=>"failure","message"=>"Please select date","div"=>"EntryDate"));    
+            } else {
+                $currentdate = strtotime(date("Y-m-d"));
+                $entrydate = strtotime($_POST['EntryDate']);
+                if ($entrydate>$currentdate) {
+                    return json_encode(array("status"=>"failure","message"=>"Please select date on/or before ".date("d-m-Y"),"div"=>"EntryDate"));        
+                }
+            }
+        }
+        
         if (strlen(trim($_POST['SchemeName']))==0) {
             return json_encode(array("status"=>"failure","message"=>"Please enter Scheme Name","div"=>"SchemeName"));    
         } else {
@@ -83,7 +97,7 @@ class Schemes {
         }
         
         if (strlen(trim($_POST['TermsOfConditions']))==0) {
-            return json_encode(array("status"=>"failure","message"=>"Please enter TermsOfConditions","div"=>"TermsOfConditions"));    
+            return json_encode(array("status"=>"failure","message"=>"Please enter Terms Of Conditions","div"=>"TermsOfConditions"));    
         }
         
         $id = $mysql->insert("_tbl_masters_schemes",array("SchemeCode"           => $_POST['SchemeCode'],

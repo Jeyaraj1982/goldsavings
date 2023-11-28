@@ -15,15 +15,133 @@ define("DBUSER","nexifyso_user");
 define("DBPASSWORD","mysql@Pwd");
 define("DBNAME","nexifysoftware_goldsavings");
 
+include_once("controllers/class.DatabaseController.php");
+$mysql = new MySqldatabase(DBSERVER,DBUSER,DBPASSWORD,DBNAME);
+
+if (isset($_POST['customerloginBtn'])) {
+    $error = 0;
+    
+    if ($_POST['LoginName']=="") {
+        $error++;
+        $ErrLoginName = "Please enter Username.";
+    }
+    
+    if ($_POST['LoginPassword']=="") {
+        $error++;
+        $ErrLoginPassword = "Please enter Username.";
+    }
+    
+    if ($_POST['captcha_code']=="") {
+        $error++;
+        $ErrCaptcha = "Please enter captcha.";
+    }
+    
+    if ($_POST['captcha_code']!=$_SESSION['captcha_code']) {
+        $error++;
+        $ErrCaptcha = "captcha is invalid.";
+    }
+    
+    if ($error==0) {
+        $data = $mysql->select("select * from _tbl_masters_customers where LoginUserName='".$_POST['LoginName']."' and LoginPassword='".$_POST['LoginPassword']."' and IsActive='1'");
+        if (sizeof($data)==0) {
+            $loginError= "Login failed. Invalid User Name or Password";
+        } else {
+            setcookie("usrname",md5("J2J@Software".$data[0]['LoginUserName']),time() + 3600*24*7*20); //20 days  
+            setcookie("usrpassword",md5("J2J@Software".$data[0]['LoginPassword']),time() + 3600*24*7*20); //20 days  
+            setcookie("usrmode",md5("J2J@Software"."customerapp"),time() + 3600*24*7*20); //20 days  
+            $_SESSION['User']=$data[0];
+            $_SESSION['User']['UserRole']="customerapp";
+            sleep(5);
+            echo "<script>location.href='".WEB_URL."dashboard.php';</script>";
+            exit;
+        }
+    }
+}
+
+if (isset($_POST['salesmanapploginBtn'])) {
+    $error = 0;
+    if ($_POST['LoginName']=="") {
+        $error++;
+        $ErrLoginName = "Please enter Username.";
+    }
+    
+    if ($_POST['LoginPassword']=="") {
+        $error++;
+        $ErrLoginPassword = "Please enter Username.";
+    }
+    
+    if ($_POST['captcha_code']=="") {
+        $error++;
+        $ErrCaptcha = "Please enter captcha.";
+    }
+    
+    if ($_POST['captcha_code']!=$_SESSION['captcha_code']) {
+        $error++;
+        $ErrCaptcha = "captcha is invalid.";
+    }
+    
+    if ($error==0) {
+        if ($_GET['role']=="salesman" || $_GET['role']=="salesmanapp") {
+            $data = $mysql->select("select * from _tbl_masters_salesman where LoginUserName='".$_POST['LoginName']."' and LoginPassword='".$_POST['LoginPassword']."' and IsActive='1'");
+            if (sizeof($data)==0) {
+                $loginError= "Login failed. Invalid User Name or Password";
+            } else {
+                setcookie("usrname",md5("J2J@Software".$data[0]['LoginUserName']),time() + 3600*24*7*20); //20 days  
+                setcookie("usrpassword",md5("J2J@Software".$data[0]['LoginPassword']),time() + 3600*24*7*20); //20 days  
+                setcookie("usrmode",md5("J2J@Software"."salesmanapp"),time() + 3600*24*7*20); //20 days  
+                $_SESSION['User']=$data[0];
+                $_SESSION['User']['UserRole']="salesmanapp";
+                sleep(5);
+                echo "<script>location.href='dashboard.php';</script>";
+                exit;
+            }
+        }
+    
+    }
+}
+
+if (!(isset($_SESSION['User']['UserRole']))) {
+    if (isset($_COOKIE['usrmode']) && (strlen(trim($_COOKIE['usrmode']))>0) ) {
+        if ($_COOKIE['usrmode']==md5("J2J@Software"."customerapp")) {
+            $data = $mysql->select("select * from _tbl_masters_customers where md5(concat('J2J@Software',LoginUserName))='".$_COOKIE['usrname']."' and md5(concat('J2J@Software',LoginPassword))='".$_COOKIE['usrpassword']."' and IsActive='1'");
+            if (sizeof($data)>0) {
+                $_SESSION['User']=$data[0];
+                $_SESSION['User']['UserRole']="customerapp"; 
+                echo "<script>location.href='".WEB_URL."dashboard.php';</script>";
+                exit;
+            } 
+        }
+        
+        if ($_COOKIE['usrmode']==md5("J2J@Software"."salesmanapp")) {
+            $data = $mysql->select("select * from _tbl_masters_salesman where md5(concat('J2J@Software',LoginUserName))='".$_COOKIE['usrname']."' and md5(concat('J2J@Software',LoginPassword))='".$_COOKIE['usrpassword']."' and IsActive='1'");
+            if (sizeof($data)>0) {
+                $_SESSION['User']=$data[0];
+                $_SESSION['User']['UserRole']="salesmanapp"; 
+                echo "<script>location.href='".WEB_URL."dashboard.php';</script>";
+                exit;
+            } 
+        }
+    }
+}
+
 if (isset($_GET['action']) && $_GET['action']=="logout") {
     $role = $_SESSION['User']['UserRole'];
+    if ($role=="") {
+        if ($_COOKIE['usrmode']==md5("J2J@Software"."customerapp")) {
+            $role="customerapp";
+        }
+         if ($_COOKIE['usrmode']==md5("J2J@Software"."salesmanapp")) {
+            $role="salesmanapp";
+        }
+    }
+    setcookie('usrname', '',"-1"); 
+    setcookie('usrpassword', '',"-1"); 
+    setcookie('usrmode', '',"-1"); 
     session_destroy();
     echo "<script>location.href='".LOGOUT_PATH.$role."';</script>";
     exit;
 }
 
-include_once("controllers/class.DatabaseController.php");
-$mysql = new MySqldatabase(DBSERVER,DBUSER,DBPASSWORD,DBNAME);
                    
 /*
 define("Mail_Host","mail.gbmaligai.com");

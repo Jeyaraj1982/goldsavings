@@ -1,5 +1,9 @@
 <?php
 include_once("config.php"); 
+function hideMobilNumber($number) {
+    $number = array_map('intval', str_split(trim($number)));
+     return $number[0].$number[1]."X"."X"."X"."X"."X".$number[7].$number[8].$number[9];
+}
 include_once("webservices/class.AreaNames.php");
 include_once("webservices/class.Customers.php");
 include_once("webservices/class.CustomerTypes.php");
@@ -25,6 +29,7 @@ include_once("webservices/class.RelationNames.php");
 include_once("webservices/class.PaymentModes.php");
 include_once("webservices/class.PaymentBanks.php");
 include_once("webservices/class.PaymentRequests.php"); 
+include_once("webservices/class.Branch.php"); 
 
 function IsValidPanCard($pannumber) {
     if (!preg_match("/^([a-zA-Z]){5}([0-9]){4}([a-zA-Z]){1}?$/", $pannumber)) {
@@ -62,7 +67,7 @@ function getDashboardData() {
     $days_before="7";
     $date = date('Y-m-d', strtotime(date("Y-m-d"). ' - '.$days_before.' days'));
     
-    $goldRates = $mysql->select("select DATE_FORMAT(Date,'".appConfig::DATEFORMAT."') as `Date`,GOLD_18,GOLD_22,GOLD_24 from _tbl_masters_goldrates where  date(Date)>date('".$date."') order by date(Date)");
+    $goldRates = $mysql->select("select DATE_FORMAT(Date,'".appConfig::DATEFORMAT."') as `Date`,GOLD_18,GOLD_22,GOLD_24,SILVER from _tbl_masters_goldrates where  date(Date)>date('".$date."') order by date(Date)");
      
     
     if (isset($_SESSION['User']['CustomerID'])) {
@@ -196,9 +201,11 @@ function getDashboardData() {
             $_recentClosedContracts[]=$tmp; 
         } 
     
-        $closedContracts=$mysql->select("SELECT * FROM _tbl_contracts WHERE CustomerID='".$_SESSION['User']['CustomerID']."' and IsClosed='1'");
-        $activeContracts=$mysql->select("SELECT * FROM _tbl_contracts WHERE CustomerID='".$_SESSION['User']['CustomerID']."' and IsActive='1'");
-        $receivedAmount=$mysql->select("SELECT sum(DueAmount) as Amount FROM _tbl_receipts WHERE CustomerID='".$_SESSION['User']['CustomerID']."' and date(ReceiptDate)='".date("Y-m-d")."'");
+        $mydownlines     = $mysql->select("select * from _tbl_masters_customers WHERE ReferByText='Customer' and ReferredByID='".$_SESSION['User']['CustomerID']."'");    
+        $closedContracts = $mysql->select("SELECT * FROM _tbl_contracts WHERE CustomerID='".$_SESSION['User']['CustomerID']."' and IsClosed='1'");
+        $activeContracts = $mysql->select("SELECT * FROM _tbl_contracts WHERE CustomerID='".$_SESSION['User']['CustomerID']."' and IsActive='1' and IsClosed='0'");
+        $receivedAmount  = $mysql->select("SELECT sum(DueAmount) as Amount FROM _tbl_receipts WHERE CustomerID='".$_SESSION['User']['CustomerID']."' and date(ReceiptDate)='".date("Y-m-d")."'");
+        $activeSchemes   = $mysql->select("SELECT *  FROM _tbl_masters_schemes WHERE IsActive='1'");
         
         $data = array("recentContracts"       => $_recentContracts,
                       "recentReceipts"        => $_recentReceipts,
@@ -212,12 +219,14 @@ function getDashboardData() {
                       "additionalInfo"        => array("closedContracts" => sizeof($closedContracts),
                                                        "activeContracts" => sizeof($activeContracts),
                                                        "pendingDues"     => sizeof($pendingDues),
+                                                       "myDownlines"     => sizeof($mydownlines),
+                                                       "activeSchemes"   => sizeof($activeSchemes),
                                                        "upcommingDues"   => sizeof($_upcommingDues)));
         return json_encode(array("status"=>"success","data"=>$data)); 
     }
     
     $closedContracts=$mysql->select("SELECT * FROM _tbl_contracts WHERE IsClosed='1'");
-    $activeContracts=$mysql->select("SELECT * FROM _tbl_contracts WHERE IsActive='1'");
+    $activeContracts=$mysql->select("SELECT * FROM _tbl_contracts WHERE IsActive='1' and IsClosed='0'");
     $activeCustomers=$mysql->select("SELECT * FROM _tbl_masters_customers WHERE IsActive='1'");
     $receivedAmount=$mysql->select("SELECT sum(DueAmount) as Amount FROM _tbl_receipts WHERE date(ReceiptDate)='".date("Y-m-d")."'");
 
@@ -420,12 +429,12 @@ function getPendingDues() {
     
     $_pendingDues=array();
     if (isset($_SESSION['User']['CustomerID'])) {
-        $pendingDues = $mysql->select("select * from  _tbl_contracts_dues where CustomerID='".$_SESSION['User']['CustomerID']."' and ReceiptID=0 and date(DueDate)<=date('".date("Y-m-d")."') order by DueID desc ");         
+        $pendingDues = $mysql->select("select * from  _tbl_contracts_dues where CustomerID='".$_SESSION['User']['CustomerID']."' and ReceiptID=0 and date(DueDate)<=date('".date("Y-m-d")."') order by DueID ");         
     } else {
         if (isset($_GET['customer'])) {            
-            $pendingDues = $mysql->select("select * from  _tbl_contracts_dues where CustomerID='".$_GET['customer']."' and ReceiptID=0 and date(DueDate)<=date('".date("Y-m-d")."') order by DueID desc ");     
+            $pendingDues = $mysql->select("select * from  _tbl_contracts_dues where CustomerID='".$_GET['customer']."' and ReceiptID=0 and date(DueDate)<=date('".date("Y-m-d")."') order by DueID ");     
         } else {
-            $pendingDues = $mysql->select("select * from  _tbl_contracts_dues where ReceiptID=0 and date(DueDate)<=date('".date("Y-m-d")."') order by DueID desc ");     
+            $pendingDues = $mysql->select("select * from  _tbl_contracts_dues where ReceiptID=0 and date(DueDate)<=date('".date("Y-m-d")."') order by DueID ");     
         }
     }
     
@@ -442,8 +451,9 @@ function getPendingDues() {
         $tmp['SchemeID']     = $pendingDue['SchemeID'];
         $tmp['SchemeCode']   = $pendingDue['SchemeCode'];
         $tmp['SchemeName']   = $pendingDue['SchemeName'];
+        $tmp['IsShowPayButton']   = $pendingDue['IsShowPayButton'];     
         $tmp['DaysBefore']   = (strtotime(date("Y-m-d"))-strtotime($pendingDue['DueDate']))/(60*60*24);
-        $_pendingDues[]=$tmp; 
+        $_pendingDues[]=$tmp;   
     }
     return json_encode(array("status"=>"success","data"=>$_pendingDues));
 }
@@ -462,7 +472,8 @@ function getVouchers() {
             $tmp['ContractCode']=$voucher['ContractCode'];
             $tmp['VoucherType']=$voucher['VoucherType'];
             $tmp['GoldInGrams']=$voucher['GoldInGrams'];
-            $tmp['TotalPaidAmount']=$voucher['TotalPaidAmount'];
+            $tmp['MaterialType']=$voucher['MaterialType'];
+            $tmp['TotalPaidAmount']=number_format($voucher['TotalPaidAmount'],2);
             $_recentVouchers[]=$tmp; 
         }
         return json_encode(array("status"=>"success","data"=>$_recentVouchers));
@@ -502,6 +513,8 @@ function getVouchers() {
             $tmp['CustomerName']=$voucher['CustomerName'];
             $tmp['TotalPaidAmount']=$voucher['TotalPaidAmount']; 
             $tmp['VoucherType']=$voucher['VoucherType'];
+            $tmp['MaterialType']=$voucher['MaterialType'];
+            $tmp['TotalPaidAmount']=number_format($voucher['TotalPaidAmount'],2);
             $_recentVouchers[]=$tmp; 
         }
         
@@ -518,8 +531,9 @@ function getReceipts() {
                                                 `ReceiptNumber`,
                                                 `CustomerID`,
                                                 `CustomerName`,
-                                                `ContractCode`, FORMAT(DueGold, 3) as `DueGold`,
+                                                `ContractCode`, 
                                                 `DueNumber`,
+                                                FORMAT(DueGold, 3) as `DueGold`,
                                                 FORMAT(DueAmount, 2) as `DueAmount`,
                                                 DATE_FORMAT(ReceiptDate,'".appConfig::DATEFORMAT."') as `ReceiptDate`
                                            FROM 

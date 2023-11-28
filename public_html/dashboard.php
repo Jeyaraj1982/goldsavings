@@ -22,7 +22,10 @@ if ($_GET['action']!='profile/changepassword') {
 	<link rel="canonical" href="https://appstack.bootlab.io/dashboard-default.html" />
 	<link rel="shortcut icon" href="img/favicon.ico">
 	<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
+    
 	<link class="js-stylesheet" href="css/light.css" rel="stylesheet">
+    
+     
 	<style>
      /*
      .modal-footer{padding: 3px !important;background: #cfdbee !important;}
@@ -202,6 +205,17 @@ input:checked + .slider:before {
     .ath_container select {width: 100%;}
 }
 </style> 
+ <style>
+    .dropdown-menu .myheader {background: #efefef;padding: 5px;font-size: 12px;}
+    .dropdown-menu .mycontainer {font-size: 11px;padding: 10px !important;}
+  </style>
+  
+  <!-- multi-select-->
+  <link href='<?php echo URL;?>assets/select2/dist/css/select2.min.css' rel='stylesheet' type='text/css'>
+  <style>
+  .select2-container{z-index:10000}
+  </style>
+  
 </head>
  
 <body data-theme="default" data-layout="fluid" data-sidebar-position="left" data-sidebar-behavior="sticky">
@@ -210,11 +224,19 @@ input:checked + .slider:before {
 			<?php include_once("includes/".$_SESSION['User']['UserRole']."/leftmenu.php");?>
 		</nav>
 		<div class="main">
-			<nav class="navbar navbar-expand navbar-light navbar-bg">
+            <?php
+            $css= "";
+            $css2= "";
+                if (UserRole=="customerapp") {
+                    $css = 'style="position: fixed;z-index: 1;"';
+                    $css2 = 'style="margin-top:70px;"';
+                }
+            ?>
+			<nav class="navbar navbar-expand navbar-light navbar-bg" <?php echo $css;?>>
 				<a class="sidebar-toggle">
           <i class="hamburger align-self-center"></i>
         </a>
-             <!--
+              
 				<form class="d-none d-sm-inline-block">
 					<div class="input-group input-group-navbar">
 						<input type="text" class="form-control" placeholder="Search projects…" aria-label="Search">
@@ -225,51 +247,19 @@ input:checked + .slider:before {
 				</form>
             
 				<ul class="navbar-nav">
-					<li class="nav-item px-2 dropdown">
-						<a class="nav-link dropdown-toggle" href="#" id="servicesDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              Mega menu
+					<li class="nav-item px-2 dropdown" style="line-height: 14px;padding: 0px !important;">
+						<a class="nav-link" href="#" id="servicesDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <b style="font-size:21px !important">NANA</b><br>
+              Jewellers
             </a>
-						<div class="dropdown-menu dropdown-menu-start dropdown-mega" aria-labelledby="servicesDropdown">
-							<div class="d-md-flex align-items-start justify-content-start">
-								<div class="dropdown-mega-list">
-									<div class="dropdown-header">UI Elements</div>
-									<a class="dropdown-item" href="#">Alerts</a>
-									<a class="dropdown-item" href="#">Buttons</a>
-									<a class="dropdown-item" href="#">Cards</a>
-									<a class="dropdown-item" href="#">Carousel</a>
-									<a class="dropdown-item" href="#">General</a>
-									<a class="dropdown-item" href="#">Grid</a>
-									<a class="dropdown-item" href="#">Modals</a>
-									<a class="dropdown-item" href="#">Tabs</a>
-									<a class="dropdown-item" href="#">Typography</a>
-								</div>
-								<div class="dropdown-mega-list">
-									<div class="dropdown-header">Forms</div>
-									<a class="dropdown-item" href="#">Layouts</a>
-									<a class="dropdown-item" href="#">Basic Inputs</a>
-									<a class="dropdown-item" href="#">Input Groups</a>
-									<a class="dropdown-item" href="#">Advanced Inputs</a>
-									<a class="dropdown-item" href="#">Editors</a>
-									<a class="dropdown-item" href="#">Validation</a>
-									<a class="dropdown-item" href="#">Wizard</a>
-								</div>
-								<div class="dropdown-mega-list">
-									<div class="dropdown-header">Tables</div>
-									<a class="dropdown-item" href="#">Basic Tables</a>
-									<a class="dropdown-item" href="#">Responsive Table</a>
-									<a class="dropdown-item" href="#">Table with Buttons</a>
-									<a class="dropdown-item" href="#">Column Search</a>
-									<a class="dropdown-item" href="#">Muulti Selection</a>
-									<a class="dropdown-item" href="#">Ajax Sourced Data</a>
-								</div>
-							</div>
-						</div>
+						 
 					</li>
 				</ul>
-                  -->
+                  
 				<div class="navbar-collapse collapse">
 					<ul class="navbar-nav navbar-align">
-						<li class="nav-item dropdown" style="display: none;">
+                        
+						<li class="nav-item dropdown">
 							<a class="nav-icon dropdown-toggle" href="#" id="messagesDropdown" data-bs-toggle="dropdown">
 								<div class="position-relative">
 									<i class="align-middle" data-feather="message-circle"></i>
@@ -337,7 +327,7 @@ input:checked + .slider:before {
 								</div>
 							</div>
 						</li>
-						<li class="nav-item dropdown" style="display: none;">
+						<li class="nav-item dropdown">
 							<a class="nav-icon dropdown-toggle" href="#" id="alertsDropdown" data-bs-toggle="dropdown">
 								<div class="position-relative">
 									<i class="align-middle" data-feather="bell-off"></i>
@@ -419,6 +409,7 @@ input:checked + .slider:before {
 								<div class="dropdown-divider"></div>
 								<a class="dropdown-item" href="<?php echo URL;?>dashboard.php?action=profile/changepassword">Change Password</a>
 								<!--<a class="dropdown-item" href="<?php echo URL;?>dashboard.php?action=help/index">Help</a>-->
+                                <a class="dropdown-item" href="<?php echo URL.substr($_SERVER['REQUEST_URI'],1,strlen($_SERVER['REQUEST_URI']));?>">Refresh</a>
 								<a class="dropdown-item" href="<?php echo URL;?>dashboard.php?action=logout">Sign out</a>
 							</div>
 						</li>
@@ -426,7 +417,7 @@ input:checked + .slider:before {
 				</div>
 			</nav>
 
-			<main class="content">
+			<main class="content" <?php echo $css2;?>>
 				<?php 
                 if (isset($_GET['action'])) {
                     include_once("includes/".UserRole."/".$_GET['action'].".php");
@@ -459,7 +450,7 @@ input:checked + .slider:before {
 		</div>
 	</div>
 
-	<script src="<?php echo WEB_URL;?>assets/app.js"></script>
+<script src="<?php echo WEB_URL;?>assets/app.js"></script>
       
     
     <div class="modal" id="process_popup" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="false">
@@ -592,8 +583,2037 @@ function backToTop() {
 }
 
 </script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.inputmask/3.3.3/jquery.inputmask.bundle.min.js"></script>
+<!--<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.inputmask/3.3.3/jquery.inputmask.bundle.min.js"></script>-->
+<script src="<?php echo URL;?>assets/jquery.inputmask.bundle.min.js"></script>
+<script type="text/javascript" src="<?php echo URL;?>assets/tableExport.js"></script>
+<script type="text/javascript" src="<?php echo URL;?>assets/jquery.base64.js"></script>
+<script type="text/javascript" src="<?php echo URL;?>assets/html2canvas.js"></script>
+<script type="text/javascript" src="<?php echo URL;?>assets/jspdf/libs/sprintf.js"></script>
+<script type="text/javascript" src="<?php echo URL;?>assets/jspdf/jspdf.js"></script>
+<script type="text/javascript" src="<?php echo URL;?>assets/jspdf/libs/base64.js"></script>
+
+<script src='<?php echo URL;?>assets/select2/dist/js/select2.min.js' type='text/javascript'></script>
 <script>
 $(":input").inputmask();
+</script>
+<script>
+if ($('#AreaNameCode').length){
+    /*Alphanumeric without space*/
+    $('#AreaNameCode').keydown(function (e) {
+        if (e.ctrlKey || e.altKey) {
+            e.preventDefault();
+        } else {
+            var notallowkeys = [48,49,50,51,52,53,54,55,56,57,188,190,191,59,220,221,222,219,173,61,192,111,106,109,107,46]
+            var allowedkeys  = [96,97,98,99,100,101,102,103,104,105,9,8,16,46,35,36,37,38,39,40,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,48,49,50,51,52,53,54,55,56,57,33,34,35,36,37,38,39,40,45,12]
+            if (e.shiftKey) {
+                if (notallowkeys.includes(e.keyCode)) {
+                    e.preventDefault();
+                }
+            } else {
+                if (!(allowedkeys.includes(e.keyCode))) {
+                    e.preventDefault();
+                }
+            }
+        }
+    });
+    $('#AreaNameCode').on("cut copy paste",function(e){
+        e.preventDefault();
+    });
+}
+
+if ($('#DistrictNameCode').length){
+    /*Alphanumeric without space*/
+    $('#DistrictNameCode').keydown(function (e) {
+        if (e.ctrlKey || e.altKey) {
+            e.preventDefault();
+        } else {
+            var notallowkeys = [48,49,50,51,52,53,54,55,56,57,188,190,191,59,220,221,222,219,173,61,192,111,106,109,107,46]
+            var allowedkeys  = [96,97,98,99,100,101,102,103,104,105,9,8,16,46,35,36,37,38,39,40,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,48,49,50,51,52,53,54,55,56,57,33,34,35,36,37,38,39,40,45,12]
+            if (e.shiftKey) {
+                if (notallowkeys.includes(e.keyCode)) {
+                    e.preventDefault();
+                }
+            } else {
+                if (!(allowedkeys.includes(e.keyCode))) {
+                    e.preventDefault();
+                }
+            }
+        }
+    });
+    $('#DistrictNameCode').on("cut copy paste",function(e){
+        e.preventDefault();
+    });
+}
+
+if ($('#StateNameCode').length){
+    /*Alphanumeric without space*/
+    $('#StateNameCode').keydown(function (e) {
+        if (e.ctrlKey || e.altKey) {
+            e.preventDefault();
+        } else {
+            var notallowkeys = [48,49,50,51,52,53,54,55,56,57,188,190,191,59,220,221,222,219,173,61,192,111,106,109,107,46]
+            var allowedkeys  = [96,97,98,99,100,101,102,103,104,105,9,8,16,46,35,36,37,38,39,40,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,48,49,50,51,52,53,54,55,56,57,33,34,35,36,37,38,39,40,45,12]
+            if (e.shiftKey) {
+                if (notallowkeys.includes(e.keyCode)) {
+                    e.preventDefault();
+                }
+            } else {
+                if (!(allowedkeys.includes(e.keyCode))) {
+                    e.preventDefault();
+                }
+            }
+        }
+    });
+    $('#StateNameCode').on("cut copy paste",function(e){
+        e.preventDefault();
+    });
+}
+
+if ($('#CustomerCode').length){
+    /*Alphanumeric without space*/
+    $('#CustomerCode').keydown(function (e) {
+        if (e.ctrlKey || e.altKey) {
+            e.preventDefault();
+        } else {
+            var notallowkeys = [48,49,50,51,52,53,54,55,56,57,188,190,191,59,220,221,222,219,173,61,192,111,106,109,107,46]
+            var allowedkeys  = [96,97,98,99,100,101,102,103,104,105,9,8,16,46,35,36,37,38,39,40,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,48,49,50,51,52,53,54,55,56,57,33,34,35,36,37,38,39,40,45,12]
+            if (e.shiftKey) {
+                if (notallowkeys.includes(e.keyCode)) {
+                    e.preventDefault();
+                }
+            } else {
+                if (!(allowedkeys.includes(e.keyCode))) {
+                    e.preventDefault();
+                }
+            }
+        }
+    });
+    $('#CustomerCode').on("cut copy paste",function(e){
+        e.preventDefault();
+    });
+}
+
+if ($('#ContractCode').length){
+    /*Alphanumeric without space*/
+    $('#ContractCode').keydown(function (e) {
+        if (e.ctrlKey || e.altKey) {
+            e.preventDefault();
+        } else {
+            var notallowkeys = [48,49,50,51,52,53,54,55,56,57,188,190,191,59,220,221,222,219,173,61,192,111,106,109,107,46]
+            var allowedkeys  = [96,97,98,99,100,101,102,103,104,105,9,8,16,46,35,36,37,38,39,40,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,48,49,50,51,52,53,54,55,56,57,33,34,35,36,37,38,39,40,45,12]
+            if (e.shiftKey) {
+                if (notallowkeys.includes(e.keyCode)) {
+                    e.preventDefault();
+                }
+            } else {
+                if (!(allowedkeys.includes(e.keyCode))) {
+                    e.preventDefault();
+                }
+            }
+        }
+    });
+    $('#ContractCode').on("cut copy paste",function(e){
+        e.preventDefault();
+    });
+}
+
+if ($('#ContractCode').length){
+    /*Alphanumeric without space*/
+    $('#ContractCode').keydown(function (e) {
+        if (e.ctrlKey || e.altKey) {
+            e.preventDefault();
+        } else {
+            var notallowkeys = [48,49,50,51,52,53,54,55,56,57,188,190,191,59,220,221,222,219,173,61,192,111,106,109,107,46]
+            var allowedkeys  = [96,97,98,99,100,101,102,103,104,105,9,8,16,46,35,36,37,38,39,40,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,48,49,50,51,52,53,54,55,56,57,33,34,35,36,37,38,39,40,45,12]
+            if (e.shiftKey) {
+                if (notallowkeys.includes(e.keyCode)) {
+                    e.preventDefault();
+                }
+            } else {
+                if (!(allowedkeys.includes(e.keyCode))) {
+                    e.preventDefault();
+                }
+            }
+        }
+    });
+    $('#ContractCode').on("cut copy paste",function(e){
+        e.preventDefault();
+    });
+}
+
+if ($('#ContactCode').length){
+    /*Alphanumeric without space*/
+    $('#ContactCode').keydown(function (e) {
+        if (e.ctrlKey || e.altKey) {
+            e.preventDefault();
+        } else {
+            var notallowkeys = [48,49,50,51,52,53,54,55,56,57,188,190,191,59,220,221,222,219,173,61,192,111,106,109,107,46]
+            var allowedkeys  = [96,97,98,99,100,101,102,103,104,105,9,8,16,46,35,36,37,38,39,40,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,48,49,50,51,52,53,54,55,56,57,33,34,35,36,37,38,39,40,45,12]
+            if (e.shiftKey) {
+                if (notallowkeys.includes(e.keyCode)) {
+                    e.preventDefault();
+                }
+            } else {
+                if (!(allowedkeys.includes(e.keyCode))) {
+                    e.preventDefault();
+                }
+            }
+        }
+    });
+    $('#ContactCode').on("cut copy paste",function(e){
+        e.preventDefault();
+    });
+}if ($('#ContactCode').length){
+    /*Alphanumeric without space*/
+    $('#ContactCode').keydown(function (e) {
+        if (e.ctrlKey || e.altKey) {
+            e.preventDefault();
+        } else {
+            var notallowkeys = [48,49,50,51,52,53,54,55,56,57,188,190,191,59,220,221,222,219,173,61,192,111,106,109,107,46]
+            var allowedkeys  = [96,97,98,99,100,101,102,103,104,105,9,8,16,46,35,36,37,38,39,40,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,48,49,50,51,52,53,54,55,56,57,33,34,35,36,37,38,39,40,45,12]
+            if (e.shiftKey) {
+                if (notallowkeys.includes(e.keyCode)) {
+                    e.preventDefault();
+                }
+            } else {
+                if (!(allowedkeys.includes(e.keyCode))) {
+                    e.preventDefault();
+                }
+            }
+        }
+    });
+    $('#ContactCode').on("cut copy paste",function(e){
+        e.preventDefault();
+    });
+}
+if ($('#EventCode').length){
+    /*Alphanumeric without space*/
+    $('#EventCode').keydown(function (e) {
+        if (e.ctrlKey || e.altKey) {
+            e.preventDefault();
+        } else {
+            var notallowkeys = [48,49,50,51,52,53,54,55,56,57,188,190,191,59,220,221,222,219,173,61,192,111,106,109,107,46]
+            var allowedkeys  = [96,97,98,99,100,101,102,103,104,105,9,8,16,46,35,36,37,38,39,40,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,48,49,50,51,52,53,54,55,56,57,33,34,35,36,37,38,39,40,45,12]
+            if (e.shiftKey) {
+                if (notallowkeys.includes(e.keyCode)) {
+                    e.preventDefault();
+                }
+            } else {
+                if (!(allowedkeys.includes(e.keyCode))) {
+                    e.preventDefault();
+                }
+            }
+        }
+    });
+    $('#EventCode').on("cut copy paste",function(e){
+        e.preventDefault();
+    });
+}
+if ($('#CompanyCode').length){
+    /*Alphanumeric without space*/
+    $('#CompanyCode').keydown(function (e) {
+        if (e.ctrlKey || e.altKey) {
+            e.preventDefault();
+        } else {
+            var notallowkeys = [48,49,50,51,52,53,54,55,56,57,188,190,191,59,220,221,222,219,173,61,192,111,106,109,107,46]
+            var allowedkeys  = [96,97,98,99,100,101,102,103,104,105,9,8,16,46,35,36,37,38,39,40,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,48,49,50,51,52,53,54,55,56,57,33,34,35,36,37,38,39,40,45,12]
+            if (e.shiftKey) {
+                if (notallowkeys.includes(e.keyCode)) {
+                    e.preventDefault();
+                }
+            } else {
+                if (!(allowedkeys.includes(e.keyCode))) {
+                    e.preventDefault();
+                }
+            }
+        }
+    });
+    $('#CompanyCode').on("cut copy paste",function(e){
+        e.preventDefault();
+    });
+}
+if ($('#EmployeeCode').length){
+    /*Alphanumeric without space*/
+    $('#EmployeeCode').keydown(function (e) {
+        if (e.ctrlKey || e.altKey) {
+            e.preventDefault();
+        } else {
+            var notallowkeys = [48,49,50,51,52,53,54,55,56,57,188,190,191,59,220,221,222,219,173,61,192,111,106,109,107,46]
+            var allowedkeys  = [96,97,98,99,100,101,102,103,104,105,9,8,16,46,35,36,37,38,39,40,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,48,49,50,51,52,53,54,55,56,57,33,34,35,36,37,38,39,40,45,12]
+            if (e.shiftKey) {
+                if (notallowkeys.includes(e.keyCode)) {
+                    e.preventDefault();
+                }
+            } else {
+                if (!(allowedkeys.includes(e.keyCode))) {
+                    e.preventDefault();
+                }
+            }
+        }
+    });
+    $('#EmployeeCode').on("cut copy paste",function(e){
+        e.preventDefault();
+    });
+}
+if ($('#UserCode').length){
+    /*Alphanumeric without space*/
+    $('#UserCode').keydown(function (e) {
+        if (e.ctrlKey || e.altKey) {
+            e.preventDefault();
+        } else {
+            var notallowkeys = [48,49,50,51,52,53,54,55,56,57,188,190,191,59,220,221,222,219,173,61,192,111,106,109,107,46]
+            var allowedkeys  = [96,97,98,99,100,101,102,103,104,105,9,8,16,46,35,36,37,38,39,40,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,48,49,50,51,52,53,54,55,56,57,33,34,35,36,37,38,39,40,45,12]
+            if (e.shiftKey) {
+                if (notallowkeys.includes(e.keyCode)) {
+                    e.preventDefault();
+                }
+            } else {
+                if (!(allowedkeys.includes(e.keyCode))) {
+                    e.preventDefault();
+                }
+            }
+        }
+    });
+    $('#UserCode').on("cut copy paste",function(e){
+        e.preventDefault();
+    });
+}
+if ($('#SalesmanCode').length){
+    /*Alphanumeric without space*/
+    $('#SalesmanCode').keydown(function (e) {
+        if (e.ctrlKey || e.altKey) {
+            e.preventDefault();
+        } else {
+            var notallowkeys = [48,49,50,51,52,53,54,55,56,57,188,190,191,59,220,221,222,219,173,61,192,111,106,109,107,46]
+            var allowedkeys  = [96,97,98,99,100,101,102,103,104,105,9,8,16,46,35,36,37,38,39,40,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,48,49,50,51,52,53,54,55,56,57,33,34,35,36,37,38,39,40,45,12]
+            if (e.shiftKey) {
+                if (notallowkeys.includes(e.keyCode)) {
+                    e.preventDefault();
+                }
+            } else {
+                if (!(allowedkeys.includes(e.keyCode))) {
+                    e.preventDefault();
+                }
+            }
+        }
+    });
+    $('#SalesmanCode').on("cut copy paste",function(e){
+        e.preventDefault();
+    });
+}
+if ($('#BranchCode').length){
+    /*Alphanumeric without space*/
+    $('#BranchCode').keydown(function (e) {
+        if (e.ctrlKey || e.altKey) {
+            e.preventDefault();
+        } else {
+            var notallowkeys = [48,49,50,51,52,53,54,55,56,57,188,190,191,59,220,221,222,219,173,61,192,111,106,109,107,46]
+            var allowedkeys  = [96,97,98,99,100,101,102,103,104,105,9,8,16,46,35,36,37,38,39,40,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,48,49,50,51,52,53,54,55,56,57,33,34,35,36,37,38,39,40,45,12]
+            if (e.shiftKey) {
+                if (notallowkeys.includes(e.keyCode)) {
+                    e.preventDefault();
+                }
+            } else {
+                if (!(allowedkeys.includes(e.keyCode))) {
+                    e.preventDefault();
+                }
+            }
+        }
+    });
+    $('#BranchCode').on("cut copy paste",function(e){
+        e.preventDefault();
+    });
+}
+if ($('#CustomerTypeCode').length){
+    /*Alphanumeric without space*/
+    $('#CustomerTypeCode').keydown(function (e) {
+        if (e.ctrlKey || e.altKey) {
+            e.preventDefault();
+        } else {
+            var notallowkeys = [48,49,50,51,52,53,54,55,56,57,188,190,191,59,220,221,222,219,173,61,192,111,106,109,107,46]
+            var allowedkeys  = [96,97,98,99,100,101,102,103,104,105,9,8,16,46,35,36,37,38,39,40,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,48,49,50,51,52,53,54,55,56,57,33,34,35,36,37,38,39,40,45,12]
+            if (e.shiftKey) {
+                if (notallowkeys.includes(e.keyCode)) {
+                    e.preventDefault();
+                }
+            } else {
+                if (!(allowedkeys.includes(e.keyCode))) {
+                    e.preventDefault();
+                }
+            }
+        }
+    });
+    $('#CustomerTypeCode').on("cut copy paste",function(e){
+        e.preventDefault();
+    });
+}
+if ($('#DocumentTypeCode').length){
+    /*Alphanumeric without space*/
+    $('#DocumentTypeCode').keydown(function (e) {
+        if (e.ctrlKey || e.altKey) {
+            e.preventDefault();
+        } else {
+            var notallowkeys = [48,49,50,51,52,53,54,55,56,57,188,190,191,59,220,221,222,219,173,61,192,111,106,109,107,46]
+            var allowedkeys  = [96,97,98,99,100,101,102,103,104,105,9,8,16,46,35,36,37,38,39,40,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,48,49,50,51,52,53,54,55,56,57,33,34,35,36,37,38,39,40,45,12]
+            if (e.shiftKey) {
+                if (notallowkeys.includes(e.keyCode)) {
+                    e.preventDefault();
+                }
+            } else {
+                if (!(allowedkeys.includes(e.keyCode))) {
+                    e.preventDefault();
+                }
+            }
+        }
+    });
+    $('#DocumentTypeCode').on("cut copy paste",function(e){
+        e.preventDefault();
+    });
+}
+if ($('#EmployeeCategoryCode').length){
+    /*Alphanumeric without space*/
+    $('#EmployeeCategoryCode').keydown(function (e) {
+        if (e.ctrlKey || e.altKey) {
+            e.preventDefault();
+        } else {
+            var notallowkeys = [48,49,50,51,52,53,54,55,56,57,188,190,191,59,220,221,222,219,173,61,192,111,106,109,107,46]
+            var allowedkeys  = [96,97,98,99,100,101,102,103,104,105,9,8,16,46,35,36,37,38,39,40,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,48,49,50,51,52,53,54,55,56,57,33,34,35,36,37,38,39,40,45,12]
+            if (e.shiftKey) {
+                if (notallowkeys.includes(e.keyCode)) {
+                    e.preventDefault();
+                }
+            } else {
+                if (!(allowedkeys.includes(e.keyCode))) {
+                    e.preventDefault();
+                }
+            }
+        }
+    });
+    $('#EmployeeCategoryCode').on("cut copy paste",function(e){
+        e.preventDefault();
+    });
+}
+if ($('#ExtensionCode').length){
+    /*Alphanumeric without space*/
+    $('#ExtensionCode').keydown(function (e) {
+        if (e.ctrlKey || e.altKey) {
+            e.preventDefault();
+        } else {
+            var notallowkeys = [48,49,50,51,52,53,54,55,56,57,188,190,191,59,220,221,222,219,173,61,192,111,106,109,107,46]
+            var allowedkeys  = [96,97,98,99,100,101,102,103,104,105,9,8,16,46,35,36,37,38,39,40,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,48,49,50,51,52,53,54,55,56,57,33,34,35,36,37,38,39,40,45,12]
+            if (e.shiftKey) {
+                if (notallowkeys.includes(e.keyCode)) {
+                    e.preventDefault();
+                }
+            } else {
+                if (!(allowedkeys.includes(e.keyCode))) {
+                    e.preventDefault();
+                }
+            }
+        }
+    });
+    $('#ExtensionCode').on("cut copy paste",function(e){
+        e.preventDefault();
+    });
+}
+if ($('#PaymentBankCode').length){
+    /*Alphanumeric without space*/
+    $('#PaymentBankCode').keydown(function (e) {
+        if (e.ctrlKey || e.altKey) {
+            e.preventDefault();
+        } else {
+            var notallowkeys = [48,49,50,51,52,53,54,55,56,57,188,190,191,59,220,221,222,219,173,61,192,111,106,109,107,46]
+            var allowedkeys  = [96,97,98,99,100,101,102,103,104,105,9,8,16,46,35,36,37,38,39,40,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,48,49,50,51,52,53,54,55,56,57,33,34,35,36,37,38,39,40,45,12]
+            if (e.shiftKey) {
+                if (notallowkeys.includes(e.keyCode)) {
+                    e.preventDefault();
+                }
+            } else {
+                if (!(allowedkeys.includes(e.keyCode))) {
+                    e.preventDefault();
+                }
+            }
+        }
+    });
+    $('#PaymentBankCode').on("cut copy paste",function(e){
+        e.preventDefault();
+    });
+}
+if ($('#IFSCode').length){
+    /*Alphanumeric without space*/
+    $('#IFSCode').keydown(function (e) {
+        if (e.ctrlKey || e.altKey) {
+            e.preventDefault();
+        } else {
+            var notallowkeys = [48,49,50,51,52,53,54,55,56,57,188,190,191,59,220,221,222,219,173,61,192,111,106,109,107,46]
+            var allowedkeys  = [96,97,98,99,100,101,102,103,104,105,9,8,16,46,35,36,37,38,39,40,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,48,49,50,51,52,53,54,55,56,57,33,34,35,36,37,38,39,40,45,12]
+            if (e.shiftKey) {
+                if (notallowkeys.includes(e.keyCode)) {
+                    e.preventDefault();
+                }
+            } else {
+                if (!(allowedkeys.includes(e.keyCode))) {
+                    e.preventDefault();
+                }
+            }
+        }
+    });
+    $('#IFSCode').on("cut copy paste",function(e){
+        e.preventDefault();
+    });
+}
+if ($('#editIFSCode').length){
+    /*Alphanumeric without space*/
+    $('#editIFSCode').keydown(function (e) {
+        if (e.ctrlKey || e.altKey) {
+            e.preventDefault();
+        } else {
+            var notallowkeys = [48,49,50,51,52,53,54,55,56,57,188,190,191,59,220,221,222,219,173,61,192,111,106,109,107,46]
+            var allowedkeys  = [96,97,98,99,100,101,102,103,104,105,9,8,16,46,35,36,37,38,39,40,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,48,49,50,51,52,53,54,55,56,57,33,34,35,36,37,38,39,40,45,12]
+            if (e.shiftKey) {
+                if (notallowkeys.includes(e.keyCode)) {
+                    e.preventDefault();
+                }
+            } else {
+                if (!(allowedkeys.includes(e.keyCode))) {
+                    e.preventDefault();
+                }
+            }
+        }
+    });
+    $('#editIFSCode').on("cut copy paste",function(e){
+        e.preventDefault();
+    });
+}
+if ($('#PaymentModeCode').length){
+    /*Alphanumeric without space*/
+    $('#PaymentModeCode').keydown(function (e) {
+        if (e.ctrlKey || e.altKey) {
+            e.preventDefault();
+        } else {
+            var notallowkeys = [48,49,50,51,52,53,54,55,56,57,188,190,191,59,220,221,222,219,173,61,192,111,106,109,107,46]
+            var allowedkeys  = [96,97,98,99,100,101,102,103,104,105,9,8,16,46,35,36,37,38,39,40,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,48,49,50,51,52,53,54,55,56,57,33,34,35,36,37,38,39,40,45,12]
+            if (e.shiftKey) {
+                if (notallowkeys.includes(e.keyCode)) {
+                    e.preventDefault();
+                }
+            } else {
+                if (!(allowedkeys.includes(e.keyCode))) {
+                    e.preventDefault();
+                }
+            }
+        }
+    });
+    $('#PaymentModeCode').on("cut copy paste",function(e){
+        e.preventDefault();
+    });
+}
+if ($('#RelationNameCode').length){
+    /*Alphanumeric without space*/
+    $('#RelationNameCode').keydown(function (e) {
+        if (e.ctrlKey || e.altKey) {
+            e.preventDefault();
+        } else {
+            var notallowkeys = [48,49,50,51,52,53,54,55,56,57,188,190,191,59,220,221,222,219,173,61,192,111,106,109,107,46]
+            var allowedkeys  = [96,97,98,99,100,101,102,103,104,105,9,8,16,46,35,36,37,38,39,40,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,48,49,50,51,52,53,54,55,56,57,33,34,35,36,37,38,39,40,45,12]
+            if (e.shiftKey) {
+                if (notallowkeys.includes(e.keyCode)) {
+                    e.preventDefault();
+                }
+            } else {
+                if (!(allowedkeys.includes(e.keyCode))) {
+                    e.preventDefault();
+                }
+            }
+        }
+    });
+    $('#RelationNameCode').on("cut copy paste",function(e){
+        e.preventDefault();
+    });  
+    
+}
+if ($('#SchemeCode').length){
+    /*Alphanumeric without space*/
+    $('#SchemeCode').keydown(function (e) {
+        if (e.ctrlKey || e.altKey) {
+            e.preventDefault();
+        } else {
+            var notallowkeys = [48,49,50,51,52,53,54,55,56,57,188,190,191,59,220,221,222,219,173,61,192,111,106,109,107,46]
+            var allowedkeys  = [96,97,98,99,100,101,102,103,104,105,9,8,16,46,35,36,37,38,39,40,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,48,49,50,51,52,53,54,55,56,57,33,34,35,36,37,38,39,40,45,12]
+            if (e.shiftKey) {
+                if (notallowkeys.includes(e.keyCode)) {
+                    e.preventDefault();
+                }
+            } else {
+                if (!(allowedkeys.includes(e.keyCode))) {
+                    e.preventDefault();
+                }
+            }
+        }
+    });
+    $('#SchemeCode').on("cut copy paste",function(e){
+        e.preventDefault();
+    });
+}
+if ($('#UserRoleCode').length){
+    /*Alphanumeric without space*/
+    $('#UserRoleCode').keydown(function (e) {
+        if (e.ctrlKey || e.altKey) {
+            e.preventDefault();
+        } else {
+            var notallowkeys = [48,49,50,51,52,53,54,55,56,57,188,190,191,59,220,221,222,219,173,61,192,111,106,109,107,46]
+            var allowedkeys  = [96,97,98,99,100,101,102,103,104,105,9,8,16,46,35,36,37,38,39,40,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,48,49,50,51,52,53,54,55,56,57,33,34,35,36,37,38,39,40,45,12]
+            if (e.shiftKey) {
+                if (notallowkeys.includes(e.keyCode)) {
+                    e.preventDefault();
+                }
+            } else {
+                if (!(allowedkeys.includes(e.keyCode))) {
+                    e.preventDefault();
+                }
+            }
+        }
+    });
+    $('#UserRoleCode').on("cut copy paste",function(e){
+        e.preventDefault();
+    });
+}
+if ($('#CustomerName').length){
+/*Alphabets with space and dot  */
+    $('#CustomerName').keydown(function (e) {
+        if (e.ctrlKey || e.altKey) {
+            e.preventDefault();
+        } else {
+            var notallowkeys = [48,49,50,51,52,53,54,55,56,57,188,190,191,59,220,221,222,219,173,61,192,111,106,109,107,46,103,104,105,100,101,102,97,98,99,96,188,190,191,59,222,220,219,221,173,61,192,111,106,109,107,46]
+            var allowedkeys  = [9,8,32,46,35,36,37,38,39,40,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,110,190]
+            if (e.shiftKey) {
+                if (notallowkeys.includes(e.keyCode)) {
+                    e.preventDefault();
+                }
+            } else {
+                if (!(allowedkeys.includes(e.keyCode))) {
+                    e.preventDefault();
+                }
+            }
+        }
+    }); 
+    $('#CustomerName').on("cut copy paste",function(e){
+        e.preventDefault();
+    }); 
+}
+
+
+if ($('#EmployeeName').length){
+/*Alphabets with space and dot  */
+    $('#EmployeeName').keydown(function (e) {
+        if (e.ctrlKey || e.altKey) {
+            e.preventDefault();
+        } else {
+            var notallowkeys = [48,49,50,51,52,53,54,55,56,57,188,190,191,59,220,221,222,219,173,61,192,111,106,109,107,46,103,104,105,100,101,102,97,98,99,96,188,190,191,59,222,220,219,221,173,61,192,111,106,109,107,46]
+            var allowedkeys  = [9,8,32,46,35,36,37,38,39,40,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,110,190]
+            if (e.shiftKey) {
+                if (notallowkeys.includes(e.keyCode)) {
+                    e.preventDefault();
+                }
+            } else {
+                if (!(allowedkeys.includes(e.keyCode))) {
+                    e.preventDefault();
+                }
+            }
+        }
+    }); 
+    $('#EmployeeName').on("cut copy paste",function(e){
+        e.preventDefault();
+    }); 
+} 
+if ($('#SalesmanName').length){
+/*Alphabets with space and dot  */
+    $('#SalesmanName').keydown(function (e) {
+        if (e.ctrlKey || e.altKey) {
+            e.preventDefault();
+        } else {
+            var notallowkeys = [48,49,50,51,52,53,54,55,56,57,188,190,191,59,220,221,222,219,173,61,192,111,106,109,107,46,103,104,105,100,101,102,97,98,99,96,188,190,191,59,222,220,219,221,173,61,192,111,106,109,107,46]
+            var allowedkeys  = [9,8,32,46,35,36,37,38,39,40,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,110,190]
+            if (e.shiftKey) {
+                if (notallowkeys.includes(e.keyCode)) {
+                    e.preventDefault();
+                }
+            } else {
+                if (!(allowedkeys.includes(e.keyCode))) {
+                    e.preventDefault();
+                }
+            }
+        }
+    });
+    $('#SalesmanName').on("cut copy paste",function(e){
+        e.preventDefault();
+    });  
+}
+ if ($('#UserName').length){
+/*Alphabets with space and dot  */
+    $('#UserName').keydown(function (e) {
+        if (e.ctrlKey || e.altKey) {
+            e.preventDefault();
+        } else {
+            var notallowkeys = [48,49,50,51,52,53,54,55,56,57,188,190,191,59,220,221,222,219,173,61,192,111,106,109,107,46,103,104,105,100,101,102,97,98,99,96,188,190,191,59,222,220,219,221,173,61,192,111,106,109,107,46]
+            var allowedkeys  = [9,8,32,46,35,36,37,38,39,40,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,110,190]
+            if (e.shiftKey) {
+                if (notallowkeys.includes(e.keyCode)) {
+                    e.preventDefault();
+                }
+            } else {
+                if (!(allowedkeys.includes(e.keyCode))) {
+                    e.preventDefault();
+                }
+            }
+        }
+    });
+    $('#UserName').on("cut copy paste",function(e){
+        e.preventDefault();
+    });  
+} 
+ if ($('#ContactPersonName').length){
+/*Alphabets with space and dot  */
+    $('#ContactPersonName').keydown(function (e) {
+        if (e.ctrlKey || e.altKey) {
+            e.preventDefault();
+        } else {
+            var notallowkeys = [48,49,50,51,52,53,54,55,56,57,188,190,191,59,220,221,222,219,173,61,192,111,106,109,107,46,103,104,105,100,101,102,97,98,99,96,188,190,191,59,222,220,219,221,173,61,192,111,106,109,107,46]
+            var allowedkeys  = [9,8,32,46,35,36,37,38,39,40,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,110,190]
+            if (e.shiftKey) {
+                if (notallowkeys.includes(e.keyCode)) {
+                    e.preventDefault();
+                }
+            } else {
+                if (!(allowedkeys.includes(e.keyCode))) {
+                    e.preventDefault();
+                }
+            }
+        }
+    });
+    $('#ContactPersonName').on("cut copy paste",function(e){
+        e.preventDefault();
+    });  
+} 
+if ($('#CompanyName').length){
+/*Alphabets with space and dot  */
+    $('#CompanyName').keydown(function (e) {
+        if (e.ctrlKey || e.altKey) {
+            e.preventDefault();
+        } else {
+            var notallowkeys = [48,49,50,51,52,53,54,55,56,57,188,190,191,59,220,221,222,219,173,61,192,111,106,109,107,46,103,104,105,100,101,102,97,98,99,96,188,190,191,59,222,220,219,221,173,61,192,111,106,109,107,46]
+            var allowedkeys  = [9,8,32,46,35,36,37,38,39,40,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,110,190]
+            if (e.shiftKey) {
+                if (notallowkeys.includes(e.keyCode)) {
+                    e.preventDefault();
+                }
+            } else {
+                if (!(allowedkeys.includes(e.keyCode))) {
+                    e.preventDefault();
+                }
+            }
+        }
+    });
+    $('#CompanyName').on("cut copy paste",function(e){
+        e.preventDefault();
+    });  
+} 
+if ($('#EventTitle').length){
+/*Alphabets with space and dot  */
+    $('#EventTitle').keydown(function (e) {
+        if (e.ctrlKey || e.altKey) {
+            e.preventDefault();
+        } else {
+            var notallowkeys = [48,49,50,51,52,53,54,55,56,57,188,190,191,59,220,221,222,219,173,61,192,111,106,109,107,46,103,104,105,100,101,102,97,98,99,96,188,190,191,59,222,220,219,221,173,61,192,111,106,109,107,46]
+            var allowedkeys  = [9,8,32,46,35,36,37,38,39,40,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,110,190]
+            if (e.shiftKey) {
+                if (notallowkeys.includes(e.keyCode)) {
+                    e.preventDefault();
+                }
+            } else {
+                if (!(allowedkeys.includes(e.keyCode))) {
+                    e.preventDefault();
+                }
+            }
+        }
+    });
+    $('#EventTitle').on("cut copy paste",function(e){
+        e.preventDefault();
+    });  
+} 
+    
+  if ($('#FatherName').length){   
+    /*Alphabets with space and dot  */
+    $('#FatherName').keydown(function (e) {
+        if (e.ctrlKey || e.altKey) {
+            e.preventDefault();
+        } else {
+            var notallowkeys = [48,49,50,51,52,53,54,55,56,57,188,190,191,59,220,221,222,219,173,61,192,111,106,109,107,46,103,104,105,100,101,102,97,98,99,96,188,190,191,59,222,220,219,221,173,61,192,111,106,109,107,46]
+            var allowedkeys  = [9,8,32,46,35,36,37,38,39,40,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,110,190]
+            if (e.shiftKey) {
+                if (notallowkeys.includes(e.keyCode)) {
+                    e.preventDefault();
+                }
+            } else {
+                if (!(allowedkeys.includes(e.keyCode))) {
+                    e.preventDefault();
+                }
+            }
+        }
+    });
+     $('#FatherName').on("cut copy paste",function(e){
+        e.preventDefault();
+    });
+  }  
+  if ($('#LoginUserName').length){
+    /*Alphanumeric without space*/
+    $('#LoginUserName').keydown(function (e) {
+        if (e.ctrlKey || e.altKey) {
+            e.preventDefault();
+        } else {
+            var notallowkeys = [48,49,50,51,52,53,54,55,56,57,188,190,191,59,220,221,222,219,173,61,192,111,106,109,107,46]
+            var allowedkeys  = [96,97,98,99,100,101,102,103,104,105,9,8,16,46,35,36,37,38,39,40,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,48,49,50,51,52,53,54,55,56,57,33,34,35,36,37,38,39,40,45,12]
+            if (e.shiftKey) {
+                if (notallowkeys.includes(e.keyCode)) {
+                    e.preventDefault();
+                }
+            } else {
+                if (!(allowedkeys.includes(e.keyCode))) {
+                    e.preventDefault();
+                }
+            }
+        }
+    });
+    $('#LoginUserName').on("cut copy paste",function(e){
+        e.preventDefault();
+    });
+}
+
+ if ($('#AreaName').length){
+/* Alphabets with space*/
+   $('#AreaName').keydown(function (e) {
+        if (e.ctrlKey || e.altKey) {
+            e.preventDefault();
+        } else {
+            var notallowkeys = [48,49,50,51,52,53,54,55,56,57,188,190,191,59,220,221,222,219,173,61,192,111,106,109,107,46,103,104,105,100,101,102,97,98,99,96,110,190]
+            var allowedkeys  = [9,8,32,46,35,36,37,38,39,40,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90]
+            if (e.shiftKey) {
+                if (notallowkeys.includes(e.keyCode)) {
+                    e.preventDefault();
+                }
+            } else {
+                if (!(allowedkeys.includes(e.keyCode))) {
+                    e.preventDefault();
+                }
+            }
+        }
+    });
+    $('#AreaName').on("cut copy paste",function(e){
+        e.preventDefault();
+    });
+ }
+  if ($('#editAreaName').length){
+/* Alphabets with space*/
+   $('#editAreaName').keydown(function (e) {
+        if (e.ctrlKey || e.altKey) {
+            e.preventDefault();
+        } else {
+            var notallowkeys = [48,49,50,51,52,53,54,55,56,57,188,190,191,59,220,221,222,219,173,61,192,111,106,109,107,46,103,104,105,100,101,102,97,98,99,96,110,190]
+            var allowedkeys  = [9,8,32,46,35,36,37,38,39,40,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90]
+            if (e.shiftKey) {
+                if (notallowkeys.includes(e.keyCode)) {
+                    e.preventDefault();
+                }
+            } else {
+                if (!(allowedkeys.includes(e.keyCode))) {
+                    e.preventDefault();
+                }
+            }
+        }
+    });
+    $('#editAreaName').on("cut copy paste",function(e){
+        e.preventDefault();
+    });
+ } 
+ if ($('#BranchName').length){
+/* Alphabets with space*/
+   $('#BranchName').keydown(function (e) {
+        if (e.ctrlKey || e.altKey) {
+            e.preventDefault();
+        } else {
+            var notallowkeys = [48,49,50,51,52,53,54,55,56,57,188,190,191,59,220,221,222,219,173,61,192,111,106,109,107,46,103,104,105,100,101,102,97,98,99,96,110,190]
+            var allowedkeys  = [9,8,32,46,35,36,37,38,39,40,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90]
+            if (e.shiftKey) {
+                if (notallowkeys.includes(e.keyCode)) {
+                    e.preventDefault();
+                }
+            } else {
+                if (!(allowedkeys.includes(e.keyCode))) {
+                    e.preventDefault();
+                }
+            }
+        }
+    });
+    $('#BranchName').on("cut copy paste",function(e){
+        e.preventDefault();
+    });
+ } 
+ if ($('#CustomerTypeName').length){
+/* Alphabets with space*/
+   $('#CustomerTypeName').keydown(function (e) {
+        if (e.ctrlKey || e.altKey) {
+            e.preventDefault();
+        } else {
+            var notallowkeys = [48,49,50,51,52,53,54,55,56,57,188,190,191,59,220,221,222,219,173,61,192,111,106,109,107,46,103,104,105,100,101,102,97,98,99,96,110,190]
+            var allowedkeys  = [9,8,32,46,35,36,37,38,39,40,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90]
+            if (e.shiftKey) {
+                if (notallowkeys.includes(e.keyCode)) {
+                    e.preventDefault();
+                }
+            } else {
+                if (!(allowedkeys.includes(e.keyCode))) {
+                    e.preventDefault();
+                }
+            }
+        }
+    });
+    $('#CustomerTypeName').on("cut copy paste",function(e){
+        e.preventDefault();
+    });
+ }
+ if ($('#editCustomerTypeName').length){
+/* Alphabets with space*/
+   $('#editCustomerTypeName').keydown(function (e) {
+        if (e.ctrlKey || e.altKey) {
+            e.preventDefault();
+        } else {
+            var notallowkeys = [48,49,50,51,52,53,54,55,56,57,188,190,191,59,220,221,222,219,173,61,192,111,106,109,107,46,103,104,105,100,101,102,97,98,99,96,110,190]
+            var allowedkeys  = [9,8,32,46,35,36,37,38,39,40,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90]
+            if (e.shiftKey) {
+                if (notallowkeys.includes(e.keyCode)) {
+                    e.preventDefault();
+                }
+            } else {
+                if (!(allowedkeys.includes(e.keyCode))) {
+                    e.preventDefault();
+                }
+            }
+        }
+    });
+    $('#editCustomerTypeName').on("cut copy paste",function(e){
+        e.preventDefault();
+    });
+ } 
+
+  if ($('#DistrictName').length){
+/* Alphabets with space*/
+   $('#DistrictName').keydown(function (e) {
+        if (e.ctrlKey || e.altKey) {
+            e.preventDefault();
+        } else {
+            var notallowkeys = [48,49,50,51,52,53,54,55,56,57,188,190,191,59,220,221,222,219,173,61,192,111,106,109,107,46,103,104,105,100,101,102,97,98,99,96,110,190]
+            var allowedkeys  = [9,8,32,46,35,36,37,38,39,40,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90]
+            if (e.shiftKey) {
+                if (notallowkeys.includes(e.keyCode)) {
+                    e.preventDefault();
+                }
+            } else {
+                if (!(allowedkeys.includes(e.keyCode))) {
+                    e.preventDefault();
+                }
+            }
+        }
+    });
+    $('#DistrictName').on("cut copy paste",function(e){
+        e.preventDefault();
+    });
+ } 
+ if ($('#editDistrictName').length){
+/* Alphabets with space*/
+   $('#editDistrictName').keydown(function (e) {
+        if (e.ctrlKey || e.altKey) {
+            e.preventDefault();
+        } else {
+            var notallowkeys = [48,49,50,51,52,53,54,55,56,57,188,190,191,59,220,221,222,219,173,61,192,111,106,109,107,46,103,104,105,100,101,102,97,98,99,96,110,190]
+            var allowedkeys  = [9,8,32,46,35,36,37,38,39,40,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90]
+            if (e.shiftKey) {
+                if (notallowkeys.includes(e.keyCode)) {
+                    e.preventDefault();
+                }
+            } else {
+                if (!(allowedkeys.includes(e.keyCode))) {
+                    e.preventDefault();
+                }
+            }
+        }
+    });
+    $('#editDistrictName').on("cut copy paste",function(e){
+        e.preventDefault();
+    });
+ }
+ if ($('#DocumentTypeName').length){
+/* Alphabets with space*/
+   $('#DocumentTypeName').keydown(function (e) {
+        if (e.ctrlKey || e.altKey) {
+            e.preventDefault();
+        } else {
+            var notallowkeys = [48,49,50,51,52,53,54,55,56,57,188,190,191,59,220,221,222,219,173,61,192,111,106,109,107,46,103,104,105,100,101,102,97,98,99,96,110,190]
+            var allowedkeys  = [9,8,32,46,35,36,37,38,39,40,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90]
+            if (e.shiftKey) {
+                if (notallowkeys.includes(e.keyCode)) {
+                    e.preventDefault();
+                }
+            } else {
+                if (!(allowedkeys.includes(e.keyCode))) {
+                    e.preventDefault();
+                }
+            }
+        }
+    });
+    $('#DocumentTypeName').on("cut copy paste",function(e){
+        e.preventDefault();
+    });
+ } 
+ if ($('#editDocumentTypeName').length){
+/* Alphabets with space*/
+   $('#editDocumentTypeName').keydown(function (e) {
+        if (e.ctrlKey || e.altKey) {
+            e.preventDefault();
+        } else {
+            var notallowkeys = [48,49,50,51,52,53,54,55,56,57,188,190,191,59,220,221,222,219,173,61,192,111,106,109,107,46,103,104,105,100,101,102,97,98,99,96,110,190]
+            var allowedkeys  = [9,8,32,46,35,36,37,38,39,40,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90]
+            if (e.shiftKey) {
+                if (notallowkeys.includes(e.keyCode)) {
+                    e.preventDefault();
+                }
+            } else {
+                if (!(allowedkeys.includes(e.keyCode))) {
+                    e.preventDefault();
+                }
+            }
+        }
+    });
+    $('#editDocumentTypeName').on("cut copy paste",function(e){
+        e.preventDefault();
+    });
+ }
+  if ($('#EmployeeCategoryTitle').length){
+/* Alphabets with space*/
+   $('#EmployeeCategoryTitle').keydown(function (e) {
+        if (e.ctrlKey || e.altKey) {
+            e.preventDefault();
+        } else {
+            var notallowkeys = [48,49,50,51,52,53,54,55,56,57,188,190,191,59,220,221,222,219,173,61,192,111,106,109,107,46,103,104,105,100,101,102,97,98,99,96,110,190]
+            var allowedkeys  = [9,8,32,46,35,36,37,38,39,40,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90]
+            if (e.shiftKey) {
+                if (notallowkeys.includes(e.keyCode)) {
+                    e.preventDefault();
+                }
+            } else {
+                if (!(allowedkeys.includes(e.keyCode))) {
+                    e.preventDefault();
+                }
+            }
+        }
+    });
+    $('#EmployeeCategoryTitle').on("cut copy paste",function(e){
+        e.preventDefault();
+    });
+ }
+ if ($('#editEmployeeCategoryTitle').length){
+/* Alphabets with space*/
+   $('#editEmployeeCategoryTitle').keydown(function (e) {
+        if (e.ctrlKey || e.altKey) {
+            e.preventDefault();
+        } else {
+            var notallowkeys = [48,49,50,51,52,53,54,55,56,57,188,190,191,59,220,221,222,219,173,61,192,111,106,109,107,46,103,104,105,100,101,102,97,98,99,96,110,190]
+            var allowedkeys  = [9,8,32,46,35,36,37,38,39,40,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90]
+            if (e.shiftKey) {
+                if (notallowkeys.includes(e.keyCode)) {
+                    e.preventDefault();
+                }
+            } else {
+                if (!(allowedkeys.includes(e.keyCode))) {
+                    e.preventDefault();
+                }
+            }
+        }
+    });
+    $('#editEmployeeCategoryTitle').on("cut copy paste",function(e){
+        e.preventDefault();
+    });
+ } 
+ if ($('#FileExtension').length){
+/* Alphabets without space*/
+   $('#FileExtension').keydown(function (e) {
+        if (e.ctrlKey || e.altKey) {
+            e.preventDefault();
+        } else {
+            var notallowkeys = [32,188,190,191,59,220,221,222,219,173,61,192,111,106,109,107,46,188,190,191,59,222,220,219,221,173,61,192,111,106,109,107,46,110,190]
+            var allowedkeys  = [9,8,46,48,49,50,51,52,53,54,55,56,57,35,36,37,38,39,40,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,103,104,105,100,101,102,97,98,99,96,]
+            if (e.shiftKey) {
+                if (notallowkeys.includes(e.keyCode)) {
+                    e.preventDefault();
+                }
+            } else {
+                if (!(allowedkeys.includes(e.keyCode))) {
+                    e.preventDefault();
+                }
+            }
+        }
+    });
+    $('#FileExtension').on("cut copy paste",function(e){
+        e.preventDefault();
+    });
+ }
+ if ($('#editFileExtension').length){
+/* Alphabets without space*/
+   $('#editFileExtension').keydown(function (e) {
+        if (e.ctrlKey || e.altKey) {
+            e.preventDefault();
+        } else {
+            var notallowkeys = [32,188,190,191,59,220,221,222,219,173,61,192,111,106,109,107,46,188,190,191,59,222,220,219,221,173,61,192,111,106,109,107,46,110,190]
+            var allowedkeys  = [9,8,46,48,49,50,51,52,53,54,55,56,57,35,36,37,38,39,40,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,103,104,105,100,101,102,97,98,99,96,]
+            if (e.shiftKey) {
+                if (notallowkeys.includes(e.keyCode)) {
+                    e.preventDefault();
+                }
+            } else {
+                if (!(allowedkeys.includes(e.keyCode))) {
+                    e.preventDefault();
+                }
+            }
+        }
+    });
+    $('#editFileExtension').on("cut copy paste",function(e){
+        e.preventDefault();
+    });
+ }
+ if ($('#BankName').length){
+/* Alphabets with space*/
+   $('#BankName').keydown(function (e) {
+        if (e.ctrlKey || e.altKey) {
+            e.preventDefault();
+        } else {
+            var notallowkeys = [48,49,50,51,52,53,54,55,56,57,188,190,191,59,220,221,222,219,173,61,192,111,106,109,107,46,103,104,105,100,101,102,97,98,99,96,110,190]
+            var allowedkeys  = [9,8,32,46,35,36,37,38,39,40,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90]
+            if (e.shiftKey) {
+                if (notallowkeys.includes(e.keyCode)) {
+                    e.preventDefault();
+                }
+            } else {
+                if (!(allowedkeys.includes(e.keyCode))) {
+                    e.preventDefault();
+                }
+            }
+        }
+    });
+    $('#BankName').on("cut copy paste",function(e){
+        e.preventDefault();
+    });
+ }
+  if ($('#editBankName').length){
+/* Alphabets with space*/
+   $('#editBankName').keydown(function (e) {
+        if (e.ctrlKey || e.altKey) {
+            e.preventDefault();
+        } else {
+            var notallowkeys = [48,49,50,51,52,53,54,55,56,57,188,190,191,59,220,221,222,219,173,61,192,111,106,109,107,46,103,104,105,100,101,102,97,98,99,96,110,190]
+            var allowedkeys  = [9,8,32,46,35,36,37,38,39,40,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90]
+            if (e.shiftKey) {
+                if (notallowkeys.includes(e.keyCode)) {
+                    e.preventDefault();
+                }
+            } else {
+                if (!(allowedkeys.includes(e.keyCode))) {
+                    e.preventDefault();
+                }
+            }
+        }
+    });
+    $('#editBankName').on("cut copy paste",function(e){
+        e.preventDefault();
+    });
+ }
+   if ($('#AccountHolderName').length){
+/* Alphabets with space*/
+   $('#AccountHolderName').keydown(function (e) {
+        if (e.ctrlKey || e.altKey) {
+            e.preventDefault();
+        } else {
+            var notallowkeys = [48,49,50,51,52,53,54,55,56,57,188,190,191,59,220,221,222,219,173,61,192,111,106,109,107,46,103,104,105,100,101,102,97,98,99,96,110,190]
+            var allowedkeys  = [9,8,32,46,35,36,37,38,39,40,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90]
+            if (e.shiftKey) {
+                if (notallowkeys.includes(e.keyCode)) {
+                    e.preventDefault();
+                }
+            } else {
+                if (!(allowedkeys.includes(e.keyCode))) {
+                    e.preventDefault();
+                }
+            }
+        }
+    });
+    $('#AccountHolderName').on("cut copy paste",function(e){
+        e.preventDefault();
+    });
+ }
+   if ($('#editAccountHolderName').length){
+/* Alphabets with space*/
+   $('#editAccountHolderName').keydown(function (e) {
+        if (e.ctrlKey || e.altKey) {
+            e.preventDefault();
+        } else {
+            var notallowkeys = [48,49,50,51,52,53,54,55,56,57,188,190,191,59,220,221,222,219,173,61,192,111,106,109,107,46,103,104,105,100,101,102,97,98,99,96,110,190]
+            var allowedkeys  = [9,8,32,46,35,36,37,38,39,40,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90]
+            if (e.shiftKey) {
+                if (notallowkeys.includes(e.keyCode)) {
+                    e.preventDefault();
+                }
+            } else {
+                if (!(allowedkeys.includes(e.keyCode))) {
+                    e.preventDefault();
+                }
+            }
+        }
+    });
+    $('#editAccountHolderName').on("cut copy paste",function(e){
+        e.preventDefault();
+    });
+ }
+ if ($('#Branch').length){
+/* Alphabets with space*/
+   $('#Branch').keydown(function (e) {
+        if (e.ctrlKey || e.altKey) {
+            e.preventDefault();
+        } else {
+            var notallowkeys = [48,49,50,51,52,53,54,55,56,57,188,190,191,59,220,221,222,219,173,61,192,111,106,109,107,46,103,104,105,100,101,102,97,98,99,96,110,190]
+            var allowedkeys  = [9,8,32,46,35,36,37,38,39,40,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90]
+            if (e.shiftKey) {
+                if (notallowkeys.includes(e.keyCode)) {
+                    e.preventDefault();
+                }
+            } else {
+                if (!(allowedkeys.includes(e.keyCode))) {
+                    e.preventDefault();
+                }
+            }
+        }
+    });
+    $('#Branch').on("cut copy paste",function(e){
+        e.preventDefault();
+    });
+ }
+ if ($('#editBranch').length){
+/* Alphabets with space*/
+   $('#editBranch').keydown(function (e) {
+        if (e.ctrlKey || e.altKey) {
+            e.preventDefault();
+        } else {
+            var notallowkeys = [48,49,50,51,52,53,54,55,56,57,188,190,191,59,220,221,222,219,173,61,192,111,106,109,107,46,103,104,105,100,101,102,97,98,99,96,110,190]
+            var allowedkeys  = [9,8,32,46,35,36,37,38,39,40,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90]
+            if (e.shiftKey) {
+                if (notallowkeys.includes(e.keyCode)) {
+                    e.preventDefault();
+                }
+            } else {
+                if (!(allowedkeys.includes(e.keyCode))) {
+                    e.preventDefault();
+                }
+            }
+        }
+    });
+    $('#editBranch').on("cut copy paste",function(e){
+        e.preventDefault();
+    });
+ } 
+ if ($('#AccountNumber').length){
+/* Numbers without space*/
+   $('#AccountNumber').keydown(function (e) {
+        if (e.ctrlKey || e.altKey) {
+            e.preventDefault();
+        } else {
+            var notallowkeys = [48,49,50,51,52,53,54,55,56,57,16,188,190,191,59,222,220,219,221,173,61,192,111,106,109,107,46,110,190,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90]
+            var allowedkeys  = [9,8,46,35,36,37,38,39,40,48,49,50,51,52,53,54,55,56,57,103,104,105,100,101,102,97,98,99,96]
+            if (e.shiftKey) {
+                if (notallowkeys.includes(e.keyCode)) {
+                    e.preventDefault();
+                }
+            } else {
+                if (!(allowedkeys.includes(e.keyCode))) {
+                    e.preventDefault();
+                }
+            }
+        }
+    });
+    $('#AccountNumber').on("cut copy paste",function(e){
+        e.preventDefault();
+    });
+ } 
+ if ($('#editAccountNumber').length){
+/* Numbers without space*/
+   $('#editAccountNumber').keydown(function (e) {
+        if (e.ctrlKey || e.altKey) {
+            e.preventDefault();
+        } else {
+            var notallowkeys = [48,49,50,51,52,53,54,55,56,57,16,188,190,191,59,222,220,219,221,173,61,192,111,106,109,107,46,110,190,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90]
+            var allowedkeys  = [9,8,46,35,36,37,38,39,40,48,49,50,51,52,53,54,55,56,57,103,104,105,100,101,102,97,98,99,96]
+            if (e.shiftKey) {
+                if (notallowkeys.includes(e.keyCode)) {
+                    e.preventDefault();
+                }
+            } else {
+                if (!(allowedkeys.includes(e.keyCode))) {
+                    e.preventDefault();
+                }
+            }
+        }
+    });
+    $('#editAccountNumber').on("cut copy paste",function(e){
+        e.preventDefault();
+    });
+ } 
+  if ($('#PaymentMode').length){
+/* Alphabets with space*/
+   $('#PaymentMode').keydown(function (e) {
+        if (e.ctrlKey || e.altKey) {
+            e.preventDefault();
+        } else {
+            var notallowkeys = [48,49,50,51,52,53,54,55,56,57,188,190,191,59,220,221,222,219,173,61,192,111,106,109,107,46,103,104,105,100,101,102,97,98,99,96,110,190]
+            var allowedkeys  = [9,8,32,46,35,36,37,38,39,40,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90]
+            if (e.shiftKey) {
+                if (notallowkeys.includes(e.keyCode)) {
+                    e.preventDefault();
+                }
+            } else {
+                if (!(allowedkeys.includes(e.keyCode))) {
+                    e.preventDefault();
+                }
+            }
+        }
+    });
+    $('#PaymentMode').on("cut copy paste",function(e){
+        e.preventDefault();
+    });
+ } 
+ if ($('#editPaymentMode').length){
+/* Alphabets with space*/
+   $('#editPaymentMode').keydown(function (e) {
+        if (e.ctrlKey || e.altKey) {
+            e.preventDefault();
+        } else {
+            var notallowkeys = [48,49,50,51,52,53,54,55,56,57,188,190,191,59,220,221,222,219,173,61,192,111,106,109,107,46,103,104,105,100,101,102,97,98,99,96,110,190]
+            var allowedkeys  = [9,8,32,46,35,36,37,38,39,40,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90]
+            if (e.shiftKey) {
+                if (notallowkeys.includes(e.keyCode)) {
+                    e.preventDefault();
+                }
+            } else {
+                if (!(allowedkeys.includes(e.keyCode))) {
+                    e.preventDefault();
+                }
+            }
+        }
+    });
+    $('#editPaymentMode').on("cut copy paste",function(e){
+        e.preventDefault();
+    });
+ }
+ if ($('#LinkedBank').length){
+/* Alphabets with space*/
+   $('#LinkedBank').keydown(function (e) {
+        if (e.ctrlKey || e.altKey) {
+            e.preventDefault();
+        } else {
+            var notallowkeys = [48,49,50,51,52,53,54,55,56,57,188,190,191,59,220,221,222,219,173,61,192,111,106,109,107,46,103,104,105,100,101,102,97,98,99,96,110,190]
+            var allowedkeys  = [9,8,32,46,35,36,37,38,39,40,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90]
+            if (e.shiftKey) {
+                if (notallowkeys.includes(e.keyCode)) {
+                    e.preventDefault();
+                }
+            } else {
+                if (!(allowedkeys.includes(e.keyCode))) {
+                    e.preventDefault();
+                }
+            }
+        }
+    });
+    $('#LinkedBank').on("cut copy paste",function(e){
+        e.preventDefault();
+    });
+ } 
+ if ($('#editLinkedBank').length){
+/* Alphabets with space*/
+   $('#editLinkedBank').keydown(function (e) {
+        if (e.ctrlKey || e.altKey) {
+            e.preventDefault();
+        } else {
+            var notallowkeys = [48,49,50,51,52,53,54,55,56,57,188,190,191,59,220,221,222,219,173,61,192,111,106,109,107,46,103,104,105,100,101,102,97,98,99,96,110,190]
+            var allowedkeys  = [9,8,32,46,35,36,37,38,39,40,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90]
+            if (e.shiftKey) {
+                if (notallowkeys.includes(e.keyCode)) {
+                    e.preventDefault();
+                }
+            } else {
+                if (!(allowedkeys.includes(e.keyCode))) {
+                    e.preventDefault();
+                }
+            }
+        }
+    });
+    $('#editLinkedBank').on("cut copy paste",function(e){
+        e.preventDefault();
+    });
+ }
+ if ($('#RelationName').length){
+/* Alphabets with space*/
+   $('#RelationName').keydown(function (e) {
+        if (e.ctrlKey || e.altKey) {
+            e.preventDefault();
+        } else {
+            var notallowkeys = [48,49,50,51,52,53,54,55,56,57,188,190,191,59,220,221,222,219,173,61,192,111,106,109,107,46,103,104,105,100,101,102,97,98,99,96,110,190]
+            var allowedkeys  = [9,8,32,46,35,36,37,38,39,40,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90]
+            if (e.shiftKey) {
+                if (notallowkeys.includes(e.keyCode)) {
+                    e.preventDefault();
+                }
+            } else {
+                if (!(allowedkeys.includes(e.keyCode))) {
+                    e.preventDefault();
+                }
+            }
+        }
+    });
+    $('#RelationName').on("cut copy paste",function(e){
+        e.preventDefault();
+    });
+ }
+ if ($('#editRelationName').length){
+/* Alphabets with space*/
+   $('#editRelationName').keydown(function (e) {
+        if (e.ctrlKey || e.altKey) {
+            e.preventDefault();
+        } else {
+            var notallowkeys = [48,49,50,51,52,53,54,55,56,57,188,190,191,59,220,221,222,219,173,61,192,111,106,109,107,46,103,104,105,100,101,102,97,98,99,96,110,190]
+            var allowedkeys  = [9,8,32,46,35,36,37,38,39,40,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90]
+            if (e.shiftKey) {
+                if (notallowkeys.includes(e.keyCode)) {
+                    e.preventDefault();
+                }
+            } else {
+                if (!(allowedkeys.includes(e.keyCode))) {
+                    e.preventDefault();
+                }
+            }
+        }
+    });
+    $('#editRelationName').on("cut copy paste",function(e){
+        e.preventDefault();
+    });
+ }
+ if ($('#StateName').length){
+/* Alphabets with space*/
+   $('#StateName').keydown(function (e) {
+        if (e.ctrlKey || e.altKey) {
+            e.preventDefault();
+        } else {
+            var notallowkeys = [48,49,50,51,52,53,54,55,56,57,188,190,191,59,220,221,222,219,173,61,192,111,106,109,107,46,103,104,105,100,101,102,97,98,99,96,110,190]
+            var allowedkeys  = [9,8,32,46,35,36,37,38,39,40,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90]
+            if (e.shiftKey) {
+                if (notallowkeys.includes(e.keyCode)) {
+                    e.preventDefault();
+                }
+            } else {
+                if (!(allowedkeys.includes(e.keyCode))) {
+                    e.preventDefault();
+                }
+            }
+        }
+    });
+    $('#StateName').on("cut copy paste",function(e){
+        e.preventDefault();
+    });
+ }
+ if ($('#editStateName').length){
+/* Alphabets with space*/
+   $('#editStateName').keydown(function (e) {
+        if (e.ctrlKey || e.altKey) {
+            e.preventDefault();
+        } else {
+            var notallowkeys = [48,49,50,51,52,53,54,55,56,57,188,190,191,59,220,221,222,219,173,61,192,111,106,109,107,46,103,104,105,100,101,102,97,98,99,96,110,190]
+            var allowedkeys  = [9,8,32,46,35,36,37,38,39,40,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90]
+            if (e.shiftKey) {
+                if (notallowkeys.includes(e.keyCode)) {
+                    e.preventDefault();
+                }
+            } else {
+                if (!(allowedkeys.includes(e.keyCode))) {
+                    e.preventDefault();
+                }
+            }
+        }
+    });
+    $('#editStateName').on("cut copy paste",function(e){
+        e.preventDefault();
+    });
+ }
+ if ($('#UserRole').length){
+/* Alphabets with space*/
+   $('#UserRole').keydown(function (e) {
+        if (e.ctrlKey || e.altKey) {
+            e.preventDefault();
+        } else {
+            var notallowkeys = [48,49,50,51,52,53,54,55,56,57,188,190,191,59,220,221,222,219,173,61,192,111,106,109,107,46,103,104,105,100,101,102,97,98,99,96,110,190]
+            var allowedkeys  = [9,8,32,46,35,36,37,38,39,40,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90]
+            if (e.shiftKey) {
+                if (notallowkeys.includes(e.keyCode)) {
+                    e.preventDefault();
+                }
+            } else {
+                if (!(allowedkeys.includes(e.keyCode))) {
+                    e.preventDefault();
+                }
+            }
+        }
+    });
+    $('#UserRole').on("cut copy paste",function(e){
+        e.preventDefault();
+    });
+ }
+ if ($('#Module').length){
+/* Alphabets with space*/
+   $('#Module').keydown(function (e) {
+        if (e.ctrlKey || e.altKey) {
+            e.preventDefault();
+        } else {
+            var notallowkeys = [48,49,32,50,51,52,53,54,55,56,57,188,190,191,59,220,221,222,219,173,61,192,111,106,109,107,46,103,104,105,100,101,102,97,98,99,96,110,190]
+            var allowedkeys  = [9,8,46,35,36,37,38,39,40,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90]
+            if (e.shiftKey) {
+                if (notallowkeys.includes(e.keyCode)) {
+                    e.preventDefault();
+                }
+            } else {
+                if (!(allowedkeys.includes(e.keyCode))) {
+                    e.preventDefault();
+                }
+            }
+        }
+    });
+    $('#Module').on("cut copy paste",function(e){
+        e.preventDefault();
+    });
+ }
+ if ($('#Remarks').length){
+/* Alphnumeric and special characters, not allow !\$"'~  */
+ $('#Remarks').keydown(function (e) {
+        if (e.ctrlKey || e.altKey) {
+            e.preventDefault();
+        } else {
+            //console.log(e.keyCode);
+            var notallowkeys = [220,222,49,52,192]
+            var allowedkeys  = [9,8,46,32,35,36,37,38,39,40,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,103,104,105,100,101,102,97,98,99,96,48,49,50,51,52,53,54,55,56,57,173,61,110,190,191,221,219,111,106,109,107,59,188]
+            if (e.shiftKey) {
+                if (notallowkeys.includes(e.keyCode)) {
+                    e.preventDefault();
+                }
+            } else {
+                if (!(allowedkeys.includes(e.keyCode))) {
+                    e.preventDefault();
+                }
+            }  
+        }
+ 
+    });
+    $('#Remarks').on("cut copy paste",function(e){
+        e.preventDefault();
+    });
+ }
+ if ($('#editRemarks').length){
+/* Alphnumeric and special characters, not allow !\$"'~  */
+ $('#editRemarks').keydown(function (e) {
+        if (e.ctrlKey || e.altKey) {
+            e.preventDefault();
+        } else {
+            console.log(e.keyCode);
+            var notallowkeys = [220,222,49,52,192]
+            var allowedkeys  = [9,8,46,32,35,36,37,38,39,40,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,103,104,105,100,101,102,97,98,99,96,48,49,50,51,52,53,54,55,56,57,173,61,110,190,191,221,219,111,106,109,107,59,188]
+            if (e.shiftKey) {
+                if (notallowkeys.includes(e.keyCode)) {
+                    e.preventDefault();
+                }
+            } else {
+                if (!(allowedkeys.includes(e.keyCode))) {
+                    e.preventDefault();
+                }
+            }  
+        }
+ 
+    });
+    $('#editRemarks').on("cut copy paste",function(e){
+        e.preventDefault();
+    });
+ }
+ 
+ if ($('#PaymentRemarks').length){
+/* Alphnumeric and special characters, not allow !\$"'~  */
+ $('#PaymentRemarks').keydown(function (e) {
+        if (e.ctrlKey || e.altKey) {
+            e.preventDefault();
+        } else {
+            console.log(e.keyCode);
+            var notallowkeys = [220,222,49,52,192]
+            var allowedkeys  = [9,8,46,32,35,36,37,38,39,40,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,103,104,105,100,101,102,97,98,99,96,48,49,50,51,52,53,54,55,56,57,173,61,110,190,191,221,219,111,106,109,107,59,188]
+            if (e.shiftKey) {
+                if (notallowkeys.includes(e.keyCode)) {
+                    e.preventDefault();
+                }
+            } else {
+                if (!(allowedkeys.includes(e.keyCode))) {
+                    e.preventDefault();
+                }
+            }  
+        }
+ 
+    });
+    $('#PaymentRemarks').on("cut copy paste",function(e){
+        e.preventDefault();
+    });
+ }
+ 
+ if ($('#LoginUserName').length){
+    /*Alphanumeric with space*/
+    $('#LoginUserName').keydown(function (e) {
+        if (e.ctrlKey || e.altKey) {
+            e.preventDefault();
+        } else {
+            var notallowkeys = [48,49,50,51,52,53,54,55,56,57,188,190,191,59,220,221,222,219,173,61,192,111,106,109,107,46]
+            var allowedkeys  = [96,97,98,99,100,101,102,103,104,105,9,8,16,46,35,36,37,38,39,40,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,48,49,50,51,52,53,54,55,56,57,33,34,35,36,37,38,39,40,45,12]
+            if (e.shiftKey) {
+                if (notallowkeys.includes(e.keyCode)) {
+                    e.preventDefault();
+                }
+            } else {
+                if (!(allowedkeys.includes(e.keyCode))) {
+                    e.preventDefault();
+                }
+            }
+        }
+    });
+    $('#LoginUserName').on("cut copy paste",function(e){
+        e.preventDefault();
+    });
+}
+if ($('#AddressLine1').length){
+    /*Alphanumeric with space and allow #\-. */
+    $('#AddressLine1').keydown(function (e) {
+        if (e.ctrlKey || e.altKey) {
+            e.preventDefault();
+        } else {
+            //console.log(e.keyCode);
+            var notallowkeys = [48,49,50,52,53,54,55,56,57,188,190,191,59,220,221,222,219,61,192,173,106,107,46]
+            var allowedkeys  = [51,173,111,109,191,190,110,96,97,98,99,100,101,102,103,104,105,9,8,16,46,35,36,37,38,39,40,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,48,49,50,51,52,53,54,55,56,57,33,34,35,36,37,38,39,40,45,12]
+            if (e.shiftKey) {
+                if (notallowkeys.includes(e.keyCode)) {
+                    e.preventDefault();
+                }
+            } else {
+                if (!(allowedkeys.includes(e.keyCode))) {
+                    e.preventDefault();
+                }
+            }
+        }
+    });
+    $('#AddressLine1').on("cut copy paste",function(e){
+        e.preventDefault();
+    });
+}
+if ($('#AddressLine2').length){
+    /*Alphanumeric with space and allow #\-. */
+    $('#AddressLine2').keydown(function (e) {
+        if (e.ctrlKey || e.altKey) {
+            e.preventDefault();
+        } else {
+            //console.log(e.keyCode);
+            var notallowkeys = [48,49,50,52,53,54,55,56,57,188,190,191,59,220,221,222,219,61,192,173,106,107,46]
+            var allowedkeys  = [51,173,111,109,191,190,110,96,97,98,99,100,101,102,103,104,105,9,8,16,46,35,36,37,38,39,40,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,48,49,50,51,52,53,54,55,56,57,33,34,35,36,37,38,39,40,45,12]
+            if (e.shiftKey) {
+                if (notallowkeys.includes(e.keyCode)) {
+                    e.preventDefault();
+                }
+            } else {
+                if (!(allowedkeys.includes(e.keyCode))) {
+                    e.preventDefault();
+                }
+            }
+        }
+    });
+    $('#AddressLine2').on("cut copy paste",function(e){
+        e.preventDefault();
+    });
+}
+
+if ($('#LoginPassword').length){
+/* Alphnumeric and special characters, not allow !\$"'~  */
+ $('#LoginPassword').keydown(function (e) {
+        if (e.ctrlKey || e.altKey) {
+            e.preventDefault();
+        } else {
+            console.log(e.keyCode);
+            var notallowkeys = [220,222,49,52,192]
+            var allowedkeys  = [9,8,46,32,35,36,37,38,39,40,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,103,104,105,100,101,102,97,98,99,96,48,49,50,51,52,53,54,55,56,57,173,61,110,190,191,221,219,111,106,109,107,59,188]
+            if (e.shiftKey) {
+                if (notallowkeys.includes(e.keyCode)) {
+                    e.preventDefault();
+                }
+            } else {
+                if (!(allowedkeys.includes(e.keyCode))) {
+                    e.preventDefault();
+                }
+            }  
+        }
+ 
+    });
+    $('#LoginPassword').on("cut copy paste",function(e){
+        e.preventDefault();
+    });
+ }
+ 
+ if ($('#GSTIN').length){
+    /*Alphanumeric without space*/
+    $('#GSTIN').keydown(function (e) {
+        if (e.ctrlKey || e.altKey) {
+            e.preventDefault();
+        } else {
+            var notallowkeys = [48,49,50,51,52,53,54,55,56,57,188,190,191,59,220,221,222,219,173,61,192,111,106,109,107,46]
+            var allowedkeys  = [96,97,98,99,100,101,102,103,104,105,9,8,16,46,35,36,37,38,39,40,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,48,49,50,51,52,53,54,55,56,57,33,34,35,36,37,38,39,40,45,12]
+            if (e.shiftKey) {
+                if (notallowkeys.includes(e.keyCode)) {
+                    e.preventDefault();
+                }
+            } else {
+                if (!(allowedkeys.includes(e.keyCode))) {
+                    e.preventDefault();
+                }
+            }
+        }
+    });
+    $('#GSTIN').on("cut copy paste",function(e){
+        e.preventDefault();
+    });
+}
+
+ if ($('#ShortDescription').length){
+/* Alphnumeric and special characters, not allow !\$"'~  */
+ $('#ShortDescription').keydown(function (e) {
+        if (e.ctrlKey || e.altKey) {
+            e.preventDefault();
+        } else {
+            console.log(e.keyCode);
+            var notallowkeys = [220,222,49,52,192]
+            var allowedkeys  = [9,8,46,32,35,36,37,38,39,40,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,103,104,105,100,101,102,97,98,99,96,48,49,50,51,52,53,54,55,56,57,173,61,110,190,191,221,219,111,106,109,107,59,188]
+            if (e.shiftKey) {
+                if (notallowkeys.includes(e.keyCode)) {
+                    e.preventDefault();
+                }
+            } else {
+                if (!(allowedkeys.includes(e.keyCode))) {
+                    e.preventDefault();
+                }
+            }  
+        }
+ 
+    });
+    $('#ShortDescription').on("cut copy paste",function(e){
+        e.preventDefault();
+    });
+ }
+ if ($('#DocumentTypeShortDescription').length){
+/* Alphnumeric and special characters, not allow !\$"'~  */
+ $('#DocumentTypeShortDescription').keydown(function (e) {
+        if (e.ctrlKey || e.altKey) {
+            e.preventDefault();
+        } else {
+            console.log(e.keyCode);
+            var notallowkeys = [220,222,49,52,192]
+            var allowedkeys  = [9,8,46,32,35,36,37,38,39,40,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,103,104,105,100,101,102,97,98,99,96,48,49,50,51,52,53,54,55,56,57,173,61,110,190,191,221,219,111,106,109,107,59,188]
+            if (e.shiftKey) {
+                if (notallowkeys.includes(e.keyCode)) {
+                    e.preventDefault();
+                }
+            } else {
+                if (!(allowedkeys.includes(e.keyCode))) {
+                    e.preventDefault();
+                }
+            }  
+        }
+ 
+    });
+    $('#DocumentTypeShortDescription').on("cut copy paste",function(e){
+        e.preventDefault();
+    });
+ }
+ if ($('#editDocumentTypeShortDescription').length){
+/* Alphnumeric and special characters, not allow !\$"'~  */
+ $('#editDocumentTypeShortDescription').keydown(function (e) {
+        if (e.ctrlKey || e.altKey) {
+            e.preventDefault();
+        } else {
+            console.log(e.keyCode);
+            var notallowkeys = [220,222,49,52,192]
+            var allowedkeys  = [9,8,46,32,35,36,37,38,39,40,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,103,104,105,100,101,102,97,98,99,96,48,49,50,51,52,53,54,55,56,57,173,61,110,190,191,221,219,111,106,109,107,59,188]
+            if (e.shiftKey) {
+                if (notallowkeys.includes(e.keyCode)) {
+                    e.preventDefault();
+                }
+            } else {
+                if (!(allowedkeys.includes(e.keyCode))) {
+                    e.preventDefault();
+                }
+            }  
+        }
+ 
+    });
+    $('#editDocumentTypeShortDescription').on("cut copy paste",function(e){
+        e.preventDefault();
+    });
+ }
+ 
+ if ($('#MinDueAmount').length){
+/* Numbers without space*/
+   $('#MinDueAmount').keydown(function (e) {
+        if (e.ctrlKey || e.altKey) {
+            e.preventDefault();
+        } else {
+            var notallowkeys = [48,49,50,51,52,53,54,55,56,57,16,188,190,191,59,222,220,219,221,173,61,192,111,106,109,107,46,110,190,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90]
+            var allowedkeys  = [9,8,46,35,36,37,38,39,40,48,49,50,51,52,53,54,55,56,57,103,104,105,100,101,102,97,98,99,96]
+            if (e.shiftKey) {
+                if (notallowkeys.includes(e.keyCode)) {
+                    e.preventDefault();
+                }
+            } else {
+                if (!(allowedkeys.includes(e.keyCode))) {
+                    e.preventDefault();
+                }
+            }
+        }
+    });
+    $('#MinDueAmount').on("cut copy paste",function(e){
+        e.preventDefault();
+    });
+ }
+ if ($('#MaxDueAmount').length){
+/* Numbers without space*/
+   $('#MaxDueAmount').keydown(function (e) {
+        if (e.ctrlKey || e.altKey) {
+            e.preventDefault();
+        } else {
+            var notallowkeys = [48,49,50,51,52,53,54,55,56,57,16,188,190,191,59,222,220,219,221,173,61,192,111,106,109,107,46,110,190,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90]
+            var allowedkeys  = [9,8,46,35,36,37,38,39,40,48,49,50,51,52,53,54,55,56,57,103,104,105,100,101,102,97,98,99,96]
+            if (e.shiftKey) {
+                if (notallowkeys.includes(e.keyCode)) {
+                    e.preventDefault();
+                }
+            } else {
+                if (!(allowedkeys.includes(e.keyCode))) {
+                    e.preventDefault();
+                }
+            }
+        }
+    });
+    $('#MaxDueAmount').on("cut copy paste",function(e){
+        e.preventDefault();
+    });
+ }
+ if ($('#MinDuration').length){
+/* Numbers without space*/
+   $('#MinDuration').keydown(function (e) {
+        if (e.ctrlKey || e.altKey) {
+            e.preventDefault();
+        } else {
+            var notallowkeys = [48,49,50,51,52,53,54,55,56,57,16,188,190,191,59,222,220,219,221,173,61,192,111,106,109,107,46,110,190,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90]
+            var allowedkeys  = [9,8,46,35,36,37,38,39,40,48,49,50,51,52,53,54,55,56,57,103,104,105,100,101,102,97,98,99,96]
+            if (e.shiftKey) {
+                if (notallowkeys.includes(e.keyCode)) {
+                    e.preventDefault();
+                }
+            } else {
+                if (!(allowedkeys.includes(e.keyCode))) {
+                    e.preventDefault();
+                }
+            }
+        }
+    });
+    $('#MinDuration').on("cut copy paste",function(e){
+        e.preventDefault();
+    });
+ }
+ if ($('#MaxDuration').length){
+/* Numbers without space*/
+   $('#MaxDuration').keydown(function (e) {
+        if (e.ctrlKey || e.altKey) {
+            e.preventDefault();
+        } else {
+            var notallowkeys = [48,49,50,51,52,53,54,55,56,57,16,188,190,191,59,222,220,219,221,173,61,192,111,106,109,107,46,110,190,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90]
+            var allowedkeys  = [9,8,46,35,36,37,38,39,40,48,49,50,51,52,53,54,55,56,57,103,104,105,100,101,102,97,98,99,96]
+            if (e.shiftKey) {
+                if (notallowkeys.includes(e.keyCode)) {
+                    e.preventDefault();
+                }
+            } else {
+                if (!(allowedkeys.includes(e.keyCode))) {
+                    e.preventDefault();
+                }
+            }
+        }
+    });
+    $('#MaxDuration').on("cut copy paste",function(e){
+        e.preventDefault();
+    });
+ }
+ if ($('#WastageDiscount').length){
+/* Numbers without space*/
+   $('#WastageDiscount').keydown(function (e) {
+        if (e.ctrlKey || e.altKey) {
+            e.preventDefault();
+        } else {
+            //console.log(e.keyCode);
+            var notallowkeys = [48,49,50,51,52,53,54,55,56,57,16,188,190,191,59,222,220,219,221,173,61,192,111,106,109,107,46,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90]
+            var allowedkeys  = [9,8,46,35,36,37,38,39,40,48,49,50,51,52,53,54,55,56,57,103,104,105,100,101,102,97,98,99,96,110,190]
+            if (e.shiftKey) {
+                if (notallowkeys.includes(e.keyCode)) {
+                    e.preventDefault();
+                }
+            } else {
+                if (!(allowedkeys.includes(e.keyCode))) {
+                    e.preventDefault();
+                }
+            }
+        }
+    });
+    $('#WastageDiscount').on("cut copy paste",function(e){
+        e.preventDefault();
+    });
+ }
+ if ($('#MakingChargeDiscount').length){
+/* Numbers without space*/
+   $('#MakingChargeDiscount').keydown(function (e) {
+        if (e.ctrlKey || e.altKey) {
+            e.preventDefault();
+        } else {
+            console.log(e.keyCode);
+            var notallowkeys = [48,49,50,51,52,53,54,55,56,57,16,188,190,191,59,222,220,219,221,173,61,192,111,106,109,107,46,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90]
+            var allowedkeys  = [9,8,46,35,36,37,38,39,40,48,49,50,51,52,53,54,55,56,57,103,104,105,100,101,102,97,98,99,96,110,190]
+            if (e.shiftKey) {
+                if (notallowkeys.includes(e.keyCode)) {
+                    e.preventDefault();
+                }
+            } else {
+                if (!(allowedkeys.includes(e.keyCode))) {
+                    e.preventDefault();
+                }
+            }
+        }
+    });
+    $('#MakingChargeDiscount').on("cut copy paste",function(e){
+        e.preventDefault();
+    });
+ }
+ if ($('#Benefits').length){
+/* Alphnumeric and special characters, not allow !\$"'~  */
+ $('#Benefits').keydown(function (e) {
+        if (e.ctrlKey || e.altKey) {
+            e.preventDefault();
+        } else {
+            console.log(e.keyCode);
+            var notallowkeys = [220,222,49,52,192]
+            var allowedkeys  = [9,8,46,32,35,36,37,38,39,40,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,103,104,105,100,101,102,97,98,99,96,48,49,50,51,52,53,54,55,56,57,173,61,110,190,191,221,219,111,106,109,107,59,188]
+            if (e.shiftKey) {
+                if (notallowkeys.includes(e.keyCode)) {
+                    e.preventDefault();
+                }
+            } else {
+                if (!(allowedkeys.includes(e.keyCode))) {
+                    e.preventDefault();
+                }
+            }  
+        }
+ 
+    });
+    $('#Benefits').on("cut copy paste",function(e){
+        e.preventDefault();
+    });
+ }
+ if ($('#TermsOfConditions').length){
+/* Alphnumeric and special characters, not allow !\$"'~  */
+ $('#TermsOfConditions').keydown(function (e) {
+        if (e.ctrlKey || e.altKey) {
+            e.preventDefault();
+        } else {
+            console.log(e.keyCode);
+            var notallowkeys = [220,222,49,52,192]
+            var allowedkeys  = [9,8,46,32,35,36,37,38,39,40,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,103,104,105,100,101,102,97,98,99,96,48,49,50,51,52,53,54,55,56,57,173,61,110,190,191,221,219,111,106,109,107,59,188]
+            if (e.shiftKey) {
+                if (notallowkeys.includes(e.keyCode)) {
+                    e.preventDefault();
+                }
+            } else {
+                if (!(allowedkeys.includes(e.keyCode))) {
+                    e.preventDefault();
+                }
+            }  
+        }
+ 
+    });
+    $('#TermsOfConditions').on("cut copy paste",function(e){
+        e.preventDefault();
+    });
+ }
+ if ($('#BusinessName').length){
+    /*Alphanumeric without space*/
+    $('#BusinessName').keydown(function (e) {
+        if (e.ctrlKey || e.altKey) {
+            e.preventDefault();
+        } else {
+            var notallowkeys = [48,49,50,51,52,53,54,55,56,57,188,191,59,220,221,222,219,173,61,192,111,106,109,107,46]
+            var allowedkeys  = [96,97,98,99,100,101,102,103,104,105,9,8,16,46,35,36,37,38,39,40,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,48,49,50,51,52,53,54,55,56,57,33,34,35,36,37,38,39,40,45,12,110,190]
+            if (e.shiftKey) {
+                if (notallowkeys.includes(e.keyCode)) {
+                    e.preventDefault();
+                }
+            } else {
+                if (!(allowedkeys.includes(e.keyCode))) {
+                    e.preventDefault();
+                }
+            }
+        }
+    });
+    $('#BusinessName').on("cut copy paste",function(e){
+        e.preventDefault();
+    });
+}
+if ($('#CompanyName').length){
+    /*Alphanumeric without space*/
+    $('#CompanyName').keydown(function (e) {
+        if (e.ctrlKey || e.altKey) {
+            e.preventDefault();
+        } else {
+            var notallowkeys = [48,49,50,51,52,53,54,55,56,57,188,191,59,220,221,222,219,173,61,192,111,106,109,107,46]
+            var allowedkeys  = [96,97,98,99,100,101,102,103,104,105,9,8,16,46,35,36,37,38,39,40,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,48,49,50,51,52,53,54,55,56,57,33,34,35,36,37,38,39,40,45,12,110,190]
+            if (e.shiftKey) {
+                if (notallowkeys.includes(e.keyCode)) {
+                    e.preventDefault();
+                }
+            } else {
+                if (!(allowedkeys.includes(e.keyCode))) {
+                    e.preventDefault();
+                }
+            }
+        }
+    });
+    $('#CompanyName').on("cut copy paste",function(e){
+        e.preventDefault();
+    });
+}
+
 </script>
 </html>

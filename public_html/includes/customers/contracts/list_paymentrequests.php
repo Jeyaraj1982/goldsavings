@@ -20,13 +20,19 @@
      <div class="row">
         <div class="col-6">
             <h1 class="h3">Payment Request</h1>
-            <h6 class="card-subtitle text-muted mb-3">List <?php echo $title;?> payment requests</h6>
         </div>
         <div class="col-6" style="text-align: right;">
             <a href="<?php echo URL;?>dashboard.php?action=contracts/list_paymentrequests&type=request">Requested</a> | 
             <a href="<?php echo URL;?>dashboard.php?action=contracts/list_paymentrequests&type=approved">Approved</a> | 
             <a href="<?php echo URL;?>dashboard.php?action=contracts/list_paymentrequests&type=rejected">Rejected</a> | 
-            <a href="<?php echo URL;?>dashboard.php?action=contracts/list_paymentrequests&type=all">All</a>
+            <a href="<?php echo URL;?>dashboard.php?action=contracts/list_paymentrequests&type=all">All</a> |
+            <?php 
+            $path=URL."dashboard.php";
+            if (isset($_GET['fpg'])) {
+                $path=URL."dashboard.php?action=".$_GET['fpg'];
+            }
+            ?>
+            <a href="<?php echo $path;?>">Back</a>
         </div>
      </div>
      <div class="row">

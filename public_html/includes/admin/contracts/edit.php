@@ -19,9 +19,18 @@
                                 <span id="ErrStateName" class="error_msg"></span>
                             </div>
                             <div class="col-sm-12 mb-3">
-                                <label class="form-label">Remarks</label>
-                                <input type="text" value="<?php echo $data[0]['Remarks'];?>" name="Remarks" id="Remarks" class="form-control" placeholder="Remarks">
-                                <span id="ErrRemarks" class="error_msg"></span>
+                                <label class="form-label">Payment Remarks
+                                <img src="<?php echo URL;?>assets/question.png" style="width: 12px;" class="dropdown"  id="dropdownMenuButton1" data-bs-toggle="dropdown">
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton1" style="padding:0px;">
+                                    <div class="myheader">Payment Remarks</div>
+                                    <div class="mycontainer">
+                                        1. Allow all characters, not allow <span style='color:red'>\'!~$"</span><br>
+                                        2. Maximum 250 characters require
+                                    </div>
+                                </div>
+                                </label>
+                                <input type="text" value="<?php echo $data[0]['Remarks'];?>" name="PaymentRemarks" id="PaymentRemarks" class="form-control" placeholder="Payment Remarks">
+                                <span id="ErrPaymentRemarks" class="error_msg"></span>
                             </div>
                             <div class="col-sm-6 mb-3">
                                 <label class="form-label">Status</label>

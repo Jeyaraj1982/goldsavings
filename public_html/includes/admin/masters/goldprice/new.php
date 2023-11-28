@@ -28,6 +28,11 @@
                                 <input type="text" name="price" id="price" class="form-control" placeholder="PRICE">
                                 <span id="Errprice" class="error_msg"></span>
                             </div>
+                            <div class="col-sm-4 mb-3">
+                                <label class="form-label">Silver <span style='color:red'>*</span></label>
+                                <input type="text" name="Silver" id="Silver" class="form-control" placeholder="Silver">
+                                <span id="ErrSilver" class="error_msg"></span>
+                            </div>
                             <div class="col-sm-12 mb-3">
                                <label class="form-label">Remarks</label>
                                <input type="text" name="Remarks" id="Remarks" class="form-control" placeholder="Remarks">

@@ -13,7 +13,7 @@
                             </div>
                             <div class="col-sm-12 mb-3">
                                 <label class="form-label">Customers <span style='color:red'>*</span></label>
-                                <input type="text" name="CustomerID" id="CustomerID" class="form-control" placeholder="Customer Name/Mobile Number">
+                                <input type="text" name="CustomerID" id="CustomerID" class="form-control" placeholder="Customer Name/Mobile Number" maxlength="50">
                                 <span id="ErrCustomerID" class="error_msg"></span>
                             </div>
                             <div class="col-sm-12 mb-3" id="CustomerResult">
@@ -130,8 +130,18 @@
                                 <span id="ErrPaymentModeID" class="error_msg"></span>
                             </div>
                             <div class="col-sm-12 mb-3">
-                                <label class="form-label">Payment Remarks <span style='color:red'>*</span></label>
-                                <input type="text" name="PaymentRemarks" id="PaymentRemarks" class="form-control" placeholder="Payment Remarks">
+                                <label class="form-label">Payment Remarks <span style='color:red'>*</span>
+                                <img src="<?php echo URL;?>assets/question.png" style="width: 12px;" class="dropdown"  id="dropdownMenuButton1" data-bs-toggle="dropdown">
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton1" style="padding:0px;">
+                                    <div class="myheader">Payment Remarks</div>
+                                    <div class="mycontainer">
+                                        1. Allow all characters, not allow <span style='color:red'>\'!~$"</span><br>
+                                        2. Maximum 250 characters require<br>
+                                        3. Not allow cut,copy,paste
+                                    </div>
+                                </div>
+                                </label>
+                                <input type="text" name="PaymentRemarks" id="PaymentRemarks" class="form-control" placeholder="Payment Remarks" maxlength="250">
                                 <span id="ErrPaymentRemarks" class="error_msg"></span>
                             </div>
                         </div>
@@ -582,8 +592,48 @@ function addNew() {
 function opencontractview()  {
   location.href=URL +'dashboard.php?action=contracts/view&view='+CreatedContractID;  
 }
-setTimeout("listpaymentmodes();getGoldRate();",2000);
-
+setTimeout(function(){
+    listpaymentmodes();
+    getGoldRate();
+    $('#CustomerID').keydown(function (e) {
+          if (e.ctrlKey || e.altKey) {
+              e.preventDefault();
+          } else {
+              var key = e.keyCode;
+              if (!((key == 9) ||  (key == 8) || (key == 32) || (key == 46) || (key >= 35 && key <= 40) || (key >= 65 && key <= 90))) {
+                  e.preventDefault();
+              }
+          }
+      });
+      $('#SchemeID').keydown(function (e) {
+         // alert(e.keyCode);
+          if (e.ctrlKey || e.altKey){
+              e.preventDefault();
+          } else {
+              var key = e.keyCode;
+              if (e.shiftKey) {
+                  
+                  if (!((key == 240))) {
+                    e.preventDefault();
+                  }
+              } else {
+                  if (!((key == 9) || (key == 16)|| (key >= 48 && key <= 57) || (key == 50)  || (key == 173) || (key == 8) || (key == 32) || (key == 46) || (key == 173) || (key == 163) || (key == 109) || (key == 111) || (key >= 35 && key <= 40) || (key >= 65 && key <= 90) || (key >= 96 && key <= 105))) {
+                      e.preventDefault();
+                  }
+              }
+          }
+      });
+      /*$('#SchemeID').keydown(function (e) {
+          if (e.ctrlKey || e.altKey || e.shiftKey) {
+              e.preventDefault();
+          } else {
+              var key = e.keyCode;
+              if (!((key == 9) ||  (key == 8) || (key == 32) || (key == 46) || (key >= 35 && key <= 40) || (key >= 48 && key <= 57) || (key >= 96 && key <= 105) || (key >= 65 && key <= 90))) {
+                  e.preventDefault();
+              }
+          }
+      });*/
+},2000);
 
 function calculateGold() {
     

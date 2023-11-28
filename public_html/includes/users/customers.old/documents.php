@@ -1,22 +1,23 @@
+
 <?php
     $data = $mysql->select("select * from _tbl_masters_customers where CustomerID='".$_GET['customer']."'");
 ?>
 <div class="container-fluid p-0">
     <div class="row">
         <div class="col-6">
-            <h1 class="h3 mb-0">User</h1>
-            <p>Documents</p>
+            <h1 class="h3">Documents</h1>
         </div>
         <div class="col-6" style="text-align:right;">
-            <button onclick="addForm()" type="button" class="btn btn-primary btn-sm">Add Documents</button>
+        <button onclick="addForm()" type="button" class="btn btn-primary btn-sm">Add Documents</button>
         </div>
-        <div class="row">
+    </div>
+    <div class="row">
         <div class="col-3 col-sm-3 col-xxl-3">
             <?php include_once("customer_side_menu.php"); ?>
         </div>
     <div class="col-9 col-sm-9 col-xxl-9">
-        <div class="row">
-            <div class="card">
+    <div class="row">
+         <div class="card">
                 <div class="card-body" style="padding-top:25px">
                     <table id="datatables-fixed-header" class="table table-striped" style="width:100%">
                         <thead>
@@ -36,10 +37,9 @@
             </div>
         </div>
     </div>
-</div>
-    </div>
-</div>
-
+</div> 
+</div>     
+    
 <div class="modal fade" id="addconfirmation" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -50,6 +50,7 @@
             <div class="modal-body">
                 <div class="container-fluid p-0">
                     <form id="frm_create" name="frm_create" method="post" enctype="multipart/form-data">
+                        <input type="hidden" value="<?php echo $data[0][' DocumentTypeID'];?>" name="DocumentTypeID" id=" DocumentTypeID">
                         <input type="hidden" value="" name="CustomerID" id="CustomerID">
                         <div class="row">
                             <div class="col-sm-12  mb-3">
@@ -91,7 +92,6 @@
         </div>
     </div>
 </div>
-    
 <script>
 var _customerID='<?php echo $data[0]['CustomerID'];?>';
 
@@ -179,4 +179,4 @@ function listDocumentTypes(ID) {
         }
     });
 }
-</script> 
+</script>

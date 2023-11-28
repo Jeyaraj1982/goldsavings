@@ -21,9 +21,9 @@
                         <span id="ErrCustomerCode" class="error_msg"></span>
                     </div>
                     <div class="col-sm-6 mb-3">
-                        <label class="form-label">Entry Date <span style='color:red'>*</span></label>
+                        <label class="form-label">Entry Date</label>
                         <div class="input-group">
-                            <input type="date" value="<?php echo $data[0]['EntryDate'];?>" value="<?php echo date("Y-m-d");?>" name="EntryDate" id="EntryDate" class="form-control" placeholder="Entry Date">
+                            <input type="date" disabled="disabled" value="<?php echo $data[0]['EntryDate'];?>" name="EntryDate" id="EntryDate" class="form-control" placeholder="Entry Date">
                         </div>
                         <span id="ErrEntryDate" class="error_msg"></span>
                     </div>
@@ -97,16 +97,38 @@
                                 <hr>
                             </div>
                             <div class="col-sm-6 mb-3">         
-                                <label class="form-label">Login User Name <span style='color:red'>*</span></label>
-                                <input type="text" value="<?php echo $data[0]['LoginUserName'];?>" name="LoginUserName" id="LoginUserName" class="form-control" placeholder="Login User Name">
+                                <label class="form-label">Login User Name <span style='color:red'>*</span>
+                                <img src="<?php echo URL;?>assets/question.png" style="width: 12px;" class="dropdown"  id="dropdownMenuButton1" data-bs-toggle="dropdown">
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton1" style="padding:0px;">
+                                    <div class="myheader">Login Username</div>
+                                    <div class="mycontainer">
+                                        1. Allow only alphanumeric characters<br>
+                                        2. Minimum 6 characters require<br>
+                                        3. Maximum 8 characters require
+                                        
+                                    </div>
+                                </div>
+                                </label>
+                                <input type="text" value="<?php echo $data[0]['LoginUserName'];?>" name="LoginUserName" id="LoginUserName" class="form-control" placeholder="Login User Name" maxlength="8">
                                 <span id="ErrLoginUserName" class="error_msg"></span>
                             </div>
                             <div class="col-sm-6 mb-3">
-                                <label class="form-label">Login Password <span style='color:red'>*</span></label>
-                                <input type="text" value="<?php echo $data[0]['LoginPassword'];?>" name="LoginPassword" id="LoginPassword" class="form-control" placeholder="Login Password">
+                                <label class="form-label">Login Password <span style='color:red'>*</span>
+                                <img src="<?php echo URL;?>assets/question.png" style="width: 12px;" class="dropdown"  id="dropdownMenuButton1" data-bs-toggle="dropdown">
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton1" style="padding:0px;">
+                                    <div class="myheader">Login Password</div>
+                                    <div class="mycontainer">
+                                        1. Allow only alphanumeric characters<br>
+                                        2. Minimum 6 characters require<br>
+                                        3. Maximum 8 characters require<br>
+                                        4. Allow special charecters <span style="color:green;"> !@#%^&*()_-=+.?</span>
+                                    </div>
+                                </div>
+                                </label>
+                                <input type="text" value="<?php echo $data[0]['LoginPassword'];?>" name="LoginPassword" id="LoginPassword" class="form-control" placeholder="Login Password" maxlength="8">
                                 <span id="ErrLoginPassword" class="error_msg"></span>
                             </div>
-                            <div class="col-sm-6 mb-3">         
+                            <div class="col-sm-6">         
                                 <label class="form-label">Status <span style='color:red'>*</span></label>
                                 <select name="IsActive" id="IsActive" class="form-select">
                                     <option value="1" <?php echo ($data[0]['IsActive']==1) ? " selected='selected' " : "";?> >Active</option>
@@ -119,12 +141,12 @@
                 <div class="card">
                     <div class="card-body">
                         <div class="row">                            
-                            <div class="col-sm-6 mb-3">
+                            <div class="col-sm-6">
                                 <label class="form-label">PAN Card Number <span style='color:red'>*</span></label>
                                 <input type="text" value="<?php echo $data[0]['PancardNumber'];?>" name="PancardNumber" id="PancardNumber" class="form-control" placeholder="ABCTY1234D" data-masked="" data-inputmask="'mask':'aaaaa9999a'" style="text-transform: uppercase;">
-                                <span id="ErrPanCardNumber" class="error_msg"></span>
+                                <span id="ErrPancardNumber" class="error_msg"></span>
                                 </div>
-                            <div class="col-sm-6 mb-3">
+                            <div class="col-sm-6">
                                 <label class="form-label">Aadhaar Card Number <span style='color:red'>*</span></label>
                                 <input type="text" value="<?php echo $data[0]['AadhaarCardNumber'];?>" name="AadhaarCardNumber" id="AadhaarCardNumber" class="form-control" placeholder="Aadhaar Card Number" data-masked="" data-inputmask="'mask':'9999 9999 9999'">
                                 <span id="ErrAadhaarCardNumber" class="error_msg"></span>
@@ -137,12 +159,30 @@
                     <div class="card-body">
                         <div class="row">
                             <div class="col-sm-12 mb-3">
-                                <label class="form-label">Address Line 1 <span style='color:red'>*</span></label>
+                                <label class="form-label">Address Line 1 <span style='color:red'>*</span>
+                                <img src="<?php echo URL;?>assets/question.png" style="width: 12px;" class="dropdown"  id="dropdownMenuButton1" data-bs-toggle="dropdown">
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton1" style="padding:0px;">
+                                    <div class="myheader">Address Line 1</div>
+                                    <div class="mycontainer">
+                                        1. Allow alphanumeric characters<br>
+                                        2. Allow only special charecters <span style="color:green;"> #/-.<span>
+                                    </div>
+                                </div>
+                                </label>
                                 <input type="text" value="<?php echo $data[0]['AddressLine1'];?>" name="AddressLine1" id="AddressLine1" class="form-control" placeholder="Address Line 1">
                                 <span id="ErrAddressLine1" class="error_msg"></span>
                             </div>
                             <div class="col-sm-12 mb-3">
-                                <label class="form-label">Address Line 2</label>
+                                <label class="form-label">Address Line 2
+                                <img src="<?php echo URL;?>assets/question.png" style="width: 12px;" class="dropdown"  id="dropdownMenuButton1" data-bs-toggle="dropdown">
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton1" style="padding:0px;">
+                                    <div class="myheader">Address Line 2</div>
+                                    <div class="mycontainer">
+                                        1. Allow alphanumeric characters<br>
+                                        2. Allow only special charecters <span style="color:green;"> #/-.<span>
+                                    </div>
+                                </div>
+                                </label>
                                 <input type="text" value="<?php echo $data[0]['AddressLine2'];?>" name="AddressLine2" id="EstimatedDuration" class="form-control" placeholder="Address Line 2">
                                 <span id="ErrAddressLine2" class="error_msg"></span>
                             </div>
@@ -181,7 +221,7 @@
                 <div class="card">
                     <div class="card-body">
                         <div class="row">
-                            <div class="col-sm-6">         
+                            <div class="col-sm-6 mb-3">         
                                 <label class="form-label">Referred By </label>
                                 <select name="ReferredBy" id="ReferredBy" class="form-select" placeholder="Referred By" onchange="printLable()">
                                     <option value="0" <?php echo ($data[0]['ReferredBy']==0) ? " selected='selected' " : "";?> >Select Referred By</option> 
@@ -193,22 +233,25 @@
                                 <script>
                                 function printLable() {
                                     if ($('#ReferredBy').val()=="1"){
+                                        $('#mobilefetch').show();
                                         $('#_printlabel').html("Customer's Mobile Number");    
                                     }
                                     if ($('#ReferredBy').val()=="2"){
+                                        $('#mobilefetch').show();
                                         $('#_printlabel').html("Employee's Mobile Number");    
                                     }
                                     if ($('#ReferredBy').val()=="0"){
-                                        $('#_printlabel').html("Mobile Number");    
+                                        $('#mobilefetch').hide();  
                                     }
                                     if ($('#ReferredBy').val()=="3"){
+                                        $('#mobilefetch').show();
                                         $('#_printlabel').html("Salesman's Mobile Number");    
                                     }
-                                    
                                 }
                                 </script>
                             </div>
                             <div class="col-sm-6 mb-3">
+                                <div id="mobilefetch">
                                 <label class="form-label"><span id="_printlabel">Mobile Number</span> <span style='color:red'>*</span></label>
                                 <div class="input-group">
                                     <div class="input-group-prepend">
@@ -219,6 +262,7 @@
                                 </div>
                                 <span id="ErrRefferalName" class="error_msg" style="color: green;"></span>
                                 <span id="ErrRefMobileNumber" class="error_msg"></span>
+                            </div> 
                             </div> 
                             <div class="col-sm-12">
                                 <label class="form-label">Remarks</label>
@@ -507,23 +551,61 @@ setTimeout(function(){
     listStateNames();
     
     $('#CustomerName').keydown(function (e) {
-          if (e.shiftKey || e.ctrlKey || e.altKey) {
+          if (e.ctrlKey || e.altKey) {
               e.preventDefault();
           } else {
               var key = e.keyCode;
-              if (!((key == 8) || (key == 32) || (key == 46) || (key >= 35 && key <= 40) || (key >= 65 && key <= 90))) {
+              if (!((key == 9) || (key == 190) || (key == 8) || (key == 32) || (key == 46) || (key >= 35 && key <= 40) || (key >= 65 && key <= 90))) {
                   e.preventDefault();
               }
           }
       });
       
       $('#FatherName').keydown(function (e) {
-          if (e.shiftKey || e.ctrlKey || e.altKey) {
+          if (e.ctrlKey || e.altKey) {
               e.preventDefault();
           } else {
               var key = e.keyCode;
-              if (!((key == 8) || (key == 32) || (key == 46) || (key >= 35 && key <= 40) || (key >= 65 && key <= 90))) {
+              if (!((key == 9) || (key == 190) || (key == 8) || (key == 32) || (key == 46) || (key >= 35 && key <= 40) || (key >= 65 && key <= 90))) {
                   e.preventDefault();
+              }
+          }
+      });
+       $('#LoginUserName').keydown(function (e) {
+          if (e.ctrlKey || e.altKey) {
+              e.preventDefault();
+          } else {
+              var key = e.keyCode;
+              if (!((key == 9) || (key == 190) || (key == 8) || (key == 46) || (key >= 35 && key <= 40) || (key >= 48 && key <= 57) || (key >= 96 && key <= 105) || (key >= 65 && key <= 90))) {
+                  e.preventDefault();
+              }
+          }
+      });
+      $('#LoginPassword').keydown(function (e) {
+          if (e.ctrlKey || e.altKey) {
+              e.preventDefault();
+          } else {
+              var key = e.keyCode;
+              if (!((key == 9) || (key == 190) || (key == 8) || (key == 46) || (key >= 37 && key <= 40) || (key >= 48 && key <= 57) || (key >= 96 && key <= 105) || (key >= 65 && key <= 90))) {
+                  e.preventDefault();
+              }
+          }
+      });
+       $('#AddressLine1').keydown(function (e) {
+         // alert(e.keyCode);
+          if (e.ctrlKey || e.altKey){
+              e.preventDefault();
+          } else {
+              var key = e.keyCode;
+              if (e.shiftKey) {
+                  
+                  if (!((key == 51))) {
+                    e.preventDefault();
+                  }
+              } else {
+                  if (!((key == 9) || (key == 16) || (key == 50) || (key == 191) || (key == 173) || (key == 190) || (key == 8) || (key == 32) || (key == 46) || (key == 173) || (key == 163) || (key == 109) || (key == 111) || (key >= 35 && key <= 40) || (key >= 65 && key <= 90) || (key >= 48 && key <= 57) || (key >= 96 && key <= 105))) {
+                      e.preventDefault();
+                  }
               }
           }
       });

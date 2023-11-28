@@ -10,15 +10,49 @@
         <div class="col-sm-12 col-xl-12">
             <div class="card">
                 <div class="card-body">
+                <div class="col-12 mb-0">
                     <div class="row">
-                        <div class="col-sm-6">
-                            <div id="ContractCode">CONTRACT_CODE</div>        
-                            <div id="EntryDate">ENTRY DATE</div>
-                        </div>
-                        <div class="col-sm-6" style="text-align:right;">
-                            <div id="CreatedByName" style="font-weight: bold;">CREATED BY NAME</div>
-                            <div id="CreatedBy">CREATED BY</div>
-                        </div>
+                        <div class="col-6 mb-0">
+                                <div style="font-weight: bold;">Contract Code</div>
+                                <div id="ContractCode"></div>
+                            </div>
+                          <div class="col-6 mb-0" style="text-align: right;">
+                                <div style="font-weight: bold;">Entry Date</div>
+                                <div id="EntryDate"></div>
+                            </div> 
+                            </div> 
+                        <div class="row">
+                        <div class="col-6 mb-0">
+                                <div style="font-weight: bold;"> Mode Of Benifits</div>
+                                <div id="ModeOfBenifits"></div>
+                            </div>
+                            <div class="col-6 mb-0" style="text-align: right;">
+                            <div style="font-weight: bold;">Created by</div>
+                            <span id="CreatedByName"></span>&nbsp;/&nbsp; <span id="CreatedBy"></span>
+                            
+                        </div></div>
+                        <div class="row">
+                            <div class="col-6 mb-0">
+                                <div id="gold" style="display: none;">
+                                    <div style="font-weight: bold;">Material Type</div>
+                                    <div id="MaterialType"></div>
+                                </div>
+                            </div>
+                            <div class="col-6 mb-0" style="text-align: right;">
+                                <div style="font-weight: bold;">Installment</div>
+                                <div id="Installments"></div>
+                            </div>
+                            </div>
+                            <div class="col-12 mb-0">
+                                <div id="schemeamount" style="display: none;">
+                                    <div style="font-weight: bold;">Amount <span>(₹)</span></div>
+                                    <div id="Amount"></div>
+                                </div>
+                                <div class="col-12 mb-0">
+                                <div style="font-weight: bold;">Installment Amount <span>(₹)</span></div>
+                                <div id="InstallmentAmount"></div>
+                            </div>
+                            </div>
                     </div>   
                 </div>
             </div>
@@ -65,50 +99,15 @@
                     <div class="card">
                         <div class="card-body">
                             <div class="row" >
-                            <div class="col-sm-12 mb-2">
+                            <div class="col-sm-12 mb-0">
                                     <div style="font-weight: bold;"> Scheme Code</div>
                                     <div id="SchemeCode"></div>
                             </div>
-                            <div class="col-sm-12 mb-2">
+                            <div class="col-sm-12 mb-0">
                                 <div style="font-weight: bold;"> Scheme Name</div>
                                 <div id="SchemeName"></div>
                             </div>
-                            <div class="col-sm-6 mb-2">
-                                <div style="font-weight: bold;"> Mode Of Benifits</div>
-                                <div id="ModeOfBenifits"></div>
-                            </div>
-                            <div class="col-sm-6 mb-2">
-                                <div id="gold" style="display: none;">
-                                    <div style="font-weight: bold;">Material Type</div>
-                                    <div id="MaterialType"></div>
-                                </div>
-                            </div>
-                            <div class="col-sm-12 mb-2">
-                                <div style="font-weight: bold;">Installment</div>
-                                <div id="Installments"></div>
-                            </div>
-                            
-                            
-                            <div class="col-sm-6 mb-2">
-                                <div id="schemeamount" style="display: none;">
-                                    <div style="font-weight: bold;">Amount <span>(₹)</span></div>
-                                    <div id="Amount"></div>
-                                </div>
-                            </div>
-                            <div class="col-sm-6 mb-2">
-                                <div id="bonus" style="display: none;">
-                                    <div style="font-weight: bold;">Bouns <span>(%)</span></div>
-                                    <div id="BonusPercentage"></div>
-                                </div>
-                            </div>
-                            <div class="col-sm-12 mb-2">
-                                <div style="font-weight: bold;">Installment Amount <span>(₹)</span></div>
-                                <div id="InstallmentAmount"></div>
-                            </div>
-                            
-                            
-                            
-                            <div class="col-sm-12 mb-2">    
+                           <div class="col-sm-12 mb-2">    
                                 <div style="font-weight: bold;" id="basic-addon3" style="width:200px">Making Charge Discount <span>(%)</span></div>
                                 <div id="MakingChargeDiscount"></div>
                             </div>
@@ -171,9 +170,16 @@
                 <input type="hidden" value="" name="ContractID" id="ContractID">
             <div class="row">
                     <div class="col-sm-6 mb-3">
+                        <label class="form-label">Closing Date <span style='color:red'>*</span></label>
+                        <div class="input-group">
+                            <input type="date" value="<?php echo date("Y-m-d");?>" name="PreCloseDate" id="PreCloseDate" class="form-control" placeholder="Close Date">
+                        </div>
+                        <span id="ErrPreCloseDate" class="error_msg"></span>
+                    </div>
+                    <div class="col-sm-6 mb-3">
                         <label class="form-label">Material Type </label>
                         <input type="text" name="closeMaterialType" id="closeMaterialType" readonly="readonly" class="form-control" placeholder="Material Type">
-                    </div>  
+                    </div>
                     <div class="col-sm-6 mb-3">
                         <label class="form-label">Scheme Name </label>
                         <input type="text" name="SchemeName" id="closeSchemeName" readonly="readonly" class="form-control" placeholder="Scheme Name">
@@ -471,6 +477,7 @@ function closeContractForm(){
         var obj = JSON.parse(data); 
         if (obj.status=="success") {
                $('#closeMaterialType').val(obj.data.MaterialType);
+               $('#PreCloseDate').html(obj.data.PreCloseDate);
                $('#closeSchemeName').val(obj.data.SchemeName);
                $('#closeWastageDiscount').val(obj.data.WastageDiscount);
                //$('#viewMaterialType').val(obj.data.MaterialType);

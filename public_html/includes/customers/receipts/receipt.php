@@ -5,8 +5,15 @@
         <div class="col-6">
             <h1 class="h3">Receipts</h1>
         </div>
-        <div class="col-6" style="text-align:right;">
-            <a href="<?php echo URL;?>dashboard.php?" class="btn btn-outline-primary btn-sm">Back</a>
+       <div class="col-sm-6  mb-2" style="text-align:right;">
+            <?php 
+            $path=URL."dashboard.php";
+            if (isset($_GET['fpg'])) {
+                $path=URL."dashboard.php?action=".$_GET['fpg'];
+            }
+            ?>
+            <a href="<?php echo $path;?>" class="btn btn-outline-primary btn-sm">Back</a>&nbsp;&nbsp;
+            <a href="<?php echo URL;?>dashboard.php?action=" class="btn btn-primary btn-sm">Download</a>
      </div>
      </div>
      </div>
@@ -44,7 +51,6 @@
                                 <th >Receipt<br>Number</th>
                                 <th>Receipt<br>Date</th>
                                 <th>Contract<br>ID</th>
-                                <th style="text-align:right";>Due<br>Number</th>
                                 <th style="text-align:right";>Gold<br>(Grams)</th>
                                 <th style="text-align:right";>Paid<br>Amount(₹)</th>
                                 <th> </th>
@@ -78,7 +84,6 @@ function listReceipts() {
                     + '<td>' + data.ReceiptNumber + '</td>'
                     + '<td>' + data.ReceiptDate + '</td>'
                     + '<td>' + data.ContractCode + '</td>'
-                    + '<td style="text-align:right">' + data.DueNumber + '</td>'
                     + '<td style="text-align:right">' + data.DueGold + '</td>'
                     + '<td style="text-align:right">' + data.DueAmount + '</td>'
                     + '<td style="text-align:right">' 
@@ -87,8 +92,8 @@ function listReceipts() {
                                             + '<img src="'+URL+'assets/icons/more.png">'
                                         + '</a>'
                                         + '<div class="dropdown-menu dropdown-menu-end">'
-                                                + '<a class="dropdown-item" href="'+URL+'dashboard.php?action=receipts/viewreceipt&number='+data.ReceiptNumber+'">View Receipt</a>'
-                                                + '<a class="dropdown-item" href="'+URL+'dashboard.php?action=contracts/viewcontract&view='+data.ContractCode+'">View Contract</a>'
+                                                + '<a class="dropdown-item" href="'+URL+'dashboard.php?action=receipts/viewreceipt&number='+data.ReceiptNumber+'&fpg=receipts/receipt"">View Receipt</a>'
+                                                + '<a class="dropdown-item" href="'+URL+'dashboard.php?action=contracts/viewcontract&view='+data.ContractCode+'&fpg=receipts/receipt"">View Contract</a>'
                                         + '</div>'
                                 + '</div>'
                             + '</td>'

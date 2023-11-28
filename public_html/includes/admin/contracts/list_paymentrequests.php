@@ -25,14 +25,15 @@
         <div class="col-6" style="text-align: right;">
             <a href="<?php echo URL;?>dashboard.php?action=contracts/list_paymentrequests&type=request">Requested</a> | 
             <a href="<?php echo URL;?>dashboard.php?action=contracts/list_paymentrequests&type=approved">Approved</a> | 
-            <a href="<?php echo URL;?>dashboard.php?action=contracts/list_paymentrequests&type=rejected">Rejected</a> | 
-            <a href="<?php echo URL;?>dashboard.php?action=contracts/list_paymentrequests&type=all">All</a>
+            <a href="<?php echo URL;?>dashboard.php?action=contracts/list_paymentrequests&type=rejected">Rejected</a>  
+            <!--<a href="<?php echo URL;?>dashboard.php?action=contracts/list_paymentrequests&type=all" >All</a>-->
         </div>
      </div>
+     
      <div class="row">
         <div class="col-12">
             <div class="card">
-                <div class="card-body" style="padding-top:15px">
+                <div class="card-body" style="padding-top:15px;">
                     <table id="datatables-fixed-header" class="table table-striped" style="width:100%">
                         <thead>
                             <tr>

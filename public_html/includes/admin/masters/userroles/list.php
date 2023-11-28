@@ -2,10 +2,10 @@
      <div class="row">
         <div class="col-6">
             <h1 class="h3">User Role</h1>
-            <h6 class="card-subtitle text-muted mb-3">List all Userroles</h6>
+            <h6 class="card-subtitle text-muted mb-3">List all User roles</h6>
         </div>
         <div class="col-6" style="text-align:right;">
-            <a href="<?php echo URL;?>dashboard.php?action=masters/userroles/new" class="btn btn-primary btn-sm">New User Role</a>
+            <a href="<?php echo URL;?>dashboard.php?action=masters/userroles/new" class="btn btn-primary btn-sm">New</a>
         </div>
      </div>
      <div class="row">
@@ -23,7 +23,7 @@
                         </thead>
                         <tbody id="tbl_content">
                             <tr>
-                                <td colspan="5" style="text-align: center;background:#fff !important">No data available</td>
+                                <td colspan="5" style="text-align: center;background:#fff !important">loading user roles...</td>
                             </tr>
                         </tbody>
                     </table>

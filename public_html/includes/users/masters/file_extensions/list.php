@@ -63,18 +63,52 @@
             <input type="hidden" value="<?php echo $data[0][' FileExtensionID'];?>" name="FileExtensionID" id=" FileExtensionID">
             <div class="row">
                 <div class="col-sm-6 mb-3">
-                    <label class="form-label">File Extensions Code <span style='color:red'>*</span></label>
-                    <input type="text" value="<?php echo SequnceList::getNextNumber("_tbl_masters_file_extensions");?>" name="ExtensionCode" id="ExtensionCode" class="form-control" placeholder="Extension Code Code">
+                    <label class="form-label">File Extension Code <span style='color:red'>*</span>
+                    <img src="<?php echo URL;?>assets/question.png" style="width: 12px;" class="dropdown"  id="dropdownMenuButton1" data-bs-toggle="dropdown">
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton1" style="padding:0px;">
+                                    <div class="myheader">File Extension Code</div>
+                                    <div class="mycontainer">
+                                        1. Allow only alphanumeric characters<br>
+                                        2. Minimum 8 characters require<br>
+                                        3. Maximum 20 characters require<br>
+                                        4. Not allow cut,copy,paste
+                                        
+                                    </div>
+                                </div>
+                    </label>
+                    <input type="text" value="<?php echo SequnceList::getNextNumber("_tbl_masters_file_extensions");?>" name="ExtensionCode" id="ExtensionCode" class="form-control" placeholder="File Extension Code" maxlength="20" oninput="this.value=this.value.toUpperCase()">
                         <span id="ErrExtensionCode" class="error_msg"></span>
                 </div>
                 <div class="col-sm-12 mb-3">
-                    <label class="form-label">File Extension <span style='color:red'>*</span></label>
-                    <input type="text" name="FileExtension" id="FileExtension" class="form-control" placeholder="File Extension">
+                    <label class="form-label">File Extension <span style='color:red'>*</span>
+                    <img src="<?php echo URL;?>assets/question.png" style="width: 12px;" class="dropdown"  id="dropdownMenuButton1" data-bs-toggle="dropdown">
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton1" style="padding:0px;">
+                                    <div class="myheader">File Extension</div>
+                                    <div class="mycontainer">
+                                        1. Allow only alphanumeric<br>
+                                        2. Minimum 1  characters require<br>
+                                        3. Maximum 5 characters require<br>
+                                        4. Not allow cut,copy,paste
+                                        
+                                    </div>
+                                </div>
+                    </label>
+                    <input type="text" name="FileExtension" id="FileExtension" class="form-control" placeholder="File Extension" maxlength="5">
                         <span id="ErrFileExtension" class="error_msg"></span>
                 </div>
                 <div class="col-sm-12 mb-3">
-                    <label class="form-label">Remarks</label>
-                    <input type="text" name="Remarks" id="Remarks" class="form-control" placeholder="Remarks">
+                    <label class="form-label">Remarks
+                    <img src="<?php echo URL;?>assets/question.png" style="width: 12px;" class="dropdown"  id="dropdownMenuButton1" data-bs-toggle="dropdown">
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton1" style="padding:0px;">
+                                    <div class="myheader">Remarks</div>
+                                    <div class="mycontainer">
+                                        1. Allow all characters, not allow <span style='color:red'>\'!~$"</span><br>
+                                        2. Maximum 250 characters require<br>
+                                        3. Not allow cut,copy,paste
+                                    </div>
+                                </div>
+                    </label>
+                    <input type="text" name="Remarks" id="Remarks" class="form-control" placeholder="Remarks" maxlength="250">
                         <span id="ErrRemarks" class="error_msg"></span>
                 </div>
             </div>
@@ -101,18 +135,40 @@
             <input type="hidden" name="FileExtensionID" id="editFileExtensionID">
                <div class="row">
                             <div class="col-sm-6 mb-3">
-                                <label class="form-label">Extension Code</label>
+                                <label class="form-label">File Extension Code</label>
                                 <input type="text" disabled="disabled" value="" name="ExtensionCode" id="editExtensionCode" class="form-control">
                                 <span id="ErrExtensionCode" class="error_msg"></span>
                             </div>
                             <div class="col-sm-12 mb-3">
-                                <label class="form-label">File Extension <span style='color:red'>*</span></label>
-                                <input type="text" value="" name="FileExtension" id="editFileExtension" class="form-control" placeholder="File Extension">
+                                <label class="form-label">File Extension <span style='color:red'>*</span>
+                                <img src="<?php echo URL;?>assets/question.png" style="width: 12px;" class="dropdown"  id="dropdownMenuButton1" data-bs-toggle="dropdown">
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton1" style="padding:0px;">
+                                    <div class="myheader">File Extension</div>
+                                    <div class="mycontainer">
+                                        1. Allow only alphanumeric<br>
+                                        2. Minimum 1 characters require<br>
+                                        3. Maximum 5 characters require<br>
+                                        4. Not allow cut,copy,paste
+                                        
+                                    </div>
+                                </div>
+                                </label>
+                                <input type="text" value="" name="FileExtension" id="editFileExtension" class="form-control" placeholder="File Extension" maxlength="5">
                                 <span id="ErreditFileExtension" class="error_msg"></span>
                             </div>
                             <div class="col-sm-12 mb-3">
-                                <label class="form-label">Remarks</label>
-                                <input type="text" value="" name="Remarks" id="editRemarks" class="form-control" placeholder="Remarks">
+                                <label class="form-label">Remarks
+                                <img src="<?php echo URL;?>assets/question.png" style="width: 12px;" class="dropdown"  id="dropdownMenuButton1" data-bs-toggle="dropdown">
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton1" style="padding:0px;">
+                                    <div class="myheader">Remarks</div>
+                                    <div class="mycontainer">
+                                        1. Allow all characters, not allow <span style='color:red'>\'!~$"</span><br>
+                                        2. Maximum 250 characters require<br>
+                                        3. Not allow cut,copy,paste
+                                    </div>
+                                </div>
+                                </label>
+                                <input type="text" value="" name="Remarks" id="editRemarks" class="form-control" placeholder="Remarks" maxlength="250">
                                 <span id="ErreditRemarks" class="error_msg"></span>
                             </div>
                             <div class="col-sm-6 mb-3">
@@ -145,7 +201,7 @@
             <input type="hidden" name="FileExtensionID" id="viewFileExtensionID">
     <div class="row">
         <div class="col-sm-6 mb-3">
-            <label class="form-label">Extension Code</label>
+            <label class="form-label">File Extension Code</label>
             <input type="text" disabled="disabled" readonly="readonly" value="" name="ExtensionCode" id="viewExtensionCode" class="form-control">
                 <span id="ErrExtensionCode" class="error_msg"></span>
         </div>
@@ -221,7 +277,7 @@ function listAll() {
 setTimeout("listAll()",2000);
 
 function addForm(){
-  $('#addconfirmation').modal("show"); 
+  $('#addconfirmation').modal("show");
       clearDiv(['ExtensionCode','FileExtension','Remarks']);
 }  
 function addNew() {
@@ -250,6 +306,7 @@ function addNew() {
 
 function edit(ID){
   $('#editForm').modal("show");
+      
       clearDiv(['editFileExtension','editRemarks']);
   $.post(URL+ "webservice.php?action=getData&method=FileExtensions&ID="+ID,"",function(data){
         closePopup();

@@ -44,7 +44,7 @@
                                 <span id="ErrCustomerName" class="error_msg"></span>
                             </div>
                             <div class="col-sm-12 mb-3">
-                                <label class="form-label">EmailID </label>
+                                <label class="form-label">Email ID </label>
                                 <input type="text" value="<?php echo $data[0]['EmailID'];?>" name="EmailID" id="EmailID" class="form-control" placeholder="EmailID">
                                 <span id="ErrEmailID" class="error_msg"></span>
                             </div>
@@ -134,12 +134,30 @@
                     <div class="card-body">
                         <div class="row">
                             <div class="col-sm-12 mb-3">
-                                <label class="form-label">Address Line 1 <span style='color:red'>*</span></label>
+                                <label class="form-label">Address Line 1 <span style='color:red'>*</span>
+                                    <img src="<?php echo URL;?>assets/question.png" style="width: 12px;" class="dropdown"  id="dropdownMenuButton1" data-bs-toggle="dropdown">
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton1" style="padding:0px;">
+                                    <div class="myheader">Address Line 1</div>
+                                    <div class="mycontainer">
+                                        1. Allow alphanumeric characters<br>
+                                        2. Allow only special charecters <span style="color:green;"> #/-.<span>
+                                    </div>
+                                </div>
+                                </label>
                                 <input type="text" value="<?php echo $data[0]['AddressLine1'];?>" name="AddressLine1" id="AddressLine1" class="form-control" placeholder="Address Line 1">
                                 <span id="ErrAddressLine1" class="error_msg"></span>
                             </div>
                             <div class="col-sm-12 mb-3">
-                                <label class="form-label">Address Line 2</label>
+                                <label class="form-label">Address Line 2
+                                 <img src="<?php echo URL;?>assets/question.png" style="width: 12px;" class="dropdown"  id="dropdownMenuButton1" data-bs-toggle="dropdown">
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton1" style="padding:0px;">
+                                    <div class="myheader">Address Line 2</div>
+                                    <div class="mycontainer">
+                                        1. Allow alphanumeric characters<br>
+                                        2. Allow only special charecters <span style="color:green;"> #/-.<span>
+                                    </div>
+                                </div>
+                                </label>
                                 <input type="text" value="<?php echo $data[0]['AddressLine2'];?>" name="AddressLine2" id="EstimatedDuration" class="form-control" placeholder="Address Line 2">
                                 <span id="ErrAddressLine2" class="error_msg"></span>
                             </div>
@@ -171,7 +189,7 @@
                                 <span id="ErrAreaNameID" class="error_msg"></span>
                             </div>
                             <div class="col-sm-6">
-                                <label class="form-label">PinCode <span style='color:red'>*</span></label>
+                                <label class="form-label">Pincode <span style='color:red'>*</span></label>
                                 <input type="text" value="<?php echo $data[0]['PinCode'];?>" name="PinCode" id="PinCode" class="form-control" placeholder="Pincode">
                                 <span id="ErrPinCode" class="error_msg"></span>
                             </div>
@@ -216,8 +234,18 @@
                                 <span id="ErrRefMobileNumber" class="error_msg"></span>
                             </div> 
                             <div class="col-sm-12">
-                                <label class="form-label">Remarks</label>
-                                <input type="text" value="<?php echo $data[0]['Remarks'];?>" name="Remarks" id="Remarks" class="form-control" placeholder="Remarks">
+                                <label class="form-label">Remarks
+                                <img src="<?php echo URL;?>assets/question.png" style="width: 12px;" class="dropdown"  id="dropdownMenuButton1" data-bs-toggle="dropdown">
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton1" style="padding:0px;">
+                                    <div class="myheader">Remarks</div>
+                                    <div class="mycontainer">
+                                        1. Allow all characters, not allow <span style='color:red'>\'!~$"</span><br>
+                                        2. Maximum 250 characters require<br>
+                                        3. Not allow cut,copy,paste
+                                    </div>
+                                </div>
+                                </label>
+                                <input type="text" value="<?php echo $data[0]['Remarks'];?>" name="Remarks" id="Remarks" class="form-control" placeholder="Remarks" maxlength="250">
                                 <span id="ErrRemarks" class="error_msg"></span>
                             </div> 
                         </div>
@@ -532,5 +560,41 @@ function addNewCustomerType() {
 setTimeout(function(){
     ListCustomerTypes();
     listStateNames();
+    $('#AddressLine1').keydown(function (e) {
+         // alert(e.keyCode);
+          if (e.ctrlKey || e.altKey){
+              e.preventDefault();
+          } else {
+              var key = e.keyCode;
+              if (e.shiftKey) {
+                  
+                  if (!((key == 51))) {
+                    e.preventDefault();
+                  }
+              } else {
+                  if (!((key == 9) || (key == 16) || (key == 50) || (key == 191) || (key == 173) || (key == 190) || (key == 8) || (key == 32) || (key == 46) || (key == 173) || (key == 163) || (key == 109) || (key == 111) || (key >= 35 && key <= 40) || (key >= 65 && key <= 90) || (key >= 48 && key <= 57) || (key >= 96 && key <= 105))) {
+                      e.preventDefault();
+                  }
+              }
+          }
+      });
+      $('#AddressLine2').keydown(function (e) {
+         // alert(e.keyCode);
+          if (e.ctrlKey || e.altKey){
+              e.preventDefault();
+          } else {
+              var key = e.keyCode;
+              if (e.shiftKey) {
+                  
+                  if (!((key == 51))) {
+                    e.preventDefault();
+                  }
+              } else {
+                  if (!((key == 9) || (key == 16) || (key == 50) || (key == 191) || (key == 173) || (key == 190) || (key == 8) || (key == 32) || (key == 46) || (key == 173) || (key == 163) || (key == 109) || (key == 111) || (key >= 35 && key <= 40) || (key >= 65 && key <= 90) || (key >= 48 && key <= 57) || (key >= 96 && key <= 105))) {
+                      e.preventDefault();
+                  }
+              }
+          }
+      });
 },2000);
 </script>

@@ -7,22 +7,33 @@
                     <div class="card-body">
                         <div class="row">
                             <div class="col-sm-6 mb-3">
-                                <label class="form-label">Event Code <span style='color:red'>*</span></label>
-                                <input type="text" value="<?php echo SequnceList::getNextNumber("_tbl_apps_events");?>" name="EventCode" id="EventCode" class="form-control" placeholder="Message Code">
+                                <label class="form-label">Event  Code <span style='color:red'>*</span>
+                                 <img src="<?php echo URL;?>assets/question.png" style="width: 12px;" class="dropdown"  id="dropdownMenuButton1" data-bs-toggle="dropdown">
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton1" style="padding:0px;">
+                                    <div class="myheader">Event Code</div>
+                                    <div class="mycontainer">
+                                        1. Allow only alphanumeric characters<br>
+                                        2. Minimum 8 characters require<br>
+                                        3. Maximum 20 characters require<br>
+                                        4. Not allow cut,copy,paste
+                                    </div>
+                                </div>
+                                </label>
+                                <input type="text" value="<?php echo SequnceList::getNextNumber("_tbl_apps_events");?>" name="EventCode" id="EventCode" class="form-control" placeholder="Event Code" maxlength="20" oninput="this.value=this.value.toUpperCase()">
                                 <span id="ErrEventCode" class="error_msg"></span>
                             </div>
                             <div class="col-sm-6 mb-3">
                             </div>
                             <div class="col-sm-12 mb-3">
                                 <label class="form-label">Event Title <span style='color:red'>*</span></label>
-                                <input type="text" value="" name="EventTitle" id="EventTitle" class="form-control" placeholder="Event Title">
+                                <input type="text" value="" name="EventTitle" id="EventTitle" class="form-control" placeholder="Event Title" maxlength="50">
                                 <span id="ErrEventTitle" class="error_msg"></span>
                             </div>
                             <div class="col-sm-6">
                             </div>
                             <div class="col-sm-12 mb-3">
                                 <label class="form-label">Event Description <span style='color:red'>*</span></label>
-                                <textarea id="EventDescription" name="EventDescription" class="form-control" rows="4" cols="50"></textarea>
+                                <textarea id="EventDescription" name="EventDescription" maxlength="250" class="form-control" rows="4" cols="50"></textarea>
                                 <span id="ErrEventDescription" class="error_msg"></span>
                             </div>
                             <div class="col-sm-6 mb-3">
@@ -319,8 +330,18 @@
                             </div>
                         </div>
                         <div class="col-sm-12">
-                                <label class="form-label">Remarks</label>
-                                <input type="text" name="Remarks" id="Remarks" class="form-control" placeholder="Remarks">
+                                <label class="form-label">Remarks
+                                <img src="<?php echo URL;?>assets/question.png" style="width: 12px;" class="dropdown"  id="dropdownMenuButton1" data-bs-toggle="dropdown">
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton1" style="padding:0px;">
+                                    <div class="myheader">Remarks</div>
+                                    <div class="mycontainer">
+                                        1. Allow all characters, not allow <span style='color:red'>\'!~$"</span><br>
+                                        2. Maximum 250 characters require<br>
+                                        3. Not allow cut,copy,paste
+                                    </div>
+                                </div>
+                                </label>
+                                <input type="text" name="Remarks" id="Remarks" class="form-control" placeholder="Remarks" maxlength="250">
                                 <span id="ErrRemarks" class="error_msg"></span>
                         </div>
                     </div>
@@ -385,4 +406,5 @@ function addNew() {
     });
     
 }
+
 </script>

@@ -5,9 +5,17 @@
         <div class="col-6">
             <h1 class="h3">Pending Dues</h1>
         </div>
-        <div class="col-6" style="text-align:right;">
-            <a href="<?php echo URL;?>dashboard.php?" class="btn btn-outline-primary btn-sm">Back</a>
+        <div class="col-sm-6  mb-2" style="text-align:right;">
+            <?php 
+            $path=URL."dashboard.php";
+            if (isset($_GET['fpg'])) {
+                $path=URL."dashboard.php?action=".$_GET['fpg'];
+            }
+            ?>
+            <a href="<?php echo $path;?>" class="btn btn-outline-primary btn-sm">Back</a>
+         
      </div>
+      
      </div>
      </div>
     <!--<div class="row">
@@ -47,11 +55,12 @@
                                 <th style="text-align: right;">Due<br>Number</th>
                                 <th style="text-align: right;">Due<br>Amount(₹)</th>
                                 <th></th>
+                                <th></th>
                             </tr>
                         </thead>
                         <tbody id="tbl_content">
                             <tr>
-                                <td colspan="7" style="text-align: center;background:#fff !important">Loading dues ...</td>
+                                <td colspan="8" style="text-align: center;background:#fff !important">Loading dues ...</td>
                             </tr>
                         </tbody>
                     </table>
@@ -79,15 +88,18 @@ function getData() {
                            + '<td>' + data.DueDate + '</td>'
                            + '<td style="text-align:right">' + data.DueNumber + '</td>'
                            + '<td style="text-align:right">' + data.DueAmount + '</td>'
+                           + '<td style="text-align:right"><span class="badge badge-soft-danger"> -'+data.DaysBefore+' days</span></td>'
                            + '<td style="text-align:right">' 
                                 + '<div class="dropdown position-relative">'
                                         + '<a href="javascript:void(0)" data-bs-toggle="dropdown" data-bs-display="static">'
                                         + '<img src="'+URL+'assets/icons/more.png">'
                                         + '</a>'
                                         + '<div class="dropdown-menu dropdown-menu-end">'
-                                                + '<a class="dropdown-item" href="'+URL+'dashboard.php?action=contracts/viewcontract&view='+data.ContractCode+'">View Contract</a>'
-                                                + '<a class="dropdown-item" href="'+URL+'dashboard.php?action=schemes/view&edit='+data.SchemeID+'">View Scheme</a>'
-                                                 
+                                                + '<a class="dropdown-item" href="'+URL+'dashboard.php?action=contracts/viewcontract&view='+data.ContractCode+'&fpg=contracts/pendingdues">View Contract</a>'
+                                                + '<a class="dropdown-item" href="'+URL+'dashboard.php?action=schemes/view&edit='+data.SchemeID+'&fpg=contracts/pendingdues">View Scheme</a>'
+                                               + '<hr style="margin:0px !important">'
+                                                + '<a class="dropdown-item" href="'+URL+'dashboard.php?action=contracts/offlinepayment&due='+data.DueID+'&fpg=contracts/pendingdues">Make Offline Payment</a>'
+                                                + '<a class="dropdown-item" href="'+URL+'dashboard.php?action=contracts/onlinepayment&due='+data.DueID+'&fpg=contracts/pendingdues">Make Online Payment</a>'
                                         + '</div>'
                                 + '</div>'
                             + '</td>'
@@ -95,7 +107,7 @@ function getData() {
     });
             if (obj.data.length==0) {
          html += '<tr>'
-                    + '<td colspan="7" style="text-align: center;background:#fff !important">No Data Found</td>'
+                    + '<td colspan="8" style="text-align: center;background:#fff !important">No Data Found</td>'
                + '</tr>';
     }  
             $('#tbl_content').html(html);

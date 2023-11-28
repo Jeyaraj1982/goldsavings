@@ -62,18 +62,53 @@
                 <form id="frm_create" name="frm_create" method="post" enctype="multipart/form-data">
                     <div class="row">
                         <div class="col-sm-6 mb-3">
-                            <label class="form-label">Customer Type Code <span style='color:red'>*</span></label>
-                            <input type="text" value="<?php echo SequnceList::getNextNumber("_tbl_masters_customertypename");?>"  name="CustomerTypeCode" id="CustomerTypeCode" class="form-control" placeholder="Customer Type Code">
+                            <label class="form-label">Customer Type Code <span style='color:red'>*</span>
+                            <img src="<?php echo URL;?>assets/question.png" style="width: 12px;" class="dropdown"  id="dropdownMenuButton1" data-bs-toggle="dropdown">
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton1" style="padding:0px;">
+                                    <div class="myheader">Customer Type Code</div>
+                                    <div class="mycontainer">
+                                        1. Allow only alphanumeric characters<br>
+                                        2. Minimum 8 characters require<br>
+                                        3. Maximum 20 characters require<br>
+                                        4. Not allow cut,copy,paste
+                                        
+                                    </div>
+                                </div>
+                            </label>
+                            <input type="text" value="<?php echo SequnceList::getNextNumber("_tbl_masters_customertypename");?>"  name="CustomerTypeCode" id="CustomerTypeCode" class="form-control" placeholder="Customer Type Code" maxlength="20" oninput="this.value=this.value.toUpperCase()">
                             <span id="ErrCustomerTypeCode" class="error_msg"></span>
                         </div>
                         <div class="col-sm-12 mb-3">
-                            <label class="form-label">Customer Type Name <span style='color:red'>*</span></label>
-                            <input type="text" name="CustomerTypeName" id="CustomerTypeName" class="form-control" placeholder="Customer Type Name">
+                            <label class="form-label">Customer Type Name <span style='color:red'>*</span>
+                            <img src="<?php echo URL;?>assets/question.png" style="width: 12px;" class="dropdown"  id="dropdownMenuButton1" data-bs-toggle="dropdown">
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton1" style="padding:0px;">
+                                    <div class="myheader">Customer Type Name</div>
+                                    <div class="mycontainer">
+                                        1. Allow only alphabets and space<br>
+                                        2. Minimum 3 characters require<br>
+                                        3. Maximum 50 characters require<br>
+                                        4. Not allow cut,copy,paste
+                                        
+                                    </div>
+                                </div>
+                            </label>
+                            <input type="text" name="CustomerTypeName" id="CustomerTypeName" class="form-control" placeholder="Customer Type Name" maxlength="50">
                             <span id="ErrCustomerTypeName" class="error_msg"></span>
                         </div>
                         <div class="col-sm-12 mb-3">
-                            <label class="form-label">Remarks</label>
-                            <input type="text" name="Remarks" id="Remarks" class="form-control" placeholder="Remarks">
+                            <label class="form-label">Remarks
+                            <img src="<?php echo URL;?>assets/question.png" style="width: 12px;" class="dropdown"  id="dropdownMenuButton1" data-bs-toggle="dropdown">
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton1" style="padding:0px;">
+                                    <div class="myheader">Remarks</div>
+                                    <div class="mycontainer">
+                                        1. Allow all characters, not allow <span style='color:red'>\'!~$"</span><br>
+                                        2. Maximum 250 characters require<br>
+                                        3. Not allow cut,copy,paste
+                                    </div>
+                                </div>
+                                </div>
+                            </label>
+                            <input type="text" name="Remarks" id="Remarks" class="form-control" placeholder="Remarks" maxlength="250">
                             <span id="ErrRemarks" class="error_msg"></span>
                         </div>
                     </div>
@@ -102,12 +137,14 @@
                                 <span id="ErrCustomerTypeCode" class="error_msg"></span>
                             </div>
                             <div class="col-sm-12 mb-3">
-                                <label class="form-label">Customer Type Name </label>
+                                <label class="form-label">Customer Type Name 
+                                </label>
                                 <input type="text" value="" readonly="readonly" name="CustomerTypeName" id="viewCustomerTypeName" class="form-control" placeholder="Customer Type Name">
                                 <span id="ErrCustomerTypeName" class="error_msg"></span>
                             </div>
                             <div class="col-sm-12 mb-3">
-                                <label class="form-label">Remarks</label>
+                                <label class="form-label">Remarks
+                                </label>
                                 <input type="text" value="" readonly="readonly" name="Remarks" id="viewRemarks" class="form-control" placeholder="Remarks">
                                 <span id="ErrRemarks" class="error_msg"></span>
                             </div>
@@ -153,6 +190,7 @@ function view(CustomerTypeNameID){
 
 function edit(CustomerTypeNameID){
     $('#editForm').modal("show");
+     
         clearDiv(['editCustomerTypeName','editRemarks']);
     $.post(URL+ "webservice.php?action=getData&method=CustomerTypes&ID="+CustomerTypeNameID,"",function(data){
         var obj = JSON.parse(data);
@@ -196,7 +234,8 @@ function doUpdate() {
 }
 
 function addForm(){
-  $('#addconfirmation').modal("show"); 
+  $('#addconfirmation').modal("show");
+     
       clearDiv(['CustomerTypeCode','CustomerTypeName','Remarks']);
 }  
 
@@ -359,13 +398,35 @@ function Remove() {
                             <input type="text" disabled="disabled" name="CustomerTypeCode" id="editCustomerTypeCode" class="form-control">
                         </div>
                         <div class="col-sm-12 mb-3">
-                            <label class="form-label">Customer Type Name <span style='color:red'>*</span></label>
-                            <input type="text" value="" name="CustomerTypeName" id="editCustomerTypeName" class="form-control" placeholder="Customer Type Name">
+                            <label class="form-label">Customer Type Name <span style='color:red'>*</span>
+                            <img src="<?php echo URL;?>assets/question.png" style="width: 12px;" class="dropdown"  id="dropdownMenuButton1" data-bs-toggle="dropdown">
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton1" style="padding:0px;">
+                                    <div class="myheader">Customer Type Name</div>
+                                    <div class="mycontainer">
+                                        1. Allow only alphabets and space<br>
+                                        2. Minimum 3 characters require<br>
+                                        3. Maximum 50 characters require<br>
+                                        4. Not allow cut,copy,paste
+                                        
+                                    </div>
+                                </div>
+                            </label>
+                            <input type="text" value="" name="CustomerTypeName" id="editCustomerTypeName" class="form-control" placeholder="Customer Type Name" maxlength="50">
                             <span id="ErreditCustomerTypeName" class="error_msg"></span>
                         </div>
                         <div class="col-sm-12 mb-3">
-                            <label class="form-label">Remarks</label>
-                            <input type="text" value="" name="Remarks" id="editRemarks" class="form-control" placeholder="Remarks">
+                            <label class="form-label">Remarks
+                            <img src="<?php echo URL;?>assets/question.png" style="width: 12px;" class="dropdown"  id="dropdownMenuButton1" data-bs-toggle="dropdown">
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton1" style="padding:0px;">
+                                    <div class="myheader">Remarks</div>
+                                    <div class="mycontainer">
+                                        1. Allow all characters, not allow <span style='color:red'>\'!~$"</span><br>
+                                        2. Maximum 250 characters require<br>
+                                        3. Not allow cut,copy,paste
+                                    </div>
+                                </div>
+                            </label>
+                            <input type="text" value="" name="Remarks" id="editRemarks" class="form-control" placeholder="Remarks" maxlength="250">
                             <span id="ErreditRemarks" class="error_msg"></span>
                         </div>
                         <div class="col-sm-6 mb-3">

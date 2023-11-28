@@ -8,7 +8,7 @@
             <a href="<?php echo URL;?>dashboard.php"  class="sidebar-link"><i class="align-middle" data-feather="sliders"></i> <span class="align-middle">Dashboards</span></a>
         </li>
         <li class="sidebar-header">Quick Links</li> 
-        <li class="sidebar-item"><a class="sidebar-link" href="<?php echo URL;?>dashboard.php?action=myreferrel/list_customer">My Referrel</a></li>
+        <li class="sidebar-item"><a class="sidebar-link" href="<?php echo URL;?>dashboard.php?action=contracts/mydownlines">My Downlines</a></li>
         <li class="sidebar-item"><a class="sidebar-link" href="<?php echo URL;?>dashboard.php?action=contracts/upcommingdues">Upcomming Dues</a></li>
         <li class="sidebar-item"><a class="sidebar-link" href="<?php echo URL;?>dashboard.php?action=contracts/pendingdues">Pending Dues</a></li>
         <li class="sidebar-item"><a class="sidebar-link" href="<?php echo URL;?>dashboard.php?action=contracts/list_paymentrequests">Recent Payments</a></li>

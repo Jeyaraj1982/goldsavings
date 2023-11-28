@@ -7,8 +7,19 @@
                     <form id="frm_create" name="frm_create">
                         <div class="row">
                             <div class="col-sm-6 mb-3">
-                                <label class="form-label">Area Code <span style='color:red'>*</span></label>
-                                <input type="text" value="<?php echo SequnceList::getNextNumber("_tbl_masters_areanames");?>" name="AreaNameCode" id="AreaNameCode" class="form-control" placeholder="Area Name Code">
+                                <label class="form-label">Area Code <span style='color:red'>*</span>
+                                <img src="<?php echo URL;?>assets/question.png" style="width: 12px;" class="dropdown"  id="dropdownMenuButton1" data-bs-toggle="dropdown">
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton1" style="padding:0px;">
+                                    <div class="myheader">Area ID</div>
+                                    <div class="mycontainer">
+                                        1. Allow only alphanumeric characters<br>
+                                        2. Minimum 8 characters require<br>
+                                        3. Maximum 20 characters require
+                                        
+                                    </div>
+                                </div>
+                                </label>
+                                <input type="text" value="<?php echo SequnceList::getNextNumber("_tbl_masters_areanames");?>" name="AreaNameCode" id="AreaNameCode" class="form-control" placeholder="Area Name Code" maxlength="20">
                                 <span id="ErrAreaNameCode" class="error_msg"></span>
                             </div>
                             <div class="col-sm-12 mb-3">

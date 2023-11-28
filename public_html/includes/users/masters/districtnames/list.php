@@ -16,8 +16,8 @@
                         <thead>
                             <tr>
                                 <th style="width: 100px;">Code</th>
-                                <th>District Name</th>
                                 <th style="width: 200px;">State Name</th>
+                                <th>District Name</th>
                                 <th style="width: 70px;">Status</th>
                                 <th style="width: 50px;"></th>
                             </tr>  
@@ -63,13 +63,37 @@
     <input type="hidden" value="<?php echo $data[0][' DistrictNameID'];?>" name="DistrictNameID" id=" DistrictNameID">
         <div class="row">
                             <div class="col-sm-6 mb-3">
-                                <label class="form-label">District Code <span style='color:red'>*</span></label>
-                                <input type="text" value="<?php echo SequnceList::getNextNumber("_tbl_masters_districtnames");?>" name="DistrictNameCode" id="DistrictNameCode" class="form-control" placeholder="District Name Code">
+                                <label class="form-label">District Name Code <span style='color:red'>*</span>
+                                <img src="<?php echo URL;?>assets/question.png" style="width: 12px;" class="dropdown"  id="dropdownMenuButton1" data-bs-toggle="dropdown">
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton1" style="padding:0px;">
+                                    <div class="myheader">District Code</div>
+                                    <div class="mycontainer">
+                                        1. Allow only alphanumeric characters<br>
+                                        2. Minimum 8 characters require<br>
+                                        3. Maximum 20 characters require><br>
+                                        4. Not allow cut,copy,paste
+                                        
+                                    </div>
+                                </div>
+                                </label>
+                                <input type="text" value="<?php echo SequnceList::getNextNumber("_tbl_masters_districtnames");?>" name="DistrictNameCode" id="DistrictNameCode" class="form-control" placeholder="District Name Code" maxlength="20" oninput="this.value=this.value.toUpperCase()">
                                 <span id="ErrDistrictNameCode" class="error_msg"></span>
                             </div>
                             <div class="col-sm-12 mb-3">
-                                <label class="form-label">District Name <span style='color:red'>*</span></label>
-                                <input type="text" name="DistrictName" id="DistrictName" class="form-control" placeholder="District Name">
+                                <label class="form-label">District Name <span style='color:red'>*</span>
+                                <img src="<?php echo URL;?>assets/question.png" style="width: 12px;" class="dropdown"  id="dropdownMenuButton1" data-bs-toggle="dropdown">
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton1" style="padding:0px;">
+                                    <div class="myheader">District Name</div>
+                                    <div class="mycontainer">
+                                        1. Allow only alphabets and space<br>
+                                        2. Minimum 3 characters require<br>
+                                        3. Maximum 50 characters require<br>
+                                        4. Not allow cut,copy,paste
+                                        
+                                    </div>
+                                </div>
+                                </label>
+                                <input type="text" name="DistrictName" id="DistrictName" class="form-control" placeholder="District Name" maxlength="50">
                                 <span id="ErrDistrictName" class="error_msg"></span>
                             </div>
                              <div class="col-sm-12  mb-3">
@@ -80,8 +104,18 @@
                                 <span id="ErrStateNameID" class="error_msg"></span>
                             </div>
                             <div class="col-sm-12 mb-3">
-                                <label class="form-label">Remarks</label>
-                                <input type="text" name="Remarks" id="Remarks" class="form-control" placeholder="Remarks">
+                                <label class="form-label">Remarks
+                                <img src="<?php echo URL;?>assets/question.png" style="width: 12px;" class="dropdown"  id="dropdownMenuButton1" data-bs-toggle="dropdown">
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton1" style="padding:0px;">
+                                    <div class="myheader">Remarks</div>
+                                    <div class="mycontainer">
+                                        1. Allow all characters, not allow <span style='color:red'>\'!~$"</span><br>
+                                        2. Maximum 250 characters require<br>
+                                        3. Not allow cut,copy,paste
+                                    </div>
+                                </div>
+                                </label>
+                                <input type="text" name="Remarks" id="Remarks" class="form-control" placeholder="Remarks" maxlength="250">
                                 <span id="ErrRemarks" class="error_msg"></span>
                             </div>
                          </div>
@@ -114,7 +148,19 @@
                             </div>
                             
                             <div class="col-sm-12 mb-3">
-                                <label class="form-label">District Name <span style='color:red'>*</span></label>
+                                <label class="form-label">District Name <span style='color:red'>*</span>
+                                <img src="<?php echo URL;?>assets/question.png" style="width: 12px;" class="dropdown"  id="dropdownMenuButton1" data-bs-toggle="dropdown">
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton1" style="padding:0px;">
+                                    <div class="myheader">District Name</div>
+                                    <div class="mycontainer">
+                                        1. Allow only alphabets and space<br>
+                                        2. Minimum 3 characters require<br>
+                                        3. Maximum 50 characters require<br>
+                                        4. Not allow cut,copy,paste
+                                        
+                                    </div>
+                                </div>
+                                </label>
                                 <input type="text" value="" name="DistrictName" id="editDistrictName" class="form-control" placeholder="District Name">
                                 <span id="ErreditDistrictName" class="error_msg"></span>
                             </div>
@@ -126,8 +172,18 @@
                                 <span id="ErreditStateName" class="error_msg"></span>
                             </div>
                             <div class="col-sm-12 mb-3">
-                                <label class="form-label">Remarks</label>
-                                <input type="text" value="" name="Remarks" id="editRemarks" class="form-control" placeholder="Remarks">
+                                <label class="form-label">Remarks
+                                <img src="<?php echo URL;?>assets/question.png" style="width: 12px;" class="dropdown"  id="dropdownMenuButton1" data-bs-toggle="dropdown">
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton1" style="padding:0px;">
+                                    <div class="myheader">Remarks</div>
+                                    <div class="mycontainer">
+                                        1. Allow all characters, not allow <span style='color:red'>\'!~$"</span><br>
+                                        2. Maximum 250 characters require<br>
+                                        3. Not allow cut,copy,paste
+                                    </div>
+                                </div>
+                                </label>
+                                <input type="text" value="" name="Remarks" id="editRemarks" class="form-control" placeholder="Remarks" maxlength="250">
                                 <span id="ErreditRemarks" class="error_msg"></span>
                             </div>
                             <div class="col-sm-6 mb-3">
@@ -244,6 +300,8 @@ setTimeout("d()",2000);
 
 function addForm(){
   $('#addconfirmation').modal("show");
+     
+      
   listStateNames();
   clearDiv(['DistrictName','StateName','DistrictNameCode','Remarks','IsActive']);
    
@@ -296,6 +354,7 @@ function listStateNames() {
 var _StateNameID = "<?php echo $data[0]['StateNameID'];?>";
 function edit(ID){
   $('#editForm').modal("show");
+     
    listStateNames();
        clearDiv(['editDistrictName','editStateNameID','editDistrictNameCode','editRemarks','editIsActive']);
     $.post(URL+ "webservice.php?action=getData&method=DistrictNames&ID="+ID,"",function(data){
@@ -321,9 +380,9 @@ function doUpdate() {
     $.post(URL+"webservice.php?action=doUpdate&method=DistrictNames",param,function(data){
         var obj = JSON.parse(data); 
         if (obj.status=="success") {
-            $('#confirmationtoupdate').modal("hide");
+            $('#editForm').modal("hide");
             openPopup();
-            $('#popupcontent').html(success_content(obj.message));
+            $('#popupcontent').html(success_content(obj.message,'closePopup=d()'));
         } else {
             if (obj.div!="") {
                 $('#Erredit'+obj.div).html(obj.message)

@@ -2,8 +2,11 @@
 <div class="container-fluid p-0">
     <div class="row">
         <div class="col-6">
-            <h1 class="h3">Vouchers</h1>
+            <h1 class="h3">Voucher</h1>
         </div>
+        <div class="col-6" style="text-align:right;">
+            <a href="<?php echo URL;?>dashboard.php?action=reports/customized_voucherlist" class="btn btn-warning btn-sm">Customize Columns</a>
+     </div>
     </div>
     <div class="row">
         <div class="col-sm-12">
@@ -84,9 +87,9 @@ function getData() {
                                             + '<img src="'+URL+'assets/icons/more.png">'
                                         + '</a>'
                                         + '<div class="dropdown-menu dropdown-menu-end">'
-                                                + '<a class="dropdown-item" href="'+URL+'dashboard.php?action=contracts/voucher&number='+data.VoucherNumber+'">View Voucher</a>'
-                                                + '<a class="dropdown-item" href="'+URL+'dashboard.php?action=contracts/view&view='+data.ContractCode+'">View Contract</a>'
-                                                + '<a class="dropdown-item" href="'+URL+'dashboard.php?action=masters/customers/view&customer='+data.CustomerID+'">View Customer</a>'
+                                                + '<a class="dropdown-item" href="'+URL+'dashboard.php?action=contracts/voucher&number='+data.VoucherNumber+'&fpg=reports/voucher">View Voucher</a>'
+                                                + '<a class="dropdown-item" href="'+URL+'dashboard.php?action=contracts/view&view='+data.ContractCode+'&fpg=reports/voucher">View Contract</a>'
+                                                + '<a class="dropdown-item" href="'+URL+'dashboard.php?action=masters/customers/view&customer='+data.CustomerID+'&fpg=reports/voucher">View Customer</a>'
                                         + '</div>'
                                 + '</div>'
                             + '</td>'

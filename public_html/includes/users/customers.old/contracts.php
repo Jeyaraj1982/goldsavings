@@ -18,14 +18,14 @@
             <div class="card">
                 <div class="card-body" style="padding-top:25px">
                     <table id="datatables-fixed-header" class="table table-striped" style="width:100%">
-                        <thead>
+                       <thead>
                             <tr>
-                                <th style="width:100px">Contract ID</th>
+                                <th>Contract<br>ID</th>
                                 <th>Scheme</th>
-                                <th>Start Date</th>
-                                <th>End Date</th>
-                                <th style="width:70px">Status</th>
-                                <th style="width:50px"></th>
+                                <th style="text-align:right;">Contract<br>Amount(₹)</th>
+                                <th>Start<br>Date</th>
+                                <th>End<br>Date</th>
+                                <th></th>
                             </tr>
                         </thead>
                         <tbody id="tbl_content">
@@ -51,11 +51,11 @@ function listContracts() {
             var html = "";
             $.each(obj.data, function (index, data) {
                 html += '<tr>'
-                            + '<td>' + data.ContractCode + '</td>'
-                            + '<td>' + data.SchemeName + '</td>'
-                            + '<td>' + data.StartDate + '</td>'
-                            + '<td>' + data.EndDate + '</td>'
-                            + '<td>' + ( (data.IsActive=="1") ? "<span class='badge bg-success'>Active</span>" : "<span class='badge bg-secondary'>Disabled</span>" ) + '</td>'                                                                   
+                             + '<td>' + data.ContractCode + '</td>'
+                        + '<td>' + data.SchemeName + '</td>'
+                        + '<td style="text-align:right">' + data.ContractAmount + '</td>'
+                        + '<td style="text-align:right;">' + data.StartDate + '</td>'
+                        + '<td style="text-align:right;">' + data.EndDate + '</td>'
                             + '<td style="text-align:right">' 
                                 + '<div class="dropdown position-relative">'
                                         + '<a href="javascript:void(0)" data-bs-toggle="dropdown" data-bs-display="static">'
@@ -69,7 +69,7 @@ function listContracts() {
                                 + '</div>'
                             + '</td>'
                       + '</tr>';
-    });                       
+    });                                                               
             if (obj.data.length==0) {
                  html += '<tr>'
                             + '<td colspan="5" style="text-align: center;background:#fff !important">No Data Found</td>'

@@ -38,22 +38,18 @@
                             <div class="col-sm-12 mb-3">
                                 <div style="font-weight: bold;">Father/Husband's Name</div>
                                 <?php echo $data[0]['FatherName'];?>
-                                <span id="ErrFatherName" class="error_msg"></span>
                             </div>
                             <div class="col-sm-6 mb-3">
                                 <div style="font-weight: bold;">Gender</div>
                                 <?php echo $data[0]['Gender'];?>
-                                <span id="ErrGender" class="error_msg"></span>
                             </div>
                             <div class="col-sm-6 mb-3">
                                 <div style="font-weight: bold;">Date Of Birth</div>
-                                <?php echo date("d-m-Y",strtotime($data[0]["DateOfBirth"])) ;?>
-                                <span id="ErrDateOfBirth" class="error_msg"></span>
+                                    <?php echo date("d-m-Y",strtotime($data[0]["DateOfBirth"])) ;?>
                             </div>
                             <div class="col-sm-12 mb-3">
                                 <div style="font-weight: bold;">Email ID </div> 
                                 <?php echo $data[0]['EmailID'];?>
-                                <span id="ErrEmailID" class="error_msg"></span>
                             </div>
                              <div class="col-sm-6 mb-3">
                                 <div style="font-weight: bold">Mobile Number</div>
@@ -69,17 +65,6 @@
                                     }
                                 ?>
                                 </div>
-                                <div class="col-sm-6 mb-3">
-                                <div style="font-weight: bold">Alternative Mobile Number</div>
-                                <?php 
-                                    if (strlen($data[0]['AlternativeMobileNumber'])>0) {
-                                        echo "+91 ".$data[0]['AlternativeMobileNumber'];  
-                                    } else {
-                                       echo "N/A";     
-                                    }
-                                ?>
-                                </div>
-                                
                             <div class="col-sm-12">
                                 <hr style="margin-top:0px">
                             </div>
@@ -91,6 +76,7 @@
                                 <div style="font-weight: bold;">Login Password</div>
                                <?php echo $data[0]['LoginPassword'];?>
                             </div>
+                            
                             </div>
                         </div>
                     </div>
@@ -113,7 +99,7 @@
                                     }
                                 ?>
                                 </div>
-                            <div class="col-sm-6 mb-3">
+                            <div class="col-sm-6">
                                 <div style="font-weight: bold;">Area Name</div>
                                 <?php echo $data[0]['AreaName'];?>
                             </div>
@@ -168,13 +154,14 @@
                                     }
                                 ?>
                                 </div> 
-                            </div> 
                         </div>
                     </div>
-                      
+                </div>      
+                </div>
             <div class="col-sm-12" style="text-align:right;">
                 <a href="<?php echo URL;?>dashboard.php?action=customers/list" class="btn btn-outline-primary">Back</a>&nbsp;&nbsp;
             </div>
         </div>
     </form>                            
+</div>
 </div>

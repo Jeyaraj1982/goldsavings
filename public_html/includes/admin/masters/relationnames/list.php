@@ -63,18 +63,54 @@
     <input type="hidden" value="<?php echo $data[0][' RelationNameID'];?>" name="RelationNameID" id="RelationNameID">
         <div class="row">
                             <div class="col-sm-6 mb-3">
-                                <label class="form-label">Relation Code <span style='color:red'>*</span></label>
-                                <input type="text" value="<?php echo SequnceList::getNextNumber("_tbl_masters_relationnames");?>" name="RelationNameCode" id="RelationNameCode" class="form-control" placeholder="Relation Name Code">
+                                <label class="form-label">Relation Name Code <span style='color:red'>*</span>
+                                <img src="<?php echo URL;?>assets/question.png" style="width: 12px;" class="dropdown"  id="dropdownMenuButton1" data-bs-toggle="dropdown">
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton1" style="padding:0px;">
+                                    <div class="myheader">Relation Code</div>
+                                    <div class="mycontainer">
+                                        1. Allow only alphanumeric characters<br>
+                                        2. Minimum 8 characters require<br>
+                                        3. Maximum 20 characters require<br>
+                                        4. Not allow cut,copy,paste
+                                        
+                                    </div>
+                                </div>
+                                </label>
+                                <input type="text" value="<?php echo SequnceList::getNextNumber("_tbl_masters_relationnames");?>" name="RelationNameCode" id="RelationNameCode" class="form-control" placeholder="Relation Name Code" oninput="this.value=this.value.toUpperCase()" maxlength="20">
                                 <span id="ErrRelationNameCode" class="error_msg"></span>
                             </div>
                             <div class="col-sm-12 mb-3">
-                                <label class="form-label">Relation Name <span style='color:red'>*</span></label>
-                                <input type="text" name="RelationName" id="RelationName" class="form-control" placeholder="Relation Name">
+                                <label class="form-label">Relation Name <span style='color:red'>*</span>
+                                <img src="<?php echo URL;?>assets/question.png" style="width: 12px;" class="dropdown"  id="dropdownMenuButton1" data-bs-toggle="dropdown">
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton1" style="padding:0px;">
+                                    <div class="myheader">Relation Name</div>
+                                    <div class="mycontainer">
+                                        1. Allow only alphabets and space<br>
+                                        2. Minimum 3 characters require<br>
+                                        3. Maximum 50 characters require<br>
+                                        4. Not allow cut,copy,paste
+                                        
+                                    </div>
+                                </div>
+                                </label>
+                                <input type="text" name="RelationName" id="RelationName" class="form-control" placeholder="Relation Name" maxlength="50">
                                 <span id="ErrRelationName" class="error_msg"></span>
                             </div>
                             <div class="col-sm-12 mb-3">
-                                <label class="form-label">Remarks</label>
-                                <input type="text" name="Remarks" id="Remarks" class="form-control" placeholder="Remarks">
+                                <label class="form-label">Remarks
+                                <img src="<?php echo URL;?>assets/question.png" style="width: 12px;" class="dropdown"  id="dropdownMenuButton1" data-bs-toggle="dropdown">
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton1" style="padding:0px;">
+                                    <div class="myheader">Remarks</div>
+                                    <div class="mycontainer">
+                                        1. Allow only alphabets and space<br>
+                                        2. Minimum 3 characters require<br>
+                                        3. Maximum 50 characters require<br>
+                                        4. Not allow cut,copy,paste
+                                        
+                                    </div>
+                                </div>
+                                </label>
+                                <input type="text" name="Remarks" id="Remarks" class="form-control" placeholder="Remarks" maxlength="250">
                                 <span id="ErrRemarks" class="error_msg"></span>
                             </div>
         </div>
@@ -106,13 +142,37 @@
                                 <span id="ErreditRelationNameCode" class="error_msg"></span>
                             </div>
                             <div class="col-sm-12 mb-3">
-                                <label class="form-label">Relation Name<span style='color:red'>*</span></label>
-                                <input type="text" value="" name="RelationName" id="editRelationName" class="form-control" placeholder="Relation Name">
+                                <label class="form-label">Relation Name<span style='color:red'>*</span>
+                                <img src="<?php echo URL;?>assets/question.png" style="width: 12px;" class="dropdown"  id="dropdownMenuButton1" data-bs-toggle="dropdown">
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton1" style="padding:0px;">
+                                    <div class="myheader">Relation Name</div>
+                                    <div class="mycontainer">
+                                        1. Allow only alphabets and space<br>
+                                        2. Minimum 3 characters require<br>
+                                        3. Maximum 50 characters require<br>
+                                        4. Not allow cut,copy,paste
+                                        
+                                    </div>
+                                </div>
+                                </label>
+                                <input type="text" value="" name="RelationName" id="editRelationName" class="form-control" placeholder="Relation Name" maxlength="50">
                                 <span id="ErreditRelationName" class="error_msg"></span>
                             </div>
                             <div class="col-sm-12 mb-3">
-                                <label class="form-label">Remarks</label>
-                                <input type="text" value="" name="Remarks" id="editRemarks" class="form-control" placeholder="Remarks">
+                                <label class="form-label">Remarks
+                                <img src="<?php echo URL;?>assets/question.png" style="width: 12px;" class="dropdown"  id="dropdownMenuButton1" data-bs-toggle="dropdown">
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton1" style="padding:0px;">
+                                    <div class="myheader">Remarks</div>
+                                    <div class="mycontainer">
+                                        1. Allow only alphabets and space<br>
+                                        2. Minimum 3 characters require<br>
+                                        3. Maximum 50 characters require<br>
+                                        4. Not allow cut,copy,paste
+                                        
+                                    </div>
+                                </div>
+                                </label>
+                                <input type="text" value="" name="Remarks" id="editRemarks" class="form-control" placeholder="Remarks" maxlength="250">
                                 <span id="ErreditRemarks" class="error_msg"></span>
                             </div>
                             <div class="col-sm-6 mb-3">
@@ -223,6 +283,8 @@ setTimeout("d()",2000);
 function addForm(){
   $('#addconfirmation').modal("show");
       clearDiv(['RelationName','RelationNameCode','Remarks','IsActive']);
+      $('#RelationName').val("");
+      $('#Remarks').val("");
 }  
 function addNew() {
     var param = $('#frm_create').serialize();
@@ -250,6 +312,7 @@ function addNew() {
 
 function edit(ID){
   $('#editForm').modal("show");
+     
        clearDiv(['editRelationName','editRelationNameCode','editRemarks','editIsActive']);
     $.post(URL+ "webservice.php?action=getData&method=RelationNames&ID="+ID,"",function(data){
         closePopup();

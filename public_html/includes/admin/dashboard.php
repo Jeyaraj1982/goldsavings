@@ -78,6 +78,15 @@
                                     <input type="text" style="text-align: right;" value="" readonly="readonly"  name="Gold24" id="GOLD_24" class="form-control" placeholder="24kt">
                                 </div>
                             </div>
+                     
+                       <div class="col-sm-6 mb-3" style="text-align: right;">
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" style="width: 49px;" id="basic-addon1">Silver</span>
+                                </div>
+                                    <input type="text" style="text-align: right;" value="" readonly="readonly"  name="Silver" id="SILVER" class="form-control" placeholder="Silver">
+                                </div>
+                            </div>
                        </div>
                 <div class="d-flex align-items-start">
                     <div class="flex-grow-1">
@@ -170,7 +179,7 @@
                                     <th style="width:100px;">Payment<br>Date</th>
                                     <th style="width:100px;text-align:right">Due<br>Amount(₹)</th>
                                     <th style="width:150px;">Reference<br>Number</th>
-                                    <th style="width:150px;">Payment<br>Frequencey</th>
+                                    <th style="width:150px;">Payment<br>Frequency</th>
                                     <th style="width:70px;">Status</th>
                                     <th style="width:50px;"></th>
                                 </tr>
@@ -382,7 +391,24 @@
             </div> 
         </div> 
     </div>
-</div>              
+</div> 
+<div class="modal fade" id="confirmation" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Confirmation</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Do you want to Delete ?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal">No</button>
+                <button type="button" onclick="Remove()" class="btn btn-danger">Yes, Remove</button>
+            </div>
+        </div>
+    </div>
+</div>             
 <script>
     function loadDashboardData(){
         $('#viewModal').modal("show");
@@ -405,6 +431,7 @@
                     $('#GOLD_18').val(data.GOLD_18);
                     $('#GOLD_22').val(data.GOLD_22);
                     $('#GOLD_24').val(data.GOLD_24);
+                    $('#SILVER').val(data.SILVER);
                 }); 
                 /*$('#tgoldprice').html('<table style="margin-bottom:8px;width:100%;" cellspacing="0"><tr><td style="width:125px"><div style="background: #3f80ea ;color: #f1f6ff;/*! font-weight: bold; border: 1px solid #3f80ea;padding: 5px !important;border-radius: 5px;">Today Gold Rate</div></td><td><marquee behavior="alternate" id="tgoldprice" style="background: #f1f6ff;color: #3f80ea;/*! font-weight: bold; border: 1px solid #3f80ea;padding: 5px !important;border-radius: 5px;" >  18kt: '+$('#GOLD_18').val() +',&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 22kt: '+$('#GOLD_22').val() +',&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;24kt: '+$('#GOLD_24').val() +'       </marquee></td></tr></table>');  */
             }
@@ -499,6 +526,55 @@ function listRecentCustomers(obj) {
      
 }
 
+var RemoveID=0;
+function confirmationtoDelete(ID){
+    RemoveID=ID;
+    $('#confirmation').modal("show"); 
+}
+function Remove() {
+    $('#confirmation').modal("hide"); 
+  openPopup();
+      $.post(URL+ "webservice.php?action=remove&method=Customers&ID="+RemoveID,"",function(data){
+        var obj = JSON.parse(data);
+        if (obj.status=="success") {
+            html = "";
+            $('#popupcontent').html(success_content(obj.message,'closePopup'));
+            $.each(obj.data, function (index, data) {
+        html += '<tr>'
+                            + '<td>' + data.CustomerCode + '</td>'
+                            + '<td>' + data.CustomerName + '</td>'
+                            + '<td>' + data.MobileNumber + '</td>'
+                            + '<td>' + data.CustomerTypeName + '</td>'
+                            + '<td>' + data.CreatedOn + '</td>'
+                            + '<td>' + data.ReferredByName + ' ('+ data.ReferByText +')</td>'
+                            + '<td style="text-align:right">' 
+                                + '<div class="dropdown position-relative">'
+                                        + '<a href="javascript:void(0)" data-bs-toggle="dropdown" data-bs-display="static">'
+                                            + '<img src="'+URL+'assets/icons/more.png">'
+                                        + '</a>'
+                                        + '<div class="dropdown-menu dropdown-menu-end">'
+                                                + '<a class="dropdown-item" href="'+URL+'dashboard.php?action=masters/customers/view&customer='+data.CustomerID+'">View</a>'
+                                                + '<a class="dropdown-item" href="'+URL+'dashboard.php?action=masters/customers/edit&customer='+data.CustomerID+'">Edit</a>'
+                                                + '<a class="dropdown-item" href="javascript:void(0)" onclick="confirmationtoDelete(\''+data.CustomerID+'\')">Delete</a>'
+                                        + '</div>'
+                                + '</div>'
+                            + '</td>'
+                      + '</tr>';
+    });
+    if (obj.length==0) {
+         html += '<tr>'
+                    + '<td colspan="7" style="text-align: center;background:#fff !important">No data found.</td>'
+               + '</tr>';
+    }   
+    $('#tbl_customers_content').html(html);
+     
+}    else {
+            alert(obj.message);
+        }
+    });
+}
+
+
 function listRecentClosedContracts(obj) {
         var html = "";
         $.each(obj, function (index, data) {
@@ -528,8 +604,7 @@ function listRecentClosedContracts(obj) {
                                         + '<div class="dropdown-menu dropdown-menu-end">'
                                                 + '<a class="dropdown-item" href="'+URL+'dashboard.php?action=contracts/view&view='+data.ContractCode+'">View</a>'
                                                 /*+ '<a class="dropdown-item" href="javascript:void(0)" onclick="confirmationtoDelete(\''+data.ContractID+'\')">Delete</a>'*/
-                                                + '<a class="dropdown-item" href="'+URL+'dashboard.php?action=customers/view&customer='+data.CustomerID+'">View Customer</a>'
-                                                + '<a class="dropdown-item" href="'+URL+'dashboard.php?action=schemes/view&edit='+data.SchemeID+'">View Scheme</a>'
+                                                + '<a class="dropdown-item" href="'+URL+'dashboard.php?action=masters/customers/view&customer='+data.CustomerID+'">View Customer</a>'                                                       + '<a class="dropdown-item" href="'+URL+'dashboard.php?action=schemes/view&edit='+data.SchemeID+'">View Scheme</a>'
                                         html += '</div>'
                                 + '</div>'
                             + '</td>'
@@ -562,8 +637,7 @@ function listRecentReceipts(obj) {
                                         + '<div class="dropdown-menu dropdown-menu-end">'
                                                 + '<a class="dropdown-item" href="'+URL+'dashboard.php?action=receipts/receipt&number='+data.ReceiptNumber+'">View Receipt</a>'
                                                 + '<a class="dropdown-item" href="'+URL+'dashboard.php?action=contracts/view&view='+data.ContractCode+'">View Contract</a>'
-                                                + '<a class="dropdown-item" href="'+URL+'dashboard.php?action=masters/customers/view&customer='+data.CustomerID+'">View Customer</a>'
-                                        + '</div>'
+                                                + '<a class="dropdown-item" href="'+URL+'dashboard.php?action=masters/customers/view&customer='+data.CustomerID+'">View Customer</a>'                                        + '</div>'
                                 + '</div>'
                             + '</td>'
                       + '</tr>';
@@ -595,9 +669,8 @@ function listRecentVouchers(obj) {
                                         + '</a>'
                                         + '<div class="dropdown-menu dropdown-menu-end">'
                                                 + '<a class="dropdown-item" href="'+URL+'dashboard.php?action=contracts/voucher&number='+data.VoucherNumber+'">View Voucher</a>'
-                                                + '<a   class="dropdown-item" href="'+URL+'dashboard.php?action=contracts/view&view='+data.ContractCode+'">View Contract</a>'
+                                                + '<a class="dropdown-item" href="'+URL+'dashboard.php?action=contracts/view&view='+data.ContractCode+'">View Contract</a>'
                                                 + '<a class="dropdown-item" href="'+URL+'dashboard.php?action=masters/customers/view&customer='+data.CustomerID+'">View Customer</a>'
-                                        + '</div>'
                                 + '</div>'
                             + '</td>'
                       + '</tr>';

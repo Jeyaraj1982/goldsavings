@@ -21,11 +21,10 @@
                         <span id="ErrCustomerCode" class="error_msg"></span>
                     </div>
                     <div class="col-sm-6 mb-3">
-                        <label class="form-label">Entry Date <span style='color:red'>*</span></label>
+                        <label class="form-label">Entry Date</label>
                         <div class="input-group">
-                            <input type="date" value="<?php echo $data[0]['EntryDate'];?>" value="<?php echo date("Y-m-d");?>" name="EntryDate" id="EntryDate" class="form-control" placeholder="Entry Date">
+                            <input type="date" readonly="readonly" value="<?php echo $data[0]['EntryDate'];?>" name="EntryDate" id="EntryDate" class="form-control" placeholder="Entry Date">
                         </div>
-                        <span id="ErrEntryDate" class="error_msg"></span>
                     </div>
                      <div class="col-sm-6 mb-3">
                         <label class="form-label">Customer Type <span style='color:red'>*</span></label>
@@ -35,12 +34,34 @@
                         <span id="ErrCustomerTypeNameID" class="error_msg"></span>
                             </div>
                             <div class="col-sm-12 mb-3">
-                                <label class="form-label">Customer Name <span style='color:red'>*</span></label>
+                                <label class="form-label">Customer Name <span style='color:red'>*</span>
+                                <img src="<?php echo URL;?>assets/question.png" style="width: 12px;" class="dropdown"  id="dropdownMenuButton1" data-bs-toggle="dropdown">
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton1" style="padding:0px;">
+                                    <div class="myheader">Customer Name</div>
+                                    <div class="mycontainer">
+                                        1. Allow only alphabets and space<br>
+                                        2. Minimum 3 characters require<br>
+                                        3. Maximum 50 characters require<br>
+                                        4. Not allow cut,copy,paste
+                                    </div>
+                                </div>
+                                </label>
                                 <input type="text" value="<?php echo $data[0]['CustomerName'];?>" name="CustomerName" id="CustomerName" class="form-control" placeholder="Customer Name">
                                 <span id="ErrCustomerName" class="error_msg"></span>
                             </div>
                             <div class="col-sm-12 mb-3">
-                                <label class="form-label">Father/Husband's Name <span style='color:red'>*</span></label>
+                                <label class="form-label">Father/Husband's Name <span style='color:red'>*</span>
+                                <img src="<?php echo URL;?>assets/question.png" style="width: 12px;" class="dropdown"  id="dropdownMenuButton1" data-bs-toggle="dropdown">
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton1" style="padding:0px;">
+                                    <div class="myheader">Father/Husband's Name</div>
+                                    <div class="mycontainer">
+                                        1. Allow only alphabets and space<br>
+                                        2. Minimum 3 characters require<br>
+                                        3. Maximum 50 characters require<br>
+                                        4. Not allow cut,copy,paste
+                                    </div>
+                                </div>
+                                </label>
                                 <input type="text" value="<?php echo $data[0]['FatherName'];?>" name="FatherName" id="FatherName" class="form-control" placeholder="Father/Husband's Name">
                                 <span id="ErrFatherName" class="error_msg"></span>
                             </div>
@@ -59,13 +80,21 @@
                                 <span id="ErrGender" class="error_msg"></span>
                             </div>
                             <div class="col-sm-6 mb-3">
-                                <label class="form-label">Date Of Birth <span style='color:red'>*</span></label>
+                                <label class="form-label">Date Of Birth <span style='color:red'>*</span>
+                                <img src="<?php echo URL;?>assets/question.png" style="width: 12px;" class="dropdown"  id="dropdownMenuButton1" data-bs-toggle="dropdown">
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton1" style="padding:0px;">
+                                    <div class="myheader">Date Of Birth</div>
+                                    <div class="mycontainer">
+                                        1. Age must be greater than 18<br>
+                                    </div>
+                                </div>
+                                </label>
                                 <input type="date" name="DateOfBirth" id="DateOfBirth" value="<?php echo $data[0]['DateOfBirth'];?>" class="form-control" placeholder="Date Of Birth">
                                 <span id="ErrDateOfBirth" class="error_msg"></span>
                             </div>
                             <div class="col-sm-6 mb-3">
                                 <label class="form-label">Mobile Number <span style='color:red'>*</span></label>
-                                <div class="input-group mb-3">
+                                <div class="input-group">
                                     <div class="input-group-prepend">
                                         <span class="input-group-text" id="basic-addon1">+91</span>
                                     </div>
@@ -97,16 +126,40 @@
                                 <hr>
                             </div>
                             <div class="col-sm-6 mb-3">         
-                                <label class="form-label">Login User Name <span style='color:red'>*</span></label>
-                                <input type="text" value="<?php echo $data[0]['LoginUserName'];?>" name="LoginUserName" id="LoginUserName" class="form-control" placeholder="Login User Name">
+                                <label class="form-label">Login User Name <span style='color:red'>*</span>
+                                 <img src="<?php echo URL;?>assets/question.png" style="width: 12px;" class="dropdown"  id="dropdownMenuButton1" data-bs-toggle="dropdown">
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton1" style="padding:0px;">
+                                    <div class="myheader">Login Username</div>
+                                    <div class="mycontainer">
+                                        1. Allow all characters<br>
+                                        2. Minimum 6 characters require<br>
+                                        3. Maximum 8 characters require <br>
+                                        4. Not allow cut,copy,paste
+                                    </div>
+                                </div>
+                                </label>
+                                <input type="text" value="<?php echo $data[0]['LoginUserName'];?>" name="LoginUserName" id="LoginUserName" class="form-control" placeholder="Login User Name" maxlength="8">
                                 <span id="ErrLoginUserName" class="error_msg"></span>
                             </div>
                             <div class="col-sm-6 mb-3">
-                                <label class="form-label">Login Password <span style='color:red'>*</span></label>
-                                <input type="text" value="<?php echo $data[0]['LoginPassword'];?>" name="LoginPassword" id="LoginPassword" class="form-control" placeholder="Login Password">
+                                <label class="form-label">Login Password <span style='color:red'>*</span>
+                                <img src="<?php echo URL;?>assets/question.png" style="width: 12px;" class="dropdown"  id="dropdownMenuButton1" data-bs-toggle="dropdown">
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton1" style="padding:0px;">
+                                    <div class="myheader">Login Password</div>
+                                    <div class="mycontainer">
+                                        1. Allow all characters<br>
+                                        2. Not allow special charecters <span style="color:red;">\'!~$"</span><br>
+                                        3. Minimum 6 characters require<br>
+                                        4. Maximum 8 characters require<br>
+                                        5. Not allow cut,copy,paste<br>
+                                        
+                                    </div>
+                                </div>
+                                </label>
+                                <input type="text" value="<?php echo $data[0]['LoginPassword'];?>" name="LoginPassword" id="LoginPassword" class="form-control" placeholder="Login Password" maxlength="8">
                                 <span id="ErrLoginPassword" class="error_msg"></span>
                             </div>
-                            <div class="col-sm-6 mb-3">         
+                            <div class="col-sm-6">         
                                 <label class="form-label">Status <span style='color:red'>*</span></label>
                                 <select name="IsActive" id="IsActive" class="form-select">
                                     <option value="1" <?php echo ($data[0]['IsActive']==1) ? " selected='selected' " : "";?> >Active</option>
@@ -119,12 +172,12 @@
                 <div class="card">
                     <div class="card-body">
                         <div class="row">                            
-                            <div class="col-sm-6 mb-3">
+                            <div class="col-sm-6">
                                 <label class="form-label">PAN Card Number <span style='color:red'>*</span></label>
                                 <input type="text" value="<?php echo $data[0]['PancardNumber'];?>" name="PancardNumber" id="PancardNumber" class="form-control" placeholder="ABCTY1234D" data-masked="" data-inputmask="'mask':'aaaaa9999a'" style="text-transform: uppercase;">
                                 <span id="ErrPanCardNumber" class="error_msg"></span>
                                 </div>
-                            <div class="col-sm-6 mb-3">
+                            <div class="col-sm-6">
                                 <label class="form-label">Aadhaar Card Number <span style='color:red'>*</span></label>
                                 <input type="text" value="<?php echo $data[0]['AadhaarCardNumber'];?>" name="AadhaarCardNumber" id="AadhaarCardNumber" class="form-control" placeholder="Aadhaar Card Number" data-masked="" data-inputmask="'mask':'9999 9999 9999'">
                                 <span id="ErrAadhaarCardNumber" class="error_msg"></span>
@@ -137,13 +190,33 @@
                     <div class="card-body">
                         <div class="row">
                             <div class="col-sm-12 mb-3">
-                                <label class="form-label">Address Line 1 <span style='color:red'>*</span></label>
+                                <label class="form-label">Address Line 1 <span style='color:red'>*</span>
+                                <img src="<?php echo URL;?>assets/question.png" style="width: 12px;" class="dropdown"  id="dropdownMenuButton1" data-bs-toggle="dropdown">
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton1" style="padding:0px;">
+                                    <div class="myheader">Address Line 1</div>
+                                    <div class="mycontainer">
+                                        1. Allow alphanumeric characters<br>
+                                        2. Not allow cut,copy,paste<br>
+                                        3. Allow only special charecters <span style="color:green;"> #/-.<span>
+                                    </div>
+                                </div>
+                                </label>
                                 <input type="text" value="<?php echo $data[0]['AddressLine1'];?>" name="AddressLine1" id="AddressLine1" class="form-control" placeholder="Address Line 1">
                                 <span id="ErrAddressLine1" class="error_msg"></span>
                             </div>
                             <div class="col-sm-12 mb-3">
-                                <label class="form-label">Address Line 2</label>
-                                <input type="text" value="<?php echo $data[0]['AddressLine2'];?>" name="AddressLine2" id="EstimatedDuration" class="form-control" placeholder="Address Line 2">
+                                <label class="form-label">Address Line 2
+                                <img src="<?php echo URL;?>assets/question.png" style="width: 12px;" class="dropdown"  id="dropdownMenuButton1" data-bs-toggle="dropdown">
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton1" style="padding:0px;">
+                                    <div class="myheader">Address Line 2</div>
+                                    <div class="mycontainer">
+                                        1. Allow alphanumeric characters<br>
+                                        2. Not allow cut,copy,paste<br>
+                                        3. Allow only special charecters <span style="color:green;"> #/-.<span>
+                                    </div>
+                                </div>
+                                </label>
+                                <input type="text" value="<?php echo $data[0]['AddressLine2'];?>" name="AddressLine2" id="AddressLine2" class="form-control" placeholder="Address Line 2">
                                 <span id="ErrAddressLine2" class="error_msg"></span>
                             </div>
                             <div class="col-sm-6">
@@ -170,7 +243,7 @@
                                 <span id="ErrAreaNameID" class="error_msg"></span>
                             </div>
                             <div class="col-sm-6">
-                                <label class="form-label">PinCode <span style='color:red'>*</span></label>
+                                <label class="form-label">Pincode <span style='color:red'>*</span></label>
                                 <input type="text" value="<?php echo $data[0]['PinCode'];?>" name="PinCode" id="PinCode" class="form-control" placeholder="Pincode" data-masked="" data-inputmask="'mask':'999 999'">
                                 <span id="ErrPinCode" class="error_msg"></span>
                             </div>
@@ -181,7 +254,7 @@
                 <div class="card">
                     <div class="card-body">
                         <div class="row">
-                            <div class="col-sm-6">         
+                            <div class="col-sm-6 mb-3">         
                                 <label class="form-label">Referred By </label>
                                 <select name="ReferredBy" id="ReferredBy" class="form-select" placeholder="Referred By" onchange="printLable()">
                                     <option value="0" <?php echo ($data[0]['ReferredBy']==0) ? " selected='selected' " : "";?> >Select Referred By</option> 
@@ -191,24 +264,27 @@
                                 </select>
                                 <span id="ErrReferredBy" class="error_msg"></span>
                                 <script>
-                                function printLable() {
+                                   function printLable() {
                                     if ($('#ReferredBy').val()=="1"){
+                                        $('#mobilefetch').show();
                                         $('#_printlabel').html("Customer's Mobile Number");    
                                     }
                                     if ($('#ReferredBy').val()=="2"){
+                                        $('#mobilefetch').show();
                                         $('#_printlabel').html("Employee's Mobile Number");    
                                     }
                                     if ($('#ReferredBy').val()=="0"){
-                                        $('#_printlabel').html("Mobile Number");    
+                                        $('#mobilefetch').hide();  
                                     }
                                     if ($('#ReferredBy').val()=="3"){
+                                        $('#mobilefetch').show();
                                         $('#_printlabel').html("Salesman's Mobile Number");    
                                     }
-                                    
                                 }
                                 </script>
                             </div>
                             <div class="col-sm-6 mb-3">
+                                <div id="mobilefetch" style="display:none;">
                                 <label class="form-label"><span id="_printlabel">Mobile Number</span> <span style='color:red'>*</span></label>
                                 <div class="input-group">
                                     <div class="input-group-prepend">
@@ -220,9 +296,20 @@
                                 <span id="ErrRefferalName" class="error_msg" style="color: green;"></span>
                                 <span id="ErrRefMobileNumber" class="error_msg"></span>
                             </div> 
+                            </div> 
                             <div class="col-sm-12">
-                                <label class="form-label">Remarks</label>
-                                <input type="text" value="<?php echo $data[0]['Remarks'];?>" name="Remarks" id="Remarks" class="form-control" placeholder="Remarks">
+                                <label class="form-label">Remarks
+                                <img src="<?php echo URL;?>assets/question.png" style="width: 12px;" class="dropdown"  id="dropdownMenuButton1" data-bs-toggle="dropdown">
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton1" style="padding:0px;">
+                                    <div class="myheader">Remarks</div>
+                                    <div class="mycontainer">
+                                        1. Allow all characters, not allow <span style='color:red'>\'!~$"</span><br>
+                                        2. Maximum 250 characters require<br>
+                                        3. Not allow cut,copy,paste
+                                    </div>
+                                </div>
+                                </label>
+                                <input type="text" value="<?php echo $data[0]['Remarks'];?>" name="Remarks" id="Remarks" class="form-control" placeholder="Remarks" maxlength="250">
                                 <span id="ErrRemarks" class="error_msg"></span>
                             </div> 
                         </div>
@@ -232,8 +319,18 @@
      </div>
      </div>
        <div class="col-sm-12" style="text-align:right;">
-            <a href="<?php echo URL;?>dashboard.php?action=masters/customers/list" class="btn btn-outline-primary">Back</a>&nbsp;&nbsp;
-            <button onclick="confirmationtoUpdate()" type="button" class="btn btn-primary">Update Customer</button>
+            <?php 
+            $path=URL."dashboard.php";
+            if (isset($_GET['fpg'])) {
+                $path.="?action=".$_GET['fpg'];
+            }
+            //&view=ID000124
+            if (isset($_GET['customer'])) {
+                $path.="&customer=".$_GET['customer'];
+            }
+            ?>
+            <a href="<?php echo $path;?>" class="btn btn-outline-primary">Back</a>
+               <button onclick="confirmationtoUpdate()" type="button" class="btn btn-primary">Update Customer</button>
        </div>
     </form>
     </div>
@@ -290,7 +387,16 @@
                                 <span id="ErrDocumentFile" class="error_msg"></span>
                             </div>
                              <div class="col-sm-12 mb-3">
-                                <label class="form-label">Remarks</label>
+                                <label class="form-label">Remarks
+                                <img src="<?php echo URL;?>assets/question.png" style="width: 12px;" class="dropdown"  id="dropdownMenuButton1" data-bs-toggle="dropdown">
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton1" style="padding:0px;">
+                                    <div class="myheader">Remarks</div>
+                                    <div class="mycontainer">
+                                        1. Allow all characters, not allow <span style='color:red'>\'!~$"</span><br>
+                                        2. Maximum 250 characters require
+                                    </div>
+                                </div>
+                                </label>
                                 <input type="text" name="Remarks" id="Remarks" class="form-control" placeholder="Remarks">
                                 <span id="ErrRemarks" class="error_msg"></span>
                             </div>
@@ -312,6 +418,7 @@ var _StateNameID = "<?php echo $data[0]['StateNameID'];?>";
 var _DistrictNameID = "<?php echo $data[0]['DistrictNameID'];?>";
 var _AreaNameID = "<?php echo $data[0]['AreaNameID'];?>";
 function confirmationtoUpdate(){
+clearDiv(['EnrtyDate','CustomerCode','CustomerTypeNameID','CustomerName','FatherName','Gender','DateOfBirth','EmailID','MobileNumber','WhatsappNumber','AlternativeMobileNumber','AddressLine1','StateNameID','DistrictNameID','AreaNameID','PinCode','RefMobileNumberID','ReferredBy','LoginUserName','LoginPassword','PancardNumber','AadhaarCardNumber']);
   $('#confirmation').modal("show");   
 } 
 function doUpdate() {
@@ -468,6 +575,7 @@ function getAreaNames() {
         }
     });
 } 
+
 function fetchData() {
     $('#confirmation').modal("hide");
     var param = $('#frm_edit').serialize();
@@ -505,26 +613,5 @@ function fetchData() {
 setTimeout(function(){
     ListCustomerTypes();
     listStateNames();
-    
-    $('#CustomerName').keydown(function (e) {
-          if (e.shiftKey || e.ctrlKey || e.altKey) {
-              e.preventDefault();
-          } else {
-              var key = e.keyCode;
-              if (!((key == 8) || (key == 32) || (key == 46) || (key >= 35 && key <= 40) || (key >= 65 && key <= 90))) {
-                  e.preventDefault();
-              }
-          }
-      });
-      $('#FatherName').keydown(function (e) {
-          if (e.shiftKey || e.ctrlKey || e.altKey) {
-              e.preventDefault();
-          } else {
-              var key = e.keyCode;
-              if (!((key == 8) || (key == 32) || (key == 46) || (key >= 35 && key <= 40) || (key >= 65 && key <= 90))) {
-                  e.preventDefault();
-              }
-          }
-      });
 },2000);
 </script>

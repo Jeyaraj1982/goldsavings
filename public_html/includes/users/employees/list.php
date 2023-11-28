@@ -6,6 +6,7 @@
         </div>
         <div class="col-6" style="text-align:right;">
             <a href="<?php echo URL;?>dashboard.php?action=employees/new" class="btn btn-primary btn-sm">New Employee</a>
+            <a href="<?php echo URL;?>dashboard.php?action=employees/customized_employeelist" class="btn btn-warning btn-sm">Customize Columns </a>
         </div>
      </div>
      <div class="row">

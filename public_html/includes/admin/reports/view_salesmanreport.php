@@ -99,7 +99,13 @@
     </div>      
 </div>      
     <div class="col-sm-12 mb-3" style="text-align:right;">
-        <a href="<?php echo URL;?>dashboard.php?action=masters/salesman/list" class="btn btn-outline-primary">Back</a>&nbsp;&nbsp;
+        <?php 
+            $path=URL."dashboard.php";
+            if (isset($_GET['fpg'])) {
+                $path=URL."dashboard.php?action=".$_GET['fpg'];
+            }
+            ?>
+            <a href="<?php echo $path;?>" class="btn btn-outline-primary">Back</a>&nbsp;&nbsp;
     </div> 
     </form>                            
  </div>

@@ -56,31 +56,20 @@
                         <h5 class="card-title mb-0">Today's Gold Rate</h5>
                 </div>  
                 <div class="row">
-                        <div class="col-sm-4 mb-3" style="text-align: right;">
-                            <div class="input-group">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text" style="width: 40px;" id="basic-addon1">18k</span>
-                                </div>
-                                    <input type="text" style="text-align: right;" value="" readonly="readonly"  name="Gold18" id="GOLD_18" class="form-control" placeholder="18kt">
-                                </div>
-                            </div>
-                        <div class="col-sm-4 mb-3" style="text-align: right;">
-                            <div class="input-group">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text" style="width: 40px;" id="basic-addon1">22k</span>
-                                </div>
-                                    <input type="text" style="text-align: right;" value="" readonly="readonly"  name="Gold22" id="GOLD_22" class="form-control" placeholder="22kt">
-                                </div>
-                            </div>
-                       <div class="col-sm-4 mb-3" style="text-align: right;">
-                            <div class="input-group">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text" style="width: 40px;" id="basic-addon1">24k</span>
-                                </div>
-                                    <input type="text" style="text-align: right;" value="" readonly="readonly"  name="Gold24" id="GOLD_24" class="form-control" placeholder="24kt">
-                                </div>
-                            </div>
-                       </div>
+                    <div class="col-6" style="padding-right: 5px;">
+                        <button type="button" class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" id="gold22rate" style="width:100%;background: #fff !important;border: 1px solid #ccc;width: 100% !important;padding: 5px 5px;text-align: left;border-radius: 7px !important;color:#555 !important">
+                        <img src="<?php echo URL;?>assets/goldcoin.png" style="width:32px; padding:0px">&nbsp;&nbsp;Loading ...
+                        </button>
+                        <ul class="dropdown-menu" id="goldrate_list">
+                        </ul>
+                    </div>
+                     <div class="col-6" style="padding-right: 5px;">
+                        <button type="button" id="SILVER" style="width:100%;background: #fff !important;border: 1px solid #ccc;width: 100% !important;padding: 5px 5px;text-align: left;border-radius: 7px !important;color:#555 !important">
+                        <img src="<?php echo URL;?>assets/silvercoin.png" style="width:32px; padding:0px">&nbsp;&nbsp;Loading ...
+                        </button>
+                       
+                    </div>
+                </div>
                 <div class="d-flex align-items-start">
                     <div class="flex-grow-1">
                           <div class="card-body">
@@ -350,20 +339,26 @@ function loadDashboardData(){
                     $('#GOLD_18').val(data.GOLD_18);
                     $('#GOLD_22').val(data.GOLD_22);
                     $('#GOLD_24').val(data.GOLD_24);
+                    $('#SILVER').val(data.SILVER);
              });   
               var additionalInfo =  obj.data.additionalInfo;
             $('#activeContracts').html(additionalInfo.activeContracts);
             $('#closedContracts').html(additionalInfo.closedContracts);
             $('#receivedAmount').html(additionalInfo.receivedAmount);
             $('#activeCustomers').html(additionalInfo.activeCustomers); 
-            
-            
              gold24Chart(obj.data.goldRates);
-         
-          
+         var gold_rates="";
+            $.each(obj.data.todaGoldRates, function (index, data) {
+                gold_rates += '<li><a class="dropdown-item" href="javascript:void(0)">18 KT: &nbsp;&nbsp;'+data.GOLD_18+'</a></li>' ;
+                gold_rates += '<li><a class="dropdown-item" href="javascript:void(0)">22 KT: &nbsp;&nbsp;'+data.GOLD_22+'</a></li>' ;
+                gold_rates += '<li><a class="dropdown-item" href="javascript:void(0)">24 KT: &nbsp;&nbsp;'+data.GOLD_24+'</a></li>' ;
+                $('#gold22rate').html("<img src='<?php echo URL;?>assets/goldcoin.png' style='width:32px; padding:0px'>&nbsp;&nbsp;<span style='font-size:11px;'>22 KT:</span>&nbsp;&nbsp;<span style='font-weight:bold;'>"+data.GOLD_22+'&nbsp;&nbsp;</span>');
+                $('#SILVER').html("<table style='width:90%'><tr><td style='width:36px'><img src='<?php echo URL;?>assets/silvercoin.png' style='width:30px; height:30px'></td><td style='font-weight:bold; text-align:right'>"+data.SILVER+'</td></tr></table>');
+            });
+            $('#goldrate_list').html(gold_rates);
     } 
     });
-        }    
+        }      
 setTimeout(function(){
     loadDashboardData();               
 },2000);

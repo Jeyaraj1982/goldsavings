@@ -5,8 +5,14 @@
         <div class="col-6">
             <h1 class="h3">Vouchers</h1>
         </div>
-        <div class="col-6" style="text-align:right;">
-            <a href="<?php echo URL;?>dashboard.php?" class="btn btn-outline-primary btn-sm">Back</a>
+        <div class="col-sm-6  mb-2" style="text-align:right;">
+            <?php 
+            $path=URL."dashboard.php";
+            if (isset($_GET['fpg'])) {
+                $path=URL."dashboard.php?action=".$_GET['fpg'];
+            }
+            ?>
+            <a href="<?php echo $path;?>" class="btn btn-outline-primary btn-sm">Back</a>
      </div>
      </div>
      </div>
@@ -47,12 +53,13 @@
                                     <th>Voucher<br>Type</th>
                                     <th style="text-align: right;">Gold<br>(Grams)</th>
                                     <th style="text-align: right;">Settlement<br>Amount(₹)</th>
+                                    <th style="text-align: right;">Cleared</th>
                                     <th></th>
                                 </tr>
                             </thead>
                         <tbody id="tbl_content">
                             <tr>
-                                <td colspan="7" style="text-align: center;background:#fff !important">Loading vouchers ...</td>
+                                <td colspan="9" style="text-align: center;background:#fff !important">Loading vouchers ...</td>
                             </tr>
                         </tbody>
                     </table>
@@ -81,14 +88,15 @@ function listVouchers() {
                     + '<td>' + data.VoucherType + '</td>'
                     + '<td style="text-align:right">' + data.GoldInGrams + '</td>'
                     + '<td style="text-align:right">' + data.TotalPaidAmount + '</td>'
+                    + '<td style="text-align:right"> N/A</td>'
                             + '<td style="text-align:right">' 
                                 + '<div class="dropdown position-relative">'
                                         + '<a href="javascript:void(0)" data-bs-toggle="dropdown" data-bs-display="static">'
                                             + '<img src="'+URL+'assets/icons/more.png">'
                                         + '</a>'
                                         + '<div class="dropdown-menu dropdown-menu-end">'
-                                                + '<a class="dropdown-item" href="'+URL+'dashboard.php?action=vouchers/viewvoucher&number='+data.VoucherNumber+'">View Voucher</a>'
-                                                + '<a class="dropdown-item" href="'+URL+'dashboard.php?action=contracts/viewcontract&view='+data.ContractCode+'">View Contract</a>'
+                                                + '<a class="dropdown-item" href="'+URL+'dashboard.php?action=vouchers/viewvoucher&number='+data.VoucherNumber+'&fpg=vouchers/voucher""">View Voucher</a>'
+                                                + '<a class="dropdown-item" href="'+URL+'dashboard.php?action=contracts/viewcontract&view='+data.ContractCode+'&fpg=vouchers/voucher""">View Contract</a>'
                                         + '</div>'
                                 + '</div>'
                             + '</td>'
@@ -96,7 +104,7 @@ function listVouchers() {
             }); 
             if (obj.data.length==0) {
          html += '<tr>'
-                    + '<td colspan="7" style="text-align: center;background:#fff !important">No Data Found</td>'
+                    + '<td colspan="9" style="text-align: center;background:#fff !important">No Data Found</td>'
                + '</tr>';
     }  
             $('#tbl_content').html(html);

@@ -14,19 +14,19 @@
                             <div class="col-sm-2 mb-3">
                             </div>
                             <div class="col-sm-4 mb-3">
-                                <label class="form-label">Entry Date <span style='color:red'>*</span></label>
+                                <label class="form-label"><span id="_printlabel">Entry Date</span> <span style='color:red'>*</span></label>
                                 <div class="input-group">
                                     <input type="date" value="<?php echo date("Y-m-d");?>" name="EntryDate" id="EntryDate" class="form-control" placeholder="Entry Date">
                                 </div>
                                 <span id="ErrEntryDate" class="error_msg"></span>
-                            </div>
-                            <div class="col-sm-6">
+                            </div> 
+                            <div class="col-sm-6 mb-3">
                                 <label class="form-label">Employee Category <span style='color:red'>*</span></label>
                                 <div class="input-group">
                                 <select data-live-search="true" data-size="5" name="EmployeeCategoryID" id="EmployeeCategoryID" class="form-select mselect">
                                     <option>loading...</option>
                                 </select>
-                                <button class="btn btn-success" onclick="employeescategorynew()" type="button">+</button>                                               
+                                <button class="btn btn-success" onclick="employeecategorynew()" type="button">+</button>                                               
                             </div>
                              <span id="ErrEmployeeCategoryID" class="error_msg"></span>
                             </div>
@@ -57,8 +57,8 @@
                                 <span id="ErrDateOfBirth" class="error_msg"></span>
                             </div>
                             <div class="col-sm-12 mb-3">
-                                <label class="form-label">EmailID <span style='color:red'>*</span></label>
-                                <input type="text" name="EmailID" id="EmailID" class="form-control" placeholder="EmailID">
+                                <label class="form-label">Email ID <span style='color:red'>*</span></label>
+                                <input type="text" style="text-transform: lowercase;" name="EmailID" id="EmailID" class="form-control" placeholder="Email ID">
                                 <span id="ErrEmailID" class="error_msg"></span>
                             </div>
                             <div class="col-sm-6">
@@ -67,34 +67,65 @@
                                     <div class="input-group-prepend">
                                         <span class="input-group-text" id="basic-addon1">+91</span>
                                     </div>
-                                    <input type="text" name="MobileNumber" id="MobileNumber" class="form-control" placeholder="Mobile Number">
+                                    <input type="text" name="MobileNumber" id="MobileNumber" class="form-control" placeholder="Mobile Number" data-masked="" data-inputmask="'mask':'9999999999'">
                                 </div>
                                 <span id="ErrMobileNumber" class="error_msg"></span>
                             </div>
-                            <div class="col-sm-6">
+                            <div class="col-sm-6 mb-3">
                                 <label class="form-label">Whatsapp Number </label>
                                 <div class="input-group">
                                     <div class="input-group-prepend">
                                         <span class="input-group-text" id="basic-addon1">+91</span>
                                     </div>
-                                    <input type="text" name="WhatsappNumber" id="WhatsappNumber" class="form-control" placeholder="Whatsapp Number">
+                                    <input type="text" name="WhatsappNumber" id="WhatsappNumber" class="form-control" placeholder="Whatsapp Number" data-masked="" data-inputmask="'mask':'9999999999'">
                                 </div>
                                 <span id="ErrWhatsappNumber" class="error_msg"></span>
+                            </div>
+                            <div class="col-sm-6">
+                                <label class="form-label">Alternative Mobile Number </label>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text" id="basic-addon1">+91</span>
+                                    </div>
+                                    <input type="text" name="AlternativeMobileNumber" id="AlternativeMobileNumber" class="form-control" placeholder="Alternative Mobile Number" data-masked="" data-inputmask="'mask':'9999999999'">
+                                </div>
+                                <span id="ErrAlternativeMobileNumber" class="error_msg"></span>
                             </div>
                             <div class="col-sm-12">
                                 <hr>
                             </div>
                             <div class="col-sm-6 mb-3">         
-                                <label class="form-label">Login User Name <span style='color:red'>*</span></label>
+                                <label class="form-label">Login User Name <span style='color:red'>*</span>
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton1" style="padding:0px;">
+                                    <div class="myheader">Login Username</div>
+                                    <div class="mycontainer">
+                                        1. Allow only alphanumeric characters<br>
+                                        2. Minimum 6 characters require<br>
+                                        3. Maximum 8 characters require
+                                        
+                                    </div>
+                                </div>
+                                </label>
                                 <input type="text" name="LoginUserName" id="LoginUserName" class="form-control" placeholder="Login User Name">
                                 <span id="ErrLoginUserName" class="error_msg"></span>
                             </div>
                             <div class="col-sm-6 mb-3">
-                                <label class="form-label">Login Password <span style='color:red'>*</span></label>
+                                <label class="form-label">Login Password <span style='color:red'>*</span>
+                                <img src="<?php echo URL;?>assets/question.png" style="width: 12px;" class="dropdown"  id="dropdownMenuButton1" data-bs-toggle="dropdown">
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton1" style="padding:0px;">
+                                    <div class="myheader">Login Password</div>
+                                    <div class="mycontainer">
+                                        1. Allow only alphanumeric characters<br>
+                                        2. Minimum 6 characters require<br>
+                                        3. Maximum 8 characters require<br>
+                                        4. Allow special charecters <span style="color:green;"> !@#%^&*()_-=+.?</span>
+                                    </div>
+                                </div>
+                                </label>
                                 <input type="text" name="LoginPassword" id="LoginPassword" class="form-control" placeholder="Login Password">
                                 <span id="ErrLoginPassword" class="error_msg"></span>
                             </div>
-                            <div class="col-sm-12 mb-3">
+                            <div class="col-sm-12">
                                 <input type="checkbox" name="AllowToChangePasswordFirstLogin" id="AllowToChangePasswordFirstLogin" value="1">
                                 <label class="form-label" for='AllowToChangePasswordFirstLogin'>Allow to change password first login</label>
                             </div>
@@ -106,15 +137,14 @@
                 <div class="card">
                     <div class="card-body">
                         <div class="row">                            
-                            <div class="col-sm-6 mb-3">
+                            <div class="col-sm-6">                                                                                                                                     
                                 <label class="form-label">PAN Card Number <span style='color:red'>*</span></label>
-                                <input type="text" name="PancardNumber" id="PancardNumber" class="form-control" placeholder="Pan Card Number">
+                                <input type="text"  name="PancardNumber" id="PancardNumber" class="form-control" placeholder="ABCTY1234D" data-masked="" data-inputmask="'mask':'aaaaa9999a'" style="text-transform: uppercase;">
                                 <span id="ErrPancardNumber" class="error_msg"></span>
                             </div>
-                            
-                            <div class="col-sm-6 mb-3">
+                            <div class="col-sm-6">
                                 <label class="form-label">Aadhaar Card Number <span style='color:red'>*</span></label>
-                                <input type="text" name="AadhaarCardNumber" id="AadhaarCardNumber" class="form-control" placeholder="Aadhaar Card Number">
+                                <input type="text" value="" name="AadhaarCardNumber" id="AadhaarCardNumber" class="form-control" placeholder="Aadhaar Card Number" data-masked="" data-inputmask="'mask':'9999 9999 9999'">
                                 <span id="ErrAadhaarCardNumber" class="error_msg"></span>
                             </div>
                             
@@ -125,16 +155,34 @@
                     <div class="card-body">
                         <div class="row">
                             <div class="col-sm-12 mb-3">
-                                <label class="form-label">Address Line 1 <span style='color:red'>*</span></label>
+                                <label class="form-label">Address Line 1 <span style='color:red'>*</span>
+                                <img src="<?php echo URL;?>assets/question.png" style="width: 12px;" class="dropdown"  id="dropdownMenuButton1" data-bs-toggle="dropdown">
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton1" style="padding:0px;">
+                                    <div class="myheader">Address Line 1</div>
+                                    <div class="mycontainer">
+                                        1. Allow alphanumeric characters<br>
+                                        2. Allow only special charecters <span style="color:green;"> #/-.<span>
+                                    </div>
+                                </div>
+                                </label>
                                 <input type="text" name="AddressLine1" id="AddressLine1" class="form-control" placeholder="Address Line 1">
                                 <span id="ErrAddressLine1" class="error_msg"></span>
                             </div>
                             <div class="col-sm-12 mb-3">
-                                <label class="form-label">Address Line 2</label>
+                                <label class="form-label">Address Line 2
+                                 <img src="<?php echo URL;?>assets/question.png" style="width: 12px;" class="dropdown"  id="dropdownMenuButton1" data-bs-toggle="dropdown">
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton1" style="padding:0px;">
+                                    <div class="myheader">Address Line 2</div>
+                                    <div class="mycontainer">
+                                        1. Allow alphanumeric characters<br>
+                                        2. Allow only special charecters <span style="color:green;"> #/-.<span>
+                                    </div>
+                                </div>
+                                </label>
                                 <input type="text" name="AddressLine2" id="EstimatedDuration" class="form-control" placeholder="Address Line 2">
                                 <span id="ErrAddressLine2" class="error_msg"></span>
                             </div>
-                            <div class="col-sm-6 mb-3">
+                            <div class="col-sm-6">
                                 <label class="form-label">State Name <span style='color:red'>*</span></label>
                                 <div class="input-group mb-3">
                                     <select data-live-search="true" data-size="5" name="StateNameID" id="StateNameID" class="form-select mstateselect" onchange="getDistrictNames()">
@@ -144,7 +192,7 @@
                                 </div>
                                 <span id="ErrStateNameID" class="error_msg"></span>
                             </div>
-                            <div class="col-sm-6  mb-3">
+                            <div class="col-sm-6">
                                 <label class="form-label">District Name<span style='color:red'>*</span></label>
                                 <div class="input-group">
                                 <select data-live-search="true" data-size="5" name="DistrictNameID" id="DistrictNameID" class="form-select mdistrictselect" onchange="getAreaNames()">
@@ -164,9 +212,9 @@
                                 </div>
                                 <span id="ErrAreaNameID" class="error_msg"></span>
                             </div>
-                            <div class="col-sm-6">
-                                <label class="form-label">PinCode <span style='color:red'>*</span></label>
-                                <input type="text" name="PinCode" id="PinCode" class="form-control" placeholder="Pincode">
+                             <div class="col-sm-6">
+                                <label class="form-label">Pincode <span style='color:red'>*</span></label>
+                                <input type="text" value="" name="PinCode" id="PinCode" class="form-control" placeholder="Pincode" data-masked="" data-inputmask="'mask':'999 999'">
                                 <span id="ErrPinCode" class="error_msg"></span>
                             </div>
                         </div>
@@ -187,7 +235,7 @@
                 </div>      
             </div>
             <div class="col-sm-12" style="text-align:right;">
-                <a href="<?php echo URL;?>dashboard.php?action=masters/employees/list" class="btn btn-outline-primary">Back</a>&nbsp;&nbsp;
+                <a href="<?php echo URL;?>dashboard.php?action=employees/list" class="btn btn-outline-primary">Back</a>&nbsp;&nbsp;
                 <button onclick="confirmationtoadd()" type="button" class="btn btn-primary">Create Employee</button>    
             </div>
     </form>
@@ -273,7 +321,7 @@
     <div class="modal-content">
     <form name="frm_create_areaname" id="frm_create_areaname">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">District Name</h5>
+        <h5 class="modal-title" id="exampleModalLabel">Area Name</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
@@ -302,8 +350,8 @@
      </form> 
     </div>
   </div>
-
-<div class="modal fade" id="newemployeescategory" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  </div>
+<div class="modal fade" id="newemployeecategories" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
     <form name="frm_create_employeescategory" id="frm_create_employeescategory">
@@ -322,7 +370,7 @@
     </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-outline-primary" data-bs-dismiss="modal">Cancel</button>
-        <button type="button" onclick="addNewEmployeesCategory()" class="btn btn-primary">Add Employees Category</button>
+        <button type="button" onclick="addNewEmployeeCategory()" class="btn btn-primary">Add Employees Category</button>
       </div>
      </form> 
     </div>
@@ -330,6 +378,11 @@
 </div>
 
 <script> 
+
+var newcustomercategory="";
+var newstatename="";
+var newdistrictname="";
+var newareaname="";
 function confirmationtoadd(){
   $('#confirmation').modal("show");   
 }     
@@ -362,51 +415,51 @@ function addNew() {
         }
     });
 }
-        
+
 function ListEmployeesCategory() {
+    var i=0;
     $.post(URL+ "webservice.php?action=listAllActive&method=EmployeeCategories","",function(data){
         var obj = JSON.parse(data);
         if (obj.status=="success") {
-            var html = "<option value='0'> Select Category</option>";
+            var html = "<option value='0'>Select Category</option>";
             $.each(obj.data, function (index, data) {
-                html += '<option value="'+data.EmployeeCategoryID+'">'+data.EmployeeCategoryTitle+'</option>';
+                if ((newemployeecategories==data.EmployeeCategoryTitle)) {
+                    i=data.EmployeeCategoryID;
+                }
+                html += '<option value="'+data.EmployeeCategoryID+'" '+((newemployeecategories==data.EmployeeCategoryTitle) ? '"selected=selected"' : '')+'>'+data.EmployeeCategoryTitle+'</option>';
             });   
             $('#EmployeeCategoryID').html(html);
-            
-            
-             $("#EmployeeCategoryID").append($("#EmployeeCategoryID option").remove().sort(function(a, b) {
+            /*$("#CustomerTypeNameID").append($("#CustomerTypeNameID option").remove().sort(function(a, b) {
                 var at = $(a).text(), bt = $(b).text();
                 return (at > bt)?1:((at < bt)?-1:0);
-            }));
-            
-            $("#EmployeeCategoryID").val("0");
-            setTimeout(function(){
-                //$('.mselect').selectpicker();
-            },1500);
+            }));*/
+                 $("#EmployeeCategoryID").val(i);
         } else {
             alert(obj.message);
         }
-        
     });
 }
 
 function listStateNames() {
+    var i=0;
     $.post(URL+ "webservice.php?action=listAllActive&method=StateNames","",function(data){
         var obj = JSON.parse(data);
         if (obj.status=="success") {
             var html = "<option value='0'>Select State Name</option>";
             $.each(obj.data, function (index, data) {
-                html += '<option value="'+data.StateNameID+'">'+data.StateName+'</option>';
+                if ((newstatename==data.StateName)) {
+                    i=data.StateNameID;
+                }
+                html += '<option value="'+data.StateNameID+'" '+((newstatename==data.StateName) ? '"selected=selected"' : '')+'>'+data.StateName+'</option>';
             });   
             $('#StateNameID').html(html);
-            $("#StateNameID").append($("#StateNameID option").remove().sort(function(a, b) {
+            /*$("#CustomerTypeNameID").append($("#CustomerTypeNameID option").remove().sort(function(a, b) {
                 var at = $(a).text(), bt = $(b).text();
                 return (at > bt)?1:((at < bt)?-1:0);
-            }));
-            $("#StateNameID").val("0");
-            setTimeout(function(){
-                //$('.mstateselect').selectpicker();
-            },1500);
+            }));*/
+           
+                 $("#StateNameID").val(i);
+           
         } else {
             alert(obj.message);
         }
@@ -414,24 +467,25 @@ function listStateNames() {
 }
 
 function getDistrictNames() {
+     var i=0;
     $.post(URL+ "webservice.php?action=listAllActive&method=DistrictNames&StateNameID="+$('#StateNameID').val(),"",function(data){
         var obj = JSON.parse(data);
         if (obj.status=="success") {
-            var html = "<option value='0'> Select District Name</option>";
+            var html = "<option value='0'>Select District Name</option>";
             $.each(obj.data, function (index, data) {
-                html += '<option value="'+data.DistrictNameID+'">'+data.DistrictName+'</option>';
+                 if ((newdistrictname==data.DistrictName)) {
+                    i=data.DistrictNameID;
+                }
+                html += '<option value="'+data.DistrictNameID+'" '+((newdistrictname==data.DistrictName) ? '"selected=selected"' : '')+'>'+data.DistrictName+'</option>';
+
             });   
             $('#DistrictNameID').html(html);
-            
-            
-             $("#DistrictNameID").append($("#DistrictNameID option").remove().sort(function(a, b) {
+            $("#DistrictNameID").append($("#DistrictNameID option").remove().sort(function(a, b) {
                 var at = $(a).text(), bt = $(b).text();
                 return (at > bt)?1:((at < bt)?-1:0);
             }));
-            
-            $("#DistrictNameID").val("0");
+            $("#DistrictNameID").val(i);
             setTimeout(function(){
-                //$('.mdistrictselect').selectpicker();
             },1500);
         } else {
             alert(obj.message);
@@ -440,22 +494,23 @@ function getDistrictNames() {
 }
 
 function getAreaNames() {
+    var i=0;
     $.post(URL+ "webservice.php?action=listAllActive&method=AreaNames&DistrictNameID="+$('#DistrictNameID').val()+"&StateNameID="+$("#StateNameID").val(),"",function(data){
         var obj = JSON.parse(data);
         if (obj.status=="success") {
-            var html = "<option value='0'> Select Area Name</option>";
+            var html = "<option value='0'>Select Area Name</option>";
             $.each(obj.data, function (index, data) {
-                html += '<option value="'+data.AreaNameID+'">'+data.AreaName+'</option>';
+                 if ((newareaname==data.AreaName)) {
+                    i=data.AreaNameID;
+                }
+                html += '<option value="'+data.AreaNameID+'" '+((newareaname==data.AreaName) ? '"selected=selected"' : '')+'>'+data.AreaName+'</option>';
             });   
             $('#AreaNameID').html(html);
-            
-            
-             $("#AreaNameID").append($("#AreaNameID option").remove().sort(function(a, b) {
+            $("#AreaNameID").append($("#AreaNameID option").remove().sort(function(a, b) {
                 var at = $(a).text(), bt = $(b).text();
                 return (at > bt)?1:((at < bt)?-1:0);
             }));
-            
-            $("#AreaNameID").val("0");
+            $("#AreaNameID").val(i);
             setTimeout(function(){
                // $('.mareaselect').selectpicker();
             },1500);
@@ -463,22 +518,23 @@ function getAreaNames() {
             alert(obj.message);
         }
     });
-}
+}   
 
 function statenew(){
   $('#newstate').modal("show");   
 }
 function addNewStateName() {
-   
+     newstatename="";
     var param = $('#frm_create_statename').serialize();
    
     //clearDiv(['StateName','Remarks']);
     $.post(URL+"webservice.php?action=addNew&method=StateNames",param,function(data){
         var obj = JSON.parse(data); 
         if (obj.status=="success") {
+            newstatename=$('#StateName').val();
             $('#frm_create_statename').trigger("reset");
               openPopup();
-               $('#newstate').modal("hide");
+               $('#newstate').modal("hide");                                   
             $('#popupcontent').html(success_content(obj.message,'closePopup();listStateNames')); 
         } else {
             if (obj.div!="") {
@@ -497,11 +553,13 @@ function districtnew(){
   $('#StateNameByDistrictName').val( $('#StateNameID  option:selected').text() );  
 }
 function addNewDistrictName() {
+    newdistrictname="";
     var param = $('#frm_create_districtname').serialize();
     clearDiv(['DistricName','StateName','Remarks']);
     $.post(URL+"webservice.php?action=addNew&method=DistrictNames",param,function(data){
         var obj = JSON.parse(data); 
         if (obj.status=="success") {
+            newdistrictname=$('#DistrictName').val();
             $('#frm_create_districtname').trigger("reset");
               openPopup();
                $('#newdistrict').modal("hide");                                   
@@ -525,11 +583,13 @@ function areanew(){
   $('#DistrictNameByAreaName').val( $('#DistrictNameID  option:selected').text() );  
 }
 function addNewAreaName() {
+    newareaname="";
     var param = $('#frm_create_areaname').serialize();
     clearDiv(['DistricName','StateName','AreaName','Remarks']);
     $.post(URL+"webservice.php?action=addNew&method=AreaNames",param,function(data){
         var obj = JSON.parse(data); 
         if (obj.status=="success") {
+             newareaname=$('#AreaName').val();
             $('#frm_create_areaname').trigger("reset");
               openPopup();
                $('#newarea').modal("hide");                                   
@@ -545,10 +605,13 @@ function addNewAreaName() {
     });
 }
 
-function employeescategorynew(){
-  $('#newemployeescategory').modal("show");   
+
+
+function employeecategorynew(){
+  $('#newemployeecategories').modal("show");   
 }
-function addNewEmployeesCategory() {
+function addNewEmployeeCategory() {
+    newemployeecategories="";
    
     var param = $('#frm_create_employeescategory').serialize();
    
@@ -556,9 +619,10 @@ function addNewEmployeesCategory() {
     $.post(URL+"webservice.php?action=addNew&method=EmployeeCategories",param,function(data){
         var obj = JSON.parse(data); 
         if (obj.status=="success") {
+            newemployeecategories=$('#EmployeeCategoryTitle').val();
             $('#frm_create_employeescategory').trigger("reset");
               openPopup();
-               $('#newemployeescategory').modal("hide");
+               $('#newemployeecategories').modal("hide");
             $('#popupcontent').html(success_content(obj.message,'closePopup();ListEmployeesCategory')); 
         } else {
             if (obj.div!="") {
@@ -570,9 +634,86 @@ function addNewEmployeesCategory() {
         }
     });
 }
-
 setTimeout(function(){
     ListEmployeesCategory();
     listStateNames();
+    
+    $('#EmployeeName').keydown(function (e) {
+          if (e.ctrlKey || e.altKey) {
+              e.preventDefault();
+          } else {
+              var key = e.keyCode;
+              if (!((key == 9) || (key == 190) || (key == 8) || (key == 32) || (key == 46) || (key >= 35 && key <= 40) || (key >= 65 && key <= 90))) {
+                  e.preventDefault();
+              }
+          }
+      });
+      
+      $('#FatherName').keydown(function (e) {
+          if (e.ctrlKey || e.altKey) {
+              e.preventDefault();
+          } else {
+              var key = e.keyCode;
+              if (!((key == 9) || (key == 190) || (key == 8) || (key == 32) || (key == 46) || (key >= 35 && key <= 40) || (key >= 65 && key <= 90))) {
+                  e.preventDefault();
+              }
+          }
+      });
+       $('#LoginUserName').keydown(function (e) {
+          if (e.ctrlKey || e.altKey) {
+              e.preventDefault();
+          } else {
+              var key = e.keyCode;
+              if (!((key == 9) || (key == 190) || (key == 8) || (key == 46) || (key >= 35 && key <= 40) || (key >= 48 && key <= 57) || (key >= 96 && key <= 105) || (key >= 65 && key <= 90))) {
+                  e.preventDefault();
+              }
+          }
+      });
+      $('#LoginPassword').keydown(function (e) {
+          if (e.ctrlKey || e.altKey) {
+              e.preventDefault();
+          } else {
+              var key = e.keyCode;
+              if (!((key == 9) || (key == 190) || (key == 8) || (key == 46) || (key >= 37 && key <= 40) || (key >= 48 && key <= 57) || (key >= 96 && key <= 105) || (key >= 65 && key <= 90))) {
+                  e.preventDefault();
+              }
+          }
+      });
+       $('#AddressLine1').keydown(function (e) {
+         // alert(e.keyCode);
+          if (e.ctrlKey || e.altKey){
+              e.preventDefault();
+          } else {
+              var key = e.keyCode;
+              if (e.shiftKey) {
+                  
+                  if (!((key == 51))) {
+                    e.preventDefault();
+                  }
+              } else {
+                  if (!((key == 9) || (key == 16) || (key == 50) || (key == 191) || (key == 173) || (key == 190) || (key == 8) || (key == 32) || (key == 46) || (key == 173) || (key == 163) || (key == 109) || (key == 111) || (key >= 35 && key <= 40) || (key >= 65 && key <= 90) || (key >= 48 && key <= 57) || (key >= 96 && key <= 105))) {
+                      e.preventDefault();
+                  }
+              }
+          }
+      }); 
+      $('#AddressLine2').keydown(function (e) {
+         // alert(e.keyCode);
+          if (e.ctrlKey || e.altKey){
+              e.preventDefault();
+          } else {
+              var key = e.keyCode;
+              if (e.shiftKey) {
+                  
+                  if (!((key == 51))) {
+                    e.preventDefault();
+                  }
+              } else {
+                  if (!((key == 9) || (key == 16) || (key == 50) || (key == 191) || (key == 173) || (key == 190) || (key == 8) || (key == 32) || (key == 46) || (key == 173) || (key == 163) || (key == 109) || (key == 111) || (key >= 35 && key <= 40) || (key >= 65 && key <= 90) || (key >= 48 && key <= 57) || (key >= 96 && key <= 105))) {
+                      e.preventDefault();
+                  }
+              }
+          }
+      });
 },2000);
 </script>

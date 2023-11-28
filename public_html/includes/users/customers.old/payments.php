@@ -42,10 +42,10 @@
                     <table id="datatables-fixed-header" class="table table-striped" style="width:100%">
                         <thead>
                             <tr>
-                                <th style="width: 100px;">Request ID</th>
-                                <th style="width: 100px;">Transaction Date</th>
-                                <th style="width: 200px; text-align: right;">Due<br>Amount</th>
-                                <th style="width: 200px;">Reference Number</th>
+                                <th style="width: 100px;">Request<br>ID</th>
+                                <th style="width: 100px;">Transaction<br>Date</th>
+                                <th style="width: 200px;">Due<br>Amount</th>
+                                <th style="width: 200px;">Reference<br>Number</th>
                                 <th style="width: 70px;">Status</th>
                                 <th style="width: 50px;"></th>
                             </tr>
@@ -85,11 +85,11 @@ function listPaymentbank() {
                             } else if (data.RequestStatus=="REJECTED") {
                                 html += '<td> <span class="badge bg-danger">REJECTED</span> </td>';
                             }
-                            html+= '<td style="text-align:right"><a href="'+URL+'dashboard.php?action=customers/viewrecentpayment&id='+data.PaymentRequestID+'&customer=<?php echo $_GET['customer'];?>" style="font-size:10px"; class="btn btn-outline-primary btn-sm">View</a></td>'
+                            html+= '<td style="text-align:right"><a href="'+URL+'dashboard.php?action=customers/viewrecentpayment&id='+data.PaymentRequestID+'&customer=<?php echo $_GET['customer'];?>" class="btn btn-outline-primary btn-sm">View</a></td>' 
                 + '</tr>';
                       
             });
-            if (obj.data.length==0) {
+             if (obj.data.length==0) {
                  html += '<tr>'
                             + '<td colspan="6" style="text-align: center;background:#fff !important">No Data Found</td>'
                        + '</tr>';

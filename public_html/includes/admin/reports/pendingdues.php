@@ -65,9 +65,6 @@
             </div>
         </div>
     </div>
-    <div class="col-12" style="text-align:right;">
-            <a href="<?php echo URL;?>dashboard.php?" class="btn btn-outline-primary btn-sm">Back</a>
-     </div>
 </div>
 
 
@@ -97,10 +94,9 @@ function getData() {
                                         + '<img src="'+URL+'assets/icons/more.png">'
                                         + '</a>'
                                         + '<div class="dropdown-menu dropdown-menu-end">'
-                                        + '<a class="dropdown-item" href="'+URL+'dashboard.php?action=masters/customers/view&customer='+data.CustomerID+'">View Customer</a>'
-                                                + '<a class="dropdown-item" href="'+URL+'dashboard.php?action=contracts/view&view='+data.ContractCode+'">View Contract</a>'
-                                                + '<a class="dropdown-item" href="'+URL+'dashboard.php?action=masters/schemes/view&edit='+data.SchemeID+'">View Scheme</a>'
-                                                 
+                                        + '<a class="dropdown-item" href="'+URL+'dashboard.php?action=masters/customers/view&customer='+data.CustomerID+'&fbg=reports/pendingdues">View Customer</a>'
+                                                + '<a class="dropdown-item" href="'+URL+'dashboard.php?action=contracts/view&view='+data.ContractCode+'&fbg=reports/pendingdues">View Contract</a>'
+                                                + '<a class="dropdown-item" href="'+URL+'dashboard.php?action=masters/schemes/view&edit='+data.SchemeID+'&fbg=reports/pendingdues">View Scheme</a>'
                                         + '</div>'
                                 + '</div>'
                             + '</td>'

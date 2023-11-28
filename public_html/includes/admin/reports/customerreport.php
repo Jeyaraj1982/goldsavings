@@ -1,4 +1,4 @@
-<div class="container-fluid p-0">
+<div class="container-fluid p-0 mb-3">
 <form id="frm_create" name="frm_create" method="post" enctype="multipart/form-data">
 <div class="col-sm-12">
     <div class="row">
@@ -49,85 +49,85 @@
                                     } 
                                 </script>-->
                                 <div class="col-sm-4 mb-3">
-                                  <input class="form-check-input" type="checkbox" value="" id="CustomerCode">&nbsp;
+                                  <input class="form-check-input" type="checkbox" value="" id="CustomerCode" name="CustomerCode">&nbsp;
                                     Customer ID
                                 </div>
                                 <div class="col-sm-4 mb-3">
-                                  <input class="form-check-input" type="checkbox" value="" id="CustomerName">&nbsp;
+                                  <input class="form-check-input" type="checkbox" value="" id="CustomerName" name="CustomerName">&nbsp;
                                     Customer Name
                                 </div>
                                 <div class="col-sm-4 mb-3">
-                                  <input class="form-check-input" type="checkbox" value="" id="MobileNumber">&nbsp;
+                                  <input class="form-check-input" type="checkbox" value="" id="MobileNumber" name="MobileNumber">&nbsp;
                                      Mobile Number
                                 </div>
                                 <div class="col-sm-4 mb-3">
-                                  <input class="form-check-input" type="checkbox" value="" id="EmailID">&nbsp;
+                                  <input class="form-check-input" type="checkbox" value="" id="EmailID" name="EmailID">&nbsp;
                                     Email ID
                                 </div>
                                 <div class="col-sm-4 mb-3">
-                                  <input class="form-check-input" type="checkbox" value="" id="WhatsappNumber">&nbsp;
+                                  <input class="form-check-input" type="checkbox" value="" id="WhatsappNumber" name="WhatsappNumber">&nbsp;
                                     Whatsapp Number
                                 </div>
                                 <div class="col-sm-4 mb-3">
-                                  <input class="form-check-input" type="checkbox" value="" id="AlternativeMobileNumber">&nbsp;
+                                  <input class="form-check-input" type="checkbox" value="" id="AlternativeMobileNumber" name="AlternativeMobileNumber">&nbsp;
                                     Alternative Mobile Number
                                 </div>
                                 <div class="col-sm-4 mb-3">
-                                  <input class="form-check-input" type="checkbox" value="" id="DateofBirth">&nbsp;
+                                  <input class="form-check-input" type="checkbox" value="" id="DateofBirth" name="DateofBirth">&nbsp;
                                     Date of Birth
                                 </div>
                                 <div class="col-sm-4 mb-3">
-                                  <input class="form-check-input" type="checkbox" value="" id="LoginUserName">&nbsp;
+                                  <input class="form-check-input" type="checkbox" value="" id="LoginUserName" name="LoginUserName">&nbsp;
                                     Login User Name
                                 </div>
                                 <div class="col-sm-4 mb-3">
-                                  <input class="form-check-input" type="checkbox" value="" id="LoginPassword">&nbsp;
+                                  <input class="form-check-input" type="checkbox" value="" id="LoginPassword" name="LoginPassword">&nbsp;
                                     Login Password
                                 </div>
                                 <div class="col-sm-4 mb-3">
-                                  <input class="form-check-input" type="checkbox" value="" id="PancardNumber">&nbsp;
+                                  <input class="form-check-input" type="checkbox" value="" id="PancardNumber" name="PancardNumber">&nbsp;
                                     PAN Card Number
                                 </div>
                                 <div class="col-sm-4 mb-3">
-                                  <input class="form-check-input" type="checkbox" value="" id="AadhaarCardNumber">&nbsp;
+                                  <input class="form-check-input" type="checkbox" value="" id="AadhaarCardNumber" name="AadhaarCardNumber">&nbsp;
                                     Aadhaar Card Number
                                 </div>
                                 <div class="col-sm-4 mb-3">
-                                  <input class="form-check-input" type="checkbox" value="" id="ReferredByName">&nbsp;
+                                  <input class="form-check-input" type="checkbox" value="" id="ReferredByName" name="ReferredByName">&nbsp;
                                     Referred By Name
                                 </div>
                                 <div class="col-sm-4 mb-3">
-                                  <input class="form-check-input" type="checkbox" value="" id="RefMobileNumber">&nbsp;
+                                  <input class="form-check-input" type="checkbox" value="" id="RefMobileNumber" name="RefMobileNumber">&nbsp;
                                     Referred By MobileNumber
                                 </div>
                                 <div class="col-sm-4 mb-3">
-                                  <input class="form-check-input" type="checkbox" value="" id="Referrals">&nbsp;
+                                  <input class="form-check-input" type="checkbox" value="" id="Referrals" name="Referrals">&nbsp;
                                    Referrals
                                 </div>
                                 <div class="col-sm-4 mb-3">
-                                  <input class="form-check-input" type="checkbox" value="" id="contracts">&nbsp;
+                                  <input class="form-check-input" type="checkbox" value="" id="Contracts" name="Contracts">&nbsp;
                                    Number of contracts
                                 </div>
                                 <div class="col-sm-4 mb-3">
-                                  <input class="form-check-input" type="checkbox" value="" id="Pendingdues">&nbsp;
+                                  <input class="form-check-input" type="checkbox" value="" id="Pendingdues" name="Pendingdues">&nbsp;
                                    Pending dues
                                 </div>
                                 <div class="col-sm-4 mb-3">
-                                  <input class="form-check-input" type="checkbox" value="" id="AddressLine1">&nbsp;
+                                  <input class="form-check-input" type="checkbox" value="" id="AddressLine1" name="AddressLine1">&nbsp;
                                     Address Line 1
                                 </div>
                                 <div class="col-sm-4 mb-3">
-                                  <input class="form-check-input" type="checkbox" value="" id="AddressLine2">&nbsp;
+                                  <input class="form-check-input" type="checkbox" value="" id="AddressLine2" name="AddressLine2">&nbsp;
                                     Address Line 2
                                 </div>
                                 <div class="col-sm-4 mb-3">
-                                  <input class="form-check-input" type="checkbox" value="" id="PinCode">&nbsp;
-                                    PinCode
+                                  <input class="form-check-input" type="checkbox" value="" id="PinCode" name="PinCode">&nbsp;
+                                    Pincode
                                 </div>
                                 <div class="col-sm-8 mb-3">
                                 </div>
                                  <div class="col-sm-4 mb-3">
-                                  <input class="form-check-input" type="checkbox" value="" id="CheckboxStateName" onclick="printStateName()">&nbsp;
+                                  <input class="form-check-input" type="checkbox" value="" id="StateName" name="StateName" onclick="printStateName()">&nbsp;
                                     State Name
                                 <div  style="display:none" id="selectStateName">
                                     <div class="input-group">
@@ -139,7 +139,7 @@
                             </div>
                                 <script>
                                 function printStateName() {
-                                 var checkBox = document.getElementById("CheckboxStateName");
+                                 var checkBox = document.getElementById("StateName");
                                  var div = document.getElementById("selectStateName");
                                    if (checkBox.checked == true){
                                         div.style.display = "block";
@@ -149,7 +149,7 @@
                                     } 
                                 </script>
                                 <div class="col-sm-4 mb-3">
-                                  <input class="form-check-input" type="checkbox" value="" id="CheckboxDistrictName" onclick="printDistrictName()">&nbsp;
+                                  <input class="form-check-input" type="checkbox" value="" id="DistrictName" nam="DistrictName" onclick="printDistrictName()">&nbsp;
                                     District Name
                                 <div  style="display:none" id="selectDistrictName">
                                     <div class="input-group">
@@ -161,7 +161,7 @@
                             </div>
                                 <script>
                                 function printDistrictName() {
-                                 var checkBox = document.getElementById("CheckboxDistrictName");
+                                 var checkBox = document.getElementById("DistrictName");
                                  var div = document.getElementById("selectDistrictName");
                                    if (checkBox.checked == true){
                                         div.style.display = "block";
@@ -171,7 +171,7 @@
                                     } 
                                 </script>
                                 <div class="col-sm-4 mb-3">
-                                  <input class="form-check-input" type="checkbox" value="" id="CheckboxAreaName" onclick="printAreaName()">&nbsp;
+                                  <input class="form-check-input" type="checkbox" value="" id="AreaName" name="AreaName" onclick="printAreaName()">&nbsp;
                                     Area Name
                                 <div style="display:none" id="selectAreaName">
                                     <div class="input-group">
@@ -183,7 +183,7 @@
                             </div>
                                 <script>
                                 function printAreaName() {
-                                 var checkBox = document.getElementById("CheckboxAreaName");
+                                 var checkBox = document.getElementById("AreaName");
                                  var div = document.getElementById("selectAreaName");
                                    if (checkBox.checked == true){
                                         div.style.display = "block";
@@ -205,7 +205,7 @@
                                     } 
                                 </script>
                                 <div class="col-sm-4 mb-1">
-                                  <input class="form-check-input" type="checkbox" value="" id="CheckboxGender" onclick="printChangegender()">&nbsp;
+                                  <input class="form-check-input" type="checkbox" value="" id="CheckboxGender" name="CheckboxGender" onclick="printChangegender()">&nbsp;
                                     Gender
                                 <div style="display:none" id="Gender">
                                     <div class="input-group">
@@ -220,7 +220,7 @@
                             </div>
                                 <script>
                                 function printCustomertypename() {
-                                 var checkBox = document.getElementById("CheckboxCustomerType");
+                                 var checkBox = document.getElementById("CustomerType");
                                  var div = document.getElementById("selectCustomerTypeName");
                                    if (checkBox.checked == true){
                                         div.style.display = "block";
@@ -230,7 +230,7 @@
                                     } 
                                 </script>                                                      
                                 <div class="col-sm-4 mb-1">
-                                  <input class="form-check-input" type="checkbox" value="" id="CheckboxCustomerType" onclick="printCustomertypename()">&nbsp;
+                                  <input class="form-check-input" type="checkbox" value="" id="CustomerType" name="CustomerType" onclick="printCustomertypename()">&nbsp;
                                     Customer Type
                                 <div style="display:none" id="selectCustomerTypeName">
                                     <div class="input-group">
@@ -329,11 +329,31 @@
                 </div>
         </div>      
     </form>
-        <div class="col-sm-12" style="text-align:right;">
+        <div class="col-sm-12 mb-3" style="text-align:right;">
         <a href="<?php echo URL;?>dashboard.php" class="btn btn-outline-primary">Back</a>&nbsp;&nbsp;
-            <button type="button" class="btn btn-primary">Get Report</button>    
+            <button type="button" onclick="getData()" class="btn btn-primary">Get Report</button>    
     </div>              
-</div> 
+</div>
+
+<div class="row" id="listData" style="display:none">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body" style="padding-top:25px">
+                <table id="datatables-fixed-header" class="table table-striped" style="width:100%">
+                  <thead id="tbl_header">
+                           
+                        </thead>
+                    <tbody id="tbl_content">
+                        <tr>
+                            <td colspan="8" style="text-align: center;background:#fff !important">Loading reports ...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
  <script>
  
  function ListCustomerTypes() {
@@ -428,6 +448,218 @@ function getAreaNames() {
         }
     });
 } 
+
+function getData() {
+    var param = $('#frm_goldrate').serialize();
+    openPopup();
+    clearDiv(['message']);
+    $.post(URL+ "webservice.php?action=ListAll&method=Customers",param,function(data){
+        closePopup();
+        var obj = JSON.parse(data);
+        if (obj.status=="success") {
+            var html = "";
+            var header="";
+            
+            header ="<tr>";
+            if ($('#CustomerCode').prop("checked")) {
+                header += "<th>Customer ID</th>";
+            }
+            if ($('#CustomerName').prop("checked")) {
+                header += "<th>Customer Name</th>";
+            }
+            if ($('#MobileNumber').prop("checked")) {
+                header += "<th>MobileNumber</th>";
+            }
+            if ($('#EmailID').prop("checked")) {
+                header += "<th>Email ID</th>";
+            }
+            if ($('#WhatsappNumber').prop("checked")) {
+                header += "<th>Whatsapp Number</th>";
+            }
+            if ($('#AlternativeMobileNumber').prop("checked")) {
+                header += "<th>Alternative Mobile Number</th>";
+            }
+            if ($('#DateofBirth').prop("checked")) {
+                header += "<th>Date Of Birth</th>";
+            }
+             if ($('#LoginUserName').prop("checked")) {
+                header += "<th>Login User Name</th>";
+            }
+            if ($('#LoginPassword').prop("checked")) {
+                header += "<th>Login Password</th>";
+            }
+             if ($('#PancardNumber').prop("checked")) {
+                header += "<th>PAN Card Number</th>";
+            }
+            if ($('#AadhaarCardNumber').prop("checked")) {
+                header += "<th>Aadhaar Card Number</th>";
+            }
+             if ($('#ReferredByName').prop("checked")) {
+                header += "<th>Referred By Name</th>";
+            } 
+             if ($('#RefMobileNumber').prop("checked")) {
+                header += "<th>Refered by Mobile Number</th>";
+            }
+            if ($('#Referrals').prop("checked")) {
+                header += "<th>Referrals</th>";
+            }
+             if ($('#Contracts').prop("checked")) {
+                header += "<th>Contracts</th>";
+            } 
+            if ($('#Pendingdues').prop("checked")) {
+                header += "<th>Pendingdues</th>";
+            }
+             if ($('#AddressLine1').prop("checked")) {
+                header += "<th>AddressLine1</th>";
+            } 
+            if ($('#AddressLine2').prop("checked")) {
+                header += "<th>AddressLine2</th>";
+            }
+            if ($('#StateName').prop("checked")) {
+                header += "<th>State Name</th>";
+            }
+             if ($('#DistrictName').prop("checked")) {
+                header += "<th>District Name</th>";
+            } 
+            if ($('#AreaName').prop("checked")) {
+                header += "<th>Area Name</th>";
+            } 
+             if ($('#CheckboxGender').prop("checked")) {
+                header += "<th>Gender</th>";
+            }
+            if ($('#CustomerType').prop("checked")) {
+                header += "<th>Customer Type</th>";
+            }
+             if ($('#CheckboxReferByText').prop("checked")) {
+                header += "<th>Refer By</th>";
+            }
+            /*if ($('#CreatedOn').prop("checked")) {
+                header += "<th>Created On</th>";
+            }
+            if ($('#EntryDate').prop("checked")) {
+                header += "<th>Entry Date</th>";
+            }
+             if ($('#PinCode').prop("checked")) {
+                header += "<th>Pincode</th>";
+            }
+           
+             if ($('#FatherName').prop("checked")) {
+                header += "<th>FatherName</th>";
+            }*/ 
+           
+        header += "</tr>";
+            
+            $('#tbl_header').html(header) ;
+            $.each(obj.data, function (index, data) {
+              html +=    '<tr>';
+              if ($('#CustomerCode').prop("checked")) {
+               html += '<td>' + data.CustomerCode + '</td>';
+              }
+              if ($('#CustomerName').prop("checked")) {
+               html += '<td>' + data.CustomerName + '</td>';
+              }
+              if ($('#MobileNumber').prop("checked")) {
+               html += '<td>' + data.MobileNumber + '</td>';
+              }
+               if ($('#EmailID').prop("checked")) {
+               html += '<td>' + data.EmailID + '</td>';
+              }
+               if ($('#WhatsappNumber').prop("checked")) {
+               html += '<td>' + data.WhatsappNumber + '</td>';
+              }
+               if ($('#AlternativeMobileNumber').prop("checked")) {
+               html += '<td>' + data.AlternativeMobileNumber + '</td>';
+              }
+              if ($('#DateofBirth').prop("checked")) {
+               html += '<td>' + data.DateOfBirth + '</td>';
+              }
+               if ($('#LoginUserName').prop("checked")) {
+               html += '<td>' + data.LoginUserName + '</td>';
+              }
+              if ($('#LoginPassword').prop("checked")) {
+               html += '<td>' + data.LoginPassword + '</td>';
+              } 
+              if ($('#PancardNumber').prop("checked")) {
+               html += '<td>' + data.PancardNumber + '</td>';
+              }
+              if ($('#AadhaarCardNumber').prop("checked")) {
+               html += '<td>' + data.AadhaarCardNumber + '</td>';
+              }
+               if ($('#ReferredByName').prop("checked")) {
+               html += '<td>' + data.ReferredByName + '</td>';
+              }
+              if ($('#RefMobileNumber').prop("checked")) {
+               html += '<td>' + data.RefMobileNumber + '</td>';
+              }
+               if ($('#Referrals').prop("checked")) {
+               html += '<td>' + data.Referrals + '</td>';
+              }
+              if ($('#Contracts').prop("checked")) {
+               html += '<td>' + data.Contracts + '</td>';
+              }
+               if ($('#Pendingdues').prop("checked")) {
+               html += '<td>' + data.Pendingdues + '</td>';
+              }
+               if ($('#AddressLine1').prop("checked")) {
+               html += '<td>' + data.AddressLine1 + '</td>';
+              }
+              if ($('#AddressLine2').prop("checked")) {
+               html += '<td>' + data.AddressLine2 + '</td>';
+              } 
+              if ($('#PinCode').prop("checked")) {
+               html += '<td>' + data.PinCode + '</td>';
+              }
+              if ($('#StateName').prop("checked")) {
+                  html += '<td>' + data.StateName + '</td>';
+              }
+              if ($('#DistrictName').prop("checked")) {
+               html += '<td>' + data.DistrictName + '</td>';
+              }
+              if ($('#AreaName').prop("checked")) {
+               html += '<td>' + data.AreaName + '</td>';
+              }
+               if ($('#CheckboxGender').prop("checked")) {
+               html += '<td>' + data.Gender + '</td>';
+              }
+              if ($('#CustomerType').prop("checked")) {
+               html += '<td>' + data.CustomerTypeName + '</td>';
+              } 
+              if ($('#CheckboxReferByText').prop("checked")) {
+               html += '<td>' + data.ReferByText + '</td>';
+              }
+              /*if ($('#CreatedOn').prop("checked")) {
+               html += '<td>' + data.CreatedOn + '</td>';
+              }
+              if ($('#EntryDate').prop("checked")) {
+               html += '<td>' + data.EntryDate + '</td>';
+              }
+              if ($('#FatherName').prop("checked")) {
+               html += '<td>' + data.FatherName + '</td>';
+              }  */
+            html += '</tr>';
+                           
+            });
+             if (obj.data.length==0) {
+         html += '<tr>'
+                    + '<td colspan="7" style="text-align: center;background:#fff !important">No Data Found</td>'
+               + '</tr>';
+    }
+            $('#tbl_content').html(html);
+            $('#listData').show();
+             
+            
+        } else {
+            if (obj.div!="") {
+                $('#Err'+obj.div).html(obj.message)
+            } else {
+                $('#failure_div').html(obj.message);
+            }
+             $('#tbl_content').html("");
+            $('#listData').hide();
+            $('#process_popup').modal('hide');
+        }
+    });
+}
 
 setTimeout(function(){
     ListCustomerTypes();

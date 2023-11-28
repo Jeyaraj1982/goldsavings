@@ -34,7 +34,7 @@
       <div class="modal-body">
         <div class="container-fluid p-0">
     <form id="frm_create_ProfilePhoto" name="frm_create_ProfilePhoto" method="post" enctype="multipart/form-data">
-    <input type="hidden" value="<?php echo $data[0][' EmployeeID'];?>" name="EmployeeID" id=" EmployeeID">
+    <input type="hidden" value="<?php echo $data[0]['UserID'];?>" name="UserID" id=" UserID">
         <div class="row">
                             <div class="col-sm-12 mb-3">
                                 <label class="form-label">Select Image <span style='color:red'>*</span></label>

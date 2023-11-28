@@ -12,7 +12,14 @@
                                 <input type="text" value="<?php echo SequnceList::getNextNumber("_tbl_masters_customers");?>" name="CustomerCode" id="CustomerCode" class="form-control" placeholder="Customer Code">
                                 <span id="ErrCustomerCode" class="error_msg"></span>
                             </div>
-                            <div class="col-sm-6 mb-3">
+                            <div class="col-sm-2 mb-3">
+                            </div>
+                            <div class="col-sm-4 mb-3">
+                                <label class="form-label">Entry Date <span style='color:red'>*</span></label>
+                                <div class="input-group">
+                                    <input type="date" value="<?php echo date("Y-m-d");?>" name="EntryDate" id="EntryDate" class="form-control" placeholder="Entry Date">
+                                </div>
+                                <span id="ErrEntryDate" class="error_msg"></span>
                             </div>
                             <div class="col-sm-6 mb-3">
                                 <label class="form-label">Customer Type <span style='color:red'>*</span></label>
@@ -84,14 +91,36 @@
                             <div class="col-sm-12">
                                 <hr>
                             </div>
-                            <div class="col-sm-6 mb-3">         
-                                <label class="form-label">Login User Name <span style='color:red'>*</span></label>
-                                <input type="text" name="LoginUserName" id="LoginUserName" class="form-control" placeholder="Login User Name">
+                            <div class="col-sm-6">         
+                                <label class="form-label">Login User Name <span style='color:red'>*</span>
+                                <img src="<?php echo URL;?>assets/question.png" style="width: 12px;" class="dropdown"  id="dropdownMenuButton1" data-bs-toggle="dropdown">
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton1" style="padding:0px;">
+                                    <div class="myheader">Login Username</div>
+                                    <div class="mycontainer">
+                                        1. Allow only alphanumeric characters<br>
+                                        2. Minimum 6 characters require<br>
+                                        3. Maximum 8 characters require
+                                        
+                                    </div>
+                                </div>
+                                </label>
+                                <input type="text" name="LoginUserName" id="LoginUserName" class="form-control" placeholder="Login User Name" maxlength="8">
                                 <span id="ErrLoginUserName" class="error_msg"></span>
                             </div>
-                            <div class="col-sm-6 mb-3">
-                                <label class="form-label">Login Password <span style='color:red'>*</span></label>
-                                <input type="text" value="" name="LoginPassword" id="LoginPassword" class="form-control" placeholder="Login Password">
+                            <div class="col-sm-6">
+                                <label class="form-label">Login Password <span style='color:red'>*</span>
+                                <img src="<?php echo URL;?>assets/question.png" style="width: 12px;" class="dropdown"  id="dropdownMenuButton1" data-bs-toggle="dropdown">
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton1" style="padding:0px;">
+                                    <div class="myheader">Login Password</div>
+                                    <div class="mycontainer">
+                                        1. Allow only alphanumeric characters<br>
+                                        2. Minimum 6 characters require<br>
+                                        3. Maximum 8 characters require<br>
+                                        4. Allow special charecters <span style="color:green;"> !@#%^&*()_-=+.?</span>
+                                    </div>
+                                </div>
+                                </label>
+                                <input type="text" value="" name="LoginPassword" id="LoginPassword" class="form-control" placeholder="Login Password" maxlength="8">
                                 <span id="ErrLoginPassword" class="error_msg"></span>
                             </div>
                         </div>
@@ -102,12 +131,12 @@
                 <div class="card">
                     <div class="card-body">
                         <div class="row">                            
-                            <div class="col-sm-6 mb-3">
+                            <div class="col-sm-6">
                                 <label class="form-label">PAN Card Number <span style='color:red'>*</span></label>
                                 <input type="text"  name="PancardNumber" id="PancardNumber" class="form-control" placeholder="ABCTY1234D" data-masked="" data-inputmask="'mask':'aaaaa9999a'" style="text-transform: uppercase;">
                                 <span id="ErrPancardNumber" class="error_msg"></span>
                             </div>
-                            <div class="col-sm-6 mb-3">
+                            <div class="col-sm-6">
                                 <label class="form-label">Aadhaar Card Number <span style='color:red'>*</span></label>
                                 <input type="text" value="" name="AadhaarCardNumber" id="AadhaarCardNumber" class="form-control" placeholder="Aadhaar Card Number" data-masked="" data-inputmask="'mask':'9999 9999 9999'">
                                 <span id="ErrAadhaarCardNumber" class="error_msg"></span>
@@ -121,12 +150,30 @@
                     <div class="card-body">
                         <div class="row">
                             <div class="col-sm-12 mb-3">
-                                <label class="form-label">Address Line 1 <span style='color:red'>*</span></label>
+                                <label class="form-label">Address Line 1 <span style='color:red'>*</span>
+                                <img src="<?php echo URL;?>assets/question.png" style="width: 12px;" class="dropdown"  id="dropdownMenuButton1" data-bs-toggle="dropdown">
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton1" style="padding:0px;">
+                                    <div class="myheader">Address Line 1</div>
+                                    <div class="mycontainer">
+                                        1. Allow alphanumeric characters<br>
+                                        2. Allow only special charecters <span style="color:green;"> #/-.<span>
+                                    </div>
+                                </div>
+                                </label>
                                 <input type="text" name="AddressLine1" id="AddressLine1" class="form-control" placeholder="Address Line 1">
                                 <span id="ErrAddressLine1" class="error_msg"></span>
                             </div>
                             <div class="col-sm-12 mb-3">
-                                <label class="form-label">Address Line 2</label>
+                                <label class="form-label">Address Line 2
+                                
+                                <img src="<?php echo URL;?>assets/question.png" style="width: 12px;" class="dropdown"  id="dropdownMenuButton1" data-bs-toggle="dropdown">
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton1" style="padding:0px;">
+                                    <div class="myheader">Address Line 2</div>
+                                    <div class="mycontainer">
+                                        1. Allow alphanumeric characters<br>
+                                        2. Allow only special charecters <span style="color:green;"> #/-.<span>
+                                    </div>
+                                </div></label>
                                 <input type="text" name="AddressLine2" id="EstimatedDuration" class="form-control" placeholder="Address Line 2">
                                 <span id="ErrAddressLine2" class="error_msg"></span>
                             </div>
@@ -152,7 +199,7 @@
                                 <span id="ErrAreaNameID" class="error_msg"></span>
                             </div>
                             <div class="col-sm-6">
-                                <label class="form-label">PinCode <span style='color:red'>*</span></label>
+                                <label class="form-label">Pincode <span style='color:red'>*</span></label>
                                 <input type="text" value="" name="PinCode" id="PinCode" class="form-control" placeholder="Pincode" data-masked="" data-inputmask="'mask':'999 999'">
                                 <span id="ErrPinCode" class="error_msg"></span>
                             </div>
@@ -340,7 +387,7 @@ function addNew() {
    $('#confirmation').modal("hide"); 
     var param = $('#frm_create').serialize();
     openPopup();
-    clearDiv(['CustomerCode','CustomerTypeNameID','CustomerName','FatherName','EmailID','MobileNumber','WhatsappNumber','AddressLine1','StateNameID','DistrictNameID','AreaNameID','PinCode','RefMobileNumberID','ReferredBy','LoginUserName','LoginPassword','PancardNumber','AadhaarCardNumber']);
+    clearDiv(['Gender','CustomerCode','DateOfBirth','EntryDate','CustomerTypeNameID','CustomerName','FatherName','EmailID','MobileNumber','WhatsappNumber','AddressLine1','StateNameID','DistrictNameID','AreaNameID','PinCode','RefMobileNumberID','ReferredBy','LoginUserName','LoginPassword','PancardNumber','AadhaarCardNumber']);
     
     jQuery.ajax({
         type: 'POST',
@@ -465,23 +512,80 @@ setTimeout(function(){
     listStateNames();
     
 $('#CustomerName').keydown(function (e) {
-          if (e.shiftKey || e.ctrlKey || e.altKey) {
+          if (e.ctrlKey || e.altKey) {
               e.preventDefault();
           } else {
               var key = e.keyCode;
-              if (!((key == 8) || (key == 32) || (key == 46) || (key >= 35 && key <= 40) || (key >= 65 && key <= 90))) {
+              if (!((key == 9) || (key == 190) || (key == 8) || (key == 32) || (key == 46) || (key >= 35 && key <= 40) || (key >= 65 && key <= 90))) {
                   e.preventDefault();
               }
           }
       });
       
       $('#FatherName').keydown(function (e) {
-          if (e.shiftKey || e.ctrlKey || e.altKey) {
+          if (e.ctrlKey || e.altKey) {
               e.preventDefault();
           } else {
               var key = e.keyCode;
-              if (!((key == 8) || (key == 32) || (key == 46) || (key >= 35 && key <= 40) || (key >= 65 && key <= 90))) {
+              if (!((key == 9) || (key == 190) || (key == 8) || (key == 32) || (key == 46) || (key >= 35 && key <= 40) || (key >= 65 && key <= 90))) {
                   e.preventDefault();
+              }
+          }
+      });
+      $('#LoginUserName').keydown(function (e) {
+          if (e.ctrlKey || e.altKey) {
+              e.preventDefault();
+          } else {
+              var key = e.keyCode;
+              if (!((key == 9) || (key == 190) || (key == 8) || (key == 46) || (key >= 35 && key <= 40) || (key >= 48 && key <= 57) || (key >= 96 && key <= 105) || (key >= 65 && key <= 90))) {
+                  e.preventDefault();
+              }
+          }
+      });
+      $('#LoginPassword').keydown(function (e) {
+          if (e.ctrlKey || e.altKey) {
+              e.preventDefault();
+          } else {
+              var key = e.keyCode;
+              if (!((key == 9) || (key == 190) || (key == 8) || (key == 46) || (key >= 37 && key <= 40) || (key >= 48 && key <= 57) || (key >= 96 && key <= 105) || (key >= 65 && key <= 90))) {
+                  e.preventDefault();
+              }
+          }
+      });
+      $('#AddressLine1').keydown(function (e) {
+         // alert(e.keyCode);
+          if (e.ctrlKey || e.altKey){
+              e.preventDefault();
+          } else {
+              var key = e.keyCode;
+              if (e.shiftKey) {
+                  
+                  if (!((key == 51))) {
+                    e.preventDefault();
+                  }
+              } else {
+                  if (!((key == 9) || (key == 16) || (key == 50) || (key == 191) || (key == 173) || (key == 190) || (key == 8) || (key == 32) || (key == 46) || (key == 173) || (key == 163) || (key == 109) || (key == 111) || (key >= 35 && key <= 40) || (key >= 65 && key <= 90) || (key >= 48 && key <= 57) || (key >= 96 && key <= 105))) {
+                      e.preventDefault();
+                  }
+              }
+          }
+      });
+      
+      $('#AddressLine2').keydown(function (e) {
+         // alert(e.keyCode);
+          if (e.ctrlKey || e.altKey){
+              e.preventDefault();
+          } else {
+              var key = e.keyCode;
+              if (e.shiftKey) {
+                  
+                  if (!((key == 51))) {
+                    e.preventDefault();
+                  }
+              } else {
+                  if (!((key == 9) || (key == 16) || (key == 50) || (key == 191) || (key == 173) || (key == 190) || (key == 8) || (key == 32) || (key == 46) || (key == 173) || (key == 163) || (key == 109) || (key == 111) || (key >= 35 && key <= 40) || (key >= 65 && key <= 90) || (key >= 48 && key <= 57) || (key >= 96 && key <= 105))) {
+                      e.preventDefault();
+                  }
               }
           }
       });

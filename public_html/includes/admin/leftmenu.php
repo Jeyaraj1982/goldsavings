@@ -69,14 +69,6 @@
                 <li class="sidebar-item"><a class="sidebar-link" href="<?php echo URL;?>dashboard.php?action=reports/voucher">Vouchers</a></li>
             </ul> 
         </li>
-        <li class="sidebar-item">
-            <a data-bs-target="#customerreports" data-bs-toggle="collapse" class="sidebar-link collapsed">
-                <i class="align-middle" data-feather="layout"></i> <span class="align-middle">Customer Reports</span>
-            </a>  
-            <ul id="customerreports" class="sidebar-dropdown list-unstyled collapse " data-bs-parent="#sidebar">
-                <li class="sidebar-item"><a class="sidebar-link" href="<?php echo URL;?>dashboard.php?action=reports/customerreport">Customer Report</a></li>
-                </ul> 
-        </li>
         <li class="sidebar-header">
             App Masters & Settings
         </li>
@@ -86,7 +78,7 @@
             </a>
             <ul id="app_company" class="sidebar-dropdown list-unstyled collapse " data-bs-parent="#sidebar">
                 <li class="sidebar-item"><a class="sidebar-link" href="<?php echo URL;?>dashboard.php?action=company/new">New Company</a></li>
-                <li class="sidebar-item"><a class="sidebar-link" href="<?php echo URL;?>dashboard.php?action=company/list">View Company</a></li>
+                <li class="sidebar-item"><a class="sidebar-link" href="<?php echo URL;?>dashboard.php?action=company/list">View Companies</a></li>
             </ul>
             <a data-bs-target="#app_employees" data-bs-toggle="collapse" class="sidebar-link collapsed">
                 <i class="align-middle" data-feather="grid"></i> <span class="align-middle">Employees</span>
@@ -117,12 +109,13 @@
             </a>
             <ul id="app_masters" class="sidebar-dropdown list-unstyled collapse " data-bs-parent="#sidebar">
                 <li class="sidebar-item"><a class="sidebar-link" href="<?php echo URL;?>dashboard.php?action=masters/areanames/list">Area Name Master</a></li>
+                <li class="sidebar-item"><a class="sidebar-link" href="<?php echo URL;?>dashboard.php?action=masters/branch/list">Branch</a></li>
                 <li class="sidebar-item"><a class="sidebar-link" href="<?php echo URL;?>dashboard.php?action=masters/customertypes/list">Customer Types</a></li>
                 <li class="sidebar-item"><a class="sidebar-link" href="<?php echo URL;?>dashboard.php?action=masters/districtnames/list">District Name Master</a></li>
                 <li class="sidebar-item"><a class="sidebar-link" href="<?php echo URL;?>dashboard.php?action=masters/documenttypes/list">Document Types</a></li>
                 <li class="sidebar-item"><a class="sidebar-link" href="<?php echo URL;?>dashboard.php?action=masters/employeecategory/list">Employee Category</a></li>
                 <li class="sidebar-item"><a class="sidebar-link" href="<?php echo URL;?>dashboard.php?action=masters/file_extensions/list">File Extensions</a></li>
-                <li class="sidebar-item"><a class="sidebar-link" href="<?php echo URL;?>dashboard.php?action=masters/goldprice/list"> Gold price</a></li>
+                <li class="sidebar-item"><a class="sidebar-link" href="<?php echo URL;?>dashboard.php?action=masters/goldprice/list"> Gold & Silver price</a></li>
                 <li class="sidebar-item"><a class="sidebar-link" href="<?php echo URL;?>dashboard.php?action=masters/paymentbank/list">Payment Bank</a></li>
                 <li class="sidebar-item"><a class="sidebar-link" href="<?php echo URL;?>dashboard.php?action=masters/paymentmode/list">Payment Mode</a></li>
                 <li class="sidebar-item"><a class="sidebar-link" href="<?php echo URL;?>dashboard.php?action=masters/relationnames/list">Relation Names</a></li>

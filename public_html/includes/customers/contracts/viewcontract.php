@@ -3,22 +3,62 @@
         <div class="col-sm-6  mb-2">
             <h1 class="h3" style="font-weight: bold;">Contracts</h1>
         </div>
-       <div class="col-sm-6  mb-2" style="text-align:right;">
-            <a href="<?php echo URL;?>dashboard.php?action=contracts/list" class="btn btn-outline-primary btn-sm">Back</a> &nbsp;
+        <div class="col-sm-6  mb-2" style="text-align:right;">
+            <?php 
+            $path=URL."dashboard.php";
+            if (isset($_GET['fpg'])) {
+                $path=URL."dashboard.php?action=".$_GET['fpg'];
+            }
+            ?>
+            <a href="<?php echo $path;?>" class="btn btn-outline-primary btn-sm">Back</a>&nbsp;
             <a href="<?php echo URL;?>dashboard.php?action=" class="btn btn-primary btn-sm">Download</a>
      </div>
+      
         <div class="col-sm-12 col-xl-12">
             <div class="card">
                 <div class="card-body">
                     <div class="row">
-                        <div class="col-6">
-                            <div id="ContractCode">CONTRACT_CODE</div>        
-                            <div id="EntryDate">ENTRY DATE</div>
-                            <div id="ContractIsActive">STATUS</div> 
+                       <div class="col-6">
+                            <div style="font-weight: bold;">Contract ID</div>
+                            <div id="ContractCode">...</div>
                         </div>
-                        <div class="col-6" style="text-align:right;">
-                            <div id="CreatedByName" style="font-weight: bold;">CREATED BY NAME</div>
-                            <div id="CreatedBy">CREATED BY</div>
+                        <div class="col-6">
+                            <div id="IsActive" style="text-align: right;">...</div>
+                        </div> 
+                        <div class="col-6">
+                            <div style="font-weight: bold;"> Mode Of Benifits</div>
+                            <div id="ModeOfBenifits">...</div> 
+                        </div>
+                        <div class="col-6" style="text-align: right;padding-top:5px">
+                            <table align="right">
+                                <tr>
+                                    <td style="vertical-align: top"><img src="<?php echo URL;?>assets/gold-bars.png" align="middle"></td>
+                                    <td style="line-height: 12px;text-align: right;"><span id="GoldInGrams" style="text-align: right;"><b id="GoldInGram">...</b></span><br><span style="font-size:10px">Gms</span></td>
+                                </tr>
+                            </table>
+                        </div>
+                        <div class="col-6">
+                            <div style="font-weight: bold;">Installment</div>
+                            <div id="Installments">...</div>
+                        </div>
+                        <div class="col-6" style="text-align: right;">
+                            <div style="font-weight: bold;">Due Amount</div>
+                            <span>₹&nbsp;</span><span id="InstallmentAmount" style="text-align: right;">...</span>
+                        </div>
+                        <div class="col-6">
+                            <div style="font-weight: bold;">Started</div>
+                            <div id="StartDate">...</div>
+                        </div>
+                        <div class="col-6" style="text-align: right;">
+                            <div style="font-weight: bold;">Ended</div>
+                            <div id="EndDate">...</div>
+                        </div>
+                        <div class="col-6">
+                            <div style="font-weight: bold;">Closed</div>
+                            <div id="ClosedOn">N/A</div>
+                        </div>
+                        <div class="col-6" style="text-align: right;">
+                            <span id="PaidDues" style="font-weight: bold;">...</span> &nbsp;/&nbsp;<span id="UnPaidDues" style="font-weight: bold;">...</span>&nbsp;&nbsp;<span id="InstallmentMode">...</span>
                         </div>
                       </div>   
                     </div>
@@ -30,7 +70,7 @@
                     <h6 style="margin-bottom: 0px;font-size: 16px;font-weight: bold;">Scheme Information</h6>
                 </div>
                 <div class="col-sm-3 col-xl-3 mb-2" style="text-align: right;">
-                    <a style="color:#888;text-decoration:none;" id="viewscheme" href="" title="View Customer Information"><i class="align-middle" data-feather="external-link"></i></a>
+                    <a style="color:#888;text-decoration:none;" id="viewscheme" href="" title="View Scheme Information"><i class="align-middle" data-feather="external-link"></i></a>
                 </div>     
                 <div class="col-sm-12">
                 <div class="card">
@@ -44,48 +84,14 @@
                                 <div style="font-weight: bold;"> Scheme Name</div>
                                 <div id="SchemeName"></div>
                             </div>
-                            <div class="col-sm-6 mb-2">
-                                <div style="font-weight: bold;"> Mode Of Benifits</div>
-                                <div id="ModeOfBenifits"></div>
-                            </div>
-                            <div class="col-sm-6 mb-2">
-                                <div id="gold" style="display: none;">
-                                    <div style="font-weight: bold;">Material Type</div>
-                                    <div id="MaterialType"></div>
-                                </div>
-                            </div>
-                            <div class="col-sm-12 mb-2">
-                                <div style="font-weight: bold;">Installment</div>
-                                <div id="Installments"></div>
-                            </div>
-                            
-                            
-                            <div class="col-sm-6 mb-2">
-                                <div id="schemeamount" style="display: none;">
-                                    <div style="font-weight: bold;">Amount <span>(₹)</span></div>
-                                    <div id="Amount"></div>
-                                </div>
-                            </div>
-                            <div class="col-sm-6 mb-2">
-                                <div id="bonus" style="display: none;">
-                                    <div style="font-weight: bold;">Bouns <span>(%)</span></div>
-                                    <div id="BonusPercentage"></div>
-                                </div>
-                            </div>
-                            <div class="col-sm-12 mb-2">
-                                <div style="font-weight: bold;">Installment Amount <span>(₹)</span></div>
-                                <div id="InstallmentAmount"></div>
-                            </div>
-                            
-                            
-                            
+                          
                             <div class="col-sm-12 mb-2">    
-                                <div style="font-weight: bold;" id="basic-addon3" style="width:200px">Making Charge Discount <span>(%)</span></div>
-                                <div id="MakingChargeDiscount"></div>
+                                <span style="font-weight: bold;" id="basic-addon3" style="width:200px">Making Charge Discount <span>:</span></span>&nbsp;
+                                <span id="MakingChargeDiscount"></span><span>%</span>
                             </div>
-                            <div class="col-sm-12 mb-2">
-                                <div style="font-weight: bold;" id="basic-addon3" style="width:200px">Wastage Discount <span>(%)</span></div>
-                                <div id="WastageDiscount"></div>
+                            <div class="col-sm-12">
+                                <span style="font-weight: bold;" id="basic-addon3" style="width:200px">Wastage Discount <span>:</span></span>&nbsp;
+                                <span id="WastageDiscount"></span><span>%</span>
                             </div>
                             </div>
             </div>
@@ -214,8 +220,9 @@ function getData(){
             var DueData = obj.data.DueData;
             var ContractData = obj.data.ContractData;
             var html="";
-            $('#viewcustomer'). attr ("href","<?php echo URL;?>dashboard.php?action=masters/customers/view&customer="+CustomerData.CustomerID);
-            $('#viewscheme'). attr ("href","<?php echo URL;?>dashboard.php?action=masters/schemes/view&edit="+ContractData.SchemeID);
+            $('#viewcustomer'). attr ("href","<?php echo URL;?>dashboard.php?action=customers/view&customer="+CustomerData.CustomerID);
+            $('#viewscheme').attr('<a href","<?php echo URL;?>dashboard.php?action=schemes/view&edit='+ContractData.SchemeID+'&fpg=contracts/viewcontract&view='+data.ContractCode+'"</a>');
+            //$('#viewscheme'). attr ("href","<?php echo URL;?>dashboard.php?action=schemes/view&edit="+ContractData.SchemeID);
             $('#CustomerCode').html(CustomerData.CustomerCode);
             $('#CustomerName').html(CustomerData.CustomerName);
             $('#MobileNumber').html(CustomerData.MobileNumber);
@@ -235,19 +242,24 @@ function getData(){
             $('#MakingChargeDiscount').html(ContractData.MakingChargeDiscount);
             $('#WastageDiscount').html(ContractData.WastageDiscount);
             $('#ModeOfBenifits').html(ContractData.ModeOfBenifits);
-                    if (ContractData.ModeOfBenifits == "AMOUNT") {
-                        $('#Amount').html(ContractData.Amount);
-                        $('#amount').show();
-                    } else {
-                        $('#MaterialType').html(ContractData.MaterialType);  
-                        $('#gold').show();  
-                    }
+                    if(ContractData.IsClosed=="0"){
+                    $('#IsActive').html('<span class="badge bg-success" style="text-align: right;">Active</span>');    
+                }
+                 if(ContractData.IsClosed=="1"){
+                 $('#IsActive').html('<span class="badge bg-primary" style="text-align: right;">Closed</span>');     
+                } 
             
             $('#Amount').html(ContractData.Amount);
             $('#Installments').html(ContractData.Duration + ' / '+ContractData.InstallmentMode);
             $('#InstallmentAmount').html(ContractData.DueAmount);
-           // $('#InstallmentMode').html(ContractData.InstallmentMode);
+            $('#InstallmentMode').html(ContractData.InstallmentMode);
+            $('#StartDate').html(ContractData.StartDate);
+            $('#EndDate').html(ContractData.EndDate);
+            //$('#closedOn').html(ContractData.closedOn);
             $('#ContractCode').html(ContractData.ContractCode);
+            $('#GoldInGrams').html(ContractData.GoldInGram);
+            $('#PaidDues').html(ContractData.PaidDues);
+            $('#UnPaidDues').html(ContractData.UnPaidDues);
             $('#ContractCreatedOn').html(ContractData.CreatedOn);
             $('#CreatedBy').html(ContractData.CreatedBy);
             $('#CreatedByName').html(ContractData.CreatedByName);

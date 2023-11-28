@@ -15,9 +15,12 @@
             <h6 class="card-subtitle text-muted mb-3">List of Schemes</h6>
         </div>
         <div class="col-6" style="text-align:right;">
+        <a href="<?php echo URL;?>dashboard.php?action=masters/schemes/new&fpg=masters/schemes/list&type=<?php echo $_GET['type'];?>" class="btn btn-primary">New scheme</a>
+        </div>
+        <div class="col-12" style="text-align:right;">
             <a href="<?php echo URL;?>dashboard.php?action=masters/schemes/list&type=active">Active</a> | 
             <a href="<?php echo URL;?>dashboard.php?action=masters/schemes/list&type=deactive">Deactive</a> | 
-            <a href="<?php echo URL;?>dashboard.php?action=masters/schemes/new">New scheme</a>
+            
         </div>
      </div>
      <div class="row">
@@ -92,8 +95,8 @@ function d() {
                                             + '<img src="'+URL+'assets/icons/more.png">'
                                         + '</a>'
                                         + '<div class="dropdown-menu dropdown-menu-end">'
-                                                + '<a class="dropdown-item" href="'+URL+'dashboard.php?action=masters/schemes/view&edit='+data.SchemeID+'">View</a>'
-                                                + '<a class="dropdown-item"  href="'+URL+'dashboard.php?action=masters/schemes/edit&edit='+data.SchemeID+'">Edit</a>'
+                                                + '<a class="dropdown-item" href="'+URL+'dashboard.php?action=masters/schemes/view&edit='+data.SchemeID+'&fpg=schemes/list&type=<?php echo $_GET['type'];?>">View</a>'
+                                                + '<a class="dropdown-item"  href="'+URL+'dashboard.php?action=masters/schemes/edit&edit='+data.SchemeID+'&fpg=schemes/list&type=<?php echo $_GET['type'];?>">Edit</a>'
                                                 + '<a class="dropdown-item" href="javascript:void(0)" onclick="confirmationtoDelete(\''+data.SchemeID+'\')">Delete</a>';
                                                 if (data.ContractCount>0)  {
                                                 html += '<hr style="margin:0px !important">';
@@ -109,7 +112,7 @@ function d() {
             });   
              if (obj.data.length==0) {
                  html += '<tr>'
-                            + '<td colspan="6" style="text-align: center;background:#fff !important">No Data Found</td>'
+                            + '<td colspan="8" style="text-align: center;background:#fff !important">No Data Found</td>'
                        + '</tr>';
             }   
             $('#tbl_content').html(html);

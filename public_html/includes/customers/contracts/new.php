@@ -8,31 +8,31 @@
                     <div class="card-body" style="padding-bottom:0px;">
                         <div class="row">
                             <div class="col-sm-12 mb-2">
-                                <h1 class="h4 mb-3">Scheme Information</h1>
+                                <h1 class="h4">Scheme Information</h1>
                                 </div>
                             <div class="col-sm-12 mb-2">
                                 <div style="font-weight: bold;"> Scheme Name</div>
-                                <div id="SchemeName"> Scheme Name</div>
+                                <div id="SchemeName">...</div>
                             </div>
                             <div class="col-sm-12 mb-2">
                                 <div class="row" >
                                     <div class="col-sm-6">
                                         <div style="font-weight: bold;">Due Amount(₹) </div>
-                                         <div id="viewDueAmount">Due Amount </div>
+                                         <div id="viewDueAmount">... </div>
                                     </div>
                             <div class="col-sm-6">
                                 <div style="font-weight: bold;">Duration(Months) </div>
-                                 <div id="viewDuration"> Duration </div> 
+                                 <div id="viewDuration"> ...</div> 
                             </div>
                             </div>
                             </div>
                             <div class="col-sm-12 mb-2">
-                                <div style="font-weight: bold;" id="basic-addon3" style="width:200px">Wastage Discount <span>(%)</span></div>
-                                <div id="WastageDiscount">Wastage Discount</div>
+                                <span style="font-weight: bold;" id="basic-addon3" style="width:200px">Wastage Discount <span>:</span></span>&nbsp;
+                                <span id="WastageDiscount">...</span><span>%</span>
                             </div>
                             <div class="col-sm-12 mb-2">    
-                                <div style="font-weight: bold;" id="basic-addon3" style="width:200px">Making Charge Discount <span>(%)</span></div>
-                                <div id="MakingChargeDiscount">Making Charge Discount</div>
+                                <span style="font-weight: bold;" id="basic-addon3" style="width:200px">Making Charge Discount <span>:</span></span>&nbsp;
+                                <span id="MakingChargeDiscount">...</span><span>%</span>
                             </div>
                         </div>
                     </div>
@@ -140,9 +140,16 @@
                 </div>
             </div> 
             <div class="col-sm-12" style="text-align:right;">
-                <a href="<?php echo URL;?>dashboard.php?action=schemes/list" class="btn btn-outline-primary">Back</a>&nbsp;&nbsp;
-                <button  type="button" onclick="Confirmationtoadd()" class="btn btn-primary">Join Scheme</button>    
-            </div>
+            <?php 
+            $path=URL."dashboard.php";
+            if (isset($_GET['fpg'])) {
+                $path=URL."dashboard.php?action=".$_GET['fpg'];
+            }
+            ?>
+            <a href="<?php echo $path;?>" class="btn btn-outline-primary">Back</a>&nbsp;&nbsp;
+            <button  type="button" onclick="Confirmationtoadd()" class="btn btn-primary">Join Scheme</button>    
+     </div>
+            
         </div>                
     </form>
 </div>

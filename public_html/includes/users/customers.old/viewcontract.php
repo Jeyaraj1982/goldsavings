@@ -278,8 +278,8 @@ function getData(){
             var DueData = obj.data.DueData;
             var ContractData = obj.data.ContractData;
             var html="";
-            $('#viewcustomer'). attr ("href","<?php echo URL;?>dashboard.php?action=masters/customers/view&customer="+CustomerData.CustomerID);
-            $('#viewscheme'). attr ("href","<?php echo URL;?>dashboard.php?action=masters/schemes/view&edit="+SchemeData.SchemeID);
+            $('#viewcustomer'). attr ("href","<?php echo URL;?>dashboard.php?action=customers/view&customer="+CustomerData.CustomerID);
+            $('#viewscheme'). attr ("href","<?php echo URL;?>dashboard.php?action=schemes/view&edit="+SchemeData.SchemeID);
             $('#CustomerCode').html(CustomerData.CustomerCode);
             $('#CustomerName').html(CustomerData.CustomerName);
             $('#MobileNumber').html(CustomerData.MobileNumber);

@@ -7,24 +7,72 @@
                     <div class="card-body">
                         <div class="row">
                             <div class="col-sm-6 mb-3">
-                                <label class="form-label">User Role Code <span style='color:red'>*</span></label>
-                                <input type="text" value="<?php echo SequnceList::getNextNumber("_tbl_masters_user_roles");?>" name="UserRoleCode" id="UserRoleCode" class="form-control" placeholder="User Role Code">
+                                <label class="form-label">User Role Code <span style='color:red'>*</span>
+                                <img src="<?php echo URL;?>assets/question.png" style="width: 12px;" class="dropdown"  id="dropdownMenuButton1" data-bs-toggle="dropdown">
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton1" style="padding:0px;">
+                                    <div class="myheader">User Role Code</div>
+                                    <div class="mycontainer">
+                                        1. Allow only alphanumeric characters<br>
+                                        2. Minimum 8 characters require<br>
+                                        3. Maximum 20 characters require<br>
+                                        4. Not allow cut,copy,paste
+                                        
+                                    </div>
+                                </div>
+                                </label>
+                                <input type="text" value="<?php echo SequnceList::getNextNumber("_tbl_masters_user_roles");?>" name="UserRoleCode" id="UserRoleCode" class="form-control" placeholder="User Role Code" maxlength="20" oninput="this.value=this.value.toUpperCase()">
                                 <span id="ErrUserRoleCode" class="error_msg"></span>
                             </div>
                             <div class="col-sm-6">
                             </div>
                             <div class="col-sm-12 mb-3">
-                                <label class="form-label">User Role <span style='color:red'>*</span></label>
-                                <input type="text" name="UserRole" id="UserRole" class="form-control" placeholder="User Role">
+                                <label class="form-label">User Role <span style='color:red'>*</span>
+                                <img src="<?php echo URL;?>assets/question.png" style="width: 12px;" class="dropdown"  id="dropdownMenuButton1" data-bs-toggle="dropdown">
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton1" style="padding:0px;">
+                                    <div class="myheader">User Role</div>
+                                    <div class="mycontainer">
+                                        1. Allow only alphabets and space<br>
+                                        2. Minimum 3 characters require<br>
+                                        3. Maximum 50 characters require<br>
+                                        4. Not allow cut,copy,paste
+                                        
+                                    </div>
+                                </div>
+                                </label>
+                                <input type="text" name="UserRole" id="UserRole" class="form-control" placeholder="User Role" maxlength="50">
                                 <span id="ErrUserRole" class="error_msg"></span>
                             </div>
                              <div class="col-sm-12 mb-3">
-                                <label class="form-label">Module  <span style='color:red'>*</span></label>
-                                <input type="text" name="Module" id="Module" class="form-control" placeholder="Module">
+                                <label class="form-label">Module  <span style='color:red'>*</span>
+                                <img src="<?php echo URL;?>assets/question.png" style="width: 12px;" class="dropdown"  id="dropdownMenuButton1" data-bs-toggle="dropdown">
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton1" style="padding:0px;">
+                                    <div class="myheader">Module</div>
+                                    <div class="mycontainer">
+                                        1. Allow only alphabets<br>
+                                        2. Minimum 3 characters require<br>
+                                        3. Maximum 50 characters require<br>
+                                        4. Not allow cut,copy,paste
+                                        
+                                    </div>
+                                </div>
+                                </label>
+                                <input type="text" name="Module" id="Module" class="form-control" placeholder="Module" maxlength="50">
                                 <span id="ErrModule" class="error_msg"></span>
                             </div>
                             <div class="col-sm-12">
-                                <label class="form-label">Remarks</label>
+                                <label class="form-label">Remarks
+                                <img src="<?php echo URL;?>assets/question.png" style="width: 12px;" class="dropdown"  id="dropdownMenuButton1" data-bs-toggle="dropdown">
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton1" style="padding:0px;">
+                                    <div class="myheader">Remarks</div>
+                                    <div class="mycontainer">
+                                        1. Allow only alphabets and space<br>
+                                        2. Minimum 3 characters require<br>
+                                        3. Maximum 50 characters require<br>
+                                        4. Not allow cut,copy,paste
+                                        
+                                    </div>
+                                </div>
+                                </label>
                                 <input type="text" name="Remarks" id="Remarks" class="form-control" placeholder="Remarks">
                                 <span id="ErrRemarks" class="error_msg"></span>
                             </div>
@@ -41,7 +89,7 @@
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Confimation</h5>
+        <h5 class="modal-title" id="exampleModalLabel">Confirmation</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
@@ -90,5 +138,6 @@ function addNew() {
     });
 }
 setTimeout(function d(){
+     
 },2000);
 </script>

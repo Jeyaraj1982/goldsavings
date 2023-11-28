@@ -86,11 +86,11 @@
                     <div class="card">
                     <div class="card-body">
                         <div class="row">                            
-                            <div class="col-sm-6 mb-3">
+                            <div class="col-sm-6">
                                 <div style="font-weight: bold;">PAN Card Number </div>
                                 <?php echo $data[0]['PancardNumber'];?>
                             </div>
-                            <div class="col-sm-6 mb-3">
+                            <div class="col-sm-6">
                                 <div style="font-weight: bold;">Aadhaar Card Number</div>
                                 <?php echo $data[0]['AadhaarCardNumber'];?>
                             </div>
@@ -129,7 +129,7 @@
                                 <?php echo $data[0]['StateName'];?>
                             </div>
                             <div class="col-sm-6">
-                                <div style="font-weight: bold;">PinCode </div>
+                                <div style="font-weight: bold;">Pincode </div>
                                 <?php echo $data[0]['PinCode'];?>
                             </div>
                         </div>
@@ -157,9 +157,9 @@
                     </div>
                 </div>       
             </div>      
-            <div class="col-sm-12 mb-3" style="text-align:right;">
-                <a href="<?php echo URL;?>dashboard.php?action=masters/users/list" class="btn btn-outline-primary">Back</a>&nbsp;&nbsp;
-            </div> 
+           <div class="col-sm-12" style="text-align:right;">
+            <a href="<?php echo URL;?>dashboard.php?action=masters/users/list" class="btn btn-outline-primary">Back</a>
+     </div> 
     </form>                            
  </div>
  </div>

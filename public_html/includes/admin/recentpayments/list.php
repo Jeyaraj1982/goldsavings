@@ -1,11 +1,15 @@
-
 <div class="container-fluid p-0">
-     <div class="row">
+<div class="col-sm-12">
+    <div class="row">
         <div class="col-6">
             <h1 class="h3">Payment Request</h1>
             <h6 class="card-subtitle text-muted mb-3">List <?php echo $title;?> payment requests</h6>
         </div>
+        <div class="col-6" style="text-align:right;">
+            <a href="<?php echo URL;?>dashboard.php?action=recentpayments/customized_recentpaymentslist" class="btn btn-warning btn-sm">Customize Columns</a>
      </div>
+    </div>
+</div>
      <div class="row">
         <div class="col-sm-12">
             <div class="card">
@@ -15,17 +19,18 @@
                     <div class="col-sm-12 mb-3">
                                 <label class="form-label">Date Range <span style='color:red'>*</span></label>
                                 <div class="input-group">
-                                    <input type="date" name="FromDate" value="<?php echo date("Y-m-d");?>" id="FromDate" class="form-control" placeholder="From Date">
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-text" id="basic-addon1">To</span>
-                                </div>
-                                <input type="date" name="ToDate" value="<?php echo date("Y-m-d");?>" id="ToDate" class="form-control" placeholder="To Date">
                                 <select class="form-select" name="SelectType" id="SelectType">
                                         <option value="ALL">All</option>
                                         <option value="REQUEST">Request</option>
                                         <option value="APPROVED">Approved</option>
                                         <option value="REJECTED">Reject</option>
                                     </select>
+                                    <input type="date" name="FromDate" value="<?php echo date("Y-m-d");?>" id="FromDate" class="form-control" placeholder="From Date">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text" id="basic-addon1">To</span>
+                                </div>
+                                <input type="date" name="ToDate" value="<?php echo date("Y-m-d");?>" id="ToDate" class="form-control" placeholder="To Date">
+                                
                                 <button type="button" onclick="getData()" class="btn btn-primary">Get Data</button>
                             </div> 
                            <span id="Errmessage" class="error_msg"></span>
@@ -104,7 +109,7 @@ function getData() {
                                             + '<img src="'+URL+'assets/icons/more.png">'
                                         + '</a>'
                                         + '<div class="dropdown-menu dropdown-menu-end">'
-                                        + '<a class="dropdown-item" href="'+URL+'dashboard.php?action=contracts/viewrecentpayment&id='+data.PaymentRequestID+'">View</a>'
+                                        + '<a class="dropdown-item" href="'+URL+'dashboard.php?action=contracts/viewrecentpayment&id='+data.PaymentRequestID+'&fpg=recentpayments/list">View</a>'
                                         + '</div>'
                                 + '</div>'
                             + '</td>'

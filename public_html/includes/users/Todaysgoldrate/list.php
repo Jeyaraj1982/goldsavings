@@ -42,12 +42,13 @@
                                 <th style="width: 100px; text-align: right;">18kt</th>
                                 <th style="width: 100px; text-align: right;">22kt</th>
                                 <th style="width: 100px; text-align: right;">24kt</th>
+                                <th style="width: 100px; text-align: right;">Silver</th>
                                 <th style="width:50px"></th>
                             </tr>
                         </thead>
                         <tbody id="tbl_content">
                             <tr>
-                                <td colspan="5" style="text-align: center;background:#fff !important">Loading Goldprice ...</td>
+                                <td colspan="6" style="text-align: center;background:#fff !important">Loading Gold & silver price ...</td>
                             </tr>
                         </tbody>
                     </table>
@@ -71,9 +72,10 @@ function getData() {
             $.each(obj.data, function (index, data) {
                 html += '<tr>'
                             + '<td>' + data.Date + '</td>'
-                            + '<td>' + data.GOLD_18 + '</td>'
-                            + '<td>' + data.GOLD_22 + '</td>'
-                            + '<td>' + data.GOLD_24 + '</td>'
+                            + '<td style="text-align: right;">' + data.GOLD_18 + '</td>'
+                            + '<td style="text-align: right;">' + data.GOLD_22 + '</td>'
+                            + '<td style="text-align: right;">' + data.GOLD_24 + '</td>'
+                            + '<td style="text-align: right;">' + data.SILVER + '</td>'
                             + '<td style="text-align:right">' 
                                 + '<div class="dropdown position-relative">'
                                         + '<a href="javascript:void(0)" data-bs-toggle="dropdown" data-bs-display="static">'
@@ -90,7 +92,7 @@ function getData() {
             });
              if (obj.data.length==0) {
          html += '<tr>'
-                    + '<td colspan="5" style="text-align: center;background:#fff !important">No Data Found</td>'
+                    + '<td colspan="6" style="text-align: center;background:#fff !important">No Data Found</td>'
                + '</tr>';
     }
             $('#tbl_content').html(html);

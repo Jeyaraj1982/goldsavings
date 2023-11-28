@@ -64,13 +64,36 @@
     <form id="frm_create" name="frm_create" method="post" enctype="multipart/form-data">
         <div class="row">
                            <div class="col-sm-6 mb-3">
-                                <label class="form-label">Area Code <span style='color:red'>*</span></label>
-                                <input type="text" value="<?php echo SequnceList::getNextNumber("_tbl_masters_areanames");?>" name="AreaNameCode" id="AreaNameCode" class="form-control" placeholder="Area Name Code">
+                                <label class="form-label">Area Name Code <span style='color:red'>*</span>
+                                <img src="<?php echo URL;?>assets/question.png" style="width: 12px;" class="dropdown"  id="dropdownMenuButton1" data-bs-toggle="dropdown">
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton1" style="padding:0px;">
+                                    <div class="myheader">Area Name Code</div>
+                                    <div class="mycontainer">
+                                        1. Allow only alphanumeric characters<br>
+                                        2. Minimum 8 characters require<br>
+                                        3. Maximum 20 characters require<br>
+                                        4. Not allow cut,copy,paste
+                                        
+                                    </div>
+                                </div>
+                                </label>                                                                                                                                                                                                                                
+                                <input type="text" value="<?php echo SequnceList::getNextNumber("_tbl_masters_areanames");?>" name="AreaNameCode" id="AreaNameCode" class="form-control" placeholder="Area Name Code" maxlength="20" oninput="this.value=this.value.toUpperCase()">
                                 <span id="ErrAreaNameCode" class="error_msg"></span>
                             </div>
                             <div class="col-sm-12 mb-3">
-                                <label class="form-label">Area Name <span style='color:red'>*</span></label>
-                                <input type="text" name="AreaName" id="AreaName" class="form-control" placeholder="Area Name">
+                                <label class="form-label">Area Name <span style='color:red'>*</span>
+                                <img src="<?php echo URL;?>assets/question.png" style="width: 12px;" class="dropdown"  id="dropdownMenuButton1" data-bs-toggle="dropdown">
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton1" style="padding:0px;">
+                                    <div class="myheader">Area Name</div>
+                                    <div class="mycontainer">
+                                        1. Allow only alphabets and space<br>
+                                        2. Minimum 3 characters require<br>
+                                        3. Maximum 50 characters require
+                                        4. Not allow cut,copy,paste
+                                    </div>
+                                </div>
+                                </label>
+                                <input type="text" name="AreaName" id="AreaName" class="form-control" placeholder="Area Name" maxlength="50">
                                 <span id="ErrAreaName" class="error_msg"></span>
                             </div>
                             <div class="col-sm-6  mb-3">
@@ -88,8 +111,18 @@
                                 <span id="ErrDistrictNameID" class="error_msg"></span>
                             </div>
                             <div class="col-sm-12 mb-3">
-                                <label class="form-label">Remarks</label>
-                                <input type="text" name="Remarks" id="Remarks" class="form-control" placeholder="Remarks">
+                                <label class="form-label">Remarks
+                                <img src="<?php echo URL;?>assets/question.png" style="width: 12px;" class="dropdown"  id="dropdownMenuButton1" data-bs-toggle="dropdown">
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton1" style="padding:0px;">
+                                    <div class="myheader">Remarks</div>
+                                    <div class="mycontainer">
+                                        1. Allow all characters, not allow <span style='color:red'>\'!~$"</span><br>
+                                        2. Maximum 250 characters require<br>
+                                        3. Not allow cut,copy,paste
+                                    </div>
+                                </div>
+                                </label>
+                                <input type="text" name="Remarks" id="Remarks" class="form-control" placeholder="Remarks" maxlength="250">
                                 <span id="ErrRemarks" class="error_msg"></span>
                             </div>
         </div>
@@ -108,7 +141,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Edit AreaName</h5>
+                <h5 class="modal-title" id="exampleModalLabel">Edit Area Name</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
@@ -121,8 +154,20 @@
                                 <span id="ErrAreaNameCode" class="error_msg"></span>
                             </div>
                             <div class="col-sm-12 mb-3">
-                                <label class="form-label">Area Name <span style='color:red'>*</span></label>
-                                <input type="text" value="<?php echo $data[0]['AreaName'];?>" name="AreaName" id="editAreaName" class="form-control" placeholder="Area Name">
+                                <label class="form-label">Area Name <span style='color:red'>*</span>
+                                <img src="<?php echo URL;?>assets/question.png" style="width: 12px;" class="dropdown"  id="dropdownMenuButton1" data-bs-toggle="dropdown">
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton1" style="padding:0px;">
+                                    <div class="myheader">Area Name</div>
+                                    <div class="mycontainer">
+                                        1. Allow only alphabets and space<br>
+                                        2. Minimum 3 characters require<br>
+                                        3. Maximum 50 characters require<br>
+                                        4. Not allow cut,copy,paste
+                                        
+                                    </div>
+                                </div>
+                                </label>
+                                <input type="text" value="<?php echo $data[0]['AreaName'];?>" name="AreaName" id="editAreaName" class="form-control" placeholder="Area Name" maxlength="50">
                                 <span id="ErreditAreaName" class="error_msg"></span>
                             </div>
                             <div class="col-sm-6  mb-3">
@@ -140,8 +185,18 @@
                                 <span id="ErreditDistrictNameID" class="error_msg"></span>
                             </div>
                             <div class="col-sm-12 mb-3">
-                                <label class="form-label">Remarks</label>
-                                <input type="text" value="" name="Remarks" id="editRemarks" class="form-control" placeholder="Remarks">
+                                <label class="form-label">Remarks
+                                 <img src="<?php echo URL;?>assets/question.png" style="width: 12px;" class="dropdown"  id="dropdownMenuButton1" data-bs-toggle="dropdown">
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton1" style="padding:0px;">
+                                    <div class="myheader">Remarks</div>
+                                    <div class="mycontainer">
+                                        1. Allow all characters, not allow <span style='color:red'>\'!~$"</span><br>
+                                        2. Maximum 250 characters require<br>
+                                        3. Not allow cut,copy,paste
+                                    </div>
+                                </div>
+                                </label>
+                                <input type="text" value="" name="Remarks" id="editRemarks" class="form-control" placeholder="Remarks" maxlength="250">
                                 <span id="ErreditRemarks" class="error_msg"></span>
                             </div>
                             <div class="col-sm-6 mb-3">
@@ -166,7 +221,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">View AreaName</h5>
+                <h5 class="modal-title" id="exampleModalLabel">View Area Name</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
@@ -281,7 +336,10 @@ function listStateNames() {
             })); */
             $("#StateNameID").val("0");
             setTimeout(function(){
-            },1500);
+              $("#StateNameID").select2({
+                  dropdownParent:$('#addconfirmation')
+              });  
+            },1000);
         } else {
             alert(obj.message);
         }
@@ -301,7 +359,12 @@ function getDistrictNames() {
                 var at = $(a).text(), bt = $(b).text();
                 return (at > bt)?1:((at < bt)?-1:0);
             }));*/
-             $("#DistrictNameID").val();
+             $("#DistrictNameID").val("0");
+              setTimeout(function(){
+              $("#DistrictNameID").select2({
+                  dropdownParent:$('#addconfirmation')
+              });  
+            },1000);
         } else {
             alert(obj.message);
         }
@@ -309,7 +372,13 @@ function getDistrictNames() {
 }
 
 function addForm(){
+    clearDiv(['AreaNameCode','AreaName','StateNameID','DistrictNameID','Remarks','IsActive']);
   $('#addconfirmation').modal("show");
+  $('#AreaName').val("");
+  $('#StateNameID').val("");
+  $('#DistrictNameID').val("");
+  $('#Remarks').val("");
+  $('#IsActive').val("");
   listStateNames();
       clearDiv(['AreaNameCode','AreaName','StateNameID','DistrictNameID','Remarks','IsActive']);
 }

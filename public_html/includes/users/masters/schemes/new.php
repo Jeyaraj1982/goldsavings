@@ -22,8 +22,57 @@
                                 <label class="form-label">Scheme Name <span style='color:red'>*</span></label>
                                 <input type="text" value="" name="SchemeName" id="SchemeName" class="form-control" placeholder="Scheme Name">
                                 <span id="ErrSchemeName" class="error_msg"></span>
+                            </div>  
+                            <div class="col-sm-12 mb-2">
+                                <label class="form-label">Short Description <span style='color:red'>*</span></label>
+                                <input type="text" value="" name="ShortDescription" id="ShortDescription" class="form-control" placeholder="Short Description">
+                                <span id="ErrShortDescription" class="error_msg"></span>
                             </div>
-                             <div class="col-sm-6 mb-3">
+                            <div class="col-sm-6 mb-3">
+                                <div class="row" >
+                                    <div class="col-sm-6 mb-1">
+                                        <label class="form-label">Due Amount <span style='color:red'>*</span></label>
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text" id="basic-addon1">Min(₹)</span>
+                                        </div>
+                                            <input type="text" style="text-align: right;" name="MinDueAmount" id="MinDueAmount" class="form-control" placeholder="0">
+                                        </div>
+                                    </div>
+                            <div class="col-sm-6 mb-1">
+                            <label class="form-label"> &nbsp;</label>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text" id="basic-addon1">Max(₹)</span>
+                                    </div>
+                                        <input type="text" style="text-align: right;" name="MaxDueAmount" id="MaxDueAmount" class="form-control" placeholder="0">
+                                    </div>
+                                    </div>
+                                    <span id="ErrDueAmount" class="error_msg"></span>
+                                </div>
+                            </div>
+                            <div class="col-sm-6 mb-3">
+                                <div class="row" >
+                            <div class="col-sm-6 mb-1">
+                                <label class="form-label">Duration <span style='color:red'>*</span></label>
+                                <div class="input-group">
+                                   <span class="input-group-text" id="basic-addon1">Min</span>
+                                <input type="text" style="text-align: right;" name="MinDuration" id="MinDuration" class="form-control" placeholder="0">
+                            </div>
+                            </div>
+                            <div class="col-sm-6 mb-1">
+                                <label class="form-label"> &nbsp;</label>
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text" id="basic-addon1">Max</span>
+                                        </div>
+                                            <input type="text" style="text-align: right;" name="MaxDuration" id="MaxDuration" class="form-control" placeholder="0">
+                                        </div>
+                                    </div>
+                                    <span id="ErrDuration" class="error_msg"></span>
+                                </div>
+                            </div>
+                            <div class="col-sm-6 mb-3">
                             <div class="input-group">
                              <span class="input-group-text" style="width: 190px;" id="basic-addon3">Wastage Discount </span>
                                 <select data-live-search="true" data-size="12" style="text-align: right;" name="WastageDiscount" id="WastageDiscount" class="form-select mselect" >
@@ -49,11 +98,6 @@
                             </div>
                             <span id="ErrMakingChargeDiscount" class="error_msg"></span>
                         </div> 
-                        <div class="col-sm-12 mb-2">
-                                <label class="form-label">Short Description <span style='color:red'>*</span></label>
-                                <input type="text" value="" name="ShortDescription" id="ShortDescription" class="form-control" placeholder="Short Description">
-                                <span id="ErrShortDescription" class="error_msg"></span>
-                            </div>  
                         <div class="col-sm-6 mb-3">
                         </div>
                 </div>
@@ -94,8 +138,16 @@
                 </div>           
             </form>
         </div>
-                <div class="col-sm-12" style="text-align:right;">
-                    <a href="<?php echo URL;?>dashboard.php?action=masters/schemes/list" class="btn btn-outline-primary">Back</a>&nbsp;&nbsp;
+        <div class="col-sm-12" style="text-align:right;">
+            <?php 
+                $path=URL."dashboard.php?action=";
+                if (isset($_GET['fpg'])) {
+                $path.=$_GET['fpg'];
+            }
+            $path.="&type=".$_GET['type'];
+            ?>
+            <a href="<?php echo $path;?>" class="btn btn-outline-primary">Back</a>
+    &nbsp;&nbsp;
                         <button onclick="confirmation()" type="button" class="btn btn-primary">Create Scheme</button>    
                 </div>
 
@@ -118,13 +170,14 @@
 </div>
 <script>
  function confirmation(){
+         clearDiv(['SchemeName','Amount','ShortDescription','DueAmount','Duration','Remarks','Benefits','TermsOfConditions','WastageDiscount','MakingChargeDiscount']);
    $('#confimation').modal("show");  
  }
 function addNew() {
      $('#confimation').modal("hide");
     var param = $('#frm_create').serialize();
     openPopup();
-    clearDiv(['SchemeName','Amount','ShortDescription','Remarks','Benefits','TermsOfConditions','WastageDiscount','MakingChargeDiscount']);
+    clearDiv(['SchemeName','Amount','ShortDescription','DueAmount','Duration','Remarks','Benefits','TermsOfConditions','WastageDiscount','MakingChargeDiscount']);
     
     jQuery.ajax({
         type: 'POST',
@@ -144,8 +197,119 @@ function addNew() {
                 } else {
                     $('#popupcontent').html(errorcontent(obj.message));
                 }
+                $('#process_popup').modal('hide');
              }
         }
     });
 }
-</script>
+
+document.addEventListener('DOMContentLoaded', function () {
+    const ele = document.getElementById('MinDueAmount');
+    const state = {
+        value: ele.value,
+    };
+
+    ele.addEventListener('keydown', function (e) {
+        const target = e.target;
+        state.selectionStart = target.selectionStart;
+        state.selectionEnd = target.selectionEnd;
+    });
+
+    ele.addEventListener('input', function (e) {
+        const target = e.target;
+
+        if (/^[0-9\s]*$/.test(target.value)) {
+            state.value = target.value;
+        } else {
+            // Users enter the not supported characters
+            // Restore the value and selection
+            target.value = state.value;
+            target.setSelectionRange(state.selectionStart, state.selectionEnd);
+        }
+    });
+});
+
+document.addEventListener('DOMContentLoaded', function () {
+    const ele = document.getElementById('MaxDueAmount');
+    const state = {
+        value: ele.value,
+    };
+
+    ele.addEventListener('keydown', function (e) {
+        const target = e.target;
+        state.selectionStart = target.selectionStart;
+        state.selectionEnd = target.selectionEnd;
+    });
+
+    ele.addEventListener('input', function (e) {
+        const target = e.target;
+
+        if (/^[0-9\s]*$/.test(target.value)) {
+            state.value = target.value;
+        } else {
+            // Users enter the not supported characters
+            // Restore the value and selection
+            target.value = state.value;
+            target.setSelectionRange(state.selectionStart, state.selectionEnd);
+        }
+    });
+});
+
+document.addEventListener('DOMContentLoaded', function () {
+    const ele = document.getElementById('MaxDuration');
+    const state = {
+        value: ele.value,
+    };
+
+    ele.addEventListener('keydown', function (e) {
+        const target = e.target;
+        state.selectionStart = target.selectionStart;
+        state.selectionEnd = target.selectionEnd;
+    });
+
+    ele.addEventListener('input', function (e) {
+        const target = e.target;
+
+        if (/^[0-9\s]*$/.test(target.value)) {
+            state.value = target.value;
+        } else {
+            // Users enter the not supported characters
+            // Restore the value and selection
+            target.value = state.value;
+            target.setSelectionRange(state.selectionStart, state.selectionEnd);
+        }
+    });
+});
+
+document.addEventListener('DOMContentLoaded', function () {
+    const ele = document.getElementById('MinDuration');
+    const state = {
+        value: ele.value,
+    };
+
+    ele.addEventListener('keydown', function (e) {
+        const target = e.target;
+        state.selectionStart = target.selectionStart;
+        state.selectionEnd = target.selectionEnd;
+    });
+
+    ele.addEventListener('input', function (e) {
+        const target = e.target;
+
+        if (/^[0-9\s]*$/.test(target.value)) {
+            state.value = target.value;
+        } else {
+            // Users enter the not supported characters
+            // Restore the value and selection
+            target.value = state.value;
+            target.setSelectionRange(state.selectionStart, state.selectionEnd);
+        }
+    });
+});
+
+
+</script>  
+ <!--
+ https://bootstrap-autocomplete.readthedocs.io/en/latest/
+ https://www.w3schools.com/howto/howto_js_autocomplete.asp
+  -->

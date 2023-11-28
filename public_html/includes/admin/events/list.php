@@ -19,12 +19,13 @@
                                 <th style="width: 200px;">Event Start</th>
                                 <th style="width: 200px;">Event End</th>
                                 <th style="width: 200px;">Created On</th>
+                                <th style="width:50px">Status</th>
                                 <th style="width:50px"></th>
                             </tr>
                         </thead>
                         <tbody id="tbl_content">
                             <tr>
-                                <td colspan="5" style="text-align: center;background:#fff !important">loading events...</td>
+                                <td colspan="6" style="text-align: center;background:#fff !important">loading events...</td>
                             </tr>
                         </tbody>
                     </table>
@@ -65,6 +66,7 @@ function d() {
                             + '<td>' + data.EventStart + '</td>'
                             + '<td>' + data.EventEnd + '</td>'
                             + '<td>' + data.CreatedOn + '</td>'
+                           + '<td>' + ( (data.IsActive=="1") ? "<span class='badge bg-success'>Active</span>" : "<span class='badge bg-secondary'>Disabled</span>" ) + '</td>'
                             + '<td style="text-align:right">' 
                                 + '<div class="dropdown position-relative">'
                                         + '<a href="javascript:void(0)" data-bs-toggle="dropdown" data-bs-display="static">'
@@ -81,7 +83,7 @@ function d() {
            });
             if (obj.data.length==0) {
                  html += '<tr>'
-                            + '<td colspan="5" style="text-align: center;background:#fff !important">No Data Found</td>'
+                            + '<td colspan="6" style="text-align: center;background:#fff !important">No Data Found</td>'
                        + '</tr>';
             }   
             $('#tbl_content').html(html);

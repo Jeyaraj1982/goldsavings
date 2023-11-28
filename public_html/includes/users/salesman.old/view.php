@@ -46,7 +46,7 @@
                             </div>
                             <div class="col-sm-6 mb-3">
                                 <div style="font-weight: bold;">Date Of Birth</div>
-                                <?php echo $data[0]['DateOfBirth'];?>
+                                <?php echo date("d-m-Y",strtotime($data[0]["DateOfBirth"])) ;?>
                                 <span id="ErrDateOfBirth" class="error_msg"></span>
                             </div>
                             <div class="col-sm-12 mb-3">
@@ -58,7 +58,7 @@
                                 <div style="font-weight: bold">Mobile Number</div>
                                 +91 <?php echo $data[0]['MobileNumber'];?>
                             </div>
-                            <div class="col-sm-6 mb-3">
+                            <div class="col-sm-6">
                                 <div style="font-weight: bold">Whatsapp Number</div>
                                 <?php 
                                     if (strlen($data[0]['WhatsappNumber'])>0) {
@@ -71,15 +71,18 @@
                             <div class="col-sm-12">
                                 <hr style="margin-top:0px">
                             </div>
-                            <div class="col-sm-6">         
+                            <div class="col-sm-6 mb-3">         
                                 <div style="font-weight: bold;">Login User Name</div>
                                 <?php echo $data[0]['LoginUserName'];?>
                             </div>
-                            <div class="col-sm-6">
+                            <div class="col-sm-6 mb-3">
                                 <div style="font-weight: bold;">Login Password</div>
                                <?php echo $data[0]['LoginPassword'];?>
                             </div>
-                           
+                            <div class="col-sm-6">         
+                                <div style="font-weight: bold;">Status </div>
+                                <?php echo ($data[0]['IsActive']==1) ? " Active " : "Deactivated";?>
+                            </div>
                             </div>
                         </div>
                     </div>
@@ -102,11 +105,11 @@
                                     }
                                 ?>
                                 </div>
-                            <div class="col-sm-6">
+                            <div class="col-sm-6 mb-3">
                                 <div style="font-weight: bold;">Area Name</div>
                                 <?php echo $data[0]['AreaName'];?>
                             </div>
-                            <div class="col-sm-6  mb-3">
+                            <div class="col-sm-6 mb-3">
                                 <div style="font-weight: bold;">District Name</div>
                                 <?php echo $data[0]['DistrictName'];?>
                             </div>
@@ -125,15 +128,11 @@
             <div class="card">
                     <div class="card-body">
                         <div class="row">
-                         <div class="col-sm-6 mb-3">         
-                                <div style="font-weight: bold;">Status </div>
-                                <?php echo ($data[0]['IsActive']==1) ? " Active " : "Deactivated";?>
+                        <div class="col-sm-6">
+                                <div style="font-weight: bold;">Joined On </div>
+                                <?php echo date("d-m-Y H:i",strtotime($data[0]["CreatedOn"])) ;?>
                             </div>
-                            <div class="col-sm-6">
-                                <div style="font-weight: bold;">Created On </div>
-                                <?php echo $data[0]['CreatedOn'];?>
-                            </div>
-                        <div class="col-sm-12">
+                        <div class="col-sm-6">
                             <div style="font-weight: bold">Remarks</div>
                                 <?php 
                                     if (strlen($data[0]['Remarks'])>0) {

@@ -61,23 +61,68 @@
                 <form id="frm_create" name="frm_create" method="post" enctype="multipart/form-data">
                     <div class="row">
                         <div class="col-sm-6 mb-3">
-                                <label class="form-label">Document Type Code <span style='color:red'>*</span></label>
-                                <input type="text" value="<?php echo SequnceList::getNextNumber("_tbl_masters_documenttypes");?>" name="DocumentTypeCode" id="DocumentTypeCode" class="form-control" placeholder="Document Type Code">
+                                <label class="form-label">Document Type Code <span style='color:red'>*</span>
+                                <img src="<?php echo URL;?>assets/question.png" style="width: 12px;" class="dropdown"  id="dropdownMenuButton1" data-bs-toggle="dropdown">
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton1" style="padding:0px;">
+                                    <div class="myheader">Document Type Code</div>
+                                    <div class="mycontainer">
+                                        1. Allow only alphanumeric characters<br>
+                                        2. Minimum 8 characters require<br>
+                                        3. Maximum 20 characters require<br>
+                                        4. Not allow cut,copy,paste
+                                        
+                                    </div>
+                                </div>
+                                </label>
+                                <input type="text" value="<?php echo SequnceList::getNextNumber("_tbl_masters_documenttypes");?>" name="DocumentTypeCode" id="DocumentTypeCode" class="form-control" placeholder="Document Type Code" maxlength="20" oninput="this.value=this.value.toUpperCase()">
                                 <span id="ErrDocumentTypeCode" class="error_msg"></span>
                             </div>
                             <div class="col-sm-12 mb-3">
-                                <label class="form-label">Document Type Name <span style='color:red'>*</span></label>
-                                <input type="text" name="DocumentTypeName" id="DocumentTypeName" class="form-control" placeholder="Document Type Name">
+                                <label class="form-label">Document Type Name <span style='color:red'>*</span>
+                                <img src="<?php echo URL;?>assets/question.png" style="width: 12px;" class="dropdown"  id="dropdownMenuButton1" data-bs-toggle="dropdown">
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton1" style="padding:0px;">
+                                    <div class="myheader">Document Type Name</div>
+                                    <div class="mycontainer">
+                                        1. Allow only alphabets and space<br>
+                                        2. Minimum 3 characters require<br>
+                                        3. Maximum 50 characters require<br>
+                                        4. Not allow cut,copy,paste
+                                        
+                                    </div>
+                                </div>
+                                </label>
+                                <input type="text" name="DocumentTypeName" id="DocumentTypeName" class="form-control" placeholder="Document Type Name" maxlength="50">
                                 <span id="ErrDocumentTypeName" class="error_msg"></span>
                             </div>
                             <div class="col-sm-12 mb-3">
-                                <label class="form-label">Short Description</label>
-                                <input type="text" name="DocumentTypeShortDescription" id="DocumentTypeShortDescription" class="form-control" placeholder="Short Description">
+                                <label class="form-label">Short Description
+                                <img src="<?php echo URL;?>assets/question.png" style="width: 12px;" class="dropdown"  id="dropdownMenuButton1" data-bs-toggle="dropdown">
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton1" style="padding:0px;">
+                                    <div class="myheader">Short Description</div>
+                                    <div class="mycontainer">
+                                        1. Allow all characters, not allow <span style='color:red'>\'!~$"</span><br>
+                                        2. Maximum 250 characters require<br>
+                                        3. Not allow cut,copy,paste
+                                    </div>
+                                </div>
+                                </div>
+                                </label>
+                                <input type="text" name="DocumentTypeShortDescription" id="DocumentTypeShortDescription" class="form-control" placeholder="Short Description" maxlength="250">
                                 <span id="ErrDocumentTypeShortDescription" class="error_msg"></span>
                             </div> 
                             <div class="col-sm-12 mb-3">
-                                <label class="form-label">Remarks</label>
-                                <input type="text" name="Remarks" id="Remarks" class="form-control" placeholder="Remarks">
+                                <label class="form-label">Remarks
+                                <img src="<?php echo URL;?>assets/question.png" style="width: 12px;" class="dropdown"  id="dropdownMenuButton1" data-bs-toggle="dropdown">
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton1" style="padding:0px;">
+                                    <div class="myheader">Remarks</div>
+                                    <div class="mycontainer">
+                                        1. Allow all characters, not allow <span style='color:red'>\'!~$"</span><br>
+                                        2. Maximum 250 characters require<br>
+                                        3. Not allow cut,copy,paste
+                                    </div>
+                                </div>
+                                </label>
+                                <input type="text" name="Remarks" id="Remarks" class="form-control" placeholder="Remarks" maxlength="250">
                                 <span id="ErrRemarks" class="error_msg"></span>
                             </div>
                     </div>
@@ -108,18 +153,51 @@
                                 <span id="ErreditDocumentTypeCode" class="error_msg"></span>
                             </div>
                             <div class="col-sm-12 mb-3">
-                                <label class="form-label">Document Type Name <span style='color:red'>*</span></label>
-                                <input type="text" value="" name="DocumentTypeName" id="editDocumentTypeName" class="form-control" placeholder="Document Type Name">
+                                <label class="form-label">Document Type Name <span style='color:red'>*</span>
+                                 <img src="<?php echo URL;?>assets/question.png" style="width: 12px;" class="dropdown"  id="dropdownMenuButton1" data-bs-toggle="dropdown">
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton1" style="padding:0px;">
+                                    <div class="myheader">Document Type Name</div>
+                                    <div class="mycontainer">
+                                        1. Allow only alphabets and space<br>
+                                        2. Minimum 3 characters require<br>
+                                        3. Maximum 50 characters require<br>
+                                        4. Not allow cut,copy,paste
+                                        
+                                    </div>
+                                </div>
+                                </label>
+                                <input type="text" value="" name="DocumentTypeName" id="editDocumentTypeName" class="form-control" placeholder="Document Type Name" maxlength="50">
                                 <span id="ErreditDocumentTypeName" class="error_msg"></span>
                             </div>
                             <div class="col-sm-12 mb-3">
-                                <label class="form-label">Short Description</label>
-                                <input type="text" value="" name="DocumentTypeShortDescription" id="editDocumentTypeShortDescription" class="form-control" placeholder="Short Description">
+                                <label class="form-label">Short Description
+                                <img src="<?php echo URL;?>assets/question.png" style="width: 12px;" class="dropdown"  id="dropdownMenuButton1" data-bs-toggle="dropdown">
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton1" style="padding:0px;">
+                                    <div class="myheader">Short Description</div>
+                                    <div class="mycontainer">
+                                        1. Allow all characters, not allow <span style='color:red'>\'!~$"</span><br>
+                                        2. Maximum 250 characters require<br>
+                                        3. Not allow cut,copy,paste
+                                    </div>
+                                </div>
+                                </div>
+                                </label>
+                                <input type="text" value="" name="DocumentTypeShortDescription" id="editDocumentTypeShortDescription" class="form-control" placeholder="Short Description" maxlength="250">
                                 <span id="ErreditDocumentTypeShortDescription" class="error_msg"></span>
                             </div>
                             <div class="col-sm-12 mb-3">
-                                <label class="form-label">Remarks</label>
-                                <input type="text" value="" name="Remarks" id="editRemarks" class="form-control" placeholder="Remarks">
+                                <label class="form-label">Remarks
+                                <img src="<?php echo URL;?>assets/question.png" style="width: 12px;" class="dropdown"  id="dropdownMenuButton1" data-bs-toggle="dropdown">
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton1" style="padding:0px;">
+                                    <div class="myheader">Remarks</div>
+                                    <div class="mycontainer">
+                                        1. Allow all characters, not allow <span style='color:red'>\'!~$"</span><br>
+                                        2. Maximum 250 characters require<br>
+                                        3. Not allow cut,copy,paste
+                                    </div>
+                                </div>
+                                </label>
+                                <input type="text" value="" name="Remarks" id="editRemarks" class="form-control" placeholder="Remarks" maxlength="250">
                                 <span id="ErreditRemarks" class="error_msg"></span>
                             </div>
                             <div class="col-sm-6 mb-3">
@@ -187,7 +265,25 @@
 
 function addForm(){
   $('#addconfirmation').modal("show");
-      clearDiv(['DocumentTypeName','DocumentTypeShortDescription','Remarks']);
+     
+      $('#DocumentTypeShortDescription').keydown(function (e) {
+          if (e.ctrlKey || e.altKey) {
+              e.preventDefault();
+          } else {
+              var key = e.keyCode;
+              //alert(key);
+              if (e.shiftKey) {
+                  
+                  if (((key == 49) || (key == 52) || (key == 222) || (key == 19) || (key == 192))) {
+                    e.preventDefault();
+                  } } else {
+              if (!((key == 9) || (key == 8) || (key == 32) || (key == 46) || (key == 173) | (key == 109) || (key == 48) || (key == 49) || (key == 50) || (key == 52) || (key == 51) || (key >= 35 && key <= 40) || (key >= 53 && key <= 57) || (key >= 65 && key <= 90) || (key >= 188 && key <= 191) || (key == 58) || (key == 61) || (key == 171) || (key == 59) || (key == 221))) {
+                  e.preventDefault();
+              }
+          1}
+          }
+      });
+      clearDiv(['DocumentTypeName','DocumentTypeShortDescription','DocumentTypeCode','Remarks']);
 }  
 function addNew() {
     var param = $('#frm_create').serialize();
@@ -277,7 +373,7 @@ function edit(DocumentTypeID){
  
 function doUpdate() {
     var param = $('#frm_edit').serialize();
-    clearDiv(['editDocumentTypeName','editDocumentTypeShortDescription','editRemarks']);
+    clearDiv(['editDocumentTypeName','editDocumentTypeShortDescription','editRemarks','editDocumentTypeCode']);
     jQuery.ajax({
         type: 'POST',
         url:URL+"webservice.php?action=doUpdate&method=DocumentTypes",

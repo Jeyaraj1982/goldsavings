@@ -9,7 +9,7 @@
         </div>
         <div class="col-6" style="text-align: right;">
             <a href="<?php echo URL;?>dashboard.php?action=reports/all_upcommingdues">All</a>&nbsp;|&nbsp;
-            <a href="<?php echo URL;?>dashboard.php?action=reports/customerwise_pendingdues">Customer Wise</a>&nbsp;|&nbsp;       
+            <a href="<?php echo URL;?>dashboard.php?action=reports/customerwise_upcommingdues">Customer Wise</a>&nbsp;|&nbsp;       
             <a href="<?php echo URL;?>dashboard.php?action=reports/salesmanwise_upcommingdues">Salesman Wise</a>        
             </div>
      </div>
@@ -64,9 +64,6 @@
             </div>
         </div>
     </div>
-    <div class="col-12" style="text-align:right;">
-            <a href="<?php echo URL;?>dashboard.php?" class="btn btn-outline-primary btn-sm">Back</a>
-     </div>
 </div>
 
 <script>
@@ -81,7 +78,8 @@ function getData() {
         if (obj.status=="success") {
             var html = "";
             $.each(obj.data, function (index, data) {
-                html += '<tr>'
+               html += '<tr>'
+                           + '<td>' + data.CustomerName + '</td>'
                            + '<td>' + data.ContractCode + '</td>'
                            + '<td>' + data.SchemeName + '</td>'
                            + '<td>' + data.DueDate + '</td>'
@@ -93,8 +91,9 @@ function getData() {
                                         + '<img src="'+URL+'assets/icons/more.png">'
                                         + '</a>'
                                         + '<div class="dropdown-menu dropdown-menu-end">'
-                                                + '<a class="dropdown-item" href="'+URL+'dashboard.php?action=contracts/view&view='+data.ContractCode+'">View Contract</a>'
-                                                + '<a class="dropdown-item" href="'+URL+'dashboard.php?action=schemes/view&edit='+data.SchemeID+'">View Scheme</a>'
+                                        + '<a class="dropdown-item" href="'+URL+'dashboard.php?action=masters/customers/view&customer='+data.CustomerID+'&fpg=reports/customerwise_upcommingdues">View Customer</a>'
+                                                + '<a class="dropdown-item" href="'+URL+'dashboard.php?action=contracts/view&view='+data.ContractCode+'&fpg=reports/customerwise_upcommingdues">View Contract</a>'
+                                                + '<a class="dropdown-item" href="'+URL+'dashboard.php?action=masters/schemes/view&edit='+data.SchemeID+'&fpg=reports/customerwise_upcommingdues">View Scheme</a>'
                                                  
                                         + '</div>'
                                 + '</div>'

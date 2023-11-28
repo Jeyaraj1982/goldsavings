@@ -42,12 +42,12 @@
                                 <th style="width: 100px; text-align: right;">18kt</th>
                                 <th style="width: 100px; text-align: right;">22kt</th>
                                 <th style="width: 100px; text-align: right;">24kt</th>
-                                <th style="width:50px"></th>
+                                <th style="width: 100px; text-align: right;">Silver</th>
                             </tr>
                         </thead>
                         <tbody id="tbl_content">
                             <tr>
-                                <td colspan="5" style="text-align: center;background:#fff !important">Loading Goldprice ...</td>
+                                <td colspan="7" style="text-align: center;background:#fff !important">Loading Goldprice ...</td>
                             </tr>
                         </tbody>
                     </table>
@@ -71,26 +71,15 @@ function getData() {
             $.each(obj.data, function (index, data) {
                 html += '<tr>'
                             + '<td>' + data.Date + '</td>'
-                            + '<td>' + data.GOLD_18 + '</td>'
-                            + '<td>' + data.GOLD_22 + '</td>'
-                            + '<td>' + data.GOLD_24 + '</td>'
-                            + '<td style="text-align:right">' 
-                                + '<div class="dropdown position-relative">'
-                                        + '<a href="javascript:void(0)" data-bs-toggle="dropdown" data-bs-display="static">'
-                                            + '<img src="'+URL+'assets/icons/more.png">'
-                                        + '</a>'
-                                        + '<div class="dropdown-menu dropdown-menu-end">'
-                                                + '<a class="dropdown-item" onclick="view(\''+data.RateID+'\')">View</a>'
-                                                + '<a class="dropdown-item" onclick="edit(\''+data.RateID+'\')">Edit</a>'
-                                                + '<a class="dropdown-item" href="javascript:void(0)" onclick="confirmationtoDelete(\''+data.RateID+'\')">Delete</a>'
-                                        + '</div>'
-                                + '</div>'
-                            + '</td>'
+                            + '<td style="text-align: right;">' + data.GOLD_18 + '</td>'
+                            + '<td style="text-align: right;">' + data.GOLD_22 + '</td>'
+                            + '<td style="text-align: right;">' + data.GOLD_24 + '</td>'
+                            + '<td style="text-align: right;">' + data.SILVER + '</td>'
                             + '</tr>';
             });
              if (obj.data.length==0) {
          html += '<tr>'
-                    + '<td colspan="5" style="text-align: center;background:#fff !important">No Data Found</td>'
+                    + '<td colspan="6" style="text-align: center;background:#fff !important">No Data Found</td>'
                + '</tr>';
     }
             $('#tbl_content').html(html);

@@ -103,7 +103,7 @@
                                 <div style="font-weight: bold;">Area Name</div>
                                 <?php echo $data[0]['AreaName'];?>
                             </div>
-                            <div class="col-sm-6  mb-3">
+                            <div class="col-sm-6 mb-3">
                                 <div style="font-weight: bold;">District Name</div>
                                 <?php echo $data[0]['DistrictName'];?>
                             </div>

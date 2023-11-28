@@ -17,7 +17,7 @@
                     <div class="card-body">
                         <div class="row">
                         <div class="col-sm-12" style="text-align:right;">
-                                <a style="color:#888;text-decoration:none;" href="<?php echo URL;?>dashboard.php?action=masters/customers/edit&customer=<?php echo $data[0]['CustomerID'];?>"><i class="align-middle me-2" data-feather="edit"></i><span class="align-middle">edit</span></a>
+                                <a style="color:#888;text-decoration:none;" href="<?php echo URL;?>dashboard.php?action=masters/customers/edit&customer=<?php echo $data[0]['CustomerID'];?>&fpg=masters/customers/view&customer=<?php echo $data[0]['CustomerID'];?>"><i class="align-middle me-2" data-feather="edit"></i><span class="align-middle">edit</span></a>
                             </div>
                             <div class="col-sm-6 mb-3">
                                 <div style="font-weight: bold;">Customer ID</div>
@@ -80,8 +80,6 @@
                             </div>
                         </div>
                     </div>
-                
-           
                 <div class="card">
                     <div class="card-body">
                         <div class="row">
@@ -99,11 +97,11 @@
                                     }
                                 ?>
                                 </div>
-                            <div class="col-sm-6">
+                            <div class="col-sm-6 mb-3">
                                 <div style="font-weight: bold;">Area Name</div>
                                 <?php echo $data[0]['AreaName'];?>
                             </div>
-                            <div class="col-sm-6  mb-3">
+                            <div class="col-sm-6 mb-3">
                                 <div style="font-weight: bold;">District Name</div>
                                 <?php echo $data[0]['DistrictName'];?>
                             </div>
@@ -112,14 +110,13 @@
                                 <?php echo $data[0]['StateName'];?>
                             </div>
                             <div class="col-sm-6">
-                                <div style="font-weight: bold;">PinCode </div>
+                                <div style="font-weight: bold;">Pincode </div>
                                 <?php echo $data[0]['PinCode'];?>
                             </div>
                         </div>
                     </div>
                 </div>
-           
-            <div class="card">
+                <div class="card">
                     <div class="card-body">
                         <div class="row">
                         <div class="col-sm-6">         
@@ -133,7 +130,7 @@
                         </div>
                     </div>
             </div>
-            <div class="card">
+                <div class="card">
                     <div class="card-body">
                         <div class="row">
                             <div class="col-sm-6 mb-3">         
@@ -158,9 +155,19 @@
                     </div>
                 </div>      
                 </div>
-            <div class="col-sm-12" style="text-align:right;">
-                <a href="<?php echo URL;?>dashboard.php?action=customers/list" class="btn btn-outline-primary">Back</a>&nbsp;&nbsp;
-            </div>
+             <div class="col-sm-12" style="text-align:right;">
+            <?php 
+            $path=URL."dashboard.php";
+            if (isset($_GET['fpg'])) {
+                $path.="?action=".$_GET['fpg'];
+            }
+            //&view=ID000124
+            if (isset($_GET['view'])) {
+                $path.="&view=".$_GET['view'];
+            }
+            ?>
+            <a href="<?php echo $path;?>" class="btn btn-outline-primary">Back</a>
+     </div>
         </div>
     </form>                            
 </div>

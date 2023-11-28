@@ -56,16 +56,14 @@
                     </div>
                 </div>
              </div>
-             <div class="col-sm-12" style="text-align:right;">
+        </div>
+    </div>
+ </div>
+<div class="col-sm-12" style="text-align:right;">
                 <a href="<?php echo URL;?>dashboard.php?action=contracts/list_paymentrequests" style="font-size: 10px" class="btn btn-outline-primary">Back</a>&nbsp;&nbsp;
                 <button type="button" id="btnReject" onclick="rejectconfirmation()" style="font-size: 10px;display: none" class="btn btn-danger">Reject</button>&nbsp;&nbsp;
                 <button type="button" id="btnApprove" onclick="approvedconfirmation()" style="font-size: 10px;display: none" class="btn btn-primary">Approve</button>
             </div>
-        </div>
-        
-    </div>
- </div>
-
             
 <div class="modal fade" id="confirmationtoReject" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog">

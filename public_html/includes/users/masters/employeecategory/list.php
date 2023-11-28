@@ -62,18 +62,52 @@
                 <form id="frm_create" name="frm_create" method="post" enctype="multipart/form-data">
                     <div class="row">
                         <div class="col-sm-6 mb-3">
-                                <label class="form-label">Employee Category Code <span style='color:red'>*</span></label>
-                                <input type="text" value="<?php echo SequnceList::getNextNumber("_tbl_masters_employee_categories");?>" name="EmployeeCategoryCode" id="EmployeeCategoryCode" class="form-control" placeholder="Employee Category Code">
+                                <label class="form-label">Employee Category Code <span style='color:red'>*</span>
+                                <img src="<?php echo URL;?>assets/question.png" style="width: 12px;" class="dropdown"  id="dropdownMenuButton1" data-bs-toggle="dropdown">
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton1" style="padding:0px;">
+                                    <div class="myheader">Employee Category Code</div>
+                                    <div class="mycontainer">
+                                        1. Allow only alphanumeric characters<br>
+                                        2. Minimum 8 characters require<br>
+                                        3. Maximum 20 characters require<br>
+					                    4. Not allow cut,copy,paste
+                                        
+                                    </div>
+                                </div>
+                                </label>
+                                <input type="text" value="<?php echo SequnceList::getNextNumber("_tbl_masters_employee_categories");?>" name="EmployeeCategoryCode" id="EmployeeCategoryCode" class="form-control" placeholder="Employee Category Code" maxlength="20" oninput="this.value=this.value.toUpperCase()">
                                 <span id="ErrEmployeeCategoryCode" class="error_msg"></span>
                             </div>
                             <div class="col-sm-12 mb-3">
-                                <label class="form-label">Employee Category Title <span style='color:red'>*</span></label>
-                                <input type="text" name="EmployeeCategoryTitle" id="EmployeeCategoryTitle" class="form-control" placeholder="Employee Category Title">
+                                <label class="form-label">Employee Category Title <span style='color:red'>*</span>
+                                <img src="<?php echo URL;?>assets/question.png" style="width: 12px;" class="dropdown"  id="dropdownMenuButton1" data-bs-toggle="dropdown">
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton1" style="padding:0px;">
+                                    <div class="myheader">>Employee Category Title</div>
+                                    <div class="mycontainer">
+                                        1. Allow only alphabets and space<br>
+                                        2. Minimum 3 characters require<br>
+                                        3. Maximum 50 characters require<br>
+                                        4. Not allow cut,copy,paste
+                                    </div>
+                                </div>
+                                </label>
+                                <input type="text" name="EmployeeCategoryTitle" id="EmployeeCategoryTitle" class="form-control" placeholder="Employee Category Title" maxlength="50">
                                 <span id="ErrEmployeeCategoryTitle" class="error_msg"></span>
                             </div>
                             <div class="col-sm-12 mb-3">
-                                <label class="form-label">Remarks</label>
-                                <input type="text" name="Remarks" id="Remarks" class="form-control" placeholder="Remarks">
+                                <label class="form-label">Remarks
+                                 <img src="<?php echo URL;?>assets/question.png" style="width: 12px;" class="dropdown"  id="dropdownMenuButton1" data-bs-toggle="dropdown">
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton1" style="padding:0px;">
+                                    <div class="myheader">Remarks</div>
+                                   <div class="mycontainer">
+                                        1. Allow only alphabets and space<br>
+                                        2. Minimum 3 characters require<br>
+                                        3. Maximum 50 characters require<br>
+                                        4. Not allow cut,copy,paste
+                                    </div>
+                                </div>
+                                </label>
+                                <input type="text" name="Remarks" id="Remarks" class="form-control" placeholder="Remarks" maxlength="250">
                                 <span id="ErrRemarks" class="error_msg"></span>
                             </div>
                     </div>
@@ -103,13 +137,37 @@
                                 <input type="text" disabled="disabled" value="" name="EmployeeCategoryCode" id="editEmployeeCategoryCode" class="form-control">
                             </div>
                             <div class="col-sm-12 mb-3">
-                                <label class="form-label">Employee Category Title <span style='color:red'>*</span></label>
-                                <input type="text" value="" name="EmployeeCategoryTitle" id="editEmployeeCategoryTitle" class="form-control" placeholder="Employee Category Title">
+                                <label class="form-label">Employee Category Title <span style='color:red'>*</span>
+                                <img src="<?php echo URL;?>assets/question.png" style="width: 12px;" class="dropdown"  id="dropdownMenuButton1" data-bs-toggle="dropdown">
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton1" style="padding:0px;">
+                                    <div class="myheader">Employee Category Title</div>
+                                    <div class="mycontainer">
+                                        1. Allow only alphabets and space<br>
+                                        2. Minimum 3 characters require<br>
+                                        3. Maximum 50 characters require<br>
+                                        4. Not allow cut,copy,paste
+                                        
+                                    </div>
+                                </div>
+                                </label>
+                                <input type="text" value="" name="EmployeeCategoryTitle" id="editEmployeeCategoryTitle" class="form-control" placeholder="Employee Category Title" maxlength="50">
                                 <span id="ErreditEmployeeCategoryTitle" class="error_msg"></span>
                             </div>
                             <div class="col-sm-12 mb-3">
-                                <label class="form-label">Remarks</label>
-                                <input type="text" value="" name="Remarks" id="editRemarks" class="form-control" placeholder="Remarks">
+                                <label class="form-label">Remarks
+                                <img src="<?php echo URL;?>assets/question.png" style="width: 12px;" class="dropdown"  id="dropdownMenuButton1" data-bs-toggle="dropdown">
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton1" style="padding:0px;">
+                                    <div class="myheader">Remarks</div>
+                                    <div class="mycontainer">
+                                        1. Allow only alphabets and space<br>
+                                        2. Minimum 3 characters require<br>
+                                        3. Maximum 50 characters require<br>
+                                        4. Not allow cut,copy,paste
+                                        
+                                    </div>
+                                </div>
+                                </label>
+                                <input type="text" value="" name="Remarks" id="editRemarks" class="form-control" placeholder="Remarks" maxlength="250">
                                 <span id="ErreditRemarks" class="error_msg"></span>
                             </div>
                             <div class="col-sm-6 mb-3">
@@ -172,7 +230,8 @@
 <script>
 
 function addForm(){
-  $('#addconfirmation').modal("show"); 
+  $('#addconfirmation').modal("show");
+     
       clearDiv(['EmployeeCategoryCode','EmployeeCategoryTitle','Remarks']);
 }  
 function addNew() {
@@ -206,6 +265,7 @@ function addNew() {
 
 function edit(EmployeeCategoryID){
     $('#editForm').modal("show");
+     
         clearDiv(['editEmployeeCategoryTitle','editRemarks']);
     $.post(URL+ "webservice.php?action=getData&method=EmployeeCategories&ID="+EmployeeCategoryID,"",function(data){
         var obj = JSON.parse(data);
@@ -243,7 +303,6 @@ function doUpdate() {
 
 function view(EmployeeCategoryID){
   $('#viewForm').modal("show");
-  
   $.post(URL+ "webservice.php?action=getData&method=EmployeeCategories&ID="+EmployeeCategoryID,"",function(data){
         closePopup();
         var obj = JSON.parse(data);
@@ -319,7 +378,7 @@ function confirmationtoDelete(ID){
     RemoveID=ID;
     $('#confirmation').modal("show"); 
 }
-function Remove(ID) {
+function Remove() {
      $('#confirmation').modal("hide"); 
   openPopup();
     $.post(URL+ "webservice.php?action=remove&method=EmployeeCategories&ID="+RemoveID,"",function(data){
@@ -329,11 +388,11 @@ function Remove(ID) {
             $('#popupcontent').html(success_content(obj.message,'closePopup'));
             $.each(obj.data, function (index, data) {
                 html += '<tr>'
-                           + '<td>' + data.EmployeeCategoryCode + '</td>'
+                          + '<td>' + data.EmployeeCategoryCode + '</td>'
                             + '<td>' + data.EmployeeCategoryTitle + '</td>'
                              + '<td style="text-align:right">' + data.EmployeeCount + '&nbsp;</td>'
-                            + '<td>' + ( (data.IsActive=="1") ? "<span class='badge bg-success'>Active</span>" : "<span class='badge bg-secondary'>Disabled</span>" ) + '</td>'
-                           + '<td style="text-align:right">' 
+                            + '<td>' + ( (data.IsActive=="1") ? "<span class='badge bg-success'>Active</span>" : "<span class='badge bg-secondary'>Disabled</span>" ) + '</td>' 
+                            + '<td style="text-align:right">' 
                                 + '<div class="dropdown position-relative">'
                                         + '<a href="javascript:void(0)" data-bs-toggle="dropdown" data-bs-display="static">'
                                             + '<img src="'+URL+'assets/icons/more.png">'
@@ -342,9 +401,13 @@ function Remove(ID) {
                                                 + '<a class="dropdown-item" onclick="view(\''+data.EmployeeCategoryID+'\')">View</a>'
                                                 + '<a class="dropdown-item" onclick="edit(\''+data.EmployeeCategoryID+'\')">Edit</a>'
                                                 + '<a class="dropdown-item" href="javascript:void(0)" onclick="confirmationtoDelete(\''+data.EmployeeCategoryID+'\')">Delete</a>'
-                                                + '<hr style="margin:0px !important">'
-                                                + '<a class="dropdown-item" href="'+URL+'dashboard.php?action=masters/employeecategory/list_employeesbycategory&EmployeeID='+data.EmployeeCategoryID+'" >View Employees</a>'
-
+                                                 if (data.EmployeeCount>0) {
+                                                     html += '<hr style="margin:0px !important">';
+                                                     html += '<a class="dropdown-item" href="'+URL+'dashboard.php?action=masters/employeecategory/list_employeesbycategory&EmployeeID='+data.EmployeeCategoryID+'" >View Employees</a>'
+                                                } else if (data.EmployeeCount==0) {
+                                                     html += '<hr style="margin:0px !important">';
+                                                     html += '<a class="dropdown-item" href="javascript:void(0)" style="color:#888">View Employees</a>';
+                                                    }
                                         + '</div>'
                                 + '</div>'
                             + '</td>'                                                                                                    

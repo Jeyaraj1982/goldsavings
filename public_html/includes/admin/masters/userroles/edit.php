@@ -17,17 +17,41 @@
                         <div class="row">
                             <div class="col-sm-6 mb-3">
                                 <label class="form-label">User Role Code </label>
-                                <input type="text" value="<?php echo $data[0]['UserRoleCode'];?>" name="UserRoleCode" id="UserRoleCode" disabled="disabled"  class="form-control">
+                                <input type="text" value="<?php echo $data[0]['UserRoleCode'];?>" name="UserRoleCode" id="UserRoleCode" disabled="disabled"  class="form-control" maxlength="20">
                                 <span id="ErrUserRoleCode" class="error_msg"></span>
                             </div>
                             <div class="col-sm-12 mb-3">
-                                <label class="form-label">User Role <span style='color:red'>*</span></label>
-                                <input type="text" value="<?php echo $data[0]['UserRole'];?>" name="UserRole" id="UserRole" class="form-control" placeholder="User Name">
+                                <label class="form-label">User Role <span style='color:red'>*</span>
+                                <img src="<?php echo URL;?>assets/question.png" style="width: 12px;" class="dropdown"  id="dropdownMenuButton1" data-bs-toggle="dropdown">
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton1" style="padding:0px;">
+                                    <div class="myheader">User Role</div>
+                                    <div class="mycontainer">
+                                        1. Allow only alphabets and space<br>
+                                        2. Minimum 3 characters require<br>
+                                        3. Maximum 50 characters require<br>
+                                        4. Not allow cut,copy,paste
+                                        
+                                    </div>
+                                </div>
+                                </label>
+                                <input type="text" value="<?php echo $data[0]['UserRole'];?>" name="UserRole" id="UserRole" class="form-control" placeholder="User Name" maxlength="50">
                                 <span id="ErrUserRole" class="error_msg"></span>
                             </div>
                              <div class="col-sm-12 mb-3">
-                                <label class="form-label">Module <span style='color:red'>*</span></label>
-                                <input type="text" value="<?php echo $data[0]['Module'];?>" name="Module" id="Module" class="form-control" placeholder="User Name">
+                                <label class="form-label">Module <span style='color:red'>*</span>
+                                <img src="<?php echo URL;?>assets/question.png" style="width: 12px;" class="dropdown"  id="dropdownMenuButton1" data-bs-toggle="dropdown">
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton1" style="padding:0px;">
+                                    <div class="myheader">Module</div>
+                                    <div class="mycontainer">
+                                        1. Allow only alphabets<br>
+                                        2. Minimum 3 characters require<br>
+                                        3. Maximum 50 characters require<br>
+                                        4. Not allow cut,copy,paste
+                                        
+                                    </div>
+                                </div>
+                                </label>
+                                <input type="text" value="<?php echo $data[0]['Module'];?>" name="Module" id="Module" class="form-control" placeholder="Module" maxlength="50">
                                 <span id="ErrModule" class="error_msg"></span>
                             </div>
                             <div class="col-sm-6 mb-3">         
@@ -39,8 +63,20 @@
                                 <span id="ErrIsActive" class="error_msg"></span>
                             </div>
                              <div class="col-sm-12">
-                                <label class="form-label">Remarks</label>
-                                <input type="text" value="<?php echo $data[0]['Remarks'];?>" name="Remarks" id="Remarks" class="form-control" placeholder="Remarks">
+                                <label class="form-label">Remarks
+                                <img src="<?php echo URL;?>assets/question.png" style="width: 12px;" class="dropdown"  id="dropdownMenuButton1" data-bs-toggle="dropdown">
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton1" style="padding:0px;">
+                                    <div class="myheader">Remarks</div>
+                                    <div class="mycontainer">
+                                        1. Allow only alphabets and space<br>
+                                        2. Minimum 3 characters require<br>
+                                        3. Maximum 50 characters require<br>
+                                        4. Not allow cut,copy,paste
+                                        
+                                    </div>
+                                </div>
+                                </label>
+                                <input type="text" value="<?php echo $data[0]['Remarks'];?>" name="Remarks" id="Remarks" class="form-control" placeholder="Remarks" maxlength="250">
                                 <span id="ErrRemarks" class="error_msg"></span>
                             </div>
                         </div>
@@ -105,7 +141,7 @@ function doUpdate() {
         success: function(data) {
              var obj = JSON.parse(data); 
              if (obj.status=="success") {
-                $('#popupcontent').html(success_content(obj.message,'closePopup=d()') );
+                $('#popupcontent').html(success_content(obj.message,'closePopup') );
              } else {
                 if (obj.div!="") {
                     $('#Err'+obj.div).html(obj.message)
@@ -117,5 +153,8 @@ function doUpdate() {
         }
     });
 }
+
+setTimeout(function d(){
+},2000);
 
 </script> 

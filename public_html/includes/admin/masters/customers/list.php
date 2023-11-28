@@ -7,6 +7,7 @@
         </div>
         <div class="col-6" style="text-align:right;">
             <a href="<?php echo URL;?>dashboard.php?action=masters/customers/new" class="btn btn-primary btn-sm">New Customer</a>
+            <a href="<?php echo URL;?>dashboard.php?action=masters/customers/customized_customerlist" class="btn btn-warning btn-sm">Customize Columns</a>
      </div>
      </div>
      </div>
@@ -79,14 +80,14 @@ function d() {
                                             + '<img src="'+URL+'assets/icons/more.png">'
                                         + '</a>'
                                         + '<div class="dropdown-menu dropdown-menu-end">'
-                                                + '<a class="dropdown-item" href="'+URL+'dashboard.php?action=masters/customers/view&customer='+data.CustomerID+'">View</a>'
-                                                + '<a class="dropdown-item" href="'+URL+'dashboard.php?action=masters/customers/edit&customer='+data.CustomerID+'">Edit</a>'
+                                                + '<a class="dropdown-item" href="'+URL+'dashboard.php?action=masters/customers/view&customer='+data.CustomerID+'&fpg=masters/customers/list">View</a>'
+                                                + '<a class="dropdown-item" href="'+URL+'dashboard.php?action=masters/customers/edit&customer='+data.CustomerID+'&fpg=masters/customers/list">Edit</a>'
                                                 + '<a class="dropdown-item" href="javascript:void(0)" onclick="confirmationtoDelete(\''+data.CustomerID+'\')">Delete</a>'
                                                 + '<hr style="margin:0px !important">'
-                                                + '<a class="dropdown-item" href="'+URL+'dashboard.php?action=masters/customers/contracts&customer='+data.CustomerID+'">View Contracts</a>'
-                                                + '<a class="dropdown-item" href="'+URL+'dashboard.php?action=reports/receipt&customer='+data.CustomerID+'">View Receipts</a>'
-                                                + '<a class="dropdown-item" href="'+URL+'dashboard.php?action=reports/voucher&customer='+data.CustomerID+'">View Vouchers</a>'
-                                                + '<a class="dropdown-item" href="'+URL+'dashboard.php?action=masters/customers/list_myreferrel&customer='+data.CustomerID+'">View Referrals</a>'
+                                                + '<a class="dropdown-item" href="'+URL+'dashboard.php?action=masters/customers/contracts&customer='+data.CustomerID+'&fpg=masters/customers/list">View Contracts</a>'
+                                                + '<a class="dropdown-item" href="'+URL+'dashboard.php?action=reports/receipt&customer='+data.CustomerID+'&fpg=masters/customers/list">View Receipts</a>'
+                                                + '<a class="dropdown-item" href="'+URL+'dashboard.php?action=reports/voucher&customer='+data.CustomerID+'&fpg=masters/customers/list">View Vouchers</a>'
+                                                + '<a class="dropdown-item" href="'+URL+'dashboard.php?action=masters/customers/list_myreferrel&customer='+data.CustomerID+'&fpg=masters/customers/list">View Referrals</a>'
                                         + '</div>'
                                 + '</div>'
                             + '</td>'                                                                                                    

@@ -18,6 +18,10 @@
                            
                            <div style="font-weight: bold" id="ContractCode"> Contract Information</div>
                            <div class="mb-0"><?php echo $data[0]["ContractCode"];?></div>
+                           <div id="SchemeName"> Scheme Name</div>
+                           <div class="mb-0"><?php echo $data[0]["SchemeName"];?></div>
+                            <div id="PreCloseDate">Close Date</div>
+                           <div class="mb-0"><?php echo $data[0]["PreCloseDate"];?></div>
                          </div>
                         </div>
                 <div class="row">
@@ -63,8 +67,15 @@
         <button type="button" onclick="print()" class="btn btn-primary">Print this Voucher</button>
         </div>
         <div class="col-sm-12" style="text-align: center;">
-        <a style="color: #999 !important;" href="<?php echo URL;?>dashboard.php?action=contracts/view&view=<?php echo $data[0]['ContractCode'];?>">Back</a>
-        </div>
+        <?php 
+            $path=URL."dashboard.php";
+            if (isset($_GET['fpg'])) {
+               $path.="?action=".$_GET['fpg'];
+            }
+            
+            ?>
+            <a href="<?php echo $path;?>" style="color: #999 !important;">Back</a>
+     </div>
     </div>
 
          

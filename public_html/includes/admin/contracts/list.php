@@ -1,13 +1,16 @@
 <div class="container-fluid p-0">
-     <div class="row">
+<div class="col-sm-12">
+    <div class="row">
         <div class="col-6">
             <h1 class="h3">Contracts</h1>
-            <h6 class="card-subtitle text-muted mb-3">List all Contracts</h6>
+            <h6 class="card-subtitle text-muted mb-3">List all contracts</h6>
         </div>
         <div class="col-6" style="text-align:right;">
             <a href="<?php echo URL;?>dashboard.php?action=contracts/new" class="btn btn-primary btn-sm">New Contract</a>
+            <a href="<?php echo URL;?>dashboard.php?action=contracts/customized_contractlist" class="btn btn-warning btn-sm">Customize Columns</a>
         </div>
      </div>
+</div>
      <div class="row">
         <div class="col-sm-12">
             <div class="card">
@@ -17,16 +20,17 @@
                     <div class="col-sm-12 mb-3">
                                 <label class="form-label">Date Range <span style='color:red'>*</span></label>
                                 <div class="input-group">
-                                    <input type="date" name="FromDate" value="<?php echo date("Y-m-d");?>" id="FromDate" class="form-control" placeholder="From Date">
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-text" id="basic-addon1">To</span>
-                                </div>
-                                <input type="date" name="ToDate" value="<?php echo date("Y-m-d");?>" id="ToDate" class="form-control" placeholder="To Date">
                                 <select class="form-select" name="SelectType" id="SelectType">
                                         <option value="ALL">All</option>
                                         <option value="ACTIVE">Active</option>
                                         <option value="CLOSED">Closed</option>
                                     </select>
+                                    <input type="date" name="FromDate" value="<?php echo date("Y-m-d");?>" id="FromDate" class="form-control" placeholder="From Date">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text" id="basic-addon1">To</span>
+                                </div>
+                                <input type="date" name="ToDate" value="<?php echo date("Y-m-d");?>" id="ToDate" class="form-control" placeholder="To Date">
+                                
                                 <button type="button" onclick="getData()" class="btn btn-primary">Get Data</button>
                             </div> 
                            <span id="Errmessage" class="error_msg"></span>
@@ -58,7 +62,6 @@
                                     <th style="text-align:right;">Contract<br>Amount(₹)</th>
                                     <th>Start<br>Date</th>
                                     <th>End<br>Date</th>
-                                    <th>Status</th>
                                     <th></th>
                                 </tr>
                             </thead>
@@ -109,17 +112,7 @@ function getData() {
                         + '<td style="text-align:right">' + data.ContractAmount + '</td>'
                         + '<td style="text-align:right;">' + data.StartDate + '</td>'
                         + '<td style="text-align:right;">' + data.EndDate + '</td>'
-                            + '<td>';
-                            + '<td style="text-align:right">'
-                            if (data.IsActive=="1") {
-                                html += '<span class="badge bg-success">Active</span>';
-                            } else if (data.IsActive=="0") {
-                                html += '<span class="badge bg-secondary">Disabled</span>';
-                            } else if (data.IsActive=="3") {
-                                html += '<span class="badge bg-primary">Closed</span>';
-                            } 
-                              html += '</td>'
-                             + '<td>'
+                        + '<td style="text-align:right;">'
                                 + '<div class="dropdown position-relative">'
                                         + '<a href="javascript:void(0)" data-bs-toggle="dropdown" data-bs-display="static">'
                                             + '<img src="'+URL+'assets/icons/more.png">'
@@ -171,17 +164,7 @@ function Remove() {
                         + '<td style="text-align:right">' + data.ContractAmount + '</td>'
                         + '<td style="text-align:right;">' + data.StartDate + '</td>'
                         + '<td style="text-align:right;">' + data.EndDate + '</td>'
-                            + '<td>';
-                            + '<td style="text-align:right">'
-                            if (data.IsActive=="1") {
-                                html += '<span class="badge bg-success">Active</span>';
-                            } else if (data.IsActive=="0") {
-                                html += '<span class="badge bg-secondary">Disabled</span>';
-                            } else if (data.IsActive=="3") {
-                                html += '<span class="badge bg-primary">Closed</span>';
-                            } 
-                              html += '</td>'
-                             + '<td>'
+                            + '<td style="text-align:right;">'
                                 + '<div class="dropdown position-relative">'
                                         + '<a href="javascript:void(0)" data-bs-toggle="dropdown" data-bs-display="static">'
                                             + '<img src="'+URL+'assets/icons/more.png">'

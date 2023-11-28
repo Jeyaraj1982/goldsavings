@@ -2,13 +2,13 @@
     $upcommingDues = $mysql->select("select * from  _tbl_contracts_dues where CustomerID='".$_GET['customer']."' and ReceiptID=0 and date(DueDate)>=date('".date("Y-m-d")."') order by DueID limit 0,1");         
     $pendingDues = $mysql->select("select * from  _tbl_contracts_dues where CustomerID='".$_GET['customer']."' and ReceiptID=0 and date(DueDate)<=date('".date("Y-m-d")."') order by DueID desc ");         
 ?>
-
 <div class="card mb-3">
     <div class="card-body text-center">
  <div>
         <i class="align-middle me-2" data-feather="camera" onclick="addProfileForm()" style="cursor:pointer; position: absolute;top: 130px !important;right: 50px !important;"></i>
         <img src="img/avatars/avatar.jpg" alt="Chris Wood" class="img-fluid rounded-circle mb-2" width="128" height="128">
-        </div>        <h4 class="card-title mb-0"><?php echo $data[0]['CustomerName'];?></h4>
+        </div>        
+        <h4 class="card-title mb-0"><?php echo $data[0]['CustomerName'];?></h4>
         <div class="text-muted mb-2"><?php echo $data[0]['CustomerTypeName'];?></div>
         <div>
             <!--
@@ -22,14 +22,14 @@
         <li class="list-group-item"><a href="<?php echo URL;?>dashboard.php?action=customers/contracts&customer=<?php echo $_GET['customer'];?>">Contracts</a></li>
         <li class="list-group-item"><a href="<?php echo URL;?>dashboard.php?action=customers/contracts&customer=<?php echo $_GET['customer'];?>">Closed Contracts</a></li>
         <?php if (sizeof($upcommingDues)>0) { ?>
-        <li class="list-group-item"><a href="<?php echo URL;?>dashboard.php?action=customers/upcommingdues&customer=<?php echo $_GET['customer'];?>">Upcomming Dues</a> <span class="badge badge-sidebar-primary" style=";padding:5px 10px !important;float:right"><?php echo sizeof($upcommingDues);?></span></li>
+            <li class="list-group-item"><a href="<?php echo URL;?>dashboard.php?action=customers/upcommingdues&customer=<?php echo $_GET['customer'];?>">Upcomming Dues</a> <span class="badge badge-sidebar-primary" style=";padding:5px 10px !important;float:right"><?php echo sizeof($upcommingDues);?></span></li> 
         <?php } else { ?>
-        <li class="list-group-item"><a href="javascript:void(0)" style="color:#888">Upcomming Dues</a></li>
+            <li class="list-group-item"><a href="javascript:void(0)" style="color:#888">Upcomming Dues</a></li>
         <?php } ?>
         <?php if (sizeof($pendingDues)>0) { ?>
-        <li class="list-group-item"><a href="<?php echo URL;?>dashboard.php?action=customers/pendingdues&customer=<?php echo $_GET['customer'];?>">Pending Dues</a> <span class="badge badge-sidebar-primary" style="background:#d9534f !important;padding:5px 10px !important;float:right"><?php echo sizeof($pendingDues);?></span></li>
+            <li class="list-group-item"><a href="<?php echo URL;?>dashboard.php?action=customers/pendingdues&customer=<?php echo $_GET['customer'];?>">Pending Dues <span class="badge badge-sidebar-primary" style="background:#d9534f !important;padding:5px 10px !important;float:right"><?php echo sizeof($pendingDues);?></span></a></li>
         <?php } else {?>
-        <li class="list-group-item"><a href="javascript:void(0)" style="color:#888">Pending Dues</a></li>    
+            <li class="list-group-item"><a href="javascript:void(0)" style="color:#888">Pending Dues</a></li>    
         <?php } ?>
         <li class="list-group-item"><a href="<?php echo URL;?>dashboard.php?action=customers/documents&customer=<?php echo $_GET['customer'];?>">Documents</a></li>
         <li class="list-group-item"><a href="<?php echo URL;?>dashboard.php?action=customers/payments&customer=<?php echo $_GET['customer'];?>">Payments</a></li>

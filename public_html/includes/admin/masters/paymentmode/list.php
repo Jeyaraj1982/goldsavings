@@ -64,23 +64,69 @@
     <input type="hidden" value="<?php echo $data[0][' PaymentModeID'];?>" name="PaymentModeID" id=" PaymentModeID">
         <div class="row">
                             <div class="col-sm-6 mb-3">
-                                <label class="form-label">Payment Mode Code <span style='color:red'>*</span></label>
-                                <input type="text" value="<?php echo SequnceList::getNextNumber("_tbl_masters_paymentmodes");?>" name="PaymentModeCode" id="PaymentModeCode" class="form-control" placeholder="Payment Mode Code">
+                                <label class="form-label">Payment Mode Code <span style='color:red'>*</span>
+                                <img src="<?php echo URL;?>assets/question.png" style="width: 12px;" class="dropdown"  id="dropdownMenuButton1" data-bs-toggle="dropdown">
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton1" style="padding:0px;">
+                                    <div class="myheader">Payment Mode Code</div>
+                                    <div class="mycontainer">
+                                        1. Allow only alphanumeric characters<br>
+                                        2. Minimum 8 characters require<br>
+                                        3. Maximum 20 characters require<br>
+                                        4. Not allow cut,copy,paste
+                                        
+                                    </div>
+                                </div>
+                                </label>
+                                <input type="text" value="<?php echo SequnceList::getNextNumber("_tbl_masters_paymentmodes");?>" name="PaymentModeCode" id="PaymentModeCode" class="form-control" placeholder="Payment Mode Code" maxlength="20" oninput="this.value=this.value.toUpperCase()">
                                 <span id="ErrPaymentModeCode" class="error_msg"></span>
                             </div>
                             <div class="col-sm-12 mb-3">
-                                <label class="form-label">Payment Mode <span style='color:red'>*</span></label>
-                                <input type="text" name="PaymentMode" id="PaymentMode" class="form-control" placeholder="Payment Mode">
+                                <label class="form-label">Payment Mode <span style='color:red'>*</span>
+                                <img src="<?php echo URL;?>assets/question.png" style="width: 12px;" class="dropdown"  id="dropdownMenuButton1" data-bs-toggle="dropdown">
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton1" style="padding:0px;">
+                                    <div class="myheader">Payment Mode</div>
+                                    <div class="mycontainer">
+                                        1. Allow only alphabets and space<br>
+                                        2. Minimum 3 characters require<br>
+                                        3. Maximum 50 characters require<br>
+                                        4. Not allow cut,copy,paste
+                                        
+                                    </div>
+                                </div>
+                                </label>
+                                <input type="text" name="PaymentMode" id="PaymentMode" class="form-control" placeholder="Payment Mode" maxlength="50">
                                 <span id="ErrPaymentMode" class="error_msg"></span>
                             </div>
                             <div class="col-sm-12 mb-3">
-                                <label class="form-label">Linked Bank A/c </label>
-                                <input type="text" name="LinkedBank" id="LinkedBank" class="form-control" placeholder="Linked Bank">
+                                <label class="form-label">Linked Bank A/c 
+                                <img src="<?php echo URL;?>assets/question.png" style="width: 12px;" class="dropdown"  id="dropdownMenuButton1" data-bs-toggle="dropdown">
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton1" style="padding:0px;">
+                                    <div class="myheader">Linked Bank A/c</div>
+                                    <div class="mycontainer">
+                                        1. Allow only alphabets and space<br>
+                                        2. Minimum 3 characters require<br>
+                                        3. Maximum 50 characters require<br>
+                                        4. Not allow cut,copy,paste
+                                        
+                                    </div>
+                                </div>
+                                </label>
+                                <input type="text" name="LinkedBank" id="LinkedBank" class="form-control" placeholder="Linked Bank" maxlength="50">
                                 <span id="ErrLinkedBank" class="error_msg"></span>
                             </div>
                             <div class="col-sm-12 mb-3">
-                                <label class="form-label">Remarks</label>
-                                <input type="text" name="Remarks" id="Remarks" class="form-control" placeholder="Remarks">
+                                <label class="form-label">Remarks
+                                <img src="<?php echo URL;?>assets/question.png" style="width: 12px;" class="dropdown"  id="dropdownMenuButton1" data-bs-toggle="dropdown">
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton1" style="padding:0px;">
+                                    <div class="myheader">Remarks</div>
+                                    <div class="mycontainer">
+                                        1. Allow all characters, not allow <span style='color:red'>\'!~$"</span><br>
+                                        2. Maximum 250 characters require<br>
+                                        3. Not allow cut,copy,paste
+                                    </div>
+                                </div>
+                                </label>
+                                <input type="text" name="Remarks" id="Remarks" class="form-control" placeholder="Remarks" maxlength="250">
                                 <span id="ErrRemarks" class="error_msg"></span>
                             </div>
         </div>
@@ -112,17 +158,51 @@
                                 <span id="ErreditPaymentModeCode" class="error_msg"></span>
                             </div>
                             <div class="col-sm-12 mb-3">
-                                <label class="form-label">Payment Mode<span style='color:red'>*</span></label>
-                                <input type="text" value="" name="PaymentMode" id="editPaymentMode" class="form-control" placeholder="Payment Mode">
+                                <label class="form-label">Payment Mode<span style='color:red'>*</span>
+                                <img src="<?php echo URL;?>assets/question.png" style="width: 12px;" class="dropdown"  id="dropdownMenuButton1" data-bs-toggle="dropdown">
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton1" style="padding:0px;">
+                                    <div class="myheader">Payment Mode</div>
+                                    <div class="mycontainer">
+                                        1. Allow only alphabets and space<br>
+                                        2. Minimum 3 characters require<br>
+                                        3. Maximum 50 characters require<br>
+                                        4. Not allow cut,copy,paste
+                                        
+                                    </div>
+                                </div>
+                                </label>
+                                <input type="text" value="" name="PaymentMode" id="editPaymentMode" class="form-control" placeholder="Payment Mode" maxlength="50">
                                 <span id="ErreditPaymentMode" class="error_msg"></span>
                             </div><div class="col-sm-12 mb-3">
-                                <label class="form-label">Linked Bank A/c<span style='color:red'>*</span></label>
-                                <input type="text" value="" name="LinkedBank" id="editLinkedBank" class="form-control" placeholder="Linked Bank">
+                                <label class="form-label">Linked Bank A/c
+                                <img src="<?php echo URL;?>assets/question.png" style="width: 12px;" class="dropdown"  id="dropdownMenuButton1" data-bs-toggle="dropdown">
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton1" style="padding:0px;">
+                                    <div class="myheader">Linked Bank A/c</div>
+                                    <div class="mycontainer">
+                                        1. Allow only alphabets and space<br>
+                                        2. Minimum 3 characters require<br>
+                                        3. Maximum 50 characters require<br>
+                                        4. Not allow cut,copy,paste
+                                        
+                                    </div>
+                                </div>
+                                </label>
+                                <input type="text" value="" name="LinkedBank" id="editLinkedBank" class="form-control" placeholder="Linked Bank" maxlength="50">
                                 <span id="ErreditLinkedBank" class="error_msg"></span>
                             </div>
                             <div class="col-sm-12 mb-3">
-                                <label class="form-label">Remarks</label>
-                                <input type="text" value="" name="Remarks" id="editRemarks" class="form-control" placeholder="Remarks">
+                                <label class="form-label">Remarks
+                                <img src="<?php echo URL;?>assets/question.png" style="width: 12px;" class="dropdown"  id="dropdownMenuButton1" data-bs-toggle="dropdown">
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton1" style="padding:0px;">
+                                    <div class="myheader">Remarks</div>
+                                    <div class="mycontainer">
+                                        1. Allow all characters, not allow <span style='color:red'>\'!~$"</span><br>
+                                        2. Maximum 250 characters require<br>
+                                        3. Not allow cut,copy,paste
+                                    </div>
+                                </div>
+                                </label>
+                                <input type="text" value="" name="Remarks" id="editRemarks" class="form-control" placeholder="Remarks" maxlength="250">
                                 <span id="ErreditRemarks" class="error_msg"></span>
                             </div>
                             <div class="col-sm-6 mb-3">
@@ -231,8 +311,11 @@ function listPaymentmodes() {
 setTimeout("listPaymentmodes()",2000);
 
 function addForm(){
-  $('#addconfirmation').modal("show");
+  $('#addconfirmation').modal("show");   
       clearDiv(['PaymentMode','PaymentModeCode','LinkedBank','Remarks','IsActive']);
+      $('#PaymentMode').val("");
+      $('#LinkedBank').val("");
+      $('#Remarks').val("");
 }  
 function addNew() {
     var param = $('#frm_create').serialize();
@@ -260,6 +343,7 @@ function addNew() {
 
 function edit(ID){
   $('#editForm').modal("show");
+     
       clearDiv(['editPaymentMode','editPaymentModeCode','editLinkedBank','editRemarks','editIsActive']);
     $.post(URL+ "webservice.php?action=getData&method=PaymentModes&ID="+ID,"",function(data){
         closePopup();

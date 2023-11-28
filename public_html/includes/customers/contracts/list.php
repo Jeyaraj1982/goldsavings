@@ -1,9 +1,19 @@
 <div class="container-fluid p-0">
 <div class="col-6">
      <div class="row">
+        <div class="col-6">
             <h1 class="h3">My Contracts</h1>
-            <h6 class="card-subtitle text-muted mb-3">List all Contracts</h6>
         </div>
+       <div class="col-sm-6  mb-2" style="text-align:right;">
+            <?php 
+            $path=URL."dashboard.php";
+            if (isset($_GET['fpg'])) {
+                $path=URL."dashboard.php?action=".$_GET['fpg'];
+            }
+            ?>
+            <a href="<?php echo $path;?>" class="btn btn-outline-primary btn-sm">Back</a>&nbsp;&nbsp;
+     </div>
+     </div>
      </div>
      <div class="row">
         <div class="col-12">
@@ -79,16 +89,16 @@ function d() {
                                             + '<img src="'+URL+'assets/icons/more.png">'
                                         + '</a>'
                                         + '<div class="dropdown-menu dropdown-menu-end">'
-                                                + '<a class="dropdown-item" href="'+URL+'dashboard.php?action=contracts/viewcontract&view='+data.ContractCode+'">View Contract</a>'
-                                                + '<a class="dropdown-item" href="'+URL+'dashboard.php?action=schemes/view&edit='+data.SchemeID+'">View Scheme</a>';
+                                                + '<a class="dropdown-item" href="'+URL+'dashboard.php?action=contracts/viewcontract&view='+data.ContractCode+'&fpg=contracts/list">View Contract</a>'
+                                                + '<a class="dropdown-item" href="'+URL+'dashboard.php?action=schemes/view&edit='+data.SchemeID+'&fpg=contracts/list">View Scheme</a>';
                                                 if (parseInt(data.Receipts)>0) {
-                                                    html +=  '<a class="dropdown-item" href="'+URL+'dashboard.php?action=receipts/receipt&contract='+data.ContractCode+'">View Receipts</a>';
+                                                    html +=  '<a class="dropdown-item" href="'+URL+'dashboard.php?action=receipts/receipt&contract='+data.ContractCode+'&fpg=contracts/list">View Receipts</a>';
                                                 } else {
                                                     html +=  '<a class="dropdown-item" href="javascript:void(0)" style="color:#aaa">View Receipts</a>';
                                                 }
                                                 
                                                 if (data.VoucherNumber!="") {
-                                                    html +=  '<a class="dropdown-item" href="'+URL+'dashboard.php?action=vouchers/viewvoucher&number='+data.VoucherNumber+'">View Voucher</a>';
+                                                    html +=  '<a class="dropdown-item" href="'+URL+'dashboard.php?action=vouchers/viewvoucher&number='+data.VoucherNumber+'&fpg=contracts/list">View Voucher</a>';
                                                 } else {
                                                     html +=  '<a class="dropdown-item" href="javascript:void(0)" style="color:#aaa">View Voucher</a>';
                                                 }

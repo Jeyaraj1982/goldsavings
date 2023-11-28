@@ -46,12 +46,13 @@
                                 <th style="width:100px">18kt</th>
                                 <th style="width:100px">22kt</th>
                                 <th style="width:100px">24kt</th>
+                                <th style="width:100px">Silver</th>
                                 <th style="width:70px"></th>
                             </tr>
                         </thead>
                         <tbody id="tbl_content">
                             <tr>
-                                <td colspan="5" style="text-align: center;background:#fff !important">Loading Gold price ...</td>
+                                <td colspan="7" style="text-align: center;background:#fff !important">Loading Gold price ...</td>
                             </tr>
                         </tbody>
                     </table>
@@ -94,6 +95,11 @@
                                 <label class="form-label">Price(24kt) <span style='color:red'>*</span></label>
                                 <input type="text" name="Gold24" id="Gold24" class="form-control" placeholder="PRICE(24kt)">
                                 <span id="ErrGold24" class="error_msg"></span>
+                            </div>
+                            <div class="col-sm-4 mb-3">
+                                <label class="form-label">Silver <span style='color:red'>*</span></label>
+                                <input type="text" name="Silver" id="Silver" class="form-control" placeholder="SILVER">
+                                <span id="ErrSilver" class="error_msg"></span>
                             </div>
                             <div class="col-sm-12 mb-3">
                                <label class="form-label">Remarks</label>
@@ -147,6 +153,7 @@
                             </div>
                             <div class="col-sm-6 mb-3">
                             </div> 
+                            
                             <div class="col-sm-4 mb-3">
                                 <label class="form-label">Price(18kt) <span style='color:red'>*</span></label>
                                 <input type="text"  name="Gold18" id="editGold18" class="form-control" placeholder="PRICE(18kt)">
@@ -161,6 +168,11 @@
                                 <label class="form-label">Price(24kt) <span style='color:red'>*</span></label>
                                 <input type="text" name="Gold24" id="editGold24" class="form-control" placeholder="PRICE(24kt)">
                                 <span id="ErreditGold24" class="error_msg"></span>
+                            </div>
+                            <div class="col-sm-4 mb-3">
+                                <label class="form-label">Silver <span style='color:red'>*</span></label>
+                                <input type="text" name="Silver" id="editSilver" class="form-control" placeholder="SILVER">
+                                <span id="ErreditSilver" class="error_msg"></span>
                             </div>
                             <div class="col-sm-12 mb-3">
                                <label class="form-label">Remarks</label>
@@ -206,6 +218,11 @@
                                 <input type="text" value="" readonly="readonly" name="Gold24" id="viewGold24" class="form-control" placeholder="PRICE(24kt)">
                                 <span id="ErrGold24" class="error_msg"></span>
                             </div>
+                            <div class="col-sm-4 mb-3">
+                                <label class="form-label">Silver </label>
+                                <input type="text" value="" readonly="readonly" name="Silver" id="viewSilver" class="form-control" placeholder="SILVER">
+                                <span id="ErrSilver" class="error_msg"></span>
+                            </div>
                             <div class="col-sm-12 mb-3">
                                <label class="form-label">Remarks </label>
                                <input type="text" value="" readonly="readonly" name="Remarks" id="viewRemarks" class="form-control" placeholder="Remarks">
@@ -227,7 +244,7 @@ function confirmationtoadd() {
 }
 function addNew() {
     var param = $('#frm_create').serialize();
-    clearDiv(['Date','Gold18','Gold22','Gold24','Remarks']);
+    clearDiv(['Date','Gold18','Gold22','Gold24','Silver','Remarks']);
     jQuery.ajax({
         type: 'POST',
         url:URL+"webservice.php?action=addNew&method=GoldRates",
@@ -241,7 +258,7 @@ function addNew() {
                  openPopup();
                 $('#frm_create').trigger("reset");
                 $('#GoldRates').val(obj.GoldRates);
-                $('#popupcontent').html(success_content(obj.message,'listAll'));
+                $('#popupcontent').html(success_content(obj.message,"getData"));
              } else {
                 if (obj.div!="") {
                     $('#Err'+obj.div).html(obj.message)
@@ -271,6 +288,7 @@ function getData() {
                             + '<td>' + data.GOLD_18 + '</td>'
                             + '<td>' + data.GOLD_22 + '</td>'
                             + '<td>' + data.GOLD_24 + '</td>'
+                            + '<td>' + data.SILVER + '</td>'
                             + '<td style="text-align:right">' 
                                 + '<div class="dropdown position-relative">'
                                         + '<a href="javascript:void(0)" data-bs-toggle="dropdown" data-bs-display="static">'
@@ -284,10 +302,10 @@ function getData() {
                                 + '</div>'
                             + '</td>'
                             + '</tr>';
-                             });
+                });
            if (obj.data.length==0) {
          html += '<tr>'
-                    + '<td colspan="5" style="text-align: center;background:#fff !important">No Data Found</td>'
+                    + '<td colspan="7" style="text-align: center;background:#fff !important">No Data Found</td>'
                + '</tr>';
     }
             $('#tbl_content').html(html);
@@ -306,6 +324,8 @@ function getData() {
         }
     });
 }
+
+
   
 function edit(ID){
   $('#editForm').modal("show");
@@ -318,6 +338,7 @@ function edit(ID){
                 $('#editGold18').val(data.GOLD_18);
                 $('#editGold22').val(data.GOLD_22);
                 $('#editGold24').val(data.GOLD_24);
+                $('#editSilver').val(data.SILVER);
                 $('#editRemarks').val(data.Remarks);
                 $('#editRateID').val(data.RateID);
             });   
@@ -338,7 +359,7 @@ function edit(ID){
              if (obj.status=="success") {
                  $('#editForm').modal("hide");
                  openPopup();
-                $('#popupcontent').html(success_content(obj.message,"listAll"));
+                $('#popupcontent').html(success_content(obj.message,"getData"));
              } else {
                 if (obj.div!="") {
                     $('#Erredit'+obj.div).html(obj.message)
@@ -364,6 +385,7 @@ function view(ID){
                 $('#viewGold18').val(data.GOLD_18);
                 $('#viewGold22').val(data.GOLD_22);
                 $('#viewGold24').val(data.GOLD_24);
+                $('#viewSilver').val(data.SILVER);
                  $('#viewRemarks').val(data.Remarks);
                 $('#viewRateID').val(data.RateID);
             });   
@@ -390,6 +412,7 @@ function confirmRemove() {
                             + '<td>' + data.GOLD_18 + '</td>'
                             + '<td>' + data.GOLD_22 + '</td>'
                             + '<td>' + data.GOLD_24 + '</td>'
+                            + '<td>' + data.SILVER + '</td>'
                             + '<td style="text-align:right">' 
                                 + '<div class="dropdown position-relative">'
                                         + '<a href="javascript:void(0)" data-bs-toggle="dropdown" data-bs-display="static">'
@@ -406,7 +429,7 @@ function confirmRemove() {
             });
             if (obj.data.length==0) {
                  html += '<tr>'
-                            + '<td colspan="5" style="text-align: center;background:#fff !important">No Data Found</td>'
+                            + '<td colspan="7" style="text-align: center;background:#fff !important">No Data Found</td>'
                        + '</tr>';
             }  
             $('#tbl_content').html(html);

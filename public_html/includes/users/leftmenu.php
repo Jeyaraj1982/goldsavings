@@ -13,9 +13,9 @@
                 <i class="align-middle" data-feather="layout"></i> <span class="align-middle">Customers</span>
             </a>
             <ul id="customers" class="sidebar-dropdown list-unstyled collapse " data-bs-parent="#sidebar">
-                <li class="sidebar-item"><a class="sidebar-link" href="<?php echo URL;?>dashboard.php?action=customers/new">New Customer</a></li>
-                <li class="sidebar-item"><a class="sidebar-link" href="<?php echo URL;?>dashboard.php?action=customers/list">View Customers</a></li>
-                <li class="sidebar-item"><a class="sidebar-link" href="<?php echo URL;?>dashboard.php?action=customers/searchcustomers">Search Customers</a></li>
+                <li class="sidebar-item"><a class="sidebar-link" href="<?php echo URL;?>dashboard.php?action=masters/customers/new">New Customer</a></li>
+                <li class="sidebar-item"><a class="sidebar-link" href="<?php echo URL;?>dashboard.php?action=masters/customers/list">View Customers</a></li>
+                <li class="sidebar-item"><a class="sidebar-link" href="<?php echo URL;?>dashboard.php?action=masters/customers/searchcustomers">Search Customers</a></li>
             </ul>
         </li>
         <li class="sidebar-item">
@@ -23,9 +23,9 @@
                 <i class="align-middle" data-feather="layout"></i> <span class="align-middle">Salesman</span>
             </a>
             <ul id="salesman" class="sidebar-dropdown list-unstyled collapse " data-bs-parent="#sidebar">
-                <li class="sidebar-item"><a class="sidebar-link" href="<?php echo URL;?>dashboard.php?action=salesman/new">New Salesman</a></li>
-                <li class="sidebar-item"><a class="sidebar-link" href="<?php echo URL;?>dashboard.php?action=salesman/list">View Salesman</a></li>
-                <li class="sidebar-item"><a class="sidebar-link" href="<?php echo URL;?>dashboard.php?action=salesman/searchsalesman">Search Salesman</a></li>
+                <li class="sidebar-item"><a class="sidebar-link" href="<?php echo URL;?>dashboard.php?action=masters/salesman/new">New Salesman</a></li>
+                <li class="sidebar-item"><a class="sidebar-link" href="<?php echo URL;?>dashboard.php?action=masters/salesman/list">View Salesman</a></li>
+                <li class="sidebar-item"><a class="sidebar-link" href="<?php echo URL;?>dashboard.php?action=masters/salesman/searchsalesman">Search Salesman</a></li>
             </ul>
         </li>
         <li class="sidebar-item">
@@ -33,9 +33,9 @@
                 <i class="align-middle" data-feather="layout"></i> <span class="align-middle">Employees</span>
             </a>
             <ul id="employees" class="sidebar-dropdown list-unstyled collapse " data-bs-parent="#sidebar">
-                <li class="sidebar-item"><a class="sidebar-link" href="<?php echo URL;?>dashboard.php?action=employees/new">New Employee</a></li>
-                <li class="sidebar-item"><a class="sidebar-link" href="<?php echo URL;?>dashboard.php?action=employees/list">View Employees</a></li>
-                <li class="sidebar-item"><a class="sidebar-link" href="<?php echo URL;?>dashboard.php?action=employees/searchemployees">Search Employees</a></li>
+                <li class="sidebar-item"><a class="sidebar-link" href="<?php echo URL;?>dashboard.php?action=masters/employees/new">New Employee</a></li>
+                <li class="sidebar-item"><a class="sidebar-link" href="<?php echo URL;?>dashboard.php?action=masters/employees/list">View Employees</a></li>
+                <li class="sidebar-item"><a class="sidebar-link" href="<?php echo URL;?>dashboard.php?action=masters/employees/searchemployees">Search Employees</a></li>
             </ul>
         </li>
             <li class="sidebar-item">
@@ -74,7 +74,7 @@
                 <li class="sidebar-item"><a class="sidebar-link" href="<?php echo URL;?>dashboard.php?action=masters/documenttypes/list">Document Types</a></li>
                 <li class="sidebar-item"><a class="sidebar-link" href="<?php echo URL;?>dashboard.php?action=masters/employeecategory/list">Employee Category</a></li>
                 <li class="sidebar-item"><a class="sidebar-link" href="<?php echo URL;?>dashboard.php?action=masters/file_extensions/list">File Extensions</a></li>
-                <li class="sidebar-item"><a class="sidebar-link" href="<?php echo URL;?>dashboard.php?action=masters/goldprice/list"> Gold price</a></li>
+                <li class="sidebar-item"><a class="sidebar-link" href="<?php echo URL;?>dashboard.php?action=masters/goldprice/list"> Gold & Silver price</a></li>
                 <li class="sidebar-item"><a class="sidebar-link" href="<?php echo URL;?>dashboard.php?action=masters/paymentbank/list">Payment Bank</a></li>
                 <li class="sidebar-item"><a class="sidebar-link" href="<?php echo URL;?>dashboard.php?action=masters/paymentmode/list">Payment Mode</a></li>
                 <li class="sidebar-item"><a class="sidebar-link" href="<?php echo URL;?>dashboard.php?action=masters/relationnames/list">Relation Names</a></li>

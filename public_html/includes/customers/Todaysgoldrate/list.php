@@ -2,11 +2,22 @@
  $data = $mysql->select("select * from _tbl_masters_goldrates where RateID='".$_GET['ID']."'");?>
 
  <div class="container-fluid p-0">
+    <div class="col-sm-12">
     <div class="row">
         <div class="col-6">
-            <h1 class="h3">Gold Price</h1>
+            <h1 class="h3">Gold Rate</h1>
         </div>
-    </div>
+       <div class="col-sm-6  mb-2" style="text-align:right;">
+            <?php 
+            $path=URL."dashboard.php";
+            if (isset($_GET['fpg'])) {
+                $path=URL."dashboard.php?action=".$_GET['fpg'];
+            }
+            ?>
+            <a href="<?php echo $path;?>" class="btn btn-outline-primary btn-sm">Back</a>&nbsp;&nbsp;
+     </div>
+     </div>
+     </div>
     <div class="row">
         <div class="col-sm-12">
             <div class="card">
@@ -21,7 +32,7 @@
                                         <span class="input-group-text" id="basic-addon1">To</span>
                                 </div>
                                 <input type="date" value="<?php echo date("Y-m-d");?>" name="ToDate" id="ToDate" class="form-control" placeholder="To Date">
-                                <button type="button" onclick="getData()" class="btn btn-primary">Get Data</button>
+                                <button type="button" onclick="getData()" class="btn btn-primary">Get Rate</button>
                             </div> 
                            <span id="Errmessage" class="error_msg"></span>
                     </div>
@@ -42,12 +53,12 @@
                                 <th style="width: 100px; text-align: right;">18kt</th>
                                 <th style="width: 100px; text-align: right;">22kt</th>
                                 <th style="width: 100px; text-align: right;">24kt</th>
-                                <th style="width:50px"></th>
+                                <th style="width: 100px; text-align: right;">Silver</th>
                             </tr>
                         </thead>
                         <tbody id="tbl_content">
                             <tr>
-                                <td colspan="5" style="text-align: center;background:#fff !important">Loading Goldprice ...</td>
+                                <td colspan="6" style="text-align: center;background:#fff !important">Loading Gold & silver price ...</td>
                             </tr>
                         </tbody>
                     </table>
@@ -71,26 +82,16 @@ function getData() {
             $.each(obj.data, function (index, data) {
                 html += '<tr>'
                             + '<td>' + data.Date + '</td>'
-                            + '<td>' + data.GOLD_18 + '</td>'
-                            + '<td>' + data.GOLD_22 + '</td>'
-                            + '<td>' + data.GOLD_24 + '</td>'
-                            + '<td style="text-align:right">' 
-                                + '<div class="dropdown position-relative">'
-                                        + '<a href="javascript:void(0)" data-bs-toggle="dropdown" data-bs-display="static">'
-                                            + '<img src="'+URL+'assets/icons/more.png">'
-                                        + '</a>'
-                                        + '<div class="dropdown-menu dropdown-menu-end">'
-                                                + '<a class="dropdown-item" onclick="view(\''+data.RateID+'\')">View</a>'
-                                                + '<a class="dropdown-item" onclick="edit(\''+data.RateID+'\')">Edit</a>'
-                                                + '<a class="dropdown-item" href="javascript:void(0)" onclick="confirmationtoDelete(\''+data.RateID+'\')">Delete</a>'
-                                        + '</div>'
-                                + '</div>'
-                            + '</td>'
+                            + '<td style="text-align:right">' + data.GOLD_18 + '</td>'
+                            + '<td style="text-align:right">' + data.GOLD_22 + '</td>'
+                            + '<td style="text-align:right">' + data.GOLD_24 + '</td>'
+                            + '<td style="text-align:right">' + data.SILVER + '</td>'
+
                             + '</tr>';
             });
              if (obj.data.length==0) {
          html += '<tr>'
-                    + '<td colspan="5" style="text-align: center;background:#fff !important">No Data Found</td>'
+                    + '<td colspan="6" style="text-align: center;background:#fff !important">No Data Found</td>'
                + '</tr>';
     }
             $('#tbl_content').html(html);

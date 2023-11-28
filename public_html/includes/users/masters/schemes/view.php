@@ -26,6 +26,20 @@
                                 <div style="font-weight: bold;">Short Description </div>
                                 <?php echo $data[0]['ShortDescription'];?>
                             </div>
+                            <div class="col-sm-12 mb-2">
+                                <div class="row" >
+                                    <div class="col-sm-6">
+                                        <div style="font-weight: bold;">Due Amount(₹) </div>
+                                         Min&nbsp;:&nbsp;<?php echo $data[0]['MinDueAmount'];?>&nbsp;
+                                         Max&nbsp;:&nbsp;<?php echo $data[0]['MaxDueAmount'];?>
+                                    </div>
+                            <div class="col-sm-6">
+                                <div style="font-weight: bold;">Duration(Months) </div>
+                                    Min&nbsp;:&nbsp;<?php echo $data[0]['MinDuration'];?>&nbsp;
+                                    Max&nbsp;:&nbsp;<?php echo $data[0]['MaxDuration'];?>
+                            </div>
+                            </div>
+                            </div>
                             <div class="col-sm-6 mb-2">
                                 <div style="font-weight: bold;" id="basic-addon3" style="width:200px">Making Charge Discount</div>
                                     <?php echo $data[0]['MakingChargeDiscount'];?> <span>%</span>
@@ -80,5 +94,12 @@
                 </form>
             </div>
             <div class="col-sm-12" style="text-align:right;">
-                <a href="<?php echo URL;?>dashboard.php?action=masters/schemes/list" class="btn btn-outline-primary">Back</a>&nbsp;&nbsp;
+                 <?php 
+                $path=URL."dashboard.php?action=";
+                if (isset($_GET['fpg'])) {
+                $path.=$_GET['fpg'];
+            }
+            $path.="&type=".$_GET['type'];
+            ?>
+            <a href="<?php echo $path;?>" class="btn btn-outline-primary">Back</a>&nbsp;&nbsp;
             </div>

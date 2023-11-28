@@ -34,7 +34,7 @@
                                          Max&nbsp;:&nbsp;<?php echo $data[0]['MaxDueAmount'];?>
                                     </div>
                             <div class="col-sm-6">
-                                <div style="font-weight: bold;">Duration(Months) </div>
+                                <div style="font-weight: bold;">Duration </div>
                                     Min&nbsp;:&nbsp;<?php echo $data[0]['MinDuration'];?>&nbsp;
                                     Max&nbsp;:&nbsp;<?php echo $data[0]['MaxDuration'];?>
                             </div>
@@ -94,5 +94,14 @@
                 </form>
             </div>
             <div class="col-sm-12" style="text-align:right;">
-                <a href="<?php echo URL;?>dashboard.php?action=masters/schemes/list" class="btn btn-outline-primary">Back</a>&nbsp;&nbsp;
+                 <?php   
+                 $path=URL."dashboard.php";
+                if (isset($_GET['fpg'])) {
+                $path.="?action=".$_GET['fpg'];
+            }        
+             if (isset($_GET['type'])) {
+                $path.="&type=".$_GET['type'];
+            }
+            ?>
+            <a href="<?php echo $path;?>" class="btn btn-outline-primary">Back</a>&nbsp;&nbsp;
             </div>

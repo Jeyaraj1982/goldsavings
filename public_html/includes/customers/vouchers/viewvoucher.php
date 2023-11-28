@@ -63,8 +63,15 @@
         <button type="button" onclick="print()" class="btn btn-primary">Print this Voucher</button>
         </div>
         <div class="col-sm-12" style="text-align: center;">
-        <a style="color: #999 !important;" href="<?php echo URL;?>dashboard.php?action=contracts/view&view=<?php echo $data[0]['ContractCode'];?>">Back</a>
-        </div>
+            <?php 
+            $path=URL."dashboard.php";
+            if (isset($_GET['fpg'])) {
+                $path=URL."dashboard.php?action=".$_GET['fpg'];
+            }
+            ?>
+            <a style="color: #999 !important;" href="<?php echo $path;?>">Back</a>
+     </div>
+       
     </div>
 
          

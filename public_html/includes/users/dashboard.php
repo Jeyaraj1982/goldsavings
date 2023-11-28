@@ -81,6 +81,14 @@
                                 </div>
                                     <input type="text" style="text-align: right;" value="" readonly="readonly"  name="Gold24" id="GOLD_24" class="form-control" placeholder="24kt">
                                 </div>
+                                </div>
+                            <div class="col-sm-4" style="text-align: right;">
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" style="width: 40px;" id="basic-addon1">Silver</span>
+                                </div>
+                                    <input type="text" style="text-align: right;" value="" readonly="readonly"  name="SILVER" id="SILVER" class="form-control" placeholder="Silver">
+                                </div>
                             </div>
                        </div>
                 <div class="d-flex align-items-start">
@@ -405,6 +413,7 @@
                     $('#GOLD_18').val(data.GOLD_18);
                     $('#GOLD_22').val(data.GOLD_22);
                     $('#GOLD_24').val(data.GOLD_24);
+                    $('#SILVER').val(data.SILVER);
              });   
               var additionalInfo =  obj.data.additionalInfo;
             $('#activeContracts').html(additionalInfo.activeContracts);
@@ -671,9 +680,18 @@ function listPaymentrequest(obj) {
                             } else if (data.RequestStatus=="REJECTED") {
                                 html += '<td> <span class="badge bg-danger">REJECTED</span> </td>';
                             }
-                            html+= '<td style="text-align:right"><a href="'+URL+'dashboard.php?action=contracts/viewrecentpayment&id='+data.PaymentRequestID+'"" class="btn btn-success btn-sm style=font-size:10px">View</a></td>'
-                            
+                            html += '<td style="text-align:right">' 
+                                + '<div class="dropdown position-relative">'
+                                        + '<a href="javascript:void(0)" data-bs-toggle="dropdown" data-bs-display="static">'
+                                            + '<img src="'+URL+'assets/icons/more.png">'
+                                        + '</a>'
+                                        + '<div class="dropdown-menu dropdown-menu-end">'
+                                                + '<a class="dropdown-item" href="'+URL+'dashboard.php?action=contracts/viewrecentpayment&id='+data.PaymentRequestID+'"">View</a>'
+                                        + '</div>'
+                                + '</div>'
+                            + '</td>'
                       + '</tr>';
+                           
             });
             if (obj=="") {
                  html += '<tr>'

@@ -30,6 +30,50 @@
                                 <input type="text" value="<?php echo $data[0]['ShortDescription'];?>" name="ShortDescription" id="ShortDescription" class="form-control" placeholder="Scheme Name">
                                 <span id="ErrShortDescription" class="error_msg"></span>
                             </div>
+                            <div class="col-sm-6 mb-3">
+                                <div class="row" >
+                                    <div class="col-sm-6 mb-1">
+                                        <label class="form-label">Due Amount <span style='color:red'>*</span></label>
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text" id="basic-addon1">Min(₹)</span>
+                                        </div>
+                                            <input type="text" style="text-align: right;" value="<?php echo $data[0]['MinDueAmount'];?>" name="MinDueAmount" id="MinDueAmount" class="form-control" placeholder="0.00">
+                                        </div>
+                                    </div>
+                            <div class="col-sm-6 mb-1">
+                            <label class="form-label"> &nbsp;</label>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text" id="basic-addon1">Max(₹)</span>
+                                    </div>
+                                        <input type="text" style="text-align: right;" value="<?php echo $data[0]['MaxDueAmount'];?>" name="MaxDueAmount" id="MaxDueAmount" class="form-control" placeholder="0.00">
+                                    </div>
+                                    </div>
+                                    <span id="ErrDueAmount" class="error_msg"></span>
+                                </div>
+                            </div>
+                            <div class="col-sm-6 mb-3">
+                                <div class="row" >
+                            <div class="col-sm-6 mb-1">
+                                <label class="form-label">Duration <span style='color:red'>*</span></label>
+                                <div class="input-group">
+                                   <span class="input-group-text" id="basic-addon1">Min</span>
+                                <input type="text" style="text-align: right;" value="<?php echo $data[0]['MinDuration'];?>" name="MinDuration" id="MinDuration" class="form-control" placeholder="0">
+                            </div>
+                            </div>
+                            <div class="col-sm-6 mb-1">
+                                <label class="form-label"> &nbsp;</label>
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text" id="basic-addon1">Max</span>
+                                        </div>
+                                            <input type="text" style="text-align: right;" value="<?php echo $data[0]['MaxDuration'];?>" name="MaxDuration" id="MaxDuration" class="form-control" placeholder="0">
+                                        </div>
+                                    </div>
+                                    <span id="ErrDuration" class="error_msg"></span>
+                                </div>
+                            </div>
                         <div class="col-sm-6 mb-3">
                             <div class="input-group">
                              <span class="input-group-text" id="basic-addon3" style="width:200px">Wastage Discount <span style='color:red'>*</span></span>
@@ -106,7 +150,14 @@
                 </form>
             </div>
             <div class="col-sm-12" style="text-align:right;">
-                <a href="<?php echo URL;?>dashboard.php?action=masters/schemes/list" class="btn btn-outline-primary">Back</a>&nbsp;&nbsp;
+                <?php 
+                $path=URL."dashboard.php?action=";
+                if (isset($_GET['fpg'])) {
+                $path.=$_GET['fpg'];
+            }
+            $path.="&type=".$_GET['type'];
+            ?>
+            <a href="<?php echo $path;?>" class="btn btn-outline-primary">Back</a>&nbsp;&nbsp;
                     <button onclick="confirmationtoUpdate()" type="button" class="btn btn-primary">Update Scheme</button>    
             </div>
 
@@ -179,4 +230,108 @@ function doUpdate() {
     });
     */
 }
+
+document.addEventListener('DOMContentLoaded', function () {
+    const ele = document.getElementById('MaxDueAmount');
+    const state = {
+        value: ele.value,
+    };
+
+    ele.addEventListener('keydown', function (e) {
+        const target = e.target;
+        state.selectionStart = target.selectionStart;
+        state.selectionEnd = target.selectionEnd;
+    });
+
+    ele.addEventListener('input', function (e) {
+        const target = e.target;
+
+        if (/^[0-9\s]*$/.test(target.value)) {
+            state.value = target.value;
+        } else {
+            // Users enter the not supported characters
+            // Restore the value and selection
+            target.value = state.value;
+            target.setSelectionRange(state.selectionStart, state.selectionEnd);
+        }
+    });
+});
+
+document.addEventListener('DOMContentLoaded', function () {
+    const ele = document.getElementById('MinDueAmount');
+    const state = {
+        value: ele.value,
+    };
+
+    ele.addEventListener('keydown', function (e) {
+        const target = e.target;
+        state.selectionStart = target.selectionStart;
+        state.selectionEnd = target.selectionEnd;
+    });
+
+    ele.addEventListener('input', function (e) {
+        const target = e.target;
+
+        if (/^[0-9\s]*$/.test(target.value)) {
+            state.value = target.value;
+        } else {
+            // Users enter the not supported characters
+            // Restore the value and selection
+            target.value = state.value;
+            target.setSelectionRange(state.selectionStart, state.selectionEnd);
+        }
+    });
+});
+
+document.addEventListener('DOMContentLoaded', function () {
+    const ele = document.getElementById('MaxDuration');
+    const state = {
+        value: ele.value,
+    };
+
+    ele.addEventListener('keydown', function (e) {
+        const target = e.target;
+        state.selectionStart = target.selectionStart;
+        state.selectionEnd = target.selectionEnd;
+    });
+
+    ele.addEventListener('input', function (e) {
+        const target = e.target;
+
+        if (/^[0-9\s]*$/.test(target.value)) {
+            state.value = target.value;
+        } else {
+            // Users enter the not supported characters
+            // Restore the value and selection
+            target.value = state.value;
+            target.setSelectionRange(state.selectionStart, state.selectionEnd);
+        }
+    });
+});
+
+document.addEventListener('DOMContentLoaded', function () {
+    const ele = document.getElementById('MinDuration');
+    const state = {
+        value: ele.value,
+    };
+
+    ele.addEventListener('keydown', function (e) {
+        const target = e.target;
+        state.selectionStart = target.selectionStart;
+        state.selectionEnd = target.selectionEnd;
+    });
+
+    ele.addEventListener('input', function (e) {
+        const target = e.target;
+
+        if (/^[0-9\s]*$/.test(target.value)) {
+            state.value = target.value;
+        } else {
+            // Users enter the not supported characters
+            // Restore the value and selection
+            target.value = state.value;
+            target.setSelectionRange(state.selectionStart, state.selectionEnd);
+        }
+    });
+});
 </script> 

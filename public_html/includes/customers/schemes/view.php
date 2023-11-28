@@ -2,8 +2,23 @@
     $data = $mysql->select("select * from _tbl_masters_schemes where SchemeID='".$_GET['edit']."'");
 ?>
 <div class="container-fluid p-0">
-   <h1 class="h3 mb-0">Schemes</h1>
-     <h6 class="card-subtitle text-muted mb-3">Scheme information</h6>
+<div class="col-sm-12">
+   <div class="row">
+        <div class="col-6">
+            <h1 class="h3">Schemes</h1>
+        </div>
+       <div class="col-6" style="text-align:right;">
+            <?php 
+            $path=URL."dashboard.php";
+            if (isset($_GET['fpg'])) {
+                $path=URL."dashboard.php?action=".$_GET['fpg'];
+            }
+            ?>
+            <a href="<?php echo $path;?>" class="btn btn-outline-primary btn-sm">Back</a>&nbsp;&nbsp;
+     </div>
+     </div>
+</div>
+     
     <form id="frm_edit" name="frm_edit" method="post" enctype="multipart/form-data">
      <input type="hidden" value="<?php echo $data[0]['SchemeID'];?>" name="SchemeID">
         <div class="row">
@@ -14,6 +29,9 @@
                             <div class="col-sm-6 mb-2">
                                 <div style="font-weight: bold;">Scheme ID </div>
                                 <?php echo $data[0]['SchemeCode'];?>
+                            </div>
+                            <div class="col-6 mb-2" style="text-align: right;">
+                               <a href="<?php echo URL;?>dashboard.php?action=contracts/new&scheme=<?php echo $data[0]["SchemeCode"];?>&fpg=schemes/view&edit=<?php echo $data[0]["SchemeID"];?>">Join Now</a>
                             </div>
                             <div class="col-sm-12 mb-2">
                                 <div style="font-weight: bold;">Scheme Name </div>
@@ -72,6 +90,3 @@
         </div> 
      </form>
     </div>
-<div class="col-sm-12" style="text-align:right;">
-    <a href="<?php echo URL;?>dashboard.php?action=schemes/activescheme" class="btn btn-outline-primary">Back</a>&nbsp;&nbsp;
-</div>

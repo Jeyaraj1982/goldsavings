@@ -12,7 +12,7 @@
                         <div class="row">
                             <div class="col-sm-6 mb-3">
                                 <label class="form-label">Scheme ID</label>
-                                <input type="text" value="<?php echo $data[0]['SchemeCode'];?>" disabled="disabled" name="SchemeCode" id="SchemeCode" class="form-control" placeholder="Scheme Code">
+                                <input type="text" value="<?php echo $data[0]['SchemeCode'];?>" disabled="disabled" name="SchemeCode" id="SchemeCode" class="form-control" placeholder="Scheme ID">
                                 <span id="ErrCode" class="error_msg"></span>
                             </div>
                             <div class="col-sm-6 mb-3">
@@ -21,19 +21,55 @@
                                 <span id="ErrEntryDate" class="error_msg"></span>
                             </div>
                             <div class="col-sm-12 mb-2">
-                                <label class="form-label">Scheme Name <span style='color:red'>*</span></label>
+                                <label class="form-label">Scheme Name <span style='color:red'>*</span>
+                                <img src="<?php echo URL;?>assets/question.png" style="width: 12px;" class="dropdown"  id="dropdownMenuButton1" data-bs-toggle="dropdown">
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton1" style="padding:0px;">
+                                    <div class="myheader">Scheme Name</div>
+                                    <div class="mycontainer">
+                                        1. Allow only alphabets and space<br>
+                                        2. Minimum 3 characters require<br>
+                                        3. Maximum 50 characters require<br>
+                                        4. Not allow cut,copy,paste
+                                        
+                                    </div>
+                                </div>
+                                </label>
                                 <input type="text" value="<?php echo $data[0]['SchemeName'];?>" name="SchemeName" id="SchemeName" class="form-control" placeholder="Scheme Name">
                                 <span id="ErrSchemeName" class="error_msg"></span>
                             </div>
                             <div class="col-sm-12 mb-4">
-                                <label class="form-label">Short Description <span style='color:red'>*</span></label>
-                                <input type="text" value="<?php echo $data[0]['ShortDescription'];?>" name="ShortDescription" id="ShortDescription" class="form-control" placeholder="Scheme Name">
+                                <label class="form-label">Short Description <span style='color:red'>*</span>
+                                <img src="<?php echo URL;?>assets/question.png" style="width: 12px;" class="dropdown"  id="dropdownMenuButton1" data-bs-toggle="dropdown">
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton1" style="padding:0px;">
+                                    <div class="myheader">Short Description</div>
+                                    <div class="mycontainer">
+                                        1. Allow all characters, not allow <span style='color:red'>\'!~$"</span><br>
+                                        2. Maximum 250 characters require<br>
+                                        3. Not allow cut,copy,paste
+                                    </div>
+                                </div>
+                                </label>
+                                <input type="text" value="<?php echo $data[0]['ShortDescription'];?>" name="ShortDescription" id="ShortDescription" maxlength="250" class="form-control" placeholder="Short Description">
                                 <span id="ErrShortDescription" class="error_msg"></span>
                             </div>
                             <div class="col-sm-6 mb-3">
                                 <div class="row" >
+                                    <div class="col-sm-12 mb-1">
+                                    <label class="form-label">Due Amount <span style='color:red'>*</span>
+                                        <img src="<?php echo URL;?>assets/question.png" style="width: 12px;" class="dropdown"  id="dropdownMenuButton1" data-bs-toggle="dropdown">
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton1" style="padding:0px;">
+                                    <div class="myheader">Due Amount</div>
+                                    <div class="mycontainer">
+                                        1. Allow only numbers<br>
+                                        2. Minimum 3 digits require<br>
+                                        2. Maximum 6 digits require<br>
+                                        3. Not allow cut,copy,paste
+                                    </div>
+                                </div>
+                                        </label>
+                                    </div>
                                     <div class="col-sm-6 mb-1">
-                                        <label class="form-label">Due Amount <span style='color:red'>*</span></label>
+                                        
                                     <div class="input-group">
                                         <div class="input-group-prepend">
                                             <span class="input-group-text" id="basic-addon1">Min(₹)</span>
@@ -42,7 +78,6 @@
                                         </div>
                                     </div>
                             <div class="col-sm-6 mb-1">
-                            <label class="form-label"> &nbsp;</label>
                                 <div class="input-group">
                                     <div class="input-group-prepend">
                                         <span class="input-group-text" id="basic-addon1">Max(₹)</span>
@@ -55,15 +90,27 @@
                             </div>
                             <div class="col-sm-6 mb-3">
                                 <div class="row" >
+                            <div class="col-sm-12 mb-1">
+                             <label class="form-label">Duration<span style='color:red'>*</span>
+                                <img src="<?php echo URL;?>assets/question.png" style="width: 12px;" class="dropdown"  id="dropdownMenuButton1" data-bs-toggle="dropdown">
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton1" style="padding:0px;">
+                                    <div class="myheader">Duration</div>
+                                    <div class="mycontainer">
+                                        1. Allow only numbers<br>
+                                        2. Minimum 1 digits require<br>
+                                        3. Maximum 3 digits require<br>
+                                        4. Not allow cut,copy,paste
+                                    </div>
+                                </div>
+                                </label>
+                            </div>
                             <div class="col-sm-6 mb-1">
-                                <label class="form-label">Duration <span style='color:red'>*</span></label>
                                 <div class="input-group">
                                    <span class="input-group-text" id="basic-addon1">Min</span>
                                 <input type="text" style="text-align: right;" value="<?php echo $data[0]['MinDuration'];?>" name="MinDuration" id="MinDuration" class="form-control" placeholder="0">
                             </div>
                             </div>
                             <div class="col-sm-6 mb-1">
-                                <label class="form-label"> &nbsp;</label>
                                     <div class="input-group">
                                         <div class="input-group-prepend">
                                             <span class="input-group-text" id="basic-addon1">Max</span>
@@ -76,26 +123,16 @@
                             </div>
                         <div class="col-sm-6 mb-3">
                             <div class="input-group">
-                             <span class="input-group-text" id="basic-addon3" style="width:200px">Wastage Discount <span style='color:red'>*</span></span>
-                                <select data-live-search="true" data-size="12" style="text-align: right;" name="WastageDiscount" id="WastageDiscount" class="form-select mselect" >
-                                    <option value="0">0</option>
-                                    <?php for($i=1;$i<=100;$i++){?>
-                                    <option value="<?php echo $i;?>" <?php echo ($data[0]['WastageDiscount']==$i) ? " selected='selected' " : "";?>><?php echo $i;?></option>
-                                    <?php } ?>
-                                </select>
+                             <span class="input-group-text" id="basic-addon3" style="width:200px">Wastage Discount </span>
+                                <input type="text" style="text-align: right;" name="WastageDiscount" id="WastageDiscount" class="form-control" placeholder="0.00" maxlength="">
                                 <span class="input-group-text" id="basic-addon3">%</span>
                              </div>
                                 <span id="ErrWastageDiscount" class="error_msg"></span>
                              </div>
                         <div class="col-sm-6 mb-3">
                             <div class="input-group">
-                             <span class="input-group-text" id="basic-addon3" style="width:200px">Making Charge Discount <span style='color:red'>*</span></span>
-                                <select data-live-search="true" data-size="12" style="text-align: right;" name="MakingChargeDiscount" id="MakingChargeDiscount" class="form-select mselect" >
-                                    <option value="0">0</option>
-                                    <?php for($i=1;$i<=100;$i++){?>
-                                    <option value="<?php echo $i;?>" <?php echo ($data[0]['MakingChargeDiscount']==$i) ? " selected='selected' " : "";?>><?php echo $i;?></option>
-                                    <?php } ?>
-                                </select>
+                             <span class="input-group-text" id="basic-addon3" style="width:200px">Making Charge Discount </span>
+                                <input type="text" style="text-align: right;" name="MakingChargeDiscount" id="MakingChargeDiscount" class="form-control" placeholder="0.00" maxlength="">
                                 <span class="input-group-text" id="basic-addon3">%</span>
                                 </div>
                                 <span id="ErrMakingChargeDiscount" class="error_msg"></span>
@@ -115,8 +152,18 @@
                     <div class="card-body">
                         <div class="row">
                               <div class="col-sm-12">
-                                <label class="form-label">Benefits <span style='color:red'>*</span></label>
-                                <textarea id="Benefits" name="Benefits" class="form-control" rows="4" cols="50"><?php echo $data[0]['Benefits'];?></textarea>
+                                <label class="form-label">Benefits <span style='color:red'>*</span>
+                                <img src="<?php echo URL;?>assets/question.png" style="width: 12px;" class="dropdown"  id="dropdownMenuButton1" data-bs-toggle="dropdown">
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton1" style="padding:0px;">
+                                    <div class="myheader">Benefits</div>
+                                    <div class="mycontainer">
+                                        1. Allow all characters, not allow <span style='color:red'>\'!~$"</span><br>
+                                        2. Maximum 250 characters require<br>
+                                        3. Not allow cut,copy,paste
+                                    </div>
+                                </div>
+                                </label>
+                                <textarea id="Benefits" name="Benefits" class="form-control" maxlength="250" rows="4" cols="50"><?php echo $data[0]['Benefits'];?></textarea>
                                 <span id="ErrBenefits" class="error_msg"></span>
                             </div>
                         </div>
@@ -126,8 +173,18 @@
                     <div class="card-body">
                         <div class="row">      
                             <div class="col-sm-12">
-                                <label class="form-label">Terms and Condition <span style='color:red'>*</span></label>
-                                <textarea id="TermsOfConditions" name="TermsOfConditions" class="form-control" rows="4" cols="50"><?php echo $data[0]['TermsOfConditions'];?></textarea>
+                                <label class="form-label">Terms and Condition <span style='color:red'>*</span>
+                                <img src="<?php echo URL;?>assets/question.png" style="width: 12px;" class="dropdown"  id="dropdownMenuButton1" data-bs-toggle="dropdown">
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton1" style="padding:0px;">
+                                    <div class="myheader">Terms and Condition</div>
+                                    <div class="mycontainer">
+                                        1. Allow all characters, not allow <span style='color:red'>\'!~$"</span><br>
+                                        2. Maximum 250 characters require<br>
+                                        3. Not allow cut,copy,paste
+                                    </div>
+                                </div>
+                                </label>
+                                <textarea id="TermsOfConditions" name="TermsOfConditions" maxlength="250" class="form-control" rows="4" cols="50"><?php echo $data[0]['TermsOfConditions'];?></textarea>
                                 <span id="ErrTermsOfConditions" class="error_msg"></span>
                             </div>
                         </div>
@@ -137,8 +194,18 @@
                     <div class="card-body">
                         <div class="row">      
                             <div class="col-sm-12">
-                                <label class="form-label">Remarks</label>
-                                <input type="text" value="<?php echo $data[0]['Remarks'];?>" name="Remarks" id="Remarks" class="form-control" placeholder="Remarks">
+                                <label class="form-label">Remarks
+                                <img src="<?php echo URL;?>assets/question.png" style="width: 12px;" class="dropdown"  id="dropdownMenuButton1" data-bs-toggle="dropdown">
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton1" style="padding:0px;">
+                                    <div class="myheader">Remarks</div>
+                                    <div class="mycontainer">
+                                        1. Allow all characters, not allow <span style='color:red'>\'!~$"</span><br>
+                                        2. Maximum 250 characters require<br>
+                                        3. Not allow cut,copy,paste
+                                    </div>
+                                </div>
+                                </label>
+                                <input type="text" value="<?php echo $data[0]['Remarks'];?>" name="Remarks" id="Remarks" class="form-control" placeholder="Remarks" maxlength="250">
                                 <span id="ErrRemarks" class="error_msg"></span>
                             </div>
                         </div>
@@ -150,7 +217,16 @@
                 </form>
             </div>
             <div class="col-sm-12" style="text-align:right;">
-                <a href="<?php echo URL;?>dashboard.php?action=masters/schemes/list" class="btn btn-outline-primary">Back</a>&nbsp;&nbsp;
+                <?php 
+                $path=URL."dashboard.php?action=";
+                if (isset($_GET['fpg'])) {
+                $path.=$_GET['fpg'];
+                }
+            if (isset($_GET['type'])) {
+                $path.="&type=".$_GET['type'];
+            }
+            ?>
+            <a href="<?php echo   $path;?>" class="btn btn-outline-primary">Back</a>&nbsp;&nbsp;
                     <button onclick="confirmationtoUpdate()" type="button" class="btn btn-primary">Update Scheme</button>    
             </div>
 
@@ -327,4 +403,6 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 });
+setTimeout(function(){
+},2000);
 </script> 

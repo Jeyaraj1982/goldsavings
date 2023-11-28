@@ -6,6 +6,7 @@
         </div>
         <div class="col-6" style="text-align:right;">
             <a href="<?php echo URL;?>dashboard.php?action=employees/new" class="btn btn-primary btn-sm">New Employee</a>
+            <a href="<?php echo URL;?>dashboard.php?action=employees/customized_employeelist" class="btn btn-warning btn-sm">Customize Columns </a>
         </div>
      </div>
      <div class="row">
@@ -15,11 +16,11 @@
                     <table id="datatables-fixed-header" class="table table-striped" style="width:100%">
                         <thead>
                             <tr>
-                                <th style="width:100px">Emp.Code</th>
+                                <th style="width:100px">Code</th>
                                 <th>Employee Name</th>
                                 <th style="width: 100px;">Category</th>
-                                <th style="width:50px">Status</th>
-                                <th style="width:70px"></th>
+                                <th style="width:70px">Status</th>
+                                <th style="width:50px"></th>
                             </tr>
                         </thead>
                         <tbody id="tbl_content">
@@ -65,7 +66,7 @@ function d() {
                             + '<td>' + data.EmployeeName + '</td>'
                             + '<td>' + data.EmployeeCategoryTitle + '</td>'
                             + '<td>' + ( (data.IsActive=="1") ? "<span class='badge bg-success'>Active</span>" : "<span class='badge bg-secondary'>Disabled</span>" ) + '</td>'
-                            + '<td style="text-align:right">' 
+                             + '<td style="text-align:right">' 
                                 + '<div class="dropdown position-relative">'
                                         + '<a href="javascript:void(0)" data-bs-toggle="dropdown" data-bs-display="static">'
                                             + '<img src="'+URL+'assets/icons/more.png">'
@@ -77,11 +78,11 @@ function d() {
                                         + '</div>'
                                 + '</div>'
                             + '</td>'                                                                                                    
-                     
-           });
+                      + '</tr>';
+            });
             if (obj.data.length==0) {
                  html += '<tr>'
-                            + '<td colspan="5" style="text-align: center;background:#fff !important">No Data Found</td>'
+                            + '<td colspan="6" style="text-align: center;background:#fff !important">No Data Found</td>'
                        + '</tr>';
             }   
             $('#tbl_content').html(html);
@@ -110,7 +111,7 @@ function Remove(ID) {
         var obj = JSON.parse(data);
         if (obj.status=="success") {
             html = "";
-            $('#popupcontent').html(success_content(obj.message));
+            $('#popupcontent').html(success_content(obj.message,'closePopup=d()'));
             $.each(obj.data, function (index, data) {
                 html += '<tr>'
                             + '<td>' + data.EmployeeCode + '</td>'
@@ -129,11 +130,11 @@ function Remove(ID) {
                                         + '</div>'
                                 + '</div>'
                             + '</td>'                                                                                                    
-                     
-           });
+                      + '</tr>';
+            });
             if (obj.data.length==0) {
                  html += '<tr>'
-                            + '<td colspan="5" style="text-align: center;background:#fff !important">No Data Found</td>'
+                            + '<td colspan="6" style="text-align: center;background:#fff !important">No Data Found</td>'
                        + '</tr>';
             }   
             $('#tbl_content').html(html);

@@ -56,7 +56,15 @@
  </div>
 </div>
 <div class="col-sm-12" style="text-align:right;">
-                <a href="<?php echo URL;?>dashboard.php?action=contracts/list_paymentrequests" style="font-size: 10px" class="btn btn-outline-primary">Back</a>&nbsp;&nbsp;
+            <?php 
+            $path=URL."dashboard.php";
+            if (isset($_GET['fpg'])) {
+                $path.="?action=".$_GET['fpg'];
+            }
+            //&view=ID000124
+           
+            ?>
+            <a href="<?php echo $path;?>" class="btn btn-outline-primary" style="font-size: 10px">Back</a>&nbsp;&nbsp;
                 <button type="button" id="btnReject" onclick="rejectconfirmation()" style="font-size: 10px;display: none" class="btn btn-danger">Reject</button>&nbsp;&nbsp;
                 <button type="button" id="btnApprove" onclick="approvedconfirmation()" style="font-size: 10px;display: none" class="btn btn-primary">Approve</button>
             </div>
@@ -109,13 +117,17 @@ function getData(){
             $('#RequestUpdated').html(data.RequestUpdated);
             $('#PaymentDate').html(data.PaymentDate);
             $('#CustomerInformation').html(data.CustomerName + '<br>' + data.CustomerCode);
-            $('#ContractInformation').html(data.ContactCode + '<br> Due Number:&nbsp;' + data.DueID + '<br> Due Amount:&nbsp;' + data.DueAmount);
+            $('#ContractInformation').html(data.ContractCode + '<br> Due Number:&nbsp;' + data.DueID + '<br> Due Amount:&nbsp;<span>₹</span>&nbsp;' + data.DueAmount);
             $('#ModeOfBenifits').html(data.ModeOfBenifits);
             $('#PaymentBank').html(data.PaymentBank);
             $('#DueAmount').html(data.DueAmount);
             $('#RequestedOn').html(data.RequestedOn);
             $('#BankReferenceNumber').html(data.BankReferenceNumber);
-            $('#PaymentRemarks').html(data.PaymentRemarks);
+            if (data.PaymentRemarks=="") {
+                $('#PaymentRemarks').html('N/A');
+            }  if (data.PaymentRemarks>0) {
+                $('#PaymentRemarks').html(data.PaymentRemarks);
+            } 
             $('#viewAdminRemarks').html(data.AdminRemarks);
              $('#BankInformation').html(data.PaymentBankAccountHolderName + '<br>'+data.PaymentBankName  + '<br>' +data.PaymentBankNumber + '<br>' +data.PaymentBankIFSCode);
              

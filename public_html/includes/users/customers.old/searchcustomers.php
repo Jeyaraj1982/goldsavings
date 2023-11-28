@@ -17,7 +17,60 @@
                     </div>
                 </div>
             </div>
-        </div>                
+            <div class="col-3 col-xl-3">
+                <div class="card"  style="display: none;">
+                    <div class="card-body" style="padding:10px 20px">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                 
+                                <div class="row">
+                                <div class="col-sm-12">
+                                       <hr>
+                                    </div>
+                                    <div class="col-sm-12">
+                                        <label class="form-label">Recurring mode</label>
+                                    </div>
+                                    <div class="col-sm-12" style="margin-bottom:5px"><input type="radio"> One Time</div>
+                                    <div class="col-sm-12" style="margin-bottom:5px"><input type="radio"> Monthly</div>
+                                    <div class="col-sm-12" style="margin-bottom:5px"><input type="radio"> Yearly</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--
+            <div class="col-9 col-xl-9">
+                <div class="card">
+                    <div class="card-body" style="padding-bottom:0px">
+                        <div class="row">
+                            <div class="col-sm-12 mb-3">
+                                <label class="form-label">Reffered By</label>
+                                <input type="text" name="RefferedBy" id="RefferedBy" class="form-control" placeholder="Reffered By">
+                                <span id="ErrRefferedBy" class="error_msg"></span>
+                            </div>
+                             
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-3 col-xl-3">
+                <div class="card">
+                    <div class="card-body" style="padding:10px 20px;padding-top: 12px;padding-bottom: 6px;">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="row">
+                                    <div class="col-sm-12" style="margin-bottom:5px"><input type="radio"> Customer</div>
+                                    <div class="col-sm-12" style="margin-bottom:5px"><input type="radio"> Employee</div>
+                                    <div class="col-sm-12" style="margin-bottom:5px"><input type="radio"> Third Party</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            -->
+            </div>                
     </form>
 </div>
 
@@ -164,7 +217,7 @@ function autocomplete(inp, arr) {
                                     + '</div>'
                                     + '<div class="col-sm-12" style="text-align:right;">'
                                         + '<!--<a href="'+URL +'dashboard.php?action=customers/view&edit='+item.value+'" class="btn btn-outline-primary btn-sm" target="_blank">View Details</a>-->'
-                                       + '<a href="'+URL +'dashboard.php?action=customers/view&customer='+item.value+'" class="btn btn-outline-primary btn-sm">View Details</a>'
+                                        + '<a href="'+URL+'dashboard.php?action=customers/view&customer='+item.CustomerID+'" class="btn btn-outline-primary btn-sm">View Details</a>'
                                     + '</div>';
              $('#CustomerResult').html(txtHtml) ;
              $('#customersince').html(daysdifference(0,item.CreatedOn));

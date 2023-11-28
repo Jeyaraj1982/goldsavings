@@ -6,6 +6,7 @@
         </div>
         <div class="col-6" style="text-align:right;">
             <a href="<?php echo URL;?>dashboard.php?action=salesman/new" class="btn btn-primary btn-sm">New Salesman</a>
+            <a href="<?php echo URL;?>dashboard.php?action=salesman/customized_salesmanlist" class="btn btn-warning btn-sm">Customize Columns</a>
         </div>
      </div>
      <div class="row">
@@ -17,14 +18,14 @@
                             <tr>
                                 <th style="width:100px">Code</th>
                                 <th>Salesman Name</th>
-                                <th style="width: 100px;">Mobile Number</th>
+                                <th style="width:100px">Mobile Number</th>
                                 <th style="width:70px">Status</th>
                                 <th style="width:50px"></th>
                             </tr>
                         </thead>
                         <tbody id="tbl_content">
                             <tr>
-                                <td colspan="6" style="text-align: center;background:#fff !important">Loading Salesman ...</td>
+                                <td colspan="6" style="text-align: center;background:#fff !important">loading salesman...</td>
                             </tr>
                         </tbody>
                     </table>
@@ -66,7 +67,7 @@ function d() {
                             + '<td>' + data.MobileNumber + '</td>'
                             + '<td>' + ( (data.IsActive=="1") ? "<span class='badge bg-success'>Active</span>" : "<span class='badge bg-secondary'>Disabled</span>" ) + '</td>'
                             + '<td style="text-align:right">' 
-                            + '<div class="dropdown position-relative">'
+                                + '<div class="dropdown position-relative">'
                                         + '<a href="javascript:void(0)" data-bs-toggle="dropdown" data-bs-display="static">'
                                             + '<img src="'+URL+'assets/icons/more.png">'
                                         + '</a>'
@@ -78,11 +79,10 @@ function d() {
                                 + '</div>'
                             + '</td>'                                                                                                    
                       + '</tr>';
-                           
-          });
+             });
             if (obj.data.length==0) {
                  html += '<tr>'
-                            + '<td colspan="6" style="text-align: center;background:#fff !important">No Data Found</td>'
+                            + '<td colspan="5" style="text-align: center;background:#fff !important">No Data Found</td>'
                        + '</tr>';
             }   
             $('#tbl_content').html(html);
@@ -117,25 +117,25 @@ function Remove(ID) {
                              + '<td>' + data.SalesmanCode + '</td>'
                             + '<td>' + data.SalesmanName + '</td>'
                             + '<td>' + data.MobileNumber + '</td>'
+                            + '<td>' + data.Remarks + '</td>'
                             + '<td>' + ( (data.IsActive=="1") ? "<span class='badge bg-success'>Active</span>" : "<span class='badge bg-secondary'>Disabled</span>" ) + '</td>'
-                            + '<td style="text-align:right">' 
-                           + '<div class="dropdown position-relative">'
+                          + '<td style="text-align:right">' 
+                                + '<div class="dropdown position-relative">'
                                         + '<a href="javascript:void(0)" data-bs-toggle="dropdown" data-bs-display="static">'
                                             + '<img src="'+URL+'assets/icons/more.png">'
                                         + '</a>'
                                         + '<div class="dropdown-menu dropdown-menu-end">'
                                                 + '<a class="dropdown-item" href="'+URL+'dashboard.php?action=salesman/view&salesman='+data.SalesmanID+'">View</a>'
-                                                + '<a class="dropdown-item" href="'+URL+'dashboard.php?action=salesman/edit&salesman='+data.SalesmanID+'">Edit</a>'
+                                                + '<a class="dropdown-item" href="'+URL+'dashboard.php?action==salesman/edit&salesman='+data.SalesmanID+'">Edit</a>'
                                                 + '<a class="dropdown-item" href="javascript:void(0)" onclick="confirmationtoDelete(\''+data.SalesmanID+'\')">Delete</a>'
                                         + '</div>'
                                 + '</div>'
                             + '</td>'                                                                                                    
                       + '</tr>';
-                           
-          });
+            });
             if (obj.data.length==0) {
                  html += '<tr>'
-                            + '<td colspan="6" style="text-align: center;background:#fff !important">No Data Found</td>'
+                            + '<td colspan="5" style="text-align: center;background:#fff !important">No Data Found</td>'
                        + '</tr>';
             }   
             $('#tbl_content').html(html);

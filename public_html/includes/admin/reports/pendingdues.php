@@ -7,7 +7,7 @@
         </div>
         
         <div class="col-6" style="text-align: right;">
-            <a href="<?php echo URL;?>dashboard.php?action=reports/all_pendingdues">All</a>&nbsp;|&nbsp;       
+            <a href="<?php echo URL;?>dashboard.php?action=reports/pendingdues">All</a>&nbsp;|&nbsp;       
             <a href="<?php echo URL;?>dashboard.php?action=reports/customerwise_pendingdues">Customer Wise</a>&nbsp;|&nbsp;        
             <a href="<?php echo URL;?>dashboard.php?action=reports/salesmanwise_pendingdues">Salesman Wise</a>        
             </div>

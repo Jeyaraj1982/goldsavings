@@ -17,6 +17,7 @@
         <li class="list-group-item"><a href="<?php echo URL;?>dashboard.php?action=profile/profile">Profile Info</a></li>
         <li class="list-group-item"><a href="<?php echo URL;?>dashboard.php?action=profile/nominee">Nominee</a></li>
         <li class="list-group-item"><a href="<?php echo URL;?>dashboard.php?action=profile/changepassword">Change Password</a></li>
+        <li class="list-group-item"><a href="<?php echo URL;?>dashboard.php?action=profile/branchinfo">Branch Info</a></li>
         <li class="list-group-item"><a href="<?php echo URL;?>dashboard.php?action=profile/profile_mydownlines">Referral</a></li>
         <li class="list-group-item"><a href="<?php echo URL;?>dashboard.php?action=profile/activity">Activity</a></li> 
     </ul>

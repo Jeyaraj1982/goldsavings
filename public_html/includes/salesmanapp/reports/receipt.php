@@ -4,6 +4,16 @@
         <div class="col-6">
             <h1 class="h3">Receipt</h1>
         </div>
+        <div class="col-6 mb-1" style="text-align: right;">
+            <?php 
+            $path=URL."dashboard.php";
+            if (isset($_GET['fpg'])) {
+                $path=URL."dashboard.php?action=".$_GET['fpg'];
+            }
+            ?>
+            <a href="<?php echo $path;?>" class="btn btn-outline-primary btn-sm">Back</a>
+            <a href="<?php echo URL;?>dashboard.php?action=reports/customized_receiptlist" class="btn btn-warning btn-sm">Customized</a>
+     </div>
     </div>
     <div class="row">
         <div class="col-sm-12">
@@ -14,11 +24,11 @@
                     <div class="col-12">
                                 <label class="form-label">Date Range <span style='color:red'>*</span></label>
                                 <div class="input-group">
-                                    <input type="date" name="FromDate" value="<?php echo date("Y-m-d");?>" id="FromDate" class="form-control" placeholder="From Date">
+                                    <input type="text" readonly="readonly" name="FromDate" value="<?php echo date("d-m-Y");?>" id="FromDate" class="form-control" placeholder="From Date">
                                     <div class="input-group-prepend">
                                         <span class="input-group-text" id="basic-addon1">To</span>
                                 </div>
-                                <input type="date" value="<?php echo date("Y-m-d");?>" name="ToDate" id="ToDate" class="form-control" placeholder="To Date">
+                                <input type="text" readonly="readonly" value="<?php echo date("d-m-Y");?>" name="ToDate" id="ToDate" class="form-control" placeholder="To Date">
                                 <button type="button" onclick="getData()" class="btn btn-primary">Get Data</button>
                             </div> 
                            <span id="Errmessage" class="error_msg"></span>
@@ -39,7 +49,7 @@ function getData() {
     var param = $('#frm_receipt').serialize();
     openPopup();
     clearDiv(['message']);
-    $.post(URL+ "webservice.php?action=getReceipts",param,function(data){
+    $.post(URL+ "webservice.php?action=listAll&method=Receipts",param,function(data){
         closePopup();
         var obj = JSON.parse(data);
         if (obj.status=="success") {

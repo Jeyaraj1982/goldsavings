@@ -25,7 +25,7 @@
                         </thead>
                         <tbody id="tbl_content">
                             <tr>
-                                <td colspan="5" style="text-align: center;background:#fff !important">loading contacts...</td>
+                                <td colspan="6" style="text-align: center;background:#fff !important">loading contacts...</td>
                             </tr>
                         </tbody>
                     </table>
@@ -62,6 +62,7 @@ function d() {
             var html = "";
             $.each(obj.data, function (index, data) {
                 html += '<tr>'
+                            + '<td>' + data. ContactCode + '</td>'
                             + '<td>' + data.ContactPersonName + '</td>'
                             + '<td>' + data.BusinessName + '</td>'
                             + '<td>' + data.MobileNumber + '</td>'
@@ -82,7 +83,7 @@ function d() {
              });
             if (obj.data.length==0) {
                  html += '<tr>'
-                            + '<td colspan="5" style="text-align: center;background:#fff !important">No Data Found</td>'
+                            + '<td colspan="6" style="text-align: center;background:#fff !important">No Data Found</td>'
                        + '</tr>';
             }   
             $('#tbl_content').html(html);
@@ -136,7 +137,7 @@ function Remove() {
              });
             if (obj.data.length==0) {
                  html += '<tr>'
-                            + '<td colspan="7" style="text-align: center;background:#fff !important">No Data Found</td>'
+                            + '<td colspan="6" style="text-align: center;background:#fff !important">No Data Found</td>'
                        + '</tr>';
             }   
             $('#tbl_content').html(html);

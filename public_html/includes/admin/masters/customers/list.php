@@ -59,7 +59,12 @@
    
 <script> 
 
-function d() {
+function ListallCustomers() {
+    if(!(navigator.onLine )) {
+        $('#internet_failure').modal("show");
+        return false;
+    }
+    
     openPopup();
     $.post(URL+ "webservice.php?action=ListAll&method=Customers","",function(data){
         closePopup();
@@ -111,7 +116,7 @@ function d() {
         }
     });
 }
-setTimeout("d()",2000);
+setTimeout("ListallCustomers()",2000);
 
 
 
@@ -121,7 +126,12 @@ function confirmationtoDelete(ID){
     $('#confirmation').modal("show"); 
 }
 function Remove() {
-    $('#confirmation').modal("hide"); 
+     $('#confirmation').modal("hide"); 
+    if(!(navigator.onLine )) {
+        $('#internet_failure').modal("show");
+        return false;
+    }
+  
   openPopup();
     $.post(URL+ "webservice.php?action=remove&method=Customers&ID="+RemoveID,"",function(data){
         var obj = JSON.parse(data);

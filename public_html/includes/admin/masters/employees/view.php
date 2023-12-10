@@ -17,16 +17,22 @@
                     <div class="card-body">
                         <div class="row">
                         <div class="col-sm-12" style="text-align:right;">
-                                <a style="color:#888;text-decoration:none;" href="<?php echo URL;?>dashboard.php?action=masters/employees/edit&employees=<?php echo $data[0]['EmployeeID'];?>"><i class="align-middle me-2" data-feather="edit"></i><span class="align-middle">edit</span></a>
+                                <a style="color:#888;text-decoration:none;" href="<?php echo URL;?>dashboard.php?action=masters/employees/edit&employees=<?php echo $data[0]['EmployeeID'];?>&fpg=masters/employees/view&employees=<?php echo $data[0]['EmployeeID'];?>"><i class="align-middle me-2" data-feather="edit"></i><span class="align-middle">edit</span></a>
                             </div>
+                             <div class="col-sm-6 mb-3">
+                                <div style="font-weight: bold;">Branch</div>
+                                <?php echo $data[0]['BranchName'];?>
+                            </div>
+                              
+                            <div class="col-sm-6 mb-3"></div>
                             <div class="col-sm-6 mb-3">
                                 <div style="font-weight: bold;">Employee Code</div>
                                 <?php echo $data[0]['EmployeeCode'];?>
                             </div>
                             <div class="col-sm-6 mb-3">
                                 <div style="font-weight: bold;">Entry Date</div>
-                                <?php echo $data[0]['EntryDate'];?>
-                            </div>   
+                                <?php echo date("d-m-Y",strtotime($data[0]["EntryDate"])) ;?>
+                            </div> 
                             <div class="col-sm-6 mb-3">   
                                 <div style="font-weight: bold;">Employee Category</div>
                                 <?php echo $data[0]['EmployeeCategoryTitle'];?>

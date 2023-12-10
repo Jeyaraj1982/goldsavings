@@ -15,12 +15,19 @@
         <div class="card">
             <div class="card-body">
                 <div class="row">
+                     <div class="col-sm-6 mb-3">
+                                <label class="form-label">Branch </label>
+                                <input type="text" disabled="disabled" value="<?php echo $data[0]['BranchName'];?>" name="BranchName" id="BranchName" class="form-control" placeholder="Branch Name">
+                                <span id="ErrBranchName" class="error_msg"></span>
+                            </div>
+                           
+                    <div class="col-sm-6 mb-3"></div>
                     <div class="col-sm-6 mb-3">
                         <label class="form-label">Salesman ID</label>
                         <input type="text" value="<?php echo $data[0]['SalesmanCode'];?>" disabled="disabled"  class="form-control">
                         <span id="ErrSalesmanCode" class="error_msg"></span>
                     </div>
-                    <div class="col-sm-6 mb-3">
+                      <div class="col-sm-6 mb-3">
                         <label class="form-label">Entry Date </label>
                         <div class="input-group">
                             <input type="date" readonly="readonly" value="<?php echo $data[0]['EntryDate'];?>" name="EntryDate" id="EntryDate" class="form-control" placeholder="Entry Date">
@@ -82,7 +89,7 @@
                                     </div>
                                 </div>
                                 </label>
-                                <input type="date" name="DateOfBirth" id="DateOfBirth" value="<?php echo $data[0]['DateOfBirth'];?>" class="form-control" placeholder="Date Of Birth">
+                                <input type="text" readonly="readonly" name="DateOfBirth" id="DateOfBirth" value="<?php echo date("d-m-Y",strtotime($data[0]['DateOfBirth']));?>" class="form-control" placeholder="Date Of Birth">
                                 <span id="ErrDateOfBirth" class="error_msg"></span>
                             </div>
                             <div class="col-sm-6 mb-3">
@@ -268,8 +275,17 @@
             </div>
      </div>
      </div>
-       <div class="col-sm-12" style="text-align:right;">
-            <a href="<?php echo URL;?>dashboard.php?action=masters/salesman/list" class="btn btn-outline-primary">Back</a>&nbsp;&nbsp;
+        <div class="col-sm-12 mb-3" style="text-align:right;">
+            <?php 
+                $path=URL."dashboard.php";
+                if (isset($_GET['fpg'])) {
+                    $path=URL."dashboard.php?action=".$_GET['fpg'];
+                }
+                if (isset($_GET['user'])) {
+                    $path.="&user=".$_GET['user'];
+                }
+                ?> 
+                 <a href="<?php echo $path;?>" class="btn btn-outline-primary">Back</a>&nbsp;
             <button onclick="confirmationtoUpdate()" type="button" class="btn btn-primary">Update Salesman</button>
        </div>
     </form>
@@ -338,6 +354,35 @@ function doUpdate() {
     });
 }
 
+function ListBranches() {
+    $.post(URL+ "webservice.php?action=listAllActive&method=Branch","",function(data){
+        var obj = JSON.parse(data);
+        if (obj.status=="success") {
+            var html = "<option value='0'>Select Branch</option>";
+            $.each(obj.data, function (index, data) {
+                html += '<option value="'+data.BranchID+'">'+data.BranchName+'</option>';
+            });   
+            $('#BranchID').html(html);
+            /*$("#StateNameID").append($("#StateNameID option").remove().sort(function(a, b) {
+                var at = $(a).text(), bt = $(b).text();
+                return (at > bt)?1:((at < bt)?-1:0);
+            }));*/
+            $('#BranchID option').each(function() {
+                if($(this).val() == BranchID) {
+                    $(this).prop("selected", true);
+                }
+            });
+            setTimeout(function(){
+                 $("#BranchID").select2({
+                  dropdownParent:$('#frm_edit')
+              }); 
+            },1500);
+        } else {
+            alert(obj.message);
+        }
+    });
+}
+
 function listStateNames() {
     $.post(URL+ "webservice.php?action=listAllActive&method=StateNames","",function(data){
         var obj = JSON.parse(data);
@@ -357,8 +402,9 @@ function listStateNames() {
                 }
             });
             setTimeout(function(){
-               // $('.mstateselect').selectpicker();
-                getDistrictNames();
+                 $("#StateNameID").select2({
+                  dropdownParent:$('#frm_edit')
+              }); 
             },1500);
         } else {
             alert(obj.message);
@@ -385,8 +431,9 @@ function getDistrictNames() {
                 }
             });
             setTimeout(function(){
-                //$('.mdistrictselect').selectpicker();
-                getAreaNames();
+                 $("#DistrictNameID").select2({
+                  dropdownParent:$('#frm_edit')
+              }); 
             },1500);
         } else {
             alert(obj.message);
@@ -412,8 +459,10 @@ function getAreaNames() {
                         $(this).prop("selected", true);
                     }
             });
-            setTimeout(function(){
-                //$('.mareaselect').selectpicker();
+             setTimeout(function(){
+                 $("#AreaNameID").select2({
+                  dropdownParent:$('#frm_edit')
+              }); 
             },1500);
         } else {
             alert(obj.message);
@@ -422,6 +471,7 @@ function getAreaNames() {
 } 
 
 setTimeout(function(){
+    ListBranches();
     listStateNames();
 },2000);
 </script>

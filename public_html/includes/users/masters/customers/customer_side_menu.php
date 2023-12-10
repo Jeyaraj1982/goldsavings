@@ -19,6 +19,7 @@
     </div>
     <ul style="text-align:left;" class="list-group list-group-flush">
         <li class="list-group-item"><a href="<?php echo URL;?>dashboard.php?action=masters/customers/view&customer=<?php echo $_GET['customer'];?>">Customer Info</a></li>
+        <li class="list-group-item"><a href="<?php echo URL;?>dashboard.php?action=masters/customers/branchinfo&customer=<?php echo $_GET['customer'];?>">Branch Info</a></li>
         <li class="list-group-item"><a href="<?php echo URL;?>dashboard.php?action=masters/customers/contracts&customer=<?php echo $_GET['customer'];?>">Contracts</a></li>
         <li class="list-group-item"><a href="<?php echo URL;?>dashboard.php?action=masters/customers/contracts&customer=<?php echo $_GET['customer'];?>">Closed Contracts</a></li>
         <?php if (sizeof($upcommingDues)>0) { ?>

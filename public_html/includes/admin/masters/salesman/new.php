@@ -6,6 +6,17 @@
                 <div class="card">
                     <div class="card-body">
                         <div class="row">
+                             <div class="col-sm-6 mb-3">
+                                <label class="form-label">Branch <span style='color:red'>*</span></label>
+                                <div class="input-group">
+                                <select data-live-search="true" data-size="5" name="BranchID" id="BranchID" class="form-select mselect">
+                                    <option>loading...</option>
+                                </select>
+                                </div>
+                                <span id="ErrBranchID" class="error_msg"></span>
+                            </div>
+                            
+                            <div class="col-sm-6 mb-3"></div>
                             <div class="col-sm-6 mb-3">
                                 <label class="form-label">Salesman ID <span style='color:red'>*</span>
                                 <img src="<?php echo URL;?>assets/question.png" style="width: 12px;" class="dropdown"  id="dropdownMenuButton1" data-bs-toggle="dropdown">
@@ -22,15 +33,14 @@
                                 <input type="text" value="<?php echo SequnceList::getNextNumber("_tbl_masters_salesman");?>" name="SalesmanCode" id="SalesmanCode" class="form-control" placeholder="Salesman ID" oninput="this.value=this.value.toUpperCase()" maxlength="20">
                                 <span id="ErrSalesmanCode" class="error_msg"></span>
                             </div>
-                           <div class="col-sm-2 mb-3">
-                            </div>
-                            <div class="col-sm-4 mb-3">
+                            <div class="col-sm-6 mb-3">
                                 <label class="form-label">Entry Date <span style='color:red'>*</span></label>
                                 <div class="input-group">
                                     <input type="date" value="<?php echo date("Y-m-d");?>" name="EntryDate" id="EntryDate" class="form-control" placeholder="Entry Date">
                                 </div>
                                 <span id="ErrEntryDate" class="error_msg"></span>
-                            </div> 
+                            </div>
+                          
                             <div class="col-sm-12 mb-3">
                                 <label class="form-label">Salesman Name <span style='color:red'>*</span>
                                 <img src="<?php echo URL;?>assets/question.png" style="width: 12px;" class="dropdown"  id="dropdownMenuButton1" data-bs-toggle="dropdown">
@@ -83,7 +93,7 @@
                                     </div>
                                 </div>
                                 </label>
-                                <input type="date" name="DateOfBirth" id="DateOfBirth" class="form-control" placeholder="Date Of Birth">
+                                <input type="text" readonly="readonly" name="DateOfBirth" id="DateOfBirth" class="form-control" placeholder="Date Of Birth">
                                 <span id="ErrDateOfBirth" class="error_msg"></span>
                             </div>
                             <div class="col-sm-12 mb-3">
@@ -424,7 +434,7 @@
 </div>
 
 <script> 
-
+var newbranch="";
 var newcustomercategory="";
 var newstatename="";
 var newdistrictname="";
@@ -461,7 +471,31 @@ function addNew() {
         }
     });
 }
-        
+function ListBranches() {
+    var i=0;
+    $.post(URL+ "webservice.php?action=listAllActive&method=Branch","",function(data){
+        var obj = JSON.parse(data);
+        if (obj.status=="success") {
+            var html = "<option value='0'>Select Branch</option>";
+            $.each(obj.data, function (index, data) {
+                if ((newbranch==data.BranchName)) {
+                    i=data.BranchID;
+                }
+                html += '<option value="'+data.BranchID+'" '+((newbranch==data.BranchName) ? '"selected=selected"' : '')+'>'+data.BranchName+'</option>';
+            });   
+            $('#BranchID').html(html);
+            $("#BranchID").val(i);
+            setTimeout(function(){
+              $("#BranchID").select2({
+                  dropdownParent:$('#frm_create')
+              });  
+            },1000);
+           
+        } else {
+            alert(obj.message);
+        }
+    });
+}         
 
 function listStateNames() {
     var i=0;
@@ -482,6 +516,11 @@ function listStateNames() {
             }));*/
            
                  $("#StateNameID").val(i);
+                  setTimeout(function(){
+              $("#StateNameID").select2({
+                  dropdownParent:$('#frm_create')
+              });  
+            },1000);
            
         } else {
             alert(obj.message);
@@ -509,7 +548,10 @@ function getDistrictNames() {
             })); */
             $("#DistrictNameID").val(i);
             setTimeout(function(){
-            },1500);
+              $("#DistrictNameID").select2({
+                  dropdownParent:$('#frm_create')
+              });  
+            },1000);
         } else {
             alert(obj.message);
         }
@@ -535,8 +577,10 @@ function getAreaNames() {
             })); */
             $("#AreaNameID").val(i);
             setTimeout(function(){
-               // $('.mareaselect').selectpicker();
-            },1500);
+              $("#AreaNameID").select2({
+                  dropdownParent:$('#frm_create')
+              });  
+            },1000);
         } else {
             alert(obj.message);
         }
@@ -629,6 +673,7 @@ function addNewAreaName() {
 }
 
 setTimeout(function(){
+    ListBranches();
     listStateNames();
 },2000);
 </script>

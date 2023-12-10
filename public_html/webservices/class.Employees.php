@@ -6,6 +6,7 @@ class EmployeesErrors {
     const EntryDate_GreaterThanToday = "Please select date on/or before ";
     const EmployeeCategory_Empty = "Please select Employee Category";
     const EmployeeName_Empty = "Please enter Employee Name";
+    const BranchName_Empty = "Please branch Name";
     
     const FatherName_Empty = "Please enter Father/Husband Name";
     const Gender_Empty = "Please select gender";
@@ -17,9 +18,14 @@ class EmployeesErrors {
     const MobileNumber_Empty = "Please enter Mobile Number";
     const MobileNumber_InvalidFormat = "Please enter valid Mobile Number";
     const MobileNumber_Duplicate = "Mobile Number is already exists";
+    
     const WhatsappNumber_Empty = "Please enter Whatsapp Number";
     const WhatsappNumber_InvalidFormat = "Please enter valid Whatsapp Number";
     const WhatsappNumber_Duplicate = "Whatsapp Number is already exists";
+    
+    const AlternativeMobileNumber_Empty = "Please enter Alternative Mobile Number";
+    const AlternativeMobileNumber_InvalidFormat = "Please enter valid Alternative Mobile Number";
+    const AlternativeMobileNumber_Duplicate = "Alternative Mobile Number is already exists";
     
     const LoginUserName_Empty = "Please enter Login User Name";
     const LoginUserName_Duplicate = "Login User Name is already used";
@@ -42,8 +48,8 @@ class EmployeesErrors {
     const StateName_Empty = "Please select State Name";
     const DistrictName_Empty = "Please select District Name";
     const AreaName_Empty = "Please select Area Name";
-    const PinCode_Empty = "Please select PinCode";
-    const PinCode_InvalidFormat = "PinCode is invalid format";
+    const PinCode_Empty = "Please select Pincode";
+    const PinCode_InvalidFormat = "Please enter valid Pincode";
     
     const Create_Success = "successfully created";
     const Create_Failure = "unable to create";
@@ -69,6 +75,12 @@ class Employees {
         
         global $mysql;
         
+        if ($_SESSION['User']['UserModule']=="admin" || $_SESSION['User']['UserModule']=="subadmin") {
+           if ($_POST['BranchID']=="0") {
+                return json_encode(array("status"=>"failure","message"=>EmployeesErrors::BranchName_Empty,"div"=>"BranchID"));    
+            }
+        }
+        
         if (strlen(trim($_POST['EmployeeCode']))==0) {
             return json_encode(array("status"=>"failure","message"=>EmployeesErrors::EmployeeCode_Empty,"div"=>"EmployeeCode"));    
         } else {
@@ -87,6 +99,7 @@ class Employees {
                 return json_encode(array("status"=>"failure","message"=>EmployeesErrors::EntryDate_GreaterThanToday.date("d-m-Y"),"div"=>"EntryDate"));        
             }
         }
+        $_POST['EntryDate'] = date("Y-m-d",strtotime($_POST['EntryDate']));
         
         if ($_POST['EmployeeCategoryID']==0) {
             return json_encode(array("status"=>"failure","message"=>EmployeesErrors::EmployeeCategory_Empty,"div"=>"EmployeeCategoryID"));    
@@ -109,10 +122,11 @@ class Employees {
         } else {
             $currentYear = date("Y",strtotime(date("Y-m-d H:i:s")));
             $dobYear = date("Y",strtotime($_POST['DateOfBirth']));
-            if (($currentYear-$dobYear)<=18) {
+            if (($currentYear-$dobYear)<18) {
                 return json_encode(array("status"=>"failure","message"=>EmployeesErrors::DateOfBirth_MinimumYear,"div"=>"DateOfBirth"));    
             }
         }
+        $_POST['DateOfBirth'] = date("Y-m-d",strtotime($_POST['DateOfBirth']));
         
         if (strlen(trim($_POST['EmailID']))==0) {
             return json_encode(array("status"=>"failure","message"=>EmployeesErrors::EmailID_Empty,"div"=>"EmailID"));    
@@ -159,6 +173,23 @@ class Employees {
                 }
             } else {
                 return json_encode(array("status"=>"failure","message"=>EmployeesErrors::WhatsappNumber_InvalidFormat,"div"=>"MobileNumber"));    
+            }
+        }
+        
+        if (strlen(trim($_POST['AlternativeMobileNumber']))==0) {
+           // return json_encode(array("status"=>"failure","message"=>"Please enter Whatsapp Number","div"=>"WhatsappNumber"));    
+        } else {
+            if (strlen(trim($_POST['AlternativeMobileNumber']))==10) {
+                if (!($_POST['AlternativeMobileNumber']>=6000000000 && $_POST['AlternativeMobileNumber']<=9999999999)) {
+                    return json_encode(array("status"=>"failure","message"=>EmployeesErrors::AlternativeMobileNumber_InvalidFormat,"div"=>"AlternativeMobileNumber"));    
+                } else {
+                    $dupAltrMobile = $mysql->select("select * from _tbl_masters_employees where AlternativeMobileNumber='".trim($_POST['AlternativeMobileNumber'])."'");
+                    if (sizeof($dupAltrMobile)>0) {
+                        return json_encode(array("status"=>"failure","message"=>EmployeesErrors::AlternativeMobileNumber_Duplicate,"div"=>"AlternativeMobileNumber"));    
+                    }
+                }
+            } else {
+                return json_encode(array("status"=>"failure","message"=>EmployeesErrors::AlternativeMobileNumber_InvalidFormat,"div"=>"AlternativeMobileNumber"));    
             }
         }
             
@@ -222,9 +253,6 @@ class Employees {
             return json_encode(array("status"=>"failure","message"=>EmployeesErrors::AddressLine1_Empty,"div"=>"AddressLine1"));    
         }
         
-        
-        
-        
         if ($_POST['StateNameID']==0) {
             return json_encode(array("status"=>"failure","message"=>EmployeesErrors::StateName_Empty,"div"=>"StateNameID"));    
         } else {
@@ -265,7 +293,34 @@ class Employees {
         $AreaName = $AreaName['data'];
         
         $AllowToChangePasswordFirstLogin = (isset($_POST['AllowToChangePasswordFirstLogin']) && $_POST['AllowToChangePasswordFirstLogin']==1) ? 1 : 0;
-        
+                if ($_SESSION['User']['UserModule']=="admin" || $_SESSION['User']['UserModule']=="subadmin") {
+            $Branch = $mysql->select("select * from _tbl_masters_branches where BranchID='".$_POST['BranchID']."'");
+        } else {
+            $Branch = $mysql->select("select * from _tbl_masters_branches where BranchID='".$_SESSION['User']['BranchID']."'");
+        }
+        if ($_SESSION['User']['UserModule']=="admin") {
+            $CreatedBy="Administrator";
+            $CreatedByID=$_SESSION['User']['AdministratorID'];
+            $CreatedByName=$_SESSION['User']['AdministratorName'];
+        } 
+        if ($_SESSION['User']['UserModule']=="subadmin") {
+            $CreatedBy="Sub Admin";
+            $CreatedByID=$_SESSION['User']['UserID'];
+            $CreatedByName=$_SESSION['User']['UserName'];
+        }
+        if ($_SESSION['User']['UserModule']=="branchadmin") {
+            $CreatedBy="Branch Admin";
+            $CreatedByID=$_SESSION['User']['UserID'];
+            $CreatedByName=$_SESSION['User']['UserName'];
+        }
+        if ($_SESSION['User']['UserModule']=="branchuser") {
+            $CreatedBy="Branch User";
+            $CreatedByID=$_SESSION['User']['UserID'];
+            $CreatedByName=$_SESSION['User']['UserName'];
+        }
+        $BranchID=$Branch[0]['BranchID'];
+        $BranchCode=$Branch[0]['BranchCode'];
+        $BranchName=$Branch[0]['BranchName'];
         $EmployeeID = $mysql->insert("_tbl_employees",array("EmployeeCode"          => $_POST['EmployeeCode'],
                                                             "EntryDate"          => $_POST['EntryDate'],
                                                             "EmployeeName"          => $_POST['EmployeeName'],
@@ -297,6 +352,12 @@ class Employees {
                                                             "PinCode"               => $_POST['PinCode'],
                                                             "Remarks"               => $_POST['Remarks'],
                                                             "AllowToChangePasswordFirstLogin" => $AllowToChangePasswordFirstLogin,
+                                                             "BranchID"              => $BranchID,
+                                                            "BranchCode"            => $BranchCode,
+                                                            "BranchName"            => $BranchName,
+                                                            "CreatedBy"             => $CreatedBy,
+                                                            "CreatedByID"           => $CreatedByID,
+                                                            "CreatedByName"         => $CreatedByName,
                                                             "CreatedOn"             => date("Y-m-d H:i:s"),
                                                             "IsActive"              => '1'));     
         if ($EmployeeID>0) {
@@ -329,7 +390,11 @@ class Employees {
     
     public static function ListAll() {
         global $mysql;
-        $data = $mysql->select("select * from _tbl_employees");
+        if (isset($_SESSION['User']['BranchID']) && ($_SESSION['User']['BranchID']>0) ) {
+        $data = $mysql->select("select * from _tbl_employees where BranchID='".$_SESSION['User']['BranchID']."'");
+        } else {
+            $data = $mysql->select("select * from _tbl_employees");
+        }
         return json_encode(array("status"=>"success","data"=>$data));
     }
     
@@ -356,6 +421,7 @@ class Employees {
                 }
             }
         }
+        $_POST['EntryDate'] = date("Y-m-d",strtotime($_POST['EntryDate']));
         
         if (strlen(trim($_POST['EmployeeName']))==0) {
             return json_encode(array("status"=>"failure","message"=>"Please enter Employee Name","div"=>"EmployeeName"));    
@@ -378,10 +444,11 @@ class Employees {
         }  else {
             $currentYear = date("Y",strtotime(date("Y-m-d H:i:s")));
             $dobYear = date("Y",strtotime($_POST['DateOfBirth']));
-            if (($currentYear-$dobYear)<=18) {
+            if (($currentYear-$dobYear)<18) {
                 return json_encode(array("status"=>"failure","message"=>EmployeesErrors::DateOfBirth_MinimumYear,"div"=>"DateOfBirth"));    
             }
         }
+        $_POST['DateOfBirth'] = date("Y-m-d",strtotime($_POST['DateOfBirth']));
         
         if (strlen(trim($_POST['EmailID']))==0) {
             return json_encode(array("status"=>"failure","message"=>EmployeesErrors::EmailID_Empty,"div"=>"EmailID"));    
@@ -427,6 +494,23 @@ class Employees {
                 }
             } else {
                 return json_encode(array("status"=>"failure","message"=>EmployeesErrors::WhatsappNumber_InvalidFormat,"div"=>"MobileNumber"));    
+            }
+        }
+        
+        if (strlen(trim($_POST['AlternativeMobileNumber']))==0) {
+           // return json_encode(array("status"=>"failure","message"=>"Please enter Whatsapp Number","div"=>"WhatsappNumber"));    
+        } else {
+            if (strlen(trim($_POST['AlternativeMobileNumber']))==10) {
+                if (!($_POST['AlternativeMobileNumber']>=6000000000 && $_POST['AlternativeMobileNumber']<=9999999999)) {
+                    return json_encode(array("status"=>"failure","message"=>EmployeesErrors::AlternativeMobileNumber_InvalidFormat,"div"=>"AlternativeMobileNumber"));    
+                } else {
+                    $dupAltrMobile = $mysql->select("select * from _tbl_masters_employees where EmployeeID<>'".$_POST['EmployeeID']."' and AlternativeMobileNumber='".trim($_POST['AlternativeMobileNumber'])."'");
+                    if (sizeof($dupAltrMobile)>0) {
+                        return json_encode(array("status"=>"failure","message"=>EmployeesErrors::AlternativeMobileNumber_Duplicate,"div"=>"AlternativeMobileNumber"));    
+                    }
+                }
+            } else {
+                return json_encode(array("status"=>"failure","message"=>EmployeesErrors::AlternativeMobileNumber_InvalidFormat,"div"=>"AlternativeMobileNumber"));    
             }
         }
         
@@ -764,7 +848,7 @@ class Employees {
                     return json_encode(array("status"=>"failure","message"=>Employees::EntryDate_GreaterThanToday.date("d-m-Y",strtotime($_POST['ToDate'])),"div"=>"EntryDate"));        
                 }
             
-                $sql .= " and  (date(EntryDate)>=date('".$_POST['FromDate']."') and date(EntryDate)<=date('".$_POST['ToDate']."')) ";    
+                $sql .= " and  (date(EntryDate)>=date('".date("Y-m-d",strtotime($_POST['FromDate']))."') and date(EntryDate)<=date('".date("Y-m-d",strtotime($_POST['ToDate']))."')) ";    
             }
             
             if (isset($_POST['Gender']) && $_POST['Gender']=="1") {

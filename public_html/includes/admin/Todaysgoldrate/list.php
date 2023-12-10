@@ -103,7 +103,7 @@ function getData() {
             if (obj.div!="") {
                 $('#Err'+obj.div).html(obj.message)
             } else {
-                $('#failure_div').html(obj.message);
+                errorcontent(obj.message);
             }
              $('#tbl_content').html("");
             $('#listData').hide();

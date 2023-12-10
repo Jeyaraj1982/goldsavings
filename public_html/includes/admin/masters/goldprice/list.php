@@ -20,11 +20,11 @@
                     <div class="col-sm-9 mb-3">
                                 <label class="form-label">Date Range <span style='color:red'>*</span></label>
                                 <div class="input-group">
-                                    <input type="date" name="FromDate" value="<?php echo date("Y-m-d");?>" id="FromDate" class="form-control" placeholder="From Date">
+                                    <input type="text" readonly="readonly" name="FromDate" value="<?php echo date("d-m-Y");?>" id="FromDate" class="form-control" placeholder="From Date">
                                     <div class="input-group-prepend">
                                         <span class="input-group-text" id="basic-addon1">To</span>
                                 </div>
-                                <input type="date" value="<?php echo date("Y-m-d");?>" name="ToDate" id="ToDate" class="form-control" placeholder="To Date">
+                                <input type="text" readonly="readonly" value="<?php echo date("d-m-Y");?>" name="ToDate" id="ToDate" class="form-control" placeholder="To Date">
                                 <button type="button" onclick="getData()" class="btn btn-primary">Get Data</button>
                             </div> 
                            <span id="Errmessage" class="error_msg"></span>
@@ -76,34 +76,104 @@
               <div class="row">
                 <div class="col-sm-4 mb-3">
                     <label class="form-label">Date <span style='color:red'>*</span></label>
-                    <input type="date"  value="<?php echo date("Y-m-d");?>" name="Date" id="Date" class="form-control" placeholder="Date">
+                    <input type="text" readonly="readonly"  value="<?php echo date("d-m-Y");?>" name="Date" id="Date" class="form-control" placeholder="Date">
                         <span id="ErrDate" class="error_msg"></span>
                             </div>
                             <div class="col-sm-6 mb-3">
                             </div>
                             <div class="col-sm-4 mb-3">
-                                <label class="form-label">Price(18kt) <span style='color:red'>*</span></label>
-                                <input type="text"  name="Gold18" id="Gold18" class="form-control" placeholder="PRICE(18kt)">
+                                <label class="form-label">Price(18kt) <span style='color:red'>*</span>
+                                <img src="<?php echo URL;?>assets/question.png" style="width: 12px;" class="dropdown"  id="dropdownMenuButton1" data-bs-toggle="dropdown">
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton1" style="padding:0px;">
+                                    <div class="myheader">Price(18kt)</div>
+                                    <div class="mycontainer">
+                                        1. Minimum amount 5000<br>
+                                        2. Maximum amount 8000 <br>
+                                        3. Not allow cut,copy,paste
+                                    </div>
+                                </div>
+                                </label>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text" id="basic-addon1">₹</span>
+                                    </div>
+                                    <input type="text" style="text-align: right;" name="Gold18" id="Gold18" class="form-control" placeholder="PRICE(18kt)" maxlength="4">
+                                </div>
                                 <span id="ErrGold18" class="error_msg"></span>
                             </div>
                             <div class="col-sm-4 mb-3">
-                                <label class="form-label">Price(22kt)<span style='color:red'>*</span></label>
-                                <input type="text" name="Gold22" id="Gold22" class="form-control" placeholder="PRICE(22kt)">
+                                <label class="form-label">Price(22kt) <span style='color:red'>*</span>
+                                <img src="<?php echo URL;?>assets/question.png" style="width: 12px;" class="dropdown"  id="dropdownMenuButton1" data-bs-toggle="dropdown">
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton1" style="padding:0px;">
+                                    <div class="myheader">Price(22kt)</div>
+                                    <div class="mycontainer">
+                                        1. Minimum amount 5000<br>
+                                        2. Maximum amount 8000 <br>
+                                        3. Not allow cut,copy,paste
+                                    </div>
+                                </div>
+                                </label>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text" id="basic-addon1">₹</span>
+                                    </div>
+                                    <input type="text" style="text-align: right;" name="Gold22" id="Gold22" class="form-control" placeholder="PRICE(22kt)" maxlength="4">
+                                </div>
                                 <span id="ErrGold22" class="error_msg"></span>
                             </div>
                             <div class="col-sm-4 mb-3">
-                                <label class="form-label">Price(24kt) <span style='color:red'>*</span></label>
-                                <input type="text" name="Gold24" id="Gold24" class="form-control" placeholder="PRICE(24kt)">
-                                <span id="ErrGold24" class="error_msg"></span>
+                                <label class="form-label">Price(24kt) <span style='color:red'>*</span>
+                                <img src="<?php echo URL;?>assets/question.png" style="width: 12px;" class="dropdown"  id="dropdownMenuButton1" data-bs-toggle="dropdown">
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton1" style="padding:0px;">
+                                    <div class="myheader">Price(24kt)</div>
+                                    <div class="mycontainer">
+                                        1. Minimum amount 5000<br>
+                                        2. Maximum amount 8000 <br>
+                                        3. Not allow cut,copy,paste
+                                    </div>
+                                </div>
+                                </label>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text" id="basic-addon1">₹</span>
+                                    </div>
+                                    <input type="text" style="text-align: right;" name="Gold24" id="Gold24" class="form-control" placeholder="PRICE(24kt)" maxlength="4">
+                                </div>
+                                <span id="ErrGold18" class="error_msg"></span>
                             </div>
                             <div class="col-sm-4 mb-3">
-                                <label class="form-label">Silver <span style='color:red'>*</span></label>
-                                <input type="text" name="Silver" id="Silver" class="form-control" placeholder="SILVER">
+                                <label class="form-label">Silver <span style='color:red'>*</span>
+                                <img src="<?php echo URL;?>assets/question.png" style="width: 12px;" class="dropdown"  id="dropdownMenuButton1" data-bs-toggle="dropdown">
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton1" style="padding:0px;">
+                                    <div class="myheader">Price(22kt)</div>
+                                    <div class="mycontainer">
+                                        1. Minimum amount 50<br>
+                                        2. Maximum amount 150 <br>
+                                        3. Not allow cut,copy,paste
+                                    </div>
+                                </div>
+                                </label>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text" id="basic-addon1">₹</span>
+                                    </div>
+                                    <input type="text" style="text-align: right;" name="Silver" id="Silver" class="form-control" placeholder="SILVER" maxlength="3">
+                                </div>
                                 <span id="ErrSilver" class="error_msg"></span>
                             </div>
                             <div class="col-sm-12 mb-3">
-                               <label class="form-label">Remarks</label>
-                               <input type="text" name="Remarks" id="Remarks" class="form-control" placeholder="Remarks">
+                               <label class="form-label">Remarks
+                               <img src="<?php echo URL;?>assets/question.png" style="width: 12px;" class="dropdown"  id="dropdownMenuButton1" data-bs-toggle="dropdown">
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton1" style="padding:0px;">
+                                    <div class="myheader">Remarks</div>
+                                    <div class="mycontainer">
+                                        1. Allow all characters, not allow <span style='color:red'>\'!~$"</span><br>
+                                        2. Maximum 250 characters require<br>
+                                        3. Not allow cut,copy,paste
+                                    </div>
+                                </div>
+                               </label>
+                               <input type="text" name="Remarks" id="Remarks" class="form-control" placeholder="Remarks" maxlength="250">
                                <span id="ErrRemarks" class="error_msg"></span>
                             </div>
         </div>
@@ -147,36 +217,95 @@
             <input type="hidden" name="RateID" id="editRateID">
                <div class="row">
                             <div class="col-sm-4 mb-3">
-                                <label class="form-label">Date <span style='color:red'>*</span></label>
-                                <input type="date" name="Date" id="editDate" class="form-control" placeholder="Date">
+                                <label class="form-label">Date </label>
+                                <input type="text" disabled="disabled" value=""  id="editDate" class="form-control">
                                 <span id="ErreditDate" class="error_msg"></span>
                             </div>
                             <div class="col-sm-6 mb-3">
                             </div> 
-                            
                             <div class="col-sm-4 mb-3">
-                                <label class="form-label">Price(18kt) <span style='color:red'>*</span></label>
-                                <input type="text"  name="Gold18" id="editGold18" class="form-control" placeholder="PRICE(18kt)">
+                                <label class="form-label">Price(18kt) <span style='color:red'>*</span>
+                                <img src="<?php echo URL;?>assets/question.png" style="width: 12px;" class="dropdown"  id="dropdownMenuButton1" data-bs-toggle="dropdown">
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton1" style="padding:0px;">
+                                    <div class="myheader">Price(18kt)</div>
+                                    <div class="mycontainer">
+                                        1. Minimum amount 50<br>
+                                        2. Maximum amount 150 <br>
+                                        3. Not allow cut,copy,paste
+                                    </div>
+                                </div>
+                                </label>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text" id="basic-addon1">₹</span>
+                                    </div>
+                                    <input type="text" style="text-align: right;" name="Gold18" id="editGold18" class="form-control" placeholder="PRICE(18kt)" maxlength="4">
+                                </div>
                                 <span id="ErreditGold18" class="error_msg"></span>
                             </div>
                             <div class="col-sm-4 mb-3">
-                                <label class="form-label">Price(22kt)<span style='color:red'>*</span></label>
-                                <input type="text" name="Gold22" id="editGold22" class="form-control" placeholder="PRICE(22kt)">
+                                <label class="form-label">Price(22kt) <span style='color:red'>*</span>
+                                <img src="<?php echo URL;?>assets/question.png" style="width: 12px;" class="dropdown"  id="dropdownMenuButton1" data-bs-toggle="dropdown">
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton1" style="padding:0px;">
+                                    <div class="myheader">Price(22kt)</div>
+                                    <div class="mycontainer">
+                                        1. Minimum amount 50<br>
+                                        2. Maximum amount 150 <br>
+                                        3. Not allow cut,copy,paste
+                                    </div>
+                                </div>
+                                </label>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text" id="basic-addon1">₹</span>
+                                    </div>
+                                    <input type="text" style="text-align: right;" name="Gold22" id="editGold22" class="form-control" placeholder="PRICE(22kt)" maxlength="4">
+                                </div>
                                 <span id="ErreditGold22" class="error_msg"></span>
                             </div>
                             <div class="col-sm-4 mb-3">
-                                <label class="form-label">Price(24kt) <span style='color:red'>*</span></label>
-                                <input type="text" name="Gold24" id="editGold24" class="form-control" placeholder="PRICE(24kt)">
-                                <span id="ErreditGold24" class="error_msg"></span>
+                                <label class="form-label">Price(24kt) <span style='color:red'>*</span>
+                                <img src="<?php echo URL;?>assets/question.png" style="width: 12px;" class="dropdown"  id="dropdownMenuButton1" data-bs-toggle="dropdown">
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton1" style="padding:0px;">
+                                    <div class="myheader">Price(24kt)</div>
+                                    <div class="mycontainer">
+                                        1. Minimum amount 50<br>
+                                        2. Maximum amount 150 <br>
+                                        3. Not allow cut,copy,paste
+                                    </div>
+                                </div>
+                                </label>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text" id="basic-addon1">₹</span>
+                                    </div>
+                                    <input type="text" style="text-align: right;" name="Gold24" id="editGold24" class="form-control" placeholder="PRICE(24kt)" maxlength="4">
+                                </div>
+                                <span id="ErreditGold18" class="error_msg"></span>
                             </div>
                             <div class="col-sm-4 mb-3">
                                 <label class="form-label">Silver <span style='color:red'>*</span></label>
-                                <input type="text" name="Silver" id="editSilver" class="form-control" placeholder="SILVER">
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text" id="basic-addon1">₹</span>
+                                    </div>
+                                    <input type="text" style="text-align: right;" name="Silver" id="editSilver" class="form-control" placeholder="SILVER" maxlength="3">
+                                </div>
                                 <span id="ErreditSilver" class="error_msg"></span>
                             </div>
                             <div class="col-sm-12 mb-3">
-                               <label class="form-label">Remarks</label>
-                               <input type="text" name="Remarks" id="editRemarks" class="form-control" placeholder="Remarks">
+                               <label class="form-label">Remarks
+                               <img src="<?php echo URL;?>assets/question.png" style="width: 12px;" class="dropdown"  id="dropdownMenuButton1" data-bs-toggle="dropdown">
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton1" style="padding:0px;">
+                                    <div class="myheader">Remarks</div>
+                                    <div class="mycontainer">
+                                        1. Allow all characters, not allow <span style='color:red'>\'!~$"</span><br>
+                                        2. Maximum 250 characters require<br>
+                                        3. Not allow cut,copy,paste
+                                    </div>
+                                </div>
+                               </label>
+                               <input type="text" name="Remarks" id="editRemarks" class="form-control" placeholder="Remarks" maxlength="250">
                                <span id="ErreditRemarks" class="error_msg"></span>
                             </div>
             </div>
@@ -198,30 +327,50 @@
                <div class="row">
                             <div class="col-sm-4 mb-3">
                                 <label class="form-label">Date </label>
-                                <input type="date" value="" readonly="readonly" name="Date" id="viewDate" class="form-control" placeholder="Date">
+                                <input type="text" value="" readonly="readonly" name="Date" id="viewDate" class="form-control" placeholder="Date">
                                 <span id="ErrDate" class="error_msg"></span>
                             </div>
                             <div class="col-sm-6 mb-3">
                             </div> 
                             <div class="col-sm-4 mb-3">
-                                <label class="form-label">Price(18kt) </label>
-                                <input type="text" value="" readonly="readonly"  name="Gold18" id="viewGold18" class="form-control" placeholder="PRICE(18kt)">
-                                <span id="ErrGold18" class="error_msg"></span>
+                                <label class="form-label">Price(18kt)</label>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text" id="basic-addon1">₹</span>
+                                    </div>
+                                   <input type="text" value="" readonly="readonly"  name="Gold18" id="viewGold18" class="form-control" placeholder="PRICE(18kt)">
+                                </div>
+                                <span id="ErrviewGold18" class="error_msg"></span>
                             </div>
                             <div class="col-sm-4 mb-3">
-                                <label class="form-label">Price(22kt) </label>
-                                <input type="text" value="" readonly="readonly" name="Gold22" id="viewGold22" class="form-control" placeholder="PRICE(22kt)">
-                                <span id="ErrGold22" class="error_msg"></span>
+                                <label class="form-label">Price(22kt)</label>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text" id="basic-addon1">₹</span>
+                                    </div>
+                                   <input type="text" value="" readonly="readonly"  name="Gold22" id="viewGold22" class="form-control" placeholder="PRICE(22kt)">
+                                </div>
+                                <span id="ErrviewGold22" class="error_msg"></span>
                             </div>
                             <div class="col-sm-4 mb-3">
-                                <label class="form-label">Price(24kt) </label>
-                                <input type="text" value="" readonly="readonly" name="Gold24" id="viewGold24" class="form-control" placeholder="PRICE(24kt)">
-                                <span id="ErrGold24" class="error_msg"></span>
+                                <label class="form-label">Price(24kt)</label>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text" id="basic-addon1">₹</span>
+                                    </div>
+                                   <input type="text" value="" readonly="readonly"  name="Gold24" id="viewGold24" class="form-control" placeholder="PRICE(24kt)">
+                                </div>
+                                <span id="ErrviewGold24" class="error_msg"></span>
                             </div>
                             <div class="col-sm-4 mb-3">
                                 <label class="form-label">Silver </label>
-                                <input type="text" value="" readonly="readonly" name="Silver" id="viewSilver" class="form-control" placeholder="SILVER">
-                                <span id="ErrSilver" class="error_msg"></span>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text" id="basic-addon1">₹</span>
+                                    </div>
+                                   <input type="text" value="" readonly="readonly"  name="Silver" id="viewSilver" class="form-control" placeholder="SILVER">
+                                </div>
+                                <span id="ErrviewSilver" class="error_msg"></span>
                             </div>
                             <div class="col-sm-12 mb-3">
                                <label class="form-label">Remarks </label>

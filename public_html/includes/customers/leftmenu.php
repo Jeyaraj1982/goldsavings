@@ -14,7 +14,15 @@
         <li class="sidebar-item"><a class="sidebar-link" href="<?php echo URL;?>dashboard.php?action=contracts/list_paymentrequests">Recent Payments</a></li>
         <li class="sidebar-item"><a class="sidebar-link" href="<?php echo URL;?>dashboard.php?action=receipts/receipt">Receipts</a></li>
         <li class="sidebar-item"><a class="sidebar-link" href="<?php echo URL;?>dashboard.php?action=vouchers/voucher">Vouchers</a></li>
-        <li class="sidebar-item">
+       <li class="sidebar-item">
+            <a data-bs-target="#branches" data-bs-toggle="collapse" class="sidebar-link collapsed">
+                <i class="align-middle" data-feather="layout"></i> <span class="align-middle">Branches</span>
+            </a>
+            <ul id="branches" class="sidebar-dropdown list-unstyled collapse " data-bs-parent="#sidebar">
+                <li class="sidebar-item"><a class="sidebar-link" href="<?php echo URL;?>dashboard.php?action=branch/list">View Branches</a></li>                   
+            </ul>
+        </li>
+        <li class="sidebar-item"> 
             <a data-bs-target="#schemes" data-bs-toggle="collapse" class="sidebar-link collapsed">
                 <i class="align-middle" data-feather="layout"></i> <span class="align-middle">Schemes</span>
             </a>

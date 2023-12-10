@@ -61,8 +61,11 @@
                     </div>
                         <h5 class="card-title mb-0">Today's Gold Rate</h5>
                 </div>  
-                <div class="row">
-                    <div class="col-6" style="padding-right: 5px;">
+                 <div style="text-align: center; display: none;" id="goldrate_message">
+                   Gold rates not found
+                </div>
+                <div class="row" style="display: none;">
+                    <div class="col-6" style="padding-right: 5px;" id="goldrate">
                         <button type="button" class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" id="gold22rate" style="width:100%;background: #fff !important;border: 1px solid #ccc;width: 100% !important;padding: 5px 5px;text-align: left;border-radius: 7px !important;color:#555 !important">
                         <img src="<?php echo URL;?>assets/goldcoin.png" style="width:32px; padding:0px">&nbsp;&nbsp;Loading ...
                         </button>
@@ -452,7 +455,7 @@ function view(){
                     $('#GOLD_22').val(data.GOLD_22);
                     $('#GOLD_24').val(data.GOLD_24);
                     $('#SILVER').val(data.SILVER);
-             });   
+             });
               var additionalInfo =  obj.data.additionalInfo;
             $('#activeContracts').html(additionalInfo.activeContracts);
             $('#closedContracts').html(additionalInfo.closedContracts);
@@ -462,6 +465,8 @@ function view(){
              gold24Chart(obj.data.goldRates);
               var gold_rates="";
             $.each(obj.data.todaGoldRates, function (index, data) {
+                 $('#goldrate').show();
+                $('#goldrate_message').hide();
                 gold_rates += '<li><a class="dropdown-item" href="javascript:void(0)">18 KT: &nbsp;&nbsp;'+data.GOLD_18+'</a></li>' ;
                 gold_rates += '<li><a class="dropdown-item" href="javascript:void(0)">22 KT: &nbsp;&nbsp;'+data.GOLD_22+'</a></li>' ;
                 gold_rates += '<li><a class="dropdown-item" href="javascript:void(0)">24 KT: &nbsp;&nbsp;'+data.GOLD_24+'</a></li>' ;

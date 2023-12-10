@@ -76,6 +76,18 @@
                       </div> 
                 </form>
             </div>
-            <div class="col-sm-12" style="text-align:right;">
-                <a href="<?php echo URL;?>dashboard.php?action=masters/schemes/list" class="btn btn-outline-primary">Back</a>&nbsp;&nbsp;
+             <div class="col-sm-12" style="text-align:right;">
+                 <?php   
+                 $path=URL."dashboard.php";
+                if (isset($_GET['fpg'])) {
+                $path.="?action=".$_GET['fpg'];
+            }        
+             if (isset($_GET['type'])) {
+                $path.="&type=".$_GET['type'];
+            }
+             if (isset($_GET['view'])) {
+                $path.="&view=".$_GET['view'];
+            }
+            ?>
+            <a href="<?php echo $path;?>" class="btn btn-outline-primary">Back</a>&nbsp;&nbsp;
             </div>

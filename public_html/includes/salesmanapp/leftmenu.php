@@ -8,6 +8,14 @@
             <a href="<?php echo URL;?>dashboard.php"  class="sidebar-link"><i class="align-middle" data-feather="sliders"></i> <span class="align-middle">Dashboards</span></a>
         </li>
         <li class="sidebar-header">Quick Links</li>
+         <li class="sidebar-item">
+            <a data-bs-target="#branches" data-bs-toggle="collapse" class="sidebar-link collapsed">
+                <i class="align-middle" data-feather="layout"></i> <span class="align-middle">Branches</span>
+            </a>
+            <ul id="branches" class="sidebar-dropdown list-unstyled collapse " data-bs-parent="#sidebar">
+                <li class="sidebar-item"><a class="sidebar-link" href="<?php echo URL;?>dashboard.php?action=branch/list">View Branches</a></li>                   
+            </ul>
+        </li>
         <li class="sidebar-item">
             <a data-bs-target="#customers" data-bs-toggle="collapse" class="sidebar-link collapsed">
                 <i class="align-middle" data-feather="layout"></i> <span class="align-middle">Customers</span>

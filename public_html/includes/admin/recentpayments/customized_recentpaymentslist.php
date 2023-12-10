@@ -24,24 +24,24 @@
                     <div class="card-body">
                         <div class="row">
                             <div class="col-sm-6 mb-1">
-                                <input class="form-check-input" type="checkbox" value="1" id="PaymentRequestDate" name="PaymentRequestDate"  onclick="printPaymentRequestdate()">&nbsp;
-                               Payment Request Date
-                                <div id="PaymentRequestdate" style="display: none;">
+                                <input class="form-check-input" type="checkbox" value="1" id="PaidDate" name="PaymentDate"  onclick="printPaymentdate()">&nbsp;
+                               Payment Date
+                                <div id="selectPaymentDate" style="display: none;">
                                     <div class="input-group">
-                                        <input type="date" name="FromDate" value="<?php echo date("Y-m-d");?>" id="FromDate" class="form-control" placeholder="From Date">
+                                        <input type="text" readonly="readonly" name="FromDate" value="<?php echo date("d-m-Y");?>" id="FromDate" class="form-control" placeholder="From Date">
                                         <div class="input-group-prepend">
                                             <span class="input-group-text" id="basic-addon1">To</span>
                                         </div>
-                                        <input type="date" name="ToDate" value="<?php echo date("Y-m-d");?>" id="ToDate" class="form-control" placeholder="To Date">
+                                        <input type="text" readonly="readonly" name="ToDate" value="<?php echo date("d-m-Y");?>" id="ToDate" class="form-control" placeholder="To Date">
                                     </div>
-                                    <span id="ErrPaymentRequestDate" class="error_msg"></span> 
+                                    <span id="ErrPaymentDate" class="error_msg"></span> 
                                 </div> 
                             </div>
                             <script>
-                                function printPaymentRequestdate() {
+                                function printPaymentdate() {
                                     OrderByContent();
-                                    var checkBox = document.getElementById("PaymentRequestDate");
-                                    var div = document.getElementById("PaymentRequestdate");
+                                    var checkBox = document.getElementById("PaidDate");
+                                    var div = document.getElementById("selectPaymentDate");
                                     if (checkBox.checked == true){
                                         div.style.display = "block";
                                     } else {
@@ -52,7 +52,7 @@
                             <div class="col-sm-6 mb-1">
                             </div>
                             <div class="col-sm-4 mb-1">
-                                <input class="form-check-input" type="checkbox" value="1" id="PaymentRequestCode" name="PaymentRequestCode" onclick="OrderByContent()">&nbsp;
+                                <input class="form-check-input" type="checkbox" value="1" id="RequestCode" name="RequestCode" onclick="OrderByContent()">&nbsp;
                                 Payment Request ID
                             </div>
                             <div class="col-sm-4 mb-1">
@@ -84,24 +84,24 @@
                                 Due Amount
                             </div>
                             <div class="col-sm-4 mb-1">
-                                <input class="form-check-input" type="checkbox" value="1" id="BankName" name="BankName" onclick="OrderByContent()">&nbsp;
+                                <input class="form-check-input" type="checkbox" value="1" id="PaymentBankName" name="PaymentBankName" onclick="OrderByContent()">&nbsp;
                                 Bank Name
                             </div>
                             <div class="col-sm-4 mb-1">
-                                <input class="form-check-input" type="checkbox" value="1" id="AccountNumber" name="AccountNumber" onclick="OrderByContent()">&nbsp;
+                                <input class="form-check-input" type="checkbox" value="1" id="PaymentBankNumber" name="PaymentBankNumber" onclick="OrderByContent()">&nbsp;
                                 Account Number
                             </div>
                             <div class="col-sm-4 mb-1">
-                                <input class="form-check-input" type="checkbox" value="1" id="AccountHolderName" name="AccountHolderName" onclick="OrderByContent()">&nbsp;
+                                <input class="form-check-input" type="checkbox" value="1" id="PaymentBankAccountHolderName" name="PaymentBankAccountHolderName" onclick="OrderByContent()">&nbsp;
                                 Account Holder Name
                             </div>
                             <div class="col-sm-4 mb-1">
-                                <input class="form-check-input" type="checkbox" value="1" id="IFSCode" name="IFSCode" onclick="OrderByContent()">&nbsp;
+                                <input class="form-check-input" type="checkbox" value="1" id="PaymentBankIFSCode" name="PaymentBankIFSCode" onclick="OrderByContent()">&nbsp;
                                 IFSC Code
                             </div>
                             
                              <div class="col-sm-4 mb-1">
-                                <input class="form-check-input" type="checkbox" value="1" id="Branch" name="Branch" onclick="OrderByContent()">&nbsp;
+                                <input class="form-check-input" type="checkbox" value="1" id="PaymentBankBranchName" name="PaymentBankBranchName" onclick="OrderByContent()">&nbsp;
                                 Branch
                             </div>
                             <div class="col-sm-4 mb-1">
@@ -266,12 +266,12 @@
 function OrderByContent() {
     
      var html = "";
-     if ($('#PaymentRequestDate').prop("checked")) {
-        html += "<option value='PaymentRequestDate'>Payment Request Date</option>";
+     if ($('#PaidDate').prop("checked")) {
+        html += "<option value='PaymentDate'>Payment Date</option>";
      }
      
-     if ($('#PaymentRequestCode').prop("checked")) {
-        html += "<option value='PaymentRequestCode'>Payment Request ID</option>";
+     if ($('#RequestCode').prop("checked")) {
+        html += "<option value='RequestCode'>Payment Request ID</option>";
      }
      if ($('#CustomerCode').prop("checked")) {
         html += "<option value='CustomerCode'>Customer ID</option>";
@@ -294,20 +294,20 @@ function OrderByContent() {
      if ($('#DueAmount').prop("checked")) {
         html += "<option value='DueAmount'>Due Amount</option>";
      }
-     if ($('#BankName').prop("checked")) {
-        html += "<option value='BankName'>Bank Name</option>";
+     if ($('#PaymentBankName').prop("checked")) {
+        html += "<option value='PaymentBankName'>Bank Name</option>";
      }
-     if ($('#AccountNumber').prop("checked")) {
-        html += "<option value='AccountNumber'>Account Number</option>";
+     if ($('#PaymentBankNumber').prop("checked")) {
+        html += "<option value='PaymentBankNumber'>Account Number</option>";
      }
-     if ($('#AccountHolderName').prop("checked")) {
-        html += "<option value='AccountHolderName'>Account Holder Name</option>";
+     if ($('#PaymentBankAccountHolderName').prop("checked")) {
+        html += "<option value='PaymentBankAccountHolderName'>Account Holder Name</option>";
      }
-     if ($('#IFSCode').prop("checked")) {
-        html += "<option value='IFSCode'>IFSC Code</option>";
+     if ($('#PaymentBankIFSCode').prop("checked")) {
+        html += "<option value='PaymentBankIFSCode'>IFSC Code</option>";
      }
-     if ($('#Branch').prop("checked")) {
-        html += "<option value='Branch'>Branch</option>";
+     if ($('#PaymentBankBranchName').prop("checked")) {
+        html += "<option value='PaymentBankBranchName'>Branch</option>";
      }
      if ($('#BankReferenceNumber').prop("checked")) {
         html += "<option value='BankReferenceNumber'>Bank Reference Number</option>";
@@ -340,7 +340,7 @@ function getData() {
     var param = $('#frm_customreport').serialize();
     openPopup();
     clearDiv(['ReceiptDate','message']);
-    $.post(URL+ "webservice.php?action=listCustomize&method=Customers",param,function(data){
+    $.post(URL+ "webservice.php?action=listCustomize&method=PaymentRequests",param,function(data){
         closePopup();
         var obj = JSON.parse(data);
         var column_count=0;
@@ -349,15 +349,15 @@ function getData() {
             var header="";
             
             header ="<tr>";
-            if ($('#PaymentRequestDate').prop("checked")) {
-                header += "<th>Payment Request Date</th>";
+            if ($('#PaidDate').prop("checked")) {
+                header += "<th>Payment Date</th>";
                 column_count++;
             }
             if ($('#CustomerCode').prop("checked")) {
                 header += "<th>Customer ID</th>";
                 column_count++;
             }
-            if ($('#PaymentRequestCode').prop("checked")) {
+            if ($('#RequestCode').prop("checked")) {
                 header += "<th>Payment Request ID</th>";
                 column_count++;
             }
@@ -378,30 +378,30 @@ function getData() {
                 column_count++;
             }
             if ($('#DueNumber').prop("checked")) {
-                header += "<th>Due Number</th>";
+                header += "<th style='text-align: right'>Due Number</th>";
                 column_count++;
             }
             if ($('#DueAmount').prop("checked")) {
                 header += "<th>Due Amount</th>";
                 column_count++;
             }
-            if ($('#BankName').prop("checked")) {
+            if ($('#PaymentBankName').prop("checked")) {
                 header += "<th>Bank Name</th>";
                 column_count++;
             }
-            if ($('#AccountNumber').prop("checked")) {
+            if ($('#PaymentBankNumber').prop("checked")) {
                 header += "<th>Account Number</th>";
                 column_count++;
             }
-            if ($('#AccountHolderName').prop("checked")) {
+            if ($('#PaymentBankAccountHolderName').prop("checked")) {
                 header += "<th>Account Holder Name</th>";
                 column_count++;
             }
-            if ($('#IFSCode').prop("checked")) {
+            if ($('#PaymentBankIFSCode').prop("checked")) {
                 header += "<th>IFSC Code</th>";
                 column_count++;
             }
-            if ($('#Branch').prop("checked")) {
+            if ($('#PaymentBankBranchName').prop("checked")) {
                 header += "<th>Branch</th>";
                 column_count++;
             }
@@ -435,11 +435,11 @@ function getData() {
             $('#tbl_header').html(header) ;
             $.each(obj.data, function (index, data) {
               html +=    '<tr>';
-              if ($('#PaymentRequestDate').prop("checked")) {
-               html += '<td>' + data.PaymentRequestDate + '</td>';
+              if ($('#PaidDate').prop("checked")) {
+               html += '<td>' + data.PaymentDate + '</td>';
               }
-              if ($('#PaymentRequestCode').prop("checked")) {
-               html += '<td>' + data.PaymentRequestCode + '</td>';
+              if ($('#RequestCode').prop("checked")) {
+               html += '<td>' + data.RequestCode + '</td>';
               }
               if ($('#CustomerCode').prop("checked")) {
                html += '<td>' + data.CustomerCode + '</td>';
@@ -462,20 +462,20 @@ function getData() {
               if ($('#DueAmount').prop("checked")) {
                html += '<td>' + data.DueAmount + '</td>';
               }
-              if ($('#BankName').prop("checked")) {
-               html += '<td>' + data.BankName + '</td>';
+              if ($('#PaymentBankName').prop("checked")) {
+               html += '<td>' + data.PaymentBankName + '</td>';
               }
-              if ($('#AccountNumber').prop("checked")) {
-               html += '<td>' + data.AccountNumber + '</td>';
+              if ($('#PaymentBankNumber').prop("checked")) {
+               html += '<td>' + data.PaymentBankNumber + '</td>';
               }
-              if ($('#AccountHolderName').prop("checked")) {
-               html += '<td>' + data.AccountHolderName + '</td>';
+              if ($('#PaymentBankAccountHolderName').prop("checked")) {
+               html += '<td>' + data.PaymentBankAccountHolderName + '</td>';
               }
-              if ($('#IFSCode').prop("checked")) {
-               html += '<td>' + data.IFSCode + '</td>';
+              if ($('#PaymentBankIFSCode').prop("checked")) {
+               html += '<td>' + data.PaymentBankIFSCode + '</td>';
               }
-              if ($('#Branch').prop("checked")) {
-               html += '<td>' + data.Branch + '</td>';
+              if ($('#PaymentBankBranchName').prop("checked")) {
+               html += '<td>' + data.PaymentBankBranchName + '</td>';
               }
               if ($('#BankReferenceNumber').prop("checked")) {
                html += '<td>' + data.BankReferenceNumber + '</td>';
@@ -529,7 +529,7 @@ function selectAll() {
               checkboxes[i].checked = true;
          }
      }
-     printPaymentRequestdate();
+     printPaymentdate();
      printCustomername();
      printMobilenumber();
     OrderByContent();
@@ -543,7 +543,7 @@ function selectAll() {
              checkboxes[i].checked = false; // Or inputs[i].checked = true;
          }
      }
-     printPaymentRequestdate();
+     printPaymentdate();
      printCustomername();
      printMobilenumber();
     OrderByContent();

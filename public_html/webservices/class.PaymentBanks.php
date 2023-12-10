@@ -77,6 +77,12 @@ class PaymentBanks {
          return json_encode(array("status"=>"success","data"=>$data));
      }
      
+     public static function getDetails() {
+         global $mysql;
+         $data = $mysql->select("select * from _tbl_masters_paymentbanks where PaymentBankID='".$_GET['ID']."'");
+         return json_encode(array("status"=>"success","data"=>$data));
+     }
+     
      public static function getDetailsByID($PaymentBankID) {
          global $mysql;
          $data = $mysql->select("select * from _tbl_masters_paymentbanks where PaymentBankID='".$PaymentBankID."'");

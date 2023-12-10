@@ -212,10 +212,12 @@ input:checked + .slider:before {
   
   <!-- multi-select-->
   <link href='<?php echo URL;?>assets/select2/dist/css/select2.min.css' rel='stylesheet' type='text/css'>
-  <style>
+ 
+   <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+    <style>
   .select2-container{z-index:10000}
+  .ui-datepicker{z-index: 99999999 !important};
   </style>
-  
 </head>
  
 <body data-theme="default" data-layout="fluid" data-sidebar-position="left" data-sidebar-behavior="sticky">
@@ -234,31 +236,20 @@ input:checked + .slider:before {
             ?>
 			<nav class="navbar navbar-expand navbar-light navbar-bg" <?php echo $css;?>>
 				<a class="sidebar-toggle">
-          <i class="hamburger align-self-center"></i>
-        </a>
-              
-				<form class="d-none d-sm-inline-block">
-					<div class="input-group input-group-navbar">
-						<input type="text" class="form-control" placeholder="Search projects…" aria-label="Search">
-						<button class="btn" type="button">
-              <i class="align-middle" data-feather="search"></i>
-            </button>
-					</div>
-				</form>
-            
-				<ul class="navbar-nav">
-					<li class="nav-item px-2 dropdown" style="line-height: 14px;padding: 0px !important;">
-						<a class="nav-link" href="#" id="servicesDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              <b style="font-size:21px !important">NANA</b><br>
-              Jewellers
-            </a>
-						 
+                    <i class="hamburger align-self-center"></i>
+                </a>
+                <ul class="navbar-nav">
+				    <li class="nav-item px-2 dropdown" style="line-height: 14px;padding: 0px !important;">
+					    <a class="nav-link" href="#" id="servicesDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="line-height:19px;">
+                            <b style="font-size:21px !important">NANA</b> Jewellers<br>
+                            <?php if (strlen(trim($_SESSION['User']['BranchName']))>0) { ?>
+                            Branch: <?php echo $_SESSION['User']['BranchName']; ?>
+                            <?php } ?>
+                        </a>
 					</li>
 				</ul>
-                  
 				<div class="navbar-collapse collapse">
 					<ul class="navbar-nav navbar-align">
-                        
 						<li class="nav-item dropdown">
 							<a class="nav-icon dropdown-toggle" href="#" id="messagesDropdown" data-bs-toggle="dropdown">
 								<div class="position-relative">
@@ -399,8 +390,26 @@ input:checked + .slider:before {
 
 							<a class="nav-link dropdown-toggle d-none d-sm-inline-block" href="#" data-bs-toggle="dropdown">
                 <!--<img src="img/avatars/avatar.jpg" class="avatar img-fluid rounded-circle me-1" alt="Chris Wood" />--> <span class="text-dark">
+                
+                <?php if ($_SESSION['User']['UserModule']=="branchuser") { ?>
+                    <b>Branch User</b><br>
+                    <?php echo $_SESSION['User']['UserName'];?>     
+                <?php } elseif ($_SESSION['User']['UserModule']=="branchadmin") { ?>
+                    <b>Branch Admin</b><br>
+                    <span style="color:#888"><?php echo $_SESSION['User']['UserName'];?></span>
+                <?php } elseif ($_SESSION['User']['UserModule']=="admin") { ?>
+                    <b>Administrator</b><br>
+                    <span style="color:#888"><?php echo $_SESSION['User']['AdministratorName'];?></span>
+                <?php } elseif ($_SESSION['User']['UserModule']=="subadmin") { ?>
+                    <b>Sub Admin</b><br>
+                    <span style="color:#888"><?php echo $_SESSION['User']['UserName'];?></span>
+                <?php } elseif (isset($_SESSION['User']['SalesmanID']) && $_SESSION['User']['SalesmanID']>0) { ?>
+                    <b>Salesman</b><br>
+                    <span style="color:#888"><?php echo $_SESSION['User']['SalesmanName'];?></span>
+                <?php } else {?>
                     <?php echo $_SESSION['User']['EmployeeName'];?> 
                     <?php echo $_SESSION['User']['UserRole'];?>
+                <?php } ?>
                 </span>
               </a>
 							<div class="dropdown-menu dropdown-menu-end">
@@ -416,7 +425,6 @@ input:checked + .slider:before {
 					</ul>
 				</div>
 			</nav>
-
 			<main class="content" <?php echo $css2;?>>
 				<?php 
                 if (isset($_GET['action'])) {
@@ -461,7 +469,23 @@ input:checked + .slider:before {
     </div>
   </div>
 </div>
-
+  <div class="modal" id="internet_failure" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="false">
+  <div class="modal-dialog" role="document">
+  <div class="modal-content">
+  <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Confirmation</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+    <div class="modal-content" id="popupcontent" style="text-align: center;padding:30px;">
+       Please check your internet connection
+        
+    </div>
+    <div class="modal-footer">
+                <button type="button" class="btn btn-outline-primary" data-bs-dismiss="modal">Close</button>
+            </div>
+    </div>
+  </div>
+</div>
 <button type="button" class="btn btn-danger btn-floating btn-lg" style="font-size: 10px; " id="btn-back-to-top">
                        <i class="fas fa-arrow-up" data-feather="arrow-up-circle"></i>
                    </button>
@@ -582,7 +606,7 @@ function backToTop() {
   document.documentElement.scrollTop = 0;
 }
 
-</script>
+</script>                   
 <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.inputmask/3.3.3/jquery.inputmask.bundle.min.js"></script>-->
 <script src="<?php echo URL;?>assets/jquery.inputmask.bundle.min.js"></script>
 <script type="text/javascript" src="<?php echo URL;?>assets/tableExport.js"></script>
@@ -591,6 +615,7 @@ function backToTop() {
 <script type="text/javascript" src="<?php echo URL;?>assets/jspdf/libs/sprintf.js"></script>
 <script type="text/javascript" src="<?php echo URL;?>assets/jspdf/jspdf.js"></script>
 <script type="text/javascript" src="<?php echo URL;?>assets/jspdf/libs/base64.js"></script>
+<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
 
 <script src='<?php echo URL;?>assets/select2/dist/js/select2.min.js' type='text/javascript'></script>
 <script>
@@ -1184,8 +1209,9 @@ if ($('#CustomerName').length){
         if (e.ctrlKey || e.altKey) {
             e.preventDefault();
         } else {
-            var notallowkeys = [48,49,50,51,52,53,54,55,56,57,188,190,191,59,220,221,222,219,173,61,192,111,106,109,107,46,103,104,105,100,101,102,97,98,99,96,188,190,191,59,222,220,219,221,173,61,192,111,106,109,107,46]
-            var allowedkeys  = [9,8,32,46,35,36,37,38,39,40,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,110,190]
+            // console.log(e.keyCode);
+            var notallowkeys = [48,49,50,51,52,53,54,55,56,57,188,190,191,59,220,221,222,219,173,61,192,111,106,109,107,103,104,105,100,101,102,97,98,99,96,188,190,191,59,222,220,219,221,173,61,192,111,106,109,107]
+            var allowedkeys  = [9,8,32,46,35,36,37,38,39,40,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,110,190,46]
             if (e.shiftKey) {
                 if (notallowkeys.includes(e.keyCode)) {
                     e.preventDefault();
@@ -1209,6 +1235,7 @@ if ($('#EmployeeName').length){
         if (e.ctrlKey || e.altKey) {
             e.preventDefault();
         } else {
+            
             var notallowkeys = [48,49,50,51,52,53,54,55,56,57,188,190,191,59,220,221,222,219,173,61,192,111,106,109,107,46,103,104,105,100,101,102,97,98,99,96,188,190,191,59,222,220,219,221,173,61,192,111,106,109,107,46]
             var allowedkeys  = [9,8,32,46,35,36,37,38,39,40,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,110,190]
             if (e.shiftKey) {
@@ -2209,9 +2236,9 @@ if ($('#AddressLine1').length){
         if (e.ctrlKey || e.altKey) {
             e.preventDefault();
         } else {
-            //console.log(e.keyCode);
+            console.log(e.keyCode);
             var notallowkeys = [48,49,50,52,53,54,55,56,57,188,190,191,59,220,221,222,219,61,192,173,106,107,46]
-            var allowedkeys  = [51,173,111,109,191,190,110,96,97,98,99,100,101,102,103,104,105,9,8,16,46,35,36,37,38,39,40,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,48,49,50,51,52,53,54,55,56,57,33,34,35,36,37,38,39,40,45,12]
+            var allowedkeys  = [32,51,173,111,109,191,190,110,96,97,98,99,100,101,102,103,104,105,9,8,16,46,35,36,37,38,39,40,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,48,49,50,51,52,53,54,55,56,57,33,34,35,36,37,38,39,40,45,12,188]
             if (e.shiftKey) {
                 if (notallowkeys.includes(e.keyCode)) {
                     e.preventDefault();
@@ -2233,9 +2260,9 @@ if ($('#AddressLine2').length){
         if (e.ctrlKey || e.altKey) {
             e.preventDefault();
         } else {
-            //console.log(e.keyCode);
+            console.log(e.keyCode);
             var notallowkeys = [48,49,50,52,53,54,55,56,57,188,190,191,59,220,221,222,219,61,192,173,106,107,46]
-            var allowedkeys  = [51,173,111,109,191,190,110,96,97,98,99,100,101,102,103,104,105,9,8,16,46,35,36,37,38,39,40,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,48,49,50,51,52,53,54,55,56,57,33,34,35,36,37,38,39,40,45,12]
+            var allowedkeys  = [51,173,111,109,191,190,110,96,97,98,99,100,101,102,103,104,105,9,8,16,46,35,36,37,38,39,40,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,48,49,50,51,52,53,54,55,56,57,33,34,35,36,37,38,39,40,45,12,188]
             if (e.shiftKey) {
                 if (notallowkeys.includes(e.keyCode)) {
                     e.preventDefault();
@@ -2549,7 +2576,7 @@ if ($('#LoginPassword').length){
         if (e.ctrlKey || e.altKey) {
             e.preventDefault();
         } else {
-            console.log(e.keyCode);
+            //console.log(e.keyCode);
             var notallowkeys = [220,222,49,52,192]
             var allowedkeys  = [9,8,46,32,35,36,37,38,39,40,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,103,104,105,100,101,102,97,98,99,96,48,49,50,51,52,53,54,55,56,57,173,61,110,190,191,221,219,111,106,109,107,59,188]
             if (e.shiftKey) {
@@ -2569,13 +2596,14 @@ if ($('#LoginPassword').length){
     });
  }
  if ($('#BusinessName').length){
-    /*Alphanumeric without space*/
+/*Alphabets with space and dot  */
     $('#BusinessName').keydown(function (e) {
         if (e.ctrlKey || e.altKey) {
             e.preventDefault();
         } else {
-            var notallowkeys = [48,49,50,51,52,53,54,55,56,57,188,191,59,220,221,222,219,173,61,192,111,106,109,107,46]
-            var allowedkeys  = [96,97,98,99,100,101,102,103,104,105,9,8,16,46,35,36,37,38,39,40,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,48,49,50,51,52,53,54,55,56,57,33,34,35,36,37,38,39,40,45,12,110,190]
+            // console.log(e.keyCode);
+            var notallowkeys = [48,49,50,51,52,53,54,55,56,57,188,190,191,59,220,221,222,219,173,61,192,111,106,109,107,103,104,105,100,101,102,97,98,99,96,188,190,191,59,222,220,219,221,173,61,192,111,106,109,107]
+            var allowedkeys  = [9,8,32,46,35,36,37,38,39,40,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,110,190,46]
             if (e.shiftKey) {
                 if (notallowkeys.includes(e.keyCode)) {
                     e.preventDefault();
@@ -2586,11 +2614,12 @@ if ($('#LoginPassword').length){
                 }
             }
         }
-    });
+    }); 
     $('#BusinessName').on("cut copy paste",function(e){
         e.preventDefault();
-    });
+    }); 
 }
+ 
 if ($('#CompanyName').length){
     /*Alphanumeric without space*/
     $('#CompanyName').keydown(function (e) {
@@ -2614,6 +2643,261 @@ if ($('#CompanyName').length){
         e.preventDefault();
     });
 }
+if ($('#BankReferenceNumber').length){
+/* Numbers without space*/
+   $('#BankReferenceNumber').keydown(function (e) {
+        if (e.ctrlKey || e.altKey) {
+            e.preventDefault();
+        } else {
+            //console.log(e.keyCode);
+            var notallowkeys = [32,48,49,50,51,52,53,54,55,56,57,16,188,190,191,59,222,220,219,221,173,61,192,111,106,109,107,46,110,190]
+            var allowedkeys  = [9,8,46,35,36,37,38,39,40,48,49,50,51,52,53,54,55,56,57,103,104,105,100,101,102,97,98,99,96,,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90]
+            if (e.shiftKey) {
+                if (notallowkeys.includes(e.keyCode)) {
+                    e.preventDefault();
+                }
+            } else {
+                if (!(allowedkeys.includes(e.keyCode))) {
+                    e.preventDefault();
+                }
+            }
+        }
+    });
+    $('#BankReferenceNumber').on("cut copy paste",function(e){
+        e.preventDefault();
+    });
+ } 
+ 
+ if ($('#Gold18').length){
+/* Numbers without space only allow dot */
+   $('#Gold18').keydown(function (e) {
+        if (e.ctrlKey || e.altKey) {
+            e.preventDefault();
+        } else {
+            console.log(e.keyCode);
+            var notallowkeys = [48,49,50,51,52,53,54,55,56,57,16,188,190,191,59,222,220,219,221,173,61,192,111,106,109,107,46,110,190,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90]
+            var allowedkeys  = [9,8,46,35,36,37,38,39,40,48,49,50,51,52,53,54,55,56,57,103,104,105,100,101,102,97,98,99,96,110,190]
+            if (e.shiftKey) {
+                if (notallowkeys.includes(e.keyCode)) {
+                    e.preventDefault();
+                }
+            } else {
+                if (!(allowedkeys.includes(e.keyCode))) {
+                    e.preventDefault();
+                }
+            }
+        }
+    });
+    $('#Gold18').on("cut copy paste",function(e){
+        e.preventDefault();
+    });
+ }
+ if ($('#editGold18').length){
+/* Numbers without space only allow dot */
+   $('#editGold18').keydown(function (e) {
+        if (e.ctrlKey || e.altKey) {
+            e.preventDefault();
+        } else {
+            console.log(e.keyCode);
+            var notallowkeys = [48,49,50,51,52,53,54,55,56,57,16,188,190,191,59,222,220,219,221,173,61,192,111,106,109,107,46,110,190,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90]
+            var allowedkeys  = [9,8,46,35,36,37,38,39,40,48,49,50,51,52,53,54,55,56,57,103,104,105,100,101,102,97,98,99,96,110,190]
+            if (e.shiftKey) {
+                if (notallowkeys.includes(e.keyCode)) {
+                    e.preventDefault();
+                }
+            } else {
+                if (!(allowedkeys.includes(e.keyCode))) {
+                    e.preventDefault();
+                }
+            }
+        }
+    });
+    $('#editGold18').on("cut copy paste",function(e){
+        e.preventDefault();
+    });
+ }
+ if ($('#Gold22').length){
+/* Numbers without space only allow dot */
+   $('#Gold22').keydown(function (e) {
+        if (e.ctrlKey || e.altKey) {
+            e.preventDefault();
+        } else {
+            console.log(e.keyCode);
+            var notallowkeys = [48,49,50,51,52,53,54,55,56,57,16,188,190,191,59,222,220,219,221,173,61,192,111,106,109,107,46,110,190,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90]
+            var allowedkeys  = [9,8,46,35,36,37,38,39,40,48,49,50,51,52,53,54,55,56,57,103,104,105,100,101,102,97,98,99,96,110,190]
+            if (e.shiftKey) {
+                if (notallowkeys.includes(e.keyCode)) {
+                    e.preventDefault();
+                }
+            } else {
+                if (!(allowedkeys.includes(e.keyCode))) {
+                    e.preventDefault();
+                }
+            }
+        }
+    });
+    $('#Gold22').on("cut copy paste",function(e){
+        e.preventDefault();
+    });
+ }
+ if ($('#editGold22').length){
+/* Numbers without space only allow dot */
+   $('#editGold22').keydown(function (e) {
+        if (e.ctrlKey || e.altKey) {
+            e.preventDefault();
+        } else {
+            console.log(e.keyCode);
+            var notallowkeys = [48,49,50,51,52,53,54,55,56,57,16,188,190,191,59,222,220,219,221,173,61,192,111,106,109,107,46,110,190,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90]
+            var allowedkeys  = [9,8,46,35,36,37,38,39,40,48,49,50,51,52,53,54,55,56,57,103,104,105,100,101,102,97,98,99,96,110,190]
+            if (e.shiftKey) {
+                if (notallowkeys.includes(e.keyCode)) {
+                    e.preventDefault();
+                }
+            } else {
+                if (!(allowedkeys.includes(e.keyCode))) {
+                    e.preventDefault();
+                }
+            }
+        }
+    });
+    $('#editGold22').on("cut copy paste",function(e){
+        e.preventDefault();
+    });
+ }
+ if ($('#Gold24').length){
+/* Numbers without space only allow dot */
+   $('#Gold24').keydown(function (e) {
+        if (e.ctrlKey || e.altKey) {
+            e.preventDefault();
+        } else {
+            console.log(e.keyCode);
+            var notallowkeys = [48,49,50,51,52,53,54,55,56,57,16,188,190,191,59,222,220,219,221,173,61,192,111,106,109,107,46,110,190,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90]
+            var allowedkeys  = [9,8,46,35,36,37,38,39,40,48,49,50,51,52,53,54,55,56,57,103,104,105,100,101,102,97,98,99,96,110,190]
+            if (e.shiftKey) {
+                if (notallowkeys.includes(e.keyCode)) {
+                    e.preventDefault();
+                }
+            } else {
+                if (!(allowedkeys.includes(e.keyCode))) {
+                    e.preventDefault();
+                }
+            }
+        }
+    });
+    $('#Gold24').on("cut copy paste",function(e){
+        e.preventDefault();
+    });
+ }
+  if ($('#editGold24').length){
+/* Numbers without space only allow dot */
+   $('#editGold24').keydown(function (e) {
+        if (e.ctrlKey || e.altKey) {
+            e.preventDefault();
+        } else {
+            console.log(e.keyCode);
+            var notallowkeys = [48,49,50,51,52,53,54,55,56,57,16,188,190,191,59,222,220,219,221,173,61,192,111,106,109,107,46,110,190,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90]
+            var allowedkeys  = [9,8,46,35,36,37,38,39,40,48,49,50,51,52,53,54,55,56,57,103,104,105,100,101,102,97,98,99,96,110,190]
+            if (e.shiftKey) {
+                if (notallowkeys.includes(e.keyCode)) {
+                    e.preventDefault();
+                }
+            } else {
+                if (!(allowedkeys.includes(e.keyCode))) {
+                    e.preventDefault();
+                }
+            }
+        }
+    });
+    $('#editGold24').on("cut copy paste",function(e){
+        e.preventDefault();
+    });
+ }
+ 
+if ($('#EntryDate').length){
+    
+    $('#EntryDate').datepicker({
+        dateFormat: "dd-mm-yy",
+        minDate:new Date(2023,0,1),
+        maxDate:new Date(<?php echo date("Y");?>,<?php echo date("m")-1;?>,<?php echo date("d");?>) 
+        
+    });
+}
+if ($('#FromDate').length){                             
+    
+    $('#FromDate').datepicker({
+        dateFormat: "dd-mm-yy",
+        minDate:new Date(2023,0,1),
+        maxDate:new Date(<?php echo date("Y");?>,<?php echo date("m")-1;?>,<?php echo date("d");?>) 
+        
+    });
+    
+    $('#FromDate').on("change",function(){
+          var seldate=$(this).val();
+          //alert(seldate);
+          if ($('#ToDate').length){
+            $('#ToDate').datepicker("destroy") ;
+            $('#ToDate').datepicker({
+                dateFormat: "dd-mm-yy",
+                minDate:($(this).val()),
+                maxDate:new Date(<?php echo date("Y");?>,<?php echo date("m")-1;?>,<?php echo date("d");?>) 
+                
+            });
+        
+}
+    });
+
+}
+if ($('#ToDate').length){
+    
+    /*$('#ToDate').datepicker({
+        dateFormat: "dd-mm-yy",
+        minDate:new Date(2023,0,1),
+        maxDate:new Date(<?php echo date("Y");?>,<?php echo date("m")-1;?>,<?php echo date("d");?>) 
+        
+    }); */
+        
+}
+if ($('#PaymentDate').length){
+    
+    $('#PaymentDate').datepicker({
+        dateFormat: "dd-mm-yy",
+        minDate:new Date(<?php echo date("Y");?>,<?php echo date("m")-1;?>,<?php echo date("d-5");?>),
+        maxDate:new Date(<?php echo date("Y");?>,<?php echo date("m")-1;?>,<?php echo date("d");?>) 
+        
+    });
+}
+if ($('#Date').length){
+    
+    $('#Date').datepicker({
+        dateFormat: "dd-mm-yy",
+        minDate:new Date(2023,0,1),
+        maxDate:new Date(<?php echo date("Y");?>,<?php echo date("m")-1;?>,<?php echo date("d");?>) 
+        
+    });
+}
+
+if ($('#DateOfBirth').length){
+    
+    $('#DateOfBirth').datepicker({
+        dateFormat: "dd-mm-yy",
+        minDate:new Date(1950,0,1),
+        maxDate:new Date(<?php echo date("Y")-18;?>,<?php echo date("m");?>,<?php echo date("d");?>) 
+        
+    });
+}
+
+if ($('#PancardNumber').length){
+$('#PancardNumber').on("cut copy paste",function(e){
+        e.preventDefault();
+    });
+}
+
+if ($('#AadhaarCardNumber').length){
+$('#AadhaarCardNumber').on("cut copy paste",function(e){
+        e.preventDefault();
+    });
+}
+
 
 </script>
 </html>

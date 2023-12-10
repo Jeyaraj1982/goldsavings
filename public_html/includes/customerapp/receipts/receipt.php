@@ -2,10 +2,10 @@
 <div class="container-fluid p-0">
     <div class="col-sm-12">
         <div class="row">
-        <div class="col-9">
+            <div class="col-6">
             <h1 class="h3">Receipts</h1>
         </div>
-        <div class="col-3" style="text-align:right;">
+            <div class="col-6" style="text-align: right;">
             <?php 
             $path=URL."dashboard.php";
             if (isset($_GET['fpg'])) {
@@ -13,12 +13,11 @@
             }
             ?>
             <a href="<?php echo $path;?>" class="btn btn-outline-primary btn-sm">Back</a>
-     </div>
-     </div>
+    </div>
+        </div>
      </div>
      <div class="row" id="_content">
-     </div>
-        
+    </div>
 </div>
 
 <script>
@@ -27,7 +26,7 @@ function listReceipts() {
     var param = $('#frm_receipt').serialize();
     openPopup();
     clearDiv(['message']);
-    $.post(URL+ "webservice.php?action=getReceipts",param,function(data){
+    $.post(URL+ "webservice.php?action=listAll&method=Receipts",param,function(data){
         closePopup();
         var obj = JSON.parse(data);
         if (obj.status=="success") {

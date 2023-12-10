@@ -8,18 +8,51 @@
                     <div class="card-body">
                         <div class="row">
                             <div class="col-sm-6 mb-3">
-                                <label class="form-label">Contact Code <span style='color:red'>*</span></label>
-                                <input type="text" value="<?php echo SequnceList::getNextNumber("_tbl_apps_addressbook");?>" name="ContactCode" id="ContactCode" class="form-control" placeholder="Contact Code">
+                                <label class="form-label">Contact Code <span style='color:red'>*</span>
+                                <img src="<?php echo URL;?>assets/question.png" style="width: 12px;" class="dropdown"  id="dropdownMenuButton1" data-bs-toggle="dropdown">
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton1" style="padding:0px;">
+                                    <div class="myheader">Contact Code</div>
+                                    <div class="mycontainer">
+                                        1. Allow only alphanumeric characters<br>
+                                        2. Minimum 8 characters require<br>
+                                        3. Maximum 20 characters require<br>
+                                        4. Not allow cut,copy,paste
+                                    </div>
+                                </div>
+                                </label>
+                                <input type="text" value="<?php echo SequnceList::getNextNumber("_tbl_apps_addressbook");?>" name="ContactCode" id="ContactCode" class="form-control" placeholder="Contact Code" maxlength="20" oninput="this.value=this.value.toUpperCase()">
                                 <span id="ErrContactCode" class="error_msg"></span>
                             </div>
                             <div class="col-sm-12 mb-3">
-                                <label class="form-label">Person Name <span style='color:red'>*</span></label>
-                                <input type="text" name="ContactPersonName" id="ContactPersonName" class="form-control" placeholder="Person Name">
+                                <label class="form-label">Person Name <span style='color:red'>*</span>
+                                <img src="<?php echo URL;?>assets/question.png" style="width: 12px;" class="dropdown"  id="dropdownMenuButton1" data-bs-toggle="dropdown">
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton1" style="padding:0px;">
+                                    <div class="myheader">Person Name</div>
+                                    <div class="mycontainer">
+                                        1. Allow only alphabets and space<br>
+                                        2. Minimum 3 characters require<br>
+                                        3. Maximum 50 characters require<br>
+                                        4. Not allow cut,copy,paste
+                                    </div>
+                                </div>
+                                </label>
+                                <input type="text" name="ContactPersonName" id="ContactPersonName" class="form-control" placeholder="Contact Person Name" maxlength="50">
                                 <span id="ErrContactPersonName" class="error_msg"></span>
                             </div>
                             <div class="col-sm-12 mb-3">
-                                <label class="form-label">Business Name</label>
-                                <input type="text" name="BusinessName" id="BusinessName" class="form-control" placeholder="Business Name">
+                                <label class="form-label">Business Name
+                                <img src="<?php echo URL;?>assets/question.png" style="width: 12px;" class="dropdown"  id="dropdownMenuButton1" data-bs-toggle="dropdown">
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton1" style="padding:0px;">
+                                    <div class="myheader">Business Name</div>
+                                    <div class="mycontainer">
+                                        1. Allow only alphabets and space<br>
+                                        2. Minimum 3 characters require<br>
+                                        3. Maximum 50 characters require<br>
+                                        4. Not allow cut,copy,paste
+                                    </div>
+                                </div>
+                                </label>
+                                <input type="text" name="BusinessName" id="BusinessName" class="form-control" placeholder="Business Name" maxlength="50">
                                 <span id="ErrBusinessName" class="error_msg"></span>
                             </div>
                             <div class="col-sm-12 mb-3">
@@ -55,12 +88,13 @@
                         <div class="row">
                             <div class="col-sm-12 mb-3">
                                 <label class="form-label">Address Line 1 <span style='color:red'>*</span>
-                                <img src="<?php echo URL;?>assets/question.png" style="width: 12px;" class="dropdown"  id="dropdownMenuButton1" data-bs-toggle="dropdown">
+                                    <img src="<?php echo URL;?>assets/question.png" style="width: 12px;" class="dropdown"  id="dropdownMenuButton1" data-bs-toggle="dropdown">
                                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton1" style="padding:0px;">
                                     <div class="myheader">Address Line 1</div>
                                     <div class="mycontainer">
                                         1. Allow alphanumeric characters<br>
-                                        2. Allow only special charecters <span style="color:green;"> #/-.<span>
+                                        2. Not allow cut,copy,paste<br>
+                                        3. Allow only special charecters <span style="color:green;"> #/-.<span>
                                     </div>
                                 </div>
                                 </label>
@@ -74,11 +108,12 @@
                                     <div class="myheader">Address Line 2</div>
                                     <div class="mycontainer">
                                         1. Allow alphanumeric characters<br>
-                                        2. Allow only special charecters <span style="color:green;"> #/-.<span>
+                                        2. Not allow cut,copy,paste<br>
+                                        3. Allow only special charecters <span style="color:green;"> #/-.<span>
                                     </div>
                                 </div>
                                 </label>
-                                <input type="text" name="AddressLine2" id="EstimatedDuration" class="form-control" placeholder="Address Line 2">
+                                <input type="text" name="AddressLine2" id="AddressLine2" class="form-control" placeholder="Address Line 2">
                                 <span id="ErrAddressLine2" class="error_msg"></span>
                             </div>
                             <div class="col-sm-6 mb-3">
@@ -109,7 +144,7 @@
                                 <span id="ErrAreaNameID" class="error_msg"></span>
                             </div>
                             <div class="col-sm-6">
-                                <label class="form-label">PinCode <span style='color:red'>*</span></label>
+                                <label class="form-label">Pincode <span style='color:red'>*</span></label>
                                 <input type="text" value="" name="PinCode" id="PinCode" class="form-control" placeholder="Pincode" data-masked="" data-inputmask="'mask':'999 999'">
                                 <span id="ErrPinCode" class="error_msg"></span>
                             </div>
@@ -121,8 +156,18 @@
                 <div class="card">
                     <div class="card-body">
                             <div class="col-sm-12">
-                                <label class="form-label">Remarks</label>
-                                <input type="text" value="" name="Remarks" id="Remarks" class="form-control" placeholder="Remarks">
+                                <label class="form-label">Remarks
+                                <img src="<?php echo URL;?>assets/question.png" style="width: 12px;" class="dropdown"  id="dropdownMenuButton1" data-bs-toggle="dropdown">
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton1" style="padding:0px;">
+                                    <div class="myheader">Remarks</div>
+                                   <div class="mycontainer">
+                                        1. Allow all characters, not allow <span style='color:red'>\'!~$"</span><br>
+                                        2. Maximum 250 characters require<br>
+                                        3. Not allow cut,copy,paste
+                                    </div>
+                                </div>
+                                </label>
+                                <input type="text" value="" name="Remarks" id="Remarks" class="form-control" placeholder="Remarks" maxlength="250">
                                 <span id="ErrRemarks" class="error_msg"></span>
                         </div>
                     </div>
@@ -166,8 +211,104 @@
 </div>
 </div>
 
+ <div class="modal fade" id="newstate" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+    <form name="frm_create_statename" id="frm_create_statename">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">State Name</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="col-sm-6">
+            <label class="form-label">State Name <span style='color:red'>*</span></label>
+        <div class="input-group">
+            <input type="text" name="StateName" id="StateName" class="form-control" placeholder="State Name">
+        </div>
+            <span id="ErrStateName" class="error_msg"></span>
+        </div>
+    </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline-primary" data-bs-dismiss="modal">Cancel</button>
+        <button type="button" onclick="addNewStateName()" class="btn btn-primary">Add State Name</button>
+      </div>
+     </form> 
+    </div>
+  </div>
+</div>
 
+<div class="modal fade" id="newdistrict" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+    <form name="frm_create_districtname" id="frm_create_districtname">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">District Name</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+      <div class="col-sm-6 mb-3">
+            <label class="form-label">State Name </label>
+            <input type="hidden"  name="StateNameID" id="StateNameByDistrictNameID" class="form-control" value="">
+            <input type="text" disabled="disabled" name="StateName" id="StateNameByDistrictName" class="form-control" value="">
+        </div>
+        <div class="col-sm-6">
+            <label class="form-label">District Name <span style='color:red'>*</span></label>
+        <div class="input-group">
+            <input type="text" name="DistrictName" id="DistrictName" class="form-control" placeholder="District Name">
+        </div>
+         <span id="ErrDistrictName" class="error_msg"></span>
+        </div>
+        
+    </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline-primary" data-bs-dismiss="modal">Cancel</button>
+        <button type="button" onclick="addNewDistrictName()" class="btn btn-primary">Add District Name</button>
+      </div>
+     </form> 
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="newarea" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+    <form name="frm_create_areaname" id="frm_create_areaname">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">District Name</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+      <div class="col-sm-6 mb-3">
+            <label class="form-label">State Name </label>
+            <input type="hidden"  name="StateNameID" id="StateNameByDistrictNameModalID" class="form-control" value="">
+            <input type="text" disabled="disabled" name="StateName" id="StateNameByDistrictNameModal" class="form-control" value="">
+        </div>
+        <div class="col-sm-6 mb-3">
+            <label class="form-label">District Name </label>
+            <input type="hidden"  name="DistrictNameID" id="DistrictNameByAreaNameID" class="form-control" value="">
+            <input type="text" disabled="disabled" name="DistrictName" id="DistrictNameByAreaName" class="form-control" value="">
+        </div>
+        <div class="col-sm-6">
+            <label class="form-label">Area Name <span style='color:red'>*</span></label>
+        <div class="input-group">
+            <input type="text" name="AreaName" id="AreaName" class="form-control" placeholder="Area Name">
+        </div>
+         <span id="ErrAreaName" class="error_msg"></span>
+        </div>
+        </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline-primary" data-bs-dismiss="modal">Cancel</button>
+        <button type="button" onclick="addNewAreaName()" class="btn btn-primary">Add Area Name</button>
+      </div>
+     </form> 
+    </div>
+  </div>
+  </div>
+  
 <script>
+var newstatename="";
+var newdistrictname="";
+var newareaname="";
 
 function confirmationtoadd(){
   $('#confirmation').modal("show");   
@@ -203,22 +344,25 @@ function addNew() {
 }
 
 function listStateNames() {
+    var i=0;
     $.post(URL+ "webservice.php?action=listAllActive&method=StateNames","",function(data){
         var obj = JSON.parse(data);
         if (obj.status=="success") {
             var html = "<option value='0'>Select State Name</option>";
             $.each(obj.data, function (index, data) {
-                html += '<option value="'+data.StateNameID+'">'+data.StateName+'</option>';
+                if ((newstatename==data.StateName)) {
+                    i=data.StateNameID;
+                }
+                html += '<option value="'+data.StateNameID+'" '+((newstatename==data.StateName) ? '"selected=selected"' : '')+'>'+data.StateName+'</option>';
             });   
             $('#StateNameID').html(html);
-            /*$("#StateNameID").append($("#StateNameID option").remove().sort(function(a, b) {
+            /*$("#CustomerTypeNameID").append($("#CustomerTypeNameID option").remove().sort(function(a, b) {
                 var at = $(a).text(), bt = $(b).text();
                 return (at > bt)?1:((at < bt)?-1:0);
             }));*/
-            $("#StateNameID").val("0");
-            setTimeout(function(){
-                //$('.mstateselect').selectpicker();
-            },1500);
+           
+                 $("#StateNameID").val(i);
+           
         } else {
             alert(obj.message);
         }
@@ -226,19 +370,24 @@ function listStateNames() {
 }
 
 function getDistrictNames() {
+     var i=0;
     $.post(URL+ "webservice.php?action=listAllActive&method=DistrictNames&StateNameID="+$('#StateNameID').val(),"",function(data){
         var obj = JSON.parse(data);
         if (obj.status=="success") {
             var html = "<option value='0'>Select District Name</option>";
             $.each(obj.data, function (index, data) {
-                html += '<option value="'+data.DistrictNameID+'">'+data.DistrictName+'</option>';
+                 if ((newdistrictname==data.DistrictName)) {
+                    i=data.DistrictNameID;
+                }
+                html += '<option value="'+data.DistrictNameID+'" '+((newdistrictname==data.DistrictName) ? '"selected=selected"' : '')+'>'+data.DistrictName+'</option>';
+
             });   
             $('#DistrictNameID').html(html);
-           /* $("#DistrictNameID").append($("#DistrictNameID option").remove().sort(function(a, b) {
+            /*$("#DistrictNameID").append($("#DistrictNameID option").remove().sort(function(a, b) {
                 var at = $(a).text(), bt = $(b).text();
                 return (at > bt)?1:((at < bt)?-1:0);
-            })); n*/
-            $("#DistrictNameID").val("0");
+            })); */
+            $("#DistrictNameID").val(i);
             setTimeout(function(){
             },1500);
         } else {
@@ -248,19 +397,23 @@ function getDistrictNames() {
 }
 
 function getAreaNames() {
+    var i=0;
     $.post(URL+ "webservice.php?action=listAllActive&method=AreaNames&DistrictNameID="+$('#DistrictNameID').val()+"&StateNameID="+$("#StateNameID").val(),"",function(data){
         var obj = JSON.parse(data);
         if (obj.status=="success") {
             var html = "<option value='0'>Select Area Name</option>";
             $.each(obj.data, function (index, data) {
-                html += '<option value="'+data.AreaNameID+'">'+data.AreaName+'</option>';
+                 if ((newareaname==data.AreaName)) {
+                    i=data.AreaNameID;
+                }
+                html += '<option value="'+data.AreaNameID+'" '+((newareaname==data.AreaName) ? '"selected=selected"' : '')+'>'+data.AreaName+'</option>';
             });   
             $('#AreaNameID').html(html);
             /*$("#AreaNameID").append($("#AreaNameID option").remove().sort(function(a, b) {
                 var at = $(a).text(), bt = $(b).text();
                 return (at > bt)?1:((at < bt)?-1:0);
             }));*/
-            $("#AreaNameID").val("0");
+            $("#AreaNameID").val(i);
             setTimeout(function(){
                // $('.mareaselect').selectpicker();
             },1500);
@@ -268,56 +421,94 @@ function getAreaNames() {
             alert(obj.message);
         }
     });
+}   
+
+function statenew(){
+  $('#newstate').modal("show");   
+}
+function addNewStateName() {
+     newstatename="";
+    var param = $('#frm_create_statename').serialize();
+   
+    //clearDiv(['StateName','Remarks']);
+    $.post(URL+"webservice.php?action=addNew&method=StateNames",param,function(data){
+        var obj = JSON.parse(data); 
+        if (obj.status=="success") {
+            newstatename=$('#StateName').val();
+            $('#frm_create_statename').trigger("reset");
+              openPopup();
+               $('#newstate').modal("hide");                                   
+            $('#popupcontent').html(success_content(obj.message,'closePopup();listStateNames')); 
+        } else {
+            if (obj.div!="") {
+                $('#Err'+obj.div).html(obj.message)
+            } else {
+                $('#failure_div').html(obj.message);
+            }
+            $('#process_popup').modal('hide');
+        }
+    });
+}
+
+function districtnew(){
+  $('#newdistrict').modal("show"); 
+  $('#StateNameByDistrictNameID').val( $('#StateNameID').val() );  
+  $('#StateNameByDistrictName').val( $('#StateNameID  option:selected').text() );  
+}
+function addNewDistrictName() {
+    newdistrictname="";
+    var param = $('#frm_create_districtname').serialize();
+    clearDiv(['DistricName','StateName','Remarks']);
+    $.post(URL+"webservice.php?action=addNew&method=DistrictNames",param,function(data){
+        var obj = JSON.parse(data); 
+        if (obj.status=="success") {
+            newdistrictname=$('#DistrictName').val();
+            $('#frm_create_districtname').trigger("reset");
+              openPopup();
+               $('#newdistrict').modal("hide");                                   
+            $('#popupcontent').html(success_content(obj.message,'closePopup() ; getDistrictNames')); 
+        } else {
+            if (obj.div!="") {
+                $('#Err'+obj.div).html(obj.message)
+            } else {
+                $('#failure_div').html(obj.message);
+            }
+            $('#process_popup').modal('hide');
+        }
+    });
+}
+
+function areanew(){
+  $('#newarea').modal("show"); 
+ $('#StateNameByDistrictNameModalID').val( $('#StateNameID').val() );  
+  $('#StateNameByDistrictNameModal').val( $('#StateNameID  option:selected').text() );
+   $('#DistrictNameByAreaNameID').val( $('#DistrictNameID').val() );  
+  $('#DistrictNameByAreaName').val( $('#DistrictNameID  option:selected').text() );  
+}
+function addNewAreaName() {
+    newareaname="";
+    var param = $('#frm_create_areaname').serialize();
+    clearDiv(['DistricName','StateName','AreaName','Remarks']);
+    $.post(URL+"webservice.php?action=addNew&method=AreaNames",param,function(data){
+        var obj = JSON.parse(data); 
+        if (obj.status=="success") {
+             newareaname=$('#AreaName').val();
+            $('#frm_create_areaname').trigger("reset");
+              openPopup();
+               $('#newarea').modal("hide");                                   
+            $('#popupcontent').html(success_content(obj.message,'closePopup() ; getAreaNames')); 
+        } else {
+            if (obj.div!="") {
+                $('#Err'+obj.div).html(obj.message)
+            } else {
+                $('#failure_div').html(obj.message);
+            }
+            $('#process_popup').modal('hide');
+        }
+    });
 }
 
 setTimeout(function(){
     listStateNames();
-    
-    $('#ContactPersonName').keydown(function (e) {
-          if (e.ctrlKey || e.altKey) {
-              e.preventDefault();
-          } else {
-              var key = e.keyCode;
-              if (!((key == 9) || (key == 190) || (key == 8) || (key == 32) || (key == 46) || (key >= 35 && key <= 40) || (key >= 65 && key <= 90))) {
-                  e.preventDefault();
-              }
-          }
-      });
-      $('#AddressLine1').keydown(function (e) {
-         // alert(e.keyCode);
-          if (e.ctrlKey || e.altKey){
-              e.preventDefault();
-          } else {
-              var key = e.keyCode;
-              if (e.shiftKey) {
-                  
-                  if (!((key == 51))) {
-                    e.preventDefault();
-                  }
-              } else {
-                  if (!((key == 9) || (key == 16) || (key == 50) || (key == 191) || (key == 173) || (key == 190) || (key == 8) || (key == 32) || (key == 46) || (key == 173) || (key == 163) || (key == 109) || (key == 111) || (key >= 35 && key <= 40) || (key >= 65 && key <= 90) || (key >= 48 && key <= 57) || (key >= 96 && key <= 105))) {
-                      e.preventDefault();
-                  }
-              }
-          }
-      });
-      $('#AddressLine2').keydown(function (e) {
-         // alert(e.keyCode);
-          if (e.ctrlKey || e.altKey){
-              e.preventDefault();
-          } else {
-              var key = e.keyCode;
-              if (e.shiftKey) {
-                  
-                  if (!((key == 51))) {
-                    e.preventDefault();
-                  }
-              } else {
-                  if (!((key == 9) || (key == 16) || (key == 50) || (key == 191) || (key == 173) || (key == 190) || (key == 8) || (key == 32) || (key == 46) || (key == 173) || (key == 163) || (key == 109) || (key == 111) || (key >= 35 && key <= 40) || (key >= 65 && key <= 90) || (key >= 48 && key <= 57) || (key >= 96 && key <= 105))) {
-                      e.preventDefault();
-                  }
-              }
-          }
-      });
 },2000);
 </script>

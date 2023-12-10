@@ -31,6 +31,7 @@ class Schemes {
                 }
             }
         }
+        $_POST['EntryDate'] = date("Y-m-d",strtotime($_POST['EntryDate']));
         
         if (strlen(trim($_POST['SchemeName']))==0) {
             return json_encode(array("status"=>"failure","message"=>"Please enter Scheme Name","div"=>"SchemeName"));    

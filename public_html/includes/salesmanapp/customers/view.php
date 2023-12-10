@@ -27,6 +27,17 @@
                     <div class="card-body">
                         <div class="row">
                             <div class="col-6">
+                                <div style="font-weight: bold;">Branch</div>
+                                <?php 
+                                    if (strlen($data[0]['BranchName'])>0) {
+                                        echo $data[0]['BranchName'];  
+                                    } else {
+                                       echo "N/A";     
+                                    }
+                                ?>
+                            </div>
+                            <div class="col-6"></div>
+                            <div class="col-6">
                                 <div style="font-weight: bold;">Customer ID</div>
                                 <?php echo $data[0]['CustomerCode'];?>
                             </div>

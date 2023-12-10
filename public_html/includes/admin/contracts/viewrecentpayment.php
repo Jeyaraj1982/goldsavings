@@ -16,7 +16,7 @@
                         <div style="font-weight: bold;">Request ID</div>
                             <div id="RequestCode"></div>
                         <div style="font-weight: bold;">Payment Date</div>
-                            <div id="PaymentDate"></div>
+                            <div id="viewPaymentDate"></div>
                         <div style="font-weight: bold;">BankReferenceNumber</div>
                             <div id="BankReferenceNumber"></div>
                         <div style="font-weight: bold;">Payment Remarks</div>
@@ -115,7 +115,7 @@ function getData(){
             $('#PaymentRequestID').val(data.PaymentRequestID);
             $('#RequestCode').html(data.RequestCode);
             $('#RequestUpdated').html(data.RequestUpdated);
-            $('#PaymentDate').html(data.PaymentDate);
+            $('#viewPaymentDate').html(data.PaymentDate);
             $('#CustomerInformation').html(data.CustomerName + '<br>' + data.CustomerCode);
             $('#ContractInformation').html(data.ContractCode + '<br> Due Number:&nbsp;' + data.DueID + '<br> Due Amount:&nbsp;<span>₹</span>&nbsp;' + data.DueAmount);
             $('#ModeOfBenifits').html(data.ModeOfBenifits);

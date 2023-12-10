@@ -10,12 +10,19 @@ class PaymentRequests {
         }
         
         if (strlen(trim($_POST['PaymentDate']))==0) {
-            return json_encode(array("status"=>"failure","message"=>"Please select Payment Date","div"=>"PaymentDate"));    
+            return json_encode(array("status"=>"failure","message"=>"Please select payment date","div"=>"PaymentDate"));    
+        } else {
+            $currentdate = strtotime(date("Y-m-d"));
+            $entrydate = strtotime($_POST['PaymentDate']);
+            if ($entrydate>$currentdate) {
+                return json_encode(array("status"=>"failure","message"=>"Please select date on/or before ".date("d-m-Y"),"div"=>"PaymentDate"));        
+            }
         }
+        $_POST['PaymentDate'] = date("Y-m-d",strtotime($_POST['PaymentDate'])); 
         
         if (trim($_POST['PaymentBankID'])=="0") {
             return json_encode(array("status"=>"failure","message"=>"Please enter Payment Bank","div"=>"PaymentBankID"));    
-        }
+        }                           
         
         if (strlen(trim($_POST['BankReferenceNumber']))==0) {
             return json_encode(array("status"=>"failure","message"=>"Please enter Bank Reference Number","div"=>"BankReferenceNumber"));    
@@ -35,6 +42,7 @@ class PaymentRequests {
         
         
         $Frequency="OnDate";
+        $_POST['PaymentDate'] = date("Y-m-d",strtotime($_POST['PaymentDate']));
         
         if ($_POST['PaymentDate']==$due_information[0]['DueDate']) {
             $Frequency="OnDate";
@@ -45,13 +53,14 @@ class PaymentRequests {
         if (strtotime($_POST['PaymentDate'])>strtotime($due_information[0]['DueDate'])) {
             $Frequency="Late";
         }
-        
+                                           
         $bank = $mysql->select("select * from _tbl_masters_paymentbanks where PaymentBankID='".$_POST['PaymentBankID']."'");
         $id = $mysql->insert("_tbl_payemt_requests",array("PaymentDate"         => $_POST['PaymentDate'],
                                                           "RequestCode"         => $code,
                                                           "CustomerID"          => $_SESSION['User']['CustomerID'],
                                                           "CustomerCode"        => $_SESSION['User']['CustomerCode'],
                                                           "CustomerName"        => $_SESSION['User']['CustomerName'],
+                                                          "MobileNumber"        => $_SESSION['User']['MobileNumber'],
                                                           "ContractID"          => $due_information[0]['ContractID'],
                                                           "ContractCode"        => $due_information[0]['ContractCode'],
                                                           "DueID"               => $due_information[0]['DueID'],
@@ -63,6 +72,7 @@ class PaymentRequests {
                                                           "PaymentBankNumber"   => $bank[0]['AccountNumber'],
                                                           "PaymentBankAccountHolderName"  => $bank[0]['AccountHolderName'],
                                                           "PaymentBankIFSCode"  => $bank[0]['IFSCode'],
+                                                          "PaymentBankBranchName"  => $bank[0]['Branch'],
                                                           "BankReferenceNumber" => $_POST['BankReferenceNumber'],
                                                           "PaymentRemarks"      => $_POST['Remarks'],
                                                           "Frequency"          => $Frequency,
@@ -169,19 +179,19 @@ class PaymentRequests {
           $data = array();
           
           if ($_POST['SelectType']=="ALL") {
-              $data = $mysql->select("select * from _tbl_payemt_requests where (date(PaymentDate)>=date('".$_POST['FromDate']."') and date(PaymentDate)<=date('".$_POST['ToDate']."')) order by PaymentRequestID desc");    
+              $data = $mysql->select("select * from _tbl_payemt_requests where (date(PaymentDate)>=date('".date("Y-m-d",strtotime($_POST['FromDate']))."') and date(PaymentDate)<=date('".date("Y-m-d",strtotime($_POST['ToDate']))."')) order by PaymentRequestID desc");    
           }
           
           if ($_POST['SelectType']=="REQUEST") {
-              $data = $mysql->select("select * from _tbl_payemt_requests where RequestStatus='REQUEST'  and  (date(PaymentDate)>=date('".$_POST['FromDate']."') and date(PaymentDate)<=date('".$_POST['ToDate']."')) order by PaymentRequestID desc");    
+              $data = $mysql->select("select * from _tbl_payemt_requests where RequestStatus='REQUEST'  and  (date(PaymentDate)>=date('".date("Y-m-d",strtotime($_POST['FromDate']))."') and date(PaymentDate)<=date('".date("Y-m-d",strtotime($_POST['ToDate']))."')) order by PaymentRequestID desc");    
           }
 
           if ($_POST['SelectType']=="APPROVED") {
-              $data = $mysql->select("select * from _tbl_payemt_requests where RequestStatus='APPROVED'  and  (date(PaymentDate)>=date('".$_POST['FromDate']."') and date(PaymentDate)<=date('".$_POST['ToDate']."')) order by PaymentRequestID desc");    
+              $data = $mysql->select("select * from _tbl_payemt_requests where RequestStatus='APPROVED'  and  (date(PaymentDate)>=date('".date("Y-m-d",strtotime($_POST['FromDate']))."') and date(PaymentDate)<=date('".date("Y-m-d",strtotime($_POST['ToDate']))."')) order by PaymentRequestID desc");    
           } 
           
           if ($_POST['SelectType']=="REJECTED") {
-              $data = $mysql->select("select * from _tbl_payemt_requests where RequestStatus='REJECTED'  and (date(PaymentDate)>=date('".$_POST['FromDate']."') and date(PaymentDate)<=date('".$_POST['ToDate']."')) order by PaymentRequestID desc");    
+              $data = $mysql->select("select * from _tbl_payemt_requests where RequestStatus='REJECTED'  and (date(PaymentDate)>=date('".date("Y-m-d",strtotime($_POST['FromDate']))."') and date(PaymentDate)<=date('".date("Y-m-d",strtotime($_POST['ToDate']))."')) order by PaymentRequestID desc");    
           } 
           
       }
@@ -301,6 +311,110 @@ class PaymentRequests {
      $mysql->execute("update _tbl_payemt_requests set RequestStatus='REJECTED',RequestUpdated='".date("Y-m-d H:i:s")."',AdminRemarks='".$_POST['AdminRemarks']."' where PaymentRequestID='".$_POST['PaymentRequestID']."'");
      return json_encode(array("status"=>"success","message"=>"successfully rejected"));
     }
+    
+    function listCustomize() {
+        global $mysql;
+        //sleep(10);
+            if (isset($_POST['OrderBy']) && $_POST['OrderBy']=="0") {
+                return json_encode(array("status"=>"failure","message"=>"Please select any one column","div"=>"message"));        
+            }
+            
+            $sql = "select `PaymentRequestID`,
+                        `RequestCode`,
+                        DATE_FORMAT(PaymentDate,'".appConfig::DATEFORMAT."') as `PaymentDate`,
+
+                        `CustomerID`,
+                        `CustomerCode`,
+                        `CustomerName`,
+                        `MobileNumber`,
+                       
+                        `ContractID`,
+                        `ContractCode`,
+                        `DueID`,
+                        `DueAmount`,
+
+                        DATE_FORMAT(DueDate,'".appConfig::DATEFORMAT."') as `DueDate`,
+                        
+                        
+                        `DueNumber`,
+                        
+                        `PaymentBankID`,
+                        `PaymentBankAccountHolderName`,
+                        `PaymentBankName`,
+                        `PaymentBankNumber`,
+                        `PaymentBankIFSCode`,
+                        `PaymentBankBranchName`,
+                        `BankReferenceNumber`,
+                        
+                        `PaymentRemarks`,
+                        `Frequency`,
+                        DATE_FORMAT(RequestedOn,'".appConfig::DATEFORMAT."') as `RequestedOn`,
+                        `RequestStatus`,
+                        DATE_FORMAT(RequestUpdated,'".appConfig::DATEFORMAT."') as `RequestUpdated`,
+                        `AdminRemarks` 
+                        
+                         
+                    from _tbl_payemt_requests where PaymentRequestID>0 ";
+             
+            if (isset($_POST['CustomerNameS']) && $_POST['CustomerNameS']==1) {
+                if ($_POST['selectCustomerNameFilter']=="0") {
+                    $sql .= " and CustomerName like '%".$_POST['SearchCustomerName']."%' ";    
+                }
+                if ($_POST['selectCustomerName']=="Startwith") {
+                    $sql .= " and CustomerName like '".$_POST['SearchCustomerName']."%' ";    
+                }
+                if ($_POST['selectCustomerName']=="Endwith") {
+                    $sql .= " and CustomerName like '%".$_POST['SearchCustomerName']."' ";    
+                }
+                
+            }
+            
+            if (isset($_POST['MobileNumberS']) && $_POST['MobileNumberS']==1) {
+                
+                if ($_POST['selectMobileNumberFilter']=="0") {
+                    $sql .= " and MobileNumber like '%".trim(str_replace("_","",$_POST['SearchMobileNumber']))."%' ";    
+                }
+                if ($_POST['selectMobileNumberFilter']=="Startwith") {
+                    $sql .= " and MobileNumber like '".trim(str_replace("_","",$_POST['SearchMobileNumber']))."%' ";    
+                }
+                if ($_POST['selectMobileNumberFilter']=="Endwith") {
+                    $sql .= " and MobileNumber like '%".trim(str_replace("_","",$_POST['SearchMobileNumber']))."' ";    
+                }
+            }
+            
+            if (isset($_POST['PaymentDate']) && $_POST['PaymentDate']=="1") {
+                $fromdate = strtotime($_POST['FromDate']);
+                $todate = strtotime($_POST['ToDate']);
+                if ($fromdate>$todate) {
+                    return json_encode(array("status"=>"failure","message"=>"Please select date on/or before ".date("d-m-Y",strtotime($_POST['ToDate'])),"div"=>"PaymentDate"));        
+                }
+            
+                $sql .= " and  (date(PaymentDate)>=date('".date("Y-m-d",strtotime($_POST['FromDate']))."') and date(PaymentDate)<=date('".date("Y-m-d",strtotime($_POST['FromDate']))."')) ";    
+            }
+            
+            if (isset($_POST['RequestedOn']) && $_POST['RequestedOn']=="1") {
+                $fromdate = strtotime($_POST['RFromDate']);
+                $todate = strtotime($_POST['RToDate']);
+                if ($fromdate>$todate) {
+                    return json_encode(array("status"=>"failure","message"=>"Please select date on/or before ".date("d-m-Y",strtotime($_POST['ToDate'])),"div"=>"RequestedOn"));        
+                }
+            
+                $sql .= " and  (date(RequestedOn)>=date('".date("Y-m-d",strtotime($_POST['FromDate']))."') and date(RequestedOn)<=date('".date("Y-m-d",strtotime($_POST['ToDate']))."')) ";    
+            }
+              
+            
+            if ($_POST['OrderBy']=="PaymentDate") {
+                $_POST['OrderBy']=" date(PaymentDate) ";
+            }
+            
+            if ($_POST['OrderBy']=="RequestedOn") {
+                $_POST['OrderBy']=" date(RequestedOn) ";
+            }
+            
+            $sql .= " order by ".$_POST['OrderBy']." ".$_POST['Filterby'];
+            $data = $mysql->select(str_replace("\n"," ",$sql));
+        return json_encode(array("status"=>"success","data"=>$data,"sql"=>$sql,"error"=>$mysql->error));
+    }
 }
 
 function Calculate_interest_amount($start_date,$end_date,$amount) {
@@ -309,4 +423,5 @@ function Calculate_interest_amount($start_date,$end_date,$amount) {
     $day = floor((strtotime($end_date)-strtotime($start_date)) / (60 * 60 * 24)); 
     $interest = $amount * $day * $day_interest;
 }
+
 ?>

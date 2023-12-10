@@ -73,7 +73,7 @@ function d() {
                                         + '</a>'
                                         + '<div class="dropdown-menu dropdown-menu-end">'
                                                 + '<a class="dropdown-item" href="'+URL+'dashboard.php?action=masters/employees/view&employees='+data.EmployeeID+'&fpg=masters/employees/list">View</a>'
-                                                + '<a class="dropdown-item" href="'+URL+'dashboard.php?action=masters/employees/edit&employees='+data.EmployeeID+'">Edit</a>'
+                                                + '<a class="dropdown-item" href="'+URL+'dashboard.php?action=masters/employees/edit&employees='+data.EmployeeID+'&fpg=masters/employees/list">Edit</a>'
                                                 + '<a class="dropdown-item" href="javascript:void(0)" onclick="confirmationtoDelete(\''+data.EmployeeID+'\')">Delete</a>'
                                         + '</div>'
                                 + '</div>'

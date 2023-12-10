@@ -20,7 +20,7 @@
                     <div class="col-sm-4 mb-3">
                         <label class="form-label">Entry Date <span style='color:red'>*</span></label>
                         <div class="input-group">
-                            <input type="date" value="<?php echo $data[0]['EntryDate'];?>" value="<?php echo date("Y-m-d");?>" name="EntryDate" id="EntryDate" class="form-control" placeholder="Entry Date">
+                            <input type="text" readonly="readonly" value="<?php echo date("d-m-Y",strtotime($data[0]["EntryDate"])) ;?>" name="EntryDate" id="EntryDate" class="form-control" placeholder="Entry Date">
                         </div>
                         <span id="ErrEntryDate" class="error_msg"></span>
                     </div>
@@ -42,13 +42,64 @@
                                 <input type="text" value="<?php echo $data[0]['BranchName'];?>" name="BranchName" id="BranchName" class="form-control" placeholder="Branch Name" maxlength="50">
                                 <span id="ErrBranchName" class="error_msg"></span>
                             </div>
-                              <div class="col-sm-12 mb-3">
-                                <label class="form-label">Address Line 1 <span style='color:red'>*</span></label>
+                             <div class="col-sm-12 mb-3">
+                                <label class="form-label">Email ID <span style='color:red'>*</span></label>
+                                <input type="text"  value="<?php echo $data[0]['EmailID'];?>" name="EmailID" id="EmailID" class="form-control" placeholder="Email ID">
+                                <span id="ErrEmailID" class="error_msg"></span>
+                            </div>
+                            <div class="col-sm-6 mb-3">
+                                <label class="form-label">Mobile Number <span style='color:red'>*</span></label>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text" id="basic-addon1">+91</span>
+                                    </div>
+                                    <input type="text" value="<?php echo $data[0]['MobileNumber'];?>" name="MobileNumber" id="MobileNumber" class="form-control" placeholder="Mobile Number" data-masked="" data-inputmask="'mask':'9999999999'">
+                                </div>
+                                <span id="ErrMobileNumber" class="error_msg"></span>
+                            </div>
+                            <div class="col-sm-6 mb-3">
+                                <label class="form-label">Whatsapp Number </label>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text" id="basic-addon1">+91</span>
+                                    </div>
+                                    <input type="text" value="<?php echo $data[0]['WhatsappNumber'];?>" name="WhatsappNumber" id="WhatsappNumber" class="form-control" placeholder="Whatsapp Number" data-masked="" data-inputmask="'mask':'9999999999'">
+                                </div>
+                                <span id="ErrWhatsappNumber" class="error_msg"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            <div class="card">
+                    <div class="card-body">
+                        <div class="row">
+                             <div class="col-sm-12 mb-3">
+                                <label class="form-label">Address Line 1 <span style='color:red'>*</span>
+                                <img src="<?php echo URL;?>assets/question.png" style="width: 12px;" class="dropdown"  id="dropdownMenuButton1" data-bs-toggle="dropdown">
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton1" style="padding:0px;">
+                                    <div class="myheader">Address Line 1</div>
+                                    <div class="mycontainer">
+                                        1. Allow alphanumeric characters<br>
+                                        2. Not allow cut,copy,paste<br>
+                                        3. Allow only special charecters <span style="color:green;"> #/-.<span>
+                                    </div>
+                                </div>
+                                </label>
                                 <input type="text" value="<?php echo $data[0]['AddressLine1'];?>" name="AddressLine1" id="AddressLine1" class="form-control" placeholder="Address Line 1">
                                 <span id="ErrAddressLine1" class="error_msg"></span>
                             </div>
                             <div class="col-sm-12 mb-3">
-                                <label class="form-label">Address Line 2</label>
+                                <label class="form-label">Address Line 2
+                                <img src="<?php echo URL;?>assets/question.png" style="width: 12px;" class="dropdown"  id="dropdownMenuButton1" data-bs-toggle="dropdown">
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton1" style="padding:0px;">
+                                    <div class="myheader">Address Line 2</div>
+                                    <div class="mycontainer">
+                                        1. Allow alphanumeric characters<br>
+                                        2. Not allow cut,copy,paste<br>
+                                        3. Allow only special charecters <span style="color:green;"> #/-.<span>
+                                    </div>
+                                </div>
+                                </label>
                                 <input type="text" value="<?php echo $data[0]['AddressLine2'];?>" name="AddressLine2" id="EstimatedDuration" class="form-control" placeholder="Address Line 2">
                                 <span id="ErrAddressLine2" class="error_msg"></span>
                             </div>
@@ -76,48 +127,40 @@
                                 <span id="ErrAreaNameID" class="error_msg"></span>
                             </div>
                             <div class="col-sm-6">
-                                <label class="form-label">PinCode <span style='color:red'>*</span></label>
+                                <label class="form-label">Pincode <span style='color:red'>*</span></label>
                                 <input type="text" value="<?php echo $data[0]['PinCode'];?>" name="PinCode" id="PinCode" class="form-control" placeholder="Pincode" data-masked="" data-inputmask="'mask':'999 999'">
                                 <span id="ErrPinCode" class="error_msg"></span>
-                            </div>
-                            
-                        </div>
-                    </div>
-                </div>
-            <div class="card">
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col-sm-12 mb-3">
-                                <label class="form-label">Email ID <span style='color:red'>*</span></label>
-                                <input type="text"  value="<?php echo $data[0]['EmailID'];?>" name="EmailID" id="EmailID" class="form-control" placeholder="Email ID">
-                                <span id="ErrEmailID" class="error_msg"></span>
-                            </div>
-                            <div class="col-sm-6">
-                                <label class="form-label">Mobile Number <span style='color:red'>*</span></label>
-                                <div class="input-group">
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-text" id="basic-addon1">+91</span>
-                                    </div>
-                                    <input type="text" value="<?php echo $data[0]['MobileNumber'];?>" name="MobileNumber" id="MobileNumber" class="form-control" placeholder="Mobile Number" data-masked="" data-inputmask="'mask':'9999999999'">
-                                </div>
-                                <span id="ErrMobileNumber" class="error_msg"></span>
-                            </div>
-                            <div class="col-sm-6">
-                                <label class="form-label">Whatsapp Number </label>
-                                <div class="input-group">
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-text" id="basic-addon1">+91</span>
-                                    </div>
-                                    <input type="text" value="<?php echo $data[0]['WhatsappNumber'];?>" name="WhatsappNumber" id="WhatsappNumber" class="form-control" placeholder="Whatsapp Number" data-masked="" data-inputmask="'mask':'9999999999'">
-                                </div>
-                                <span id="ErrWhatsappNumber" class="error_msg"></span>
                             </div>
                         </div>
                     </div>
             </div>
             <div class="card">
-                <div class="card-body">
-                    <div class="row">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-sm-12 mb-2" style="font-weight: bold;">
+                            Geo Location
+                            </div>
+                              <div class="col-sm-12 mb-3">
+                                <label class="form-label">Map URL</label>
+                                <input type="text" value="<?php echo $data[0]['MapURL'];?>" name="MapURL" id="MapURL" class="form-control" placeholder="MapURL">
+                                <span id="ErrMapURL" class="error_msg"></span>
+                            </div>
+                            <div class="col-sm-6">
+                                <label class="form-label">Latitude</label>
+                                <input type="text" value="<?php echo $data[0]['Latitude'];?>" name="Latitude" id="Latitude" class="form-control" placeholder="Latitude">
+                                <span id="ErrLatitude" class="error_msg"></span>
+                            </div>
+                            <div class="col-sm-6">
+                                <label class="form-label">Longitude</label>
+                                <input type="text" value="<?php echo $data[0]['Longitude'];?>" name="Longitude" id="Longitude" class="form-control" placeholder="Longitude">
+                                <span id="ErrLongitude" class="error_msg"></span>
+                            </div>
+                        </div>
+                    </div>
+            </div>
+             <div class="card">
+                    <div class="card-body">
+                        <div class="row">
                         <div class="col-sm-6 mb-3">         
                             <label class="form-label">Status <span style='color:red'>*</span></label>
                             <select name="IsActive" id="IsActive" class="form-select">
@@ -125,21 +168,24 @@
                                 <option value="0" <?php echo ($data[0]['IsActive']==0) ? " selected='selected' " : "";?> >Deactivated</option>
                             </select>
                         </div>
-                        <div class="col-sm-12">
-                            <label class="form-label">Remarks
-                            <div class="mycontainer">
+                            <div class="col-sm-12">
+                                <label class="form-label">Remarks
+                                <img src="<?php echo URL;?>assets/question.png" style="width: 12px;" class="dropdown"  id="dropdownMenuButton1" data-bs-toggle="dropdown">
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton1" style="padding:0px;">
+                                    <div class="myheader">Remarks</div>
+                                    <div class="mycontainer">
                                         1. Allow all characters, not allow <span style='color:red'>\'!~$"</span><br>
                                         2. Maximum 250 characters require<br>
                                         3. Not allow cut,copy,paste
                                     </div>
                                 </div>
-                            </label>
-                            <input type="text"  value="<?php echo $data[0]['Remarks'];?>" name="Remarks" id="Remarks" class="form-control" placeholder="Remarks" maxlength="250">
-                            <span id="ErrRemarks" class="error_msg"></span>
+                                </label>
+                                <input type="text" value="<?php echo $data[0]['Remarks'];?>" name="Remarks" id="Remarks" class="form-control" placeholder="Remarks" maxlength="250">
+                                <span id="ErrRemarks" class="error_msg"></span>
+                            </div>
                         </div>
                     </div>
-                </div>
-            </div>
+             </div>
         </div>
    </div>
        <div class="col-sm-12" style="text-align:right;">
@@ -228,7 +274,7 @@ function doUpdate() {
     */
 }
 
-function listStateNames() {
+function ListStateNames() {
     $.post(URL+ "webservice.php?action=listAllActive&method=StateNames","",function(data){
         var obj = JSON.parse(data);
         if (obj.status=="success") {
@@ -247,8 +293,9 @@ function listStateNames() {
                 }
             });
             setTimeout(function(){
-               // $('.mstateselect').selectpicker();
-                getDistrictNames();
+                 $("#StateNameID").select2({
+                  dropdownParent:$('#frm_edit')
+              }); 
             },1500);
         } else {
             alert(obj.message);
@@ -275,8 +322,9 @@ function getDistrictNames() {
                 }
             });
             setTimeout(function(){
-                //$('.mdistrictselect').selectpicker();
-                getAreaNames();
+                 $("#DistrictNameID").select2({
+                  dropdownParent:$('#frm_edit')
+              }); 
             },1500);
         } else {
             alert(obj.message);
@@ -303,7 +351,9 @@ function getAreaNames() {
                     }
             });
             setTimeout(function(){
-                //$('.mareaselect').selectpicker();
+                 $("#AreaNameID").select2({
+                  dropdownParent:$('#frm_edit')
+              }); 
             },1500);
         } else {
             alert(obj.message);
@@ -311,6 +361,6 @@ function getAreaNames() {
     });
 }                                  
 setTimeout(function(){
-    listStateNames();
+    ListStateNames();
 },2000);
 </script>

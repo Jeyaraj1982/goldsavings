@@ -42,11 +42,13 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-body" style="padding-top:25px">
-                <div class="card-actions float-end">
-                      <a  href="#"  id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false"><i class="align-middle" data-feather="download"></i></a>
+                    <div class="dropdown" style="text-align: right;">
+                      <button class="btn btn-light btn-sm dropdown-toggle" style="font-weight: lighter;" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                        Export to
+                      </button> <br>
                       <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                        <li><a class="dropdown-item" href="#">Excel</a></li>
-                        <li><a class="dropdown-item" href="#">PDF</a></li>
+                      <li><a target="_blank" class="dropdown-item" style="padding-left: 11px;" onclick="$('#datatables-fixed-header').tableExport({type:'excel',escape:'false'});"> <img src="<?php echo URL;?>assets/images/xls.png" width="24px"> XLS</a></li>
+                       <li><a target="_blank" class="dropdown-item" style="padding-left: 11px;" onclick="$('#datatables-fixed-header').tableExport({type:'pdf',pdfFontSize:'7',escape:'false'});"> <img src="<?php echo URL;?>assets/images/pdf.png" width="24px"> PDF</a></li>
                       </ul>
                     </div>
                     <table id="datatables-fixed-header" class="table table-striped" style="width:100%">

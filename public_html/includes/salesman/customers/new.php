@@ -8,16 +8,32 @@
                     <div class="card-body">
                         <div class="row">
                             <div class="col-sm-6 mb-3">
-                                <label class="form-label">Customer Code <span style='color:red'>*</span></label>
-                                <input type="text" value="<?php echo SequnceList::getNextNumber("_tbl_masters_customers");?>" name="CustomerCode" id="CustomerCode" class="form-control" placeholder="Customer Code">
+                                <label class="form-label">Branch </label>
+                                <input type="text" disabled="disabled" value="<?php echo $_SESSION['User']['BranchName'];?>" name="BranchName" id="BranchName" class="form-control" placeholder="Branch">
+                            </div>
+                            
+                            <div class="col-sm-6 mb-3"></div>
+                            <div class="col-sm-6 mb-3">
+                                <label class="form-label">Customer Code <span style='color:red'>*</span>
+                                <img src="<?php echo URL;?>assets/question.png" style="width: 12px;" class="dropdown"  id="dropdownMenuButton1" data-bs-toggle="dropdown">
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton1" style="padding:0px;">
+                                    <div class="myheader">Customer ID</div>
+                                    <div class="mycontainer">
+                                        1. Allow only alphanumeric characters<br>
+                                        2. Minimum 8 characters require<br>
+                                        3. Maximum 20 characters require<br>
+                                        4. Not allow cut,copy,paste
+                                    </div>
+                                </div>
+                                </label>
+                                <input type="text" readonly="readonly" value="<?php echo SequnceList::getNextNumber("_tbl_masters_customers");?>" name="CustomerCode" id="CustomerCode" class="form-control" placeholder="Customer Code" oninput="this.value=this.value.toUpperCase()" 
+                                       maxlength="20">
                                 <span id="ErrCustomerCode" class="error_msg"></span>
                             </div>
-                            <div class="col-sm-2 mb-3">
-                            </div>
-                            <div class="col-sm-4 mb-3">
+                            <div class="col-sm-6 mb-3">
                                 <label class="form-label">Entry Date <span style='color:red'>*</span></label>
                                 <div class="input-group">
-                                    <input type="date" value="<?php echo date("Y-m-d");?>" name="EntryDate" id="EntryDate" class="form-control" placeholder="Entry Date">
+                                    <input type="text" readonly="readonly" value="<?php echo date("d-m-Y");?>" name="EntryDate" id="EntryDate" class="form-control" placeholder="Entry Date">
                                 </div>
                                 <span id="ErrEntryDate" class="error_msg"></span>
                             </div>
@@ -29,13 +45,35 @@
                                 <span id="ErrCustomerTypeNameID" class="error_msg"></span>
                             </div>
                             <div class="col-sm-12 mb-3">
-                                <label class="form-label">Customer Name <span style='color:red'>*</span></label>
-                                <input type="text" name="CustomerName" id="CustomerName" class="form-control" placeholder="Customer Name">
+                                <label class="form-label">Customer Name <span style='color:red'>*</span>
+                                <img src="<?php echo URL;?>assets/question.png" style="width: 12px;" class="dropdown"  id="dropdownMenuButton1" data-bs-toggle="dropdown">
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton1" style="padding:0px;">
+                                    <div class="myheader">Customer Name</div>
+                                    <div class="mycontainer">
+                                        1. Allow only alphabets and space<br>
+                                        2. Minimum 3 characters require<br>
+                                        3. Maximum 50 characters require<br>
+                                        4. Not allow cut,copy,paste
+                                    </div>
+                                </div>
+                                </label>
+                                <input type="text" name="CustomerName" id="CustomerName" class="form-control" placeholder="Customer Name" maxlength="50">
                                 <span id="ErrCustomerName" class="error_msg"></span>
                             </div>
                             <div class="col-sm-12 mb-3">
-                                <label class="form-label">Father/Husband's Name <span style='color:red'>*</span></label>
-                                <input type="text" name="FatherName" id="FatherName" class="form-control" placeholder="Father/Husband's Name">
+                                <label class="form-label">Father/Husband's Name <span style='color:red'>*</span>
+                                <img src="<?php echo URL;?>assets/question.png" style="width: 12px;" class="dropdown"  id="dropdownMenuButton1" data-bs-toggle="dropdown">
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton1" style="padding:0px;">
+                                    <div class="myheader">Father/Husband's Name</div>
+                                    <div class="mycontainer">
+                                        1. Allow only alphabets and space<br>
+                                        2. Minimum 3 characters require<br>
+                                        3. Maximum 50 characters require<br>
+                                        4. Not allow cut,copy,paste
+                                    </div>
+                                </div>
+                                </label>
+                                <input type="text" name="FatherName" id="FatherName" class="form-control" placeholder="Father/Husband's Name" maxlength="50">
                                 <span id="ErrFatherName" class="error_msg"></span>
                             </div>
                              <div class="col-sm-6 mb-3">
@@ -49,8 +87,16 @@
                                 <span id="ErrGender" class="error_msg"></span>
                             </div>
                             <div class="col-sm-6 mb-3">
-                                <label class="form-label">Date Of Birth <span style='color:red'>*</span></label>
-                                <input type="date" name="DateOfBirth" id="DateOfBirth" class="form-control" placeholder="Date Of Birth">
+                                <label class="form-label">Date Of Birth <span style='color:red'>*</span>
+                                <img src="<?php echo URL;?>assets/question.png" style="width: 12px;" class="dropdown"  id="dropdownMenuButton1" data-bs-toggle="dropdown">
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton1" style="padding:0px;">
+                                    <div class="myheader">Date Of Birth</div>
+                                    <div class="mycontainer">
+                                        1. Age must be greater than 18<br>
+                                    </div>
+                                </div>
+                                </label>
+                                <input type="text" readonly="readonly" name="DateOfBirth" id="DateOfBirth" class="form-control" placeholder="Date Of Birth">
                                 <span id="ErrDateOfBirth" class="error_msg"></span>
                             </div>
                             <div class="col-sm-12 mb-3">
@@ -97,9 +143,10 @@
                                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton1" style="padding:0px;">
                                     <div class="myheader">Login Username</div>
                                     <div class="mycontainer">
-                                        1. Allow only alphanumeric characters<br>
+                                        1. Allow all characters<br>
                                         2. Minimum 6 characters require<br>
-                                        3. Maximum 8 characters require
+                                        3. Maximum 8 characters require<br>
+                                        4. Not allow cut,copy,paste
                                         
                                     </div>
                                 </div>
@@ -113,10 +160,12 @@
                                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton1" style="padding:0px;">
                                     <div class="myheader">Login Password</div>
                                     <div class="mycontainer">
-                                        1. Allow only alphanumeric characters<br>
-                                        2. Minimum 6 characters require<br>
-                                        3. Maximum 8 characters require<br>
-                                        4. Allow special charecters <span style="color:green;"> !@#%^&*()_-=+.?</span>
+                                        1. Allow all characters<br>
+                                        2. Not allow special charecters <span style="color:red;">\'!~$"</span><br>
+                                        3. Minimum 6 characters require<br>
+                                        4. Maximum 8 characters require<br>
+                                        5. Not allow cut,copy,paste<br>
+                                        
                                     </div>
                                 </div>
                                 </label>
@@ -156,7 +205,8 @@
                                     <div class="myheader">Address Line 1</div>
                                     <div class="mycontainer">
                                         1. Allow alphanumeric characters<br>
-                                        2. Allow only special charecters <span style="color:green;"> #/-.<span>
+                                        2. Not allow cut,copy,paste<br>
+                                        3. Allow only special charecters <span style="color:green;"> #/-.<span>
                                     </div>
                                 </div>
                                 </label>
@@ -165,13 +215,13 @@
                             </div>
                             <div class="col-sm-12 mb-3">
                                 <label class="form-label">Address Line 2
-                                
                                 <img src="<?php echo URL;?>assets/question.png" style="width: 12px;" class="dropdown"  id="dropdownMenuButton1" data-bs-toggle="dropdown">
                                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton1" style="padding:0px;">
                                     <div class="myheader">Address Line 2</div>
                                     <div class="mycontainer">
                                         1. Allow alphanumeric characters<br>
-                                        2. Allow only special charecters <span style="color:green;"> #/-.<span>
+                                        2. Not allow cut,copy,paste<br>
+                                        3. Allow only special charecters <span style="color:green;"> #/-.<span>
                                     </div>
                                 </div></label>
                                 <input type="text" name="AddressLine2" id="EstimatedDuration" class="form-control" placeholder="Address Line 2">
@@ -212,8 +262,18 @@
                     <div class="card-body">
                         <div class="row">
                             <div class="col-sm-12">
-                                <label class="form-label">Remarks</label>
-                                <input type="text" value="" name="Remarks" id="Remarks" class="form-control" placeholder="Remarks">
+                                <label class="form-label">Remarks
+                                <img src="<?php echo URL;?>assets/question.png" style="width: 12px;" class="dropdown"  id="dropdownMenuButton1" data-bs-toggle="dropdown">
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton1" style="padding:0px;">
+                                    <div class="myheader">Remarks</div>
+                                    <div class="mycontainer">
+                                        1. Allow all characters, not allow <span style='color:red'>\'!~$"</span><br>
+                                        2. Maximum 250 characters require<br>
+                                        3. Not allow cut,copy,paste
+                                    </div>
+                                </div>
+                                </label>
+                                <input type="text" value="" name="Remarks" id="Remarks" class="form-control" placeholder="Remarks" maxlength="250">
                                 <span id="ErrRemarks" class="error_msg"></span>
                             </div> 
                         </div>
@@ -510,84 +570,5 @@ function getAreaNames() {
 setTimeout(function(){
     ListCustomerTypes();
     listStateNames();
-    
-$('#CustomerName').keydown(function (e) {
-          if (e.ctrlKey || e.altKey) {
-              e.preventDefault();
-          } else {
-              var key = e.keyCode;
-              if (!((key == 9) || (key == 190) || (key == 8) || (key == 32) || (key == 46) || (key >= 35 && key <= 40) || (key >= 65 && key <= 90))) {
-                  e.preventDefault();
-              }
-          }
-      });
-      
-      $('#FatherName').keydown(function (e) {
-          if (e.ctrlKey || e.altKey) {
-              e.preventDefault();
-          } else {
-              var key = e.keyCode;
-              if (!((key == 9) || (key == 190) || (key == 8) || (key == 32) || (key == 46) || (key >= 35 && key <= 40) || (key >= 65 && key <= 90))) {
-                  e.preventDefault();
-              }
-          }
-      });
-      $('#LoginUserName').keydown(function (e) {
-          if (e.ctrlKey || e.altKey) {
-              e.preventDefault();
-          } else {
-              var key = e.keyCode;
-              if (!((key == 9) || (key == 190) || (key == 8) || (key == 46) || (key >= 35 && key <= 40) || (key >= 48 && key <= 57) || (key >= 96 && key <= 105) || (key >= 65 && key <= 90))) {
-                  e.preventDefault();
-              }
-          }
-      });
-      $('#LoginPassword').keydown(function (e) {
-          if (e.ctrlKey || e.altKey) {
-              e.preventDefault();
-          } else {
-              var key = e.keyCode;
-              if (!((key == 9) || (key == 190) || (key == 8) || (key == 46) || (key >= 37 && key <= 40) || (key >= 48 && key <= 57) || (key >= 96 && key <= 105) || (key >= 65 && key <= 90))) {
-                  e.preventDefault();
-              }
-          }
-      });
-      $('#AddressLine1').keydown(function (e) {
-         // alert(e.keyCode);
-          if (e.ctrlKey || e.altKey){
-              e.preventDefault();
-          } else {
-              var key = e.keyCode;
-              if (e.shiftKey) {
-                  
-                  if (!((key == 51))) {
-                    e.preventDefault();
-                  }
-              } else {
-                  if (!((key == 9) || (key == 16) || (key == 50) || (key == 191) || (key == 173) || (key == 190) || (key == 8) || (key == 32) || (key == 46) || (key == 173) || (key == 163) || (key == 109) || (key == 111) || (key >= 35 && key <= 40) || (key >= 65 && key <= 90) || (key >= 48 && key <= 57) || (key >= 96 && key <= 105))) {
-                      e.preventDefault();
-                  }
-              }
-          }
-      });
-      
-      $('#AddressLine2').keydown(function (e) {
-         // alert(e.keyCode);
-          if (e.ctrlKey || e.altKey){
-              e.preventDefault();
-          } else {
-              var key = e.keyCode;
-              if (e.shiftKey) {
-                  
-                  if (!((key == 51))) {
-                    e.preventDefault();
-                  }
-              } else {
-                  if (!((key == 9) || (key == 16) || (key == 50) || (key == 191) || (key == 173) || (key == 190) || (key == 8) || (key == 32) || (key == 46) || (key == 173) || (key == 163) || (key == 109) || (key == 111) || (key >= 35 && key <= 40) || (key >= 65 && key <= 90) || (key >= 48 && key <= 57) || (key >= 96 && key <= 105))) {
-                      e.preventDefault();
-                  }
-              }
-          }
-      });
 },2000);
 </script>

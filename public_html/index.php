@@ -28,18 +28,26 @@ if (isset($_POST['loginBtn'])) {
     if ($error==0) {
     
         if ($_GET['role']=="admin") {
-            $data = $mysql->select("select * from _tbl_employees where LoginUserName='".$_POST['LoginName']."' and LoginPassword='".$_POST['LoginPassword']."' and IsActive='1'");
+            $data = array();
+            if ($_POST['UserRole']=="admin") {
+                $data = $mysql->select("select * from _tbl_administrators where md5(LoginUserName)='".md5($_POST['LoginName'])."' and md5(LoginPassword)='".md5($_POST['LoginPassword'])."' and IsActive='1'");
+            }
+            if ($_POST['UserRole']=="subadmin") {
+                $data = $mysql->select("select * from _tbl_masters_users where UserRole='Sub Admin' and md5(LoginUserName)='".md5($_POST['LoginName'])."' and md5(LoginPassword)='".md5($_POST['LoginPassword'])."' and IsActive='1'");
+            }
             if (sizeof($data)==0) {
                 $loginError= "Login failed. Invalid User Name or Password";
             } else {
                 $_SESSION['User']=$data[0];
-                $_SESSION['User']['UserRole']=$_GET['role'];
+                $_SESSION['User']['UserRole']=$_POST['UserRole'];
+                 
                 sleep(5);
                 echo "<script>location.href='dashboard.php';</script>";
                 exit;
             }
         }
         
+        /*
         if ($_GET['role']=="users") {
             $data = $mysql->select("select * from _tbl_masters_users where LoginUserName='".$_POST['LoginName']."' and LoginPassword='".$_POST['LoginPassword']."' and IsActive='1'");
             if (sizeof($data)==0) {
@@ -52,9 +60,31 @@ if (isset($_POST['loginBtn'])) {
                 exit;
             }
         }
+        */
         
-        if ($_GET['role']=="customers" || $_GET['role']=="customerapp") {
-            $data = $mysql->select("select * from _tbl_masters_customers where LoginUserName='".$_POST['LoginName']."' and LoginPassword='".$_POST['LoginPassword']."' and IsActive='1'");
+        if ($_GET['role']=="branch") {
+            $data = array();
+            if ($_POST['UserRole']=="branchadmin") {
+                $data = $mysql->select("select * from _tbl_masters_users where UserRole='Branch Admin' and md5(LoginUserName)='".md5($_POST['LoginName'])."' and md5(LoginPassword)='".md5($_POST['LoginPassword'])."' and IsActive='1'");    
+            }
+            if ($_POST['UserRole']=="branchuser") {
+                $data = $mysql->select("select * from _tbl_masters_users where UserRole='Branch User' and md5(LoginUserName)='".md5($_POST['LoginName'])."' and md5(LoginPassword)='".md5($_POST['LoginPassword'])."' and IsActive='1'");    
+            }
+                                       
+            if (sizeof($data)==0) {
+                $loginError= "Login failed. Invalid User Name or Password";
+            } else {
+                $_SESSION['User']=$data[0];
+                $_SESSION['User']['UserRole']=$_POST['UserRole'];
+                
+                sleep(5);
+                echo "<script>location.href='dashboard.php';</script>";
+                exit;
+            }
+        }
+        
+        if ($_GET['role']=="customers") {
+            $data = $mysql->select("select * from _tbl_masters_customers where md5(LoginUserName)='".md5($_POST['LoginName'])."' and md5(LoginPassword)='".md5($_POST['LoginPassword'])."' and IsActive='1'");
             if (sizeof($data)==0) {
                 $loginError= "Login failed. Invalid User Name or Password";
             } else {
@@ -67,7 +97,7 @@ if (isset($_POST['loginBtn'])) {
         }
         
         if ($_GET['role']=="salesman") {
-            $data = $mysql->select("select * from _tbl_masters_salesman where LoginUserName='".$_POST['LoginName']."' and LoginPassword='".$_POST['LoginPassword']."' and IsActive='1'");
+            $data = $mysql->select("select * from _tbl_masters_salesman where md5(LoginUserName)='".md5($_POST['LoginName'])."' and md5(LoginPassword)='".md5($_POST['LoginPassword'])."' and IsActive='1'");
             if (sizeof($data)==0) {
                 $loginError= "Login failed. Invalid User Name or Password";
             } else {
@@ -78,7 +108,6 @@ if (isset($_POST['loginBtn'])) {
                 exit;
             }
         }
-    
     }
 }
 ?>
@@ -137,6 +166,22 @@ if (isset($_POST['loginBtn'])) {
                                                             <input class="form-control form-control-lg" type="password" name="LoginPassword" id="LoginPassword" value="<?php echo $_POST['LoginPassword'];?>" placeholder="Password" style="font-size:13px" />
                                                             <span style="color:red;font-size:12px;" id="ErrLoginPassword"><?php echo $ErrLoginPassword?></span>
                                                         </div>
+                                                        <?php if ($_GET['role']=="branch") { ?>
+                                                        <div class="mb-3">
+                                                            <select name="UserRole" id="UserRole" class="form-control form-select" style="font-size:13px;padding:9px 20px">
+                                                                <option value="branchadmin">Branch Admin</option>
+                                                                <option value="branchuser">Branch User</option>
+                                                            </select>
+                                                        </div> 
+                                                        <?php } ?>
+                                                        <?php if ($_GET['role']=="admin") { ?>
+                                                        <div class="mb-3">
+                                                            <select name="UserRole" id="UserRole" class="form-control form-select" style="font-size:13px;padding:9px 20px">
+                                                                <option value="admin">Administrator</option>
+                                                                <option value="subadmin">Sub Admin</option>
+                                                            </select>
+                                                        </div> 
+                                                        <?php } ?>
                                                         <div class="mb-4" style="background: #fff;padding: 10px;border-radius: 5px;line-height: 28px;padding-bottom: 5px;">
                                                             <table cellpadding="0" cellspacing="0" style="width:100%">
                                                                 <tr>

@@ -35,10 +35,10 @@
                             </div>
                             <div class="col-sm-6 mb-3">
                                 <div style="font-weight: bold;">Date Of Birth</div>
-                                <div id="DateOfBirth"></div>
+                                <div id="viewDateOfBirth"></div>
                             </div>
                             <div class="col-sm-12 mb-3">
-                                <div style="font-weight: bold;">EmailID </div> 
+                                <div style="font-weight: bold;">Email ID </div> 
                                 <div id="EmailID"></div>
                             </div>
                             <div class="col-sm-6">
@@ -95,7 +95,7 @@
                         <div class="row">
                             <div class="col-sm-6">
                                 <div style="font-weight: bold;">Entry Date</div>
-                                <div id="EntryDate"></div>
+                                <div id="viewEntryDate"></div>
                             </div> 
                             <div class="col-sm-6">
                                 <div style="font-weight: bold;">Joined On</div>
@@ -134,7 +134,7 @@ function view(){
                 $('#SalesmanName').html(data.SalesmanName);
                 $('#FatherName').html(data.FatherName);
                 $('#Gender').html(data.Gender);
-                $('#DateOfBirth').html(data.DateOfBirth);
+                $('#viewDateOfBirth').html(data.DateOfBirth);
                 $('#EmailID').html(data.EmailID);
                 $('#MobileNumber').html(data.MobileNumber);
                 $('#WhatsappNumber').html(data.WhatsappNumber);
@@ -145,7 +145,7 @@ function view(){
                  $('#DistrictName').html(data.DistrictName);
                  $('#AreaName').html(data.AreaName);
                  $('#PinCode').html(data.PinCode);
-                 $('#EntryDate').html(data.EntryDate);
+                 $('#viewEntryDate').html(data.EntryDate);
                  $('#CreatedOn').html(data.CreatedOn);
             });   
 }  

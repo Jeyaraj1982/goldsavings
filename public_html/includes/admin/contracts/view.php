@@ -24,12 +24,12 @@
                             </div>
                           <div class="col-6 mb-0" style="text-align: right;">
                                 <div style="font-weight: bold;">Entry Date</div>
-                                <div id="EntryDate"></div>
+                                <div id="viewEntryDate"></div>
                             </div> 
                             </div> 
                         <div class="row">
                         <div class="col-6 mb-0">
-                                <div style="font-weight: bold;"> Mode Of Benifits</div>
+                                <div style="font-weight: bold;"> Mode Of Benefits</div>
                                 <div id="ModeOfBenifits"></div>
                             </div>
                             <div class="col-6 mb-0" style="text-align: right;">
@@ -80,7 +80,7 @@
                             <div id="CustomerName"></div>
                             <div style="font-weight: bold;">Mobile Number</div>
                             <span> +91 </span> <span id="MobileNumber"></span>
-                            <div style="font-weight: bold;">EmailID</div>
+                            <div style="font-weight: bold;">Email ID</div>
                             <div id="EmailID"></div>
                             <div style="font-weight: bold;">Created On</div>
                             <div id="CustomerCreatedOn"></div>
@@ -366,7 +366,7 @@ function getData(){
             $('#InstallmentAmount').html(ContractData.DueAmount);
            // $('#InstallmentMode').html(SchemeData.InstallmentMode);
             $('#ContractCode').html(ContractData.ContractCode);
-            $('#EntryDate').html(ContractData.EntryDate);
+            $('#viewEntryDate').html(ContractData.EntryDate);
             $('#CreatedBy').html(ContractData.CreatedBy);
             $('#CreatedByName').html(ContractData.CreatedByName);
              if(ContractData.IsActive=="1"){

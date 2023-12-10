@@ -1,4 +1,8 @@
 <?php
+Class BranchErrors {
+     const EntryDate_Empty = "Please select date";
+    const EntryDate_GreaterThanToday = "Please select date on/or before ";
+}
 class Branch {
     
     function addNew() {
@@ -15,13 +19,19 @@ class Branch {
         }
         
         if (strlen(trim($_POST['EntryDate']))==0) {
-            return json_encode(array("status"=>"failure","message"=>"Please select Date","div"=>"EntryDate"));    
+            return json_encode(array("status"=>"failure","message"=>BranchErrors::EntryDate_Empty,"div"=>"EntryDate"));    
+        } else {
+            $currentdate = strtotime(date("Y-m-d"));
+            $entrydate = strtotime($_POST['EntryDate']);
+            if ($entrydate>$currentdate) {
+                return json_encode(array("status"=>"failure","message"=>BranchErrors::EntryDate_GreaterThanToday.date("d-m-Y"),"div"=>"EntryDate"));        
+            }
         }
+        $_POST['EntryDate'] = date("Y-m-d",strtotime($_POST['EntryDate']));
         
         if (strlen(trim($_POST['BranchName']))==0) {
             return json_encode(array("status"=>"failure","message"=>"Please enter Branch Name","div"=>"BranchName"));    
         }
-        
         
         if (strlen(trim($_POST['AddressLine1']))==0) {
             return json_encode(array("status"=>"failure","message"=>"Please enter Address Line 1","div"=>"AddressLine1"));    
@@ -92,8 +102,6 @@ class Branch {
             }
         }
         
-       
-        
         $StatName = json_decode(StateNames::getDetailsByID($_POST['StateNameID']),true);
         $StatName = $StatName['data'];
         
@@ -119,6 +127,9 @@ class Branch {
                                                          "DistrictName"   => $DistrictName[0]['DistrictName'],
                                                          "AreaNameID"     => $AreaName[0]['AreaNameID'],
                                                          "AreaName"       => $AreaName[0]['AreaName'],
+                                                         "MapURL"       => $_POST['MapURL'],
+                                                         "Latitude"       => $_POST['Latitude'],
+                                                         "Longitude"       => $_POST['Longitude'],
                                                          "PinCode"        => $_POST['PinCode'],
                                                          "Remarks"        => $_POST['Remarks'],
                                                          "CreatedOn"      => date("Y-m-d H:i:s"),
@@ -140,9 +151,17 @@ class Branch {
         
         global $mysql;
         
-         if (strlen(trim($_POST['EntryDate']))==0) {
-            return json_encode(array("status"=>"failure","message"=>"Please select Date","div"=>"EntryDate"));    
+        if (strlen(trim($_POST['EntryDate']))==0) {
+            return json_encode(array("status"=>"failure","message"=>BranchErrors::EntryDate_Empty,"div"=>"EntryDate"));    
+        } else {
+            $currentdate = strtotime(date("Y-m-d"));
+            $entrydate = strtotime($_POST['EntryDate']);
+            if ($entrydate>$currentdate) {
+                return json_encode(array("status"=>"failure","message"=>BranchErrors::EntryDate_GreaterThanToday.date("d-m-Y"),"div"=>"EntryDate"));        
+            }
         }
+        $_POST['EntryDate'] = date("Y-m-d",strtotime($_POST['EntryDate']));
+        
         
         if (strlen(trim($_POST['BranchName']))==0) {
             return json_encode(array("status"=>"failure","message"=>"Please enter Branch Name","div"=>"BranchName"));    
@@ -189,7 +208,7 @@ class Branch {
         
         $AreaName = json_decode(AreaNames::getDetailsByID($_POST['AreaNameID']),true);
         $AreaName = $AreaName['data'];
-        
+                                          
         $id = $mysql->execute("update _tbl_masters_branches set BranchName = '".$_POST['BranchName']."',
                                                         EntryDate = '".$_POST['EntryDate']."',
                                                         EmailID = '".$_POST['EmailID']."',
@@ -203,6 +222,9 @@ class Branch {
                                                         DistrictName = '".$DistrictName[0]['DistrictName']."',
                                                         AreaNameID = '".$AreaName[0]['AreaNameID']."',
                                                         AreaName = '".$AreaName[0]['AreaName']."',
+                                                        MapURL = '".$_POST['MapURL']."',
+                                                        Latitude = '".$_POST['Latitude']."',
+                                                        Longitude = '".$_POST['Longitude']."',
                                                         Remarks = '".$_POST['Remarks']."',
                                                         PinCode = '".$_POST['PinCode']."',
                                                         IsActive = '".$_POST['IsActive']."' where BranchID='".$_POST['BranchID']."'");
@@ -214,6 +236,12 @@ class Branch {
         global $mysql;
         $mysql->execute("delete from _tbl_masters_branches where BranchID='".$_GET['ID']."'");
         return json_encode(array("status"=>"success","message"=>"Deleted Successfully","data"=>$mysql->select("select * from _tbl_masters_branches")));
+    }
+    
+     function ListAllActive() {
+        global $mysql;
+        $data = $mysql->select("select * from _tbl_masters_branches where IsActive='1'");
+        return json_encode(array("status"=>"success","data"=>$data));
     }
 }
 ?>

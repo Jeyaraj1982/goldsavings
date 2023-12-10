@@ -4,7 +4,13 @@
             <h1 class="h3" style="font-weight: bold;">Contracts</h1>
         </div>
         <div class="col-sm-6  mb-2" style="text-align:right;">
-            <a href="<?php echo URL;?>dashboard.php?action=contracts/list" class="btn btn-outline-primary btn-sm">Back</a> &nbsp;
+        <?php   
+                 $path=URL."dashboard.php";
+                if (isset($_GET['fpg'])) {
+                $path.="?action=".$_GET['fpg'];
+            }        
+            ?>
+            <a href="<?php echo $path;?>" class="btn btn-outline-primary btn-sm">Back</a>&nbsp;&nbsp;
             <a href="<?php echo URL;?>dashboard.php?action=" class="btn btn-primary btn-sm">Download</a>
         </div>
         <div class="col-sm-12 col-xl-12">
@@ -40,7 +46,7 @@
                             <div id="CustomerName"></div>
                             <div style="font-weight: bold;">Mobile Number</div>
                             <span> +91 </span> <span id="MobileNumber"></span>
-                            <div style="font-weight: bold;">EmailID</div>
+                            <div style="font-weight: bold;">Email ID</div>
                             <div id="EmailID"></div>
                             <div style="font-weight: bold;">Created On</div>
                             <div id="CustomerCreatedOn"></div>

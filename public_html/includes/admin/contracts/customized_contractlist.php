@@ -24,23 +24,23 @@
                     <div class="card-body">
                         <div class="row">
                             <div class="col-sm-6 mb-1">
-                                <input class="form-check-input" type="checkbox" value="1" id="EntryDate" name="EntryDate"  onclick="printEntrydate()">&nbsp;
+                                <input class="form-check-input" type="checkbox" value="1" id="EntryDateC" name="EntryDate"  onclick="printEntrydate()">&nbsp;
                                 Entry Date
                                 <div id="Entrydate" style="display: none;">
                                     <div class="input-group">
-                                        <input type="date" name="FromDate" value="<?php echo date("Y-m-d");?>" id="FromDate" class="form-control" placeholder="From Date">
+                                        <input type="text" readonly="readonly" name="FromDate" value="<?php echo date("d-m-Y");?>" id="FromDate" class="form-control" placeholder="From Date">
                                         <div class="input-group-prepend">
                                             <span class="input-group-text" id="basic-addon1">To</span>
                                         </div>
-                                        <input type="date" name="ToDate" value="<?php echo date("Y-m-d");?>" id="ToDate" class="form-control" placeholder="To Date">
+                                        <input type="text" readonly="readonly" name="ToDate" value="<?php echo date("d-m-Y");?>" id="ToDate" class="form-control" placeholder="To Date">
                                     </div>
-                                    <span id="ErrEntryDate" class="error_msg"></span> 
+                                    <span id="ErrEntryDateC" class="error_msg"></span> 
                                 </div> 
                             </div>
                             <script>
                                 function printEntrydate() {
                                     OrderByContent();
-                                    var checkBox = document.getElementById("EntryDate");
+                                    var checkBox = document.getElementById("EntryDateC");
                                     var div = document.getElementById("Entrydate");
                                     if (checkBox.checked == true){
                                         div.style.display = "block";
@@ -121,7 +121,7 @@
                             </div>
                             
                              <div class="col-sm-4 mb-1">
-                                <input class="form-check-input" type="checkbox" value="1" id="IsActive" name="IsActive" onclick="printStatus()">&nbsp;
+                                <input class="form-check-input" type="checkbox" value="1" id="IsClosed" name="IsClosed" onclick="printStatus()">&nbsp;
                                 Status
                                 <div style="display:none" id="selectStatus">
                                     <div class="input-group">
@@ -137,7 +137,7 @@
                             <script>
                                 function printStatus() {
                                     OrderByContent();
-                                    var checkBox = document.getElementById("IsActive");
+                                    var checkBox = document.getElementById("IsClosed");
                                     var div = document.getElementById("selectStatus");
                                     if (checkBox.checked == true){
                                         div.style.display = "block";
@@ -254,7 +254,7 @@
             
     
        <div class="col-sm-12 mb-3" style="text-align:right;">
-        <a href="<?php echo URL;?>dashboard.php" class="btn btn-outline-primary">Back</a>&nbsp;&nbsp;
+        <a href="<?php echo URL;?>dashboard.php?action=contracts/list" class="btn btn-outline-primary">Back</a>&nbsp;&nbsp;
             <button type="button" onclick="getData()" class="btn btn-primary">Get Report</button>    
     </div>  
     </div> 
@@ -399,7 +399,7 @@ function getAreaNames() {
 function OrderByContent() {
     
      var html = "";
-     if ($('#EntryDate').prop("checked")) {
+     if ($('#EntryDateC').prop("checked")) {
         html += "<option value='EntryDate'>Entry Date</option>";
      }
      
@@ -454,8 +454,8 @@ function OrderByContent() {
       if ($('#TotalPaidAmount').prop("checked")) {
         html += "<option value='TotalPaidAmount'>Total Paid Amount</option>";
      }
-     if ($('#IsActive').prop("checked")) {
-        html += "<option value='IsActive'>Status</option>";
+     if ($('#IsClosed').prop("checked")) {
+        html += "<option value='IsClosed'>Status</option>";
      }
      if ($('#SettlementGold').prop("checked")) {
         html += "<option value='SettlementGold'>Settlement Gold</option>";
@@ -481,11 +481,11 @@ function OrderByContent() {
 
 function getData() {
     $('#listData').hide();
-    clearDiv(['EntryDate','message'])
+    clearDiv(['EntryDateC','message'])
     var param = $('#frm_customreport').serialize();
     openPopup();
-    clearDiv(['EntryDate','message']);
-    $.post(URL+ "webservice.php?action=listCustomize&method=Customers",param,function(data){
+    clearDiv(['EntryDateC','message']);
+    $.post(URL+ "webservice.php?action=listCustomize&method=Contracts",param,function(data){
         closePopup();
         var obj = JSON.parse(data);
         var column_count=0;
@@ -494,7 +494,7 @@ function getData() {
             var header="";
             
             header ="<tr>";
-            if ($('#EntryDate').prop("checked")) {
+            if ($('#EntryDateC').prop("checked")) {
                 header += "<th>Entry Date</th>";
                 column_count++;
             }
@@ -523,15 +523,15 @@ function getData() {
                 column_count++;
             }
             if ($('#ContractAmount').prop("checked")) {
-                header += "<th>Scheme Amount</th>";
+                header += "<th style='text-align:right;'>Contract Amount</th>";
                 column_count++;
             }
             if ($('#DueAmount').prop("checked")) {
-                header += "<th>Due Amount</th>";
+                header += "<th style='text-align:right;'>Due Amount</th>";
                 column_count++;
             }
             if ($('#Duration').prop("checked")) {
-                header += "<th>Duration</th>";
+                header += "<th style='text-align:right;'>Duration</th>";
                 column_count++;
             }
             if ($('#InstallmentMode').prop("checked")) {
@@ -555,23 +555,23 @@ function getData() {
                 column_count++;
             }
             if ($('#WastageDiscount').prop("checked")) {
-                header += "<th>Wastage Discount</th>";
+                header += "<th style='text-align:right;'>Wastage Discount</th>";
                 column_count++;
             }
             if ($('#MakingChargeDiscount').prop("checked")) {
-                header += "<th>Making Charge Discount</th>";
+                header += "<th style='text-align:right;'>Making Charge Discount</th>";
                 column_count++;
             }
             if ($('#TotalPaidAmount').prop("checked")) {
-                header += "<th>Total Paid Amount</th>";
+                header += "<th style='text-align:right;'>Total Paid Amount</th>";
                 column_count++;
             }
-             if ($('#IsActive').prop("checked")) {
+             if ($('#IsClosed').prop("checked")) {
                 header += "<th>Status</th>";
                 column_count++;
             }
             if ($('#SettlementGold').prop("checked")) {
-                header += "<th>Settlement Gold</th>";
+                header += "<th style='text-align:right;'>Settlement Gold</th>";
                 column_count++;
             }
             if ($('#SettlementMaterial').prop("checked")) {
@@ -595,7 +595,7 @@ function getData() {
             $('#tbl_header').html(header) ;
             $.each(obj.data, function (index, data) {
               html +=    '<tr>';
-              if ($('#EntryDate').prop("checked")) {
+              if ($('#EntryDateC').prop("checked")) {
                html += '<td>' + data.EntryDate + '</td>';
               }
               if ($('#CustomerCode').prop("checked")) {
@@ -617,17 +617,17 @@ function getData() {
                html += '<td>' + data.ContractCode + '</td>';
               }
               if ($('#ContractAmount').prop("checked")) {
-               html += '<td>' + data.ContractAmount + '</td>';
+               html += '<td style="text-align:right;">' + data.ContractAmount + '</td>';
               }
               if ($('#DueAmount').prop("checked")) {
-               html += '<td>' + data.DueAmount + '</td>';
+               html += '<td style="text-align:right;">' + data.DueAmount + '</td>';
               }
               if ($('#Duration').prop("checked")) {
-               html += '<td>' + data.Duration + '</td>';
+               html += '<td style="text-align:right;">' + data.Duration + '</td>';
               }
               if ($('#InstallmentMode').prop("checked")) {
                html += '<td>' + data.InstallmentMode + '</td>';
-              }
+              }                      
               if ($('#StartDate').prop("checked")) {
                html += '<td>' + data.StartDate + '</td>';
               }
@@ -641,26 +641,26 @@ function getData() {
                html += '<td>' + data.ModeOfBenifits + '</td>';
               }
               if ($('#WastageDiscount').prop("checked")) {
-               html += '<td>' + data.WastageDiscount + '</td>';
+               html += '<td style="text-align:right;">' + data.WastageDiscount + '</td>';
               }
               if ($('#MakingChargeDiscount').prop("checked")) {
-               html += '<td>' + data.MakingChargeDiscount + '</td>';
+               html += '<td style="text-align:right;">' + data.MakingChargeDiscount + '</td>';
               }
               if ($('#TotalPaidAmount').prop("checked")) {
-               html += '<td>' + data.TotalPaidAmount + '</td>';
+               html += '<td style="text-align:right;">' + data.TotalPaidAmount + '</td>';
               }
-               if ($('#IsActive').prop("checked")) {
-                if (data.IsActive=="1")   {
-                    html += '<td> Active </td>';
+               if ($('#IsClosed').prop("checked")) {
+                if (data.IsClosed=="1")   {
+                    html += '<td> Closed </td>';
                 } 
-                if (data.IsActive=="0") {
-                        html += '<td> Closed </td>';
+                if (data.IsClosed=="0") {
+                        html += '<td> Active </td>';
                 } 
-                if (data.IsActive=="2")   {
+                if (data.IsClosed=="2")   {
                         html += '<td> PreClosed </td>';
                 }}
                if ($('#SettlementGold').prop("checked")) {
-               html += '<td>' + data.SettlementGold + '</td>';
+               html += '<td style="text-align:right;">' + data.SettlementGold + '</td>';
               } 
               if ($('#SettlementMaterial').prop("checked")) {
                html += '<td>' + data.SettlementMaterial + '</td>';

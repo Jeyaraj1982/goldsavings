@@ -7,9 +7,14 @@
                 <div class="card mb-2">
                     <div class="card-body">
                         <div class="row">
+                            <div class="col-sm-6 mb-3">
+                                <label class="form-label">Branch </label>
+                                <input type="text" disabled="disabled" name="BranchName" id="BranchName" class="form-control" placeholder="Branch">
+                            </div>
+                            <div class="col-sm-6 mb-2"></div>
                             <div class="col-sm-6 mb-2">
                                 <label class="form-label">Customer Code <span style='color:red'>*</span></label>
-                                <input type="text" value="<?php echo SequnceList::getNextNumber("_tbl_masters_customers");?>" name="CustomerCode" id="CustomerCode" class="form-control" placeholder="Customer Code">
+                                <input type="text" readonly="readonly" value="<?php echo SequnceList::getNextNumber("_tbl_masters_customers");?>" name="CustomerCode" id="CustomerCode" class="form-control" placeholder="Customer Code">
                                 <span id="ErrCustomerCode" class="error_msg"></span>
                             </div>
                             <div class="col-sm-6 mb-2">

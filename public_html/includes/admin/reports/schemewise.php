@@ -162,7 +162,8 @@ function scheme_autocomplete(inp, arr) {
           html = "<span class='row' style='background:none;'>";
             //html += "<span class='col-sm-2' style='background:none'>"+item.CustomerID+"</span>";
             html += "<span class='col-sm-8' style='background:none'>"+item.SchemeName+"</span>";
-            html += "<span class='col-sm-4' style='background:none'>"+item.Amount+"</span>";
+            html += "<span class='col-sm-2' style='background:none'>Min: "+item.MinDueAmount+"</span>";
+            html += "<span class='col-sm-2' style='background:none'>Max: "+item.MaxDueAmount+"</span>";
             //html += "<span class='col-sm-3' style='background:none'>"+item.MobileNumber+"</span>";
             //html += "<span class='col-sm-3' style='background:none'>"+item.Address+"</span>";
           html += "</span>"
@@ -182,23 +183,19 @@ function scheme_autocomplete(inp, arr) {
               
               
               
-              txtHtml = '<div class="row">'
+               txtHtml = '<div class="row">'
                                     + '<div class="col-sm-12" style="margin-bottom:10px">'
                                        +  item.SchemeName
                                     + '</div>' 
-                                    + '<div class="col-sm-4">'
-                                        + '<label class="form-label" style="font-weight:bold;margin-bottom:0px !important">Amount</label><br>'
-                                        +  item.Amount
+                                    + '<div class="col-sm-6">'
+                                        + '<label class="form-label" style="font-weight:bold;margin-bottom:0px !important">Due Amount :</label>&nbsp;'
+                                        +  'Min :'+item.MinDueAmount+  '&nbsp;,&nbsp;Max : ' + item.MaxDueAmount
                                     + '</div>'
-                                    + '<div class="col-sm-4">'
-                                        + '<label class="form-label" style="font-weight:bold;margin-bottom:0px !important">Duration</label><br>'
-                                        + item.Installments+ ', ' + item.InstallmentMode
+                                    + '<div class="col-sm-6">'
+                                        + '<label class="form-label" style="font-weight:bold;margin-bottom:0px !important">Duration :</label>&nbsp;'
+                                        + 'Min :' +item.MinDuration+ '&nbsp;,&nbsp;Max : ' + item.MaxDuration
                                     + '</div>' 
-                                    + '<div class="col-sm-4">'
-                                        + '<label class="form-label" style="font-weight:bold;margin-bottom:0px !important">Due Amount</label><br>'
-                                        +  item.InstallmentAmount
-                                       
-                                    + '</div>'
+                                   
                                     + '<div class="col-sm-12" style="text-align:right;">'
                                         + '<!--<a href="'+URL +'dashboard.php?action=masters/services/view&edit='+item.value+'" class="btn btn-outline-primary btn-sm" target="_blank">View Details</a>-->'
                                         + '<a href="'+URL+'dashboard.php?action=masters/schemes/view&edit='+item.SchemeID+'&fpg=reports/schemewise" class="btn btn-outline-primary btn-sm">View Details</a>'

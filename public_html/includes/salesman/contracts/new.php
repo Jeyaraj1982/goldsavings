@@ -6,6 +6,11 @@
                 <div class="card">
                     <div class="card-body" style="padding-bottom:0px">
                         <div class="row">
+                        <div class="col-sm-3 mb-3">
+                                <label class="form-label">Entry Date <span style='color:red'>*</span></label>
+                                <input type="text" readonly="" name="EntryDate" value="<?php echo date("d-m-Y");?>" id="EntryDate" class="form-control" placeholder="Entry Date" onchange="getGoldRate();">
+                                <span id="ErrEntryDate" class="error_msg"></span>
+                            </div> 
                             <div class="col-sm-12 mb-3">
                                 <label class="form-label">Customers <span style='color:red'>*</span></label>
                                 <input type="text" name="CustomerID" id="CustomerID" class="form-control" placeholder="Customer Name/Mobile Number">

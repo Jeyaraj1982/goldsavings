@@ -8,7 +8,6 @@
             <a href="<?php echo URL;?>dashboard.php?action=masters/users/new" class="btn btn-primary btn-sm">New User</a>
             <a href="<?php echo URL;?>dashboard.php?action=masters/users/customized_userlist" class="btn btn-warning btn-sm">Customize Columns</a>
      </div>
-     <div class="row">
         <div class="col-12">
             <div class="card">
                 <div class="card-body" style="padding-top:25px">
@@ -75,8 +74,8 @@ function d() {
                                             + '<img src="'+URL+'assets/icons/more.png">'
                                         + '</a>'
                                         + '<div class="dropdown-menu dropdown-menu-end">'
-                                                + '<a class="dropdown-item" href="'+URL+'dashboard.php?action=masters/users/view&user='+data.UserID+'">View</a>'
-                                                + '<a class="dropdown-item" href="'+URL+'dashboard.php?action=masters/users/edit&user='+data.UserID+'">Edit</a>'
+                                                + '<a class="dropdown-item" href="'+URL+'dashboard.php?action=masters/users/view&user='+data.UserID+'&fpg=masters/users/list">View</a>'
+                                                + '<a class="dropdown-item" href="'+URL+'dashboard.php?action=masters/users/edit&user='+data.UserID+'&fpg=masters/users/list">Edit</a>'
                                                 + '<a class="dropdown-item" href="javascript:void(0)" onclick="confirmationtoDelete(\''+data.UserID+'\')">Delete</a>'
                                         + '</div>'
                                 + '</div>'

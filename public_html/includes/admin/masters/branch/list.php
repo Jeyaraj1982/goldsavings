@@ -121,11 +121,10 @@ function Remove() {
             $('#popupcontent').html(success_content(obj.message,'closePopup'));
             $.each(obj.data, function (index, data) {
                 html += '<tr>'
-                           + '<td>' + data.BranchCode + '</td>'
+                            + '<td>' + data.BranchCode + '</td>'
                             + '<td>' + data.BranchName + '</td>'
-                            + '<td>' + data.EmailID + '</td>'
-                            + '<td>' + data.MobileNumber + '</td>'
-                            + '<td>' + data.EntryDate + '</td>'
+                            + '<td>' + data.AreaName + ',&nbsp;'+ data.DistrictName + ',&nbsp;'+ data.StateName + ',&nbsp;-&nbsp'+ data.PinCode + '</td>'
+                            + '<td>' + ( (data.IsActive=="1") ? "<span class='badge bg-success'>Active</span>" : "<span class='badge bg-secondary'>Disabled</span>" ) + '</td>'
                             + '<td style="text-align:right">' 
                                 + '<div class="dropdown position-relative">'
                                         + '<a href="javascript:void(0)" data-bs-toggle="dropdown" data-bs-display="static">'

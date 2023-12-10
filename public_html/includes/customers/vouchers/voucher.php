@@ -75,7 +75,7 @@ function listVouchers() {
     var param = $('#frm_voucher').serialize();
     openPopup();
     clearDiv(['message']);
-    $.post(URL+ "webservice.php?action=getVouchers",param,function(data){
+    $.post(URL+ "webservice.php?action=listAll&method=Vouchers",param,function(data){
         closePopup();
         var obj = JSON.parse(data);
         if (obj.status=="success") {

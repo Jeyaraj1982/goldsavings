@@ -17,7 +17,8 @@ class Contracts {
                     return json_encode(array("status"=>"failure","message"=>"Please select date on/or before ".date("d-m-Y"),"div"=>"EntryDate"));        
                 }
             }
-        } 
+        }
+        $_POST['EntryDate'] = date("Y-m-d",strtotime($_POST['EntryDate']));
         
         if (isset($_POST['ContractCode'])) {
             if (strlen(trim($_POST['ContractCode']))==0) {
@@ -118,7 +119,34 @@ class Contracts {
         }
                                 
         $_POST['ModeOfBenifits'] = "GOLD";
-        
+        if ($_SESSION['User']['UserModule']=="admin" || $_SESSION['User']['UserModule']=="subadmin") {
+            $Branch = $mysql->select("select * from _tbl_masters_branches where BranchID='".$_POST['BranchID']."'");
+        } else {
+            $Branch = $mysql->select("select * from _tbl_masters_branches where BranchID='".$_SESSION['User']['BranchID']."'");
+        }
+        if ($_SESSION['User']['UserModule']=="admin") {
+            $CreatedBy="Administrator";
+            $CreatedByID=$_SESSION['User']['AdministratorID'];
+            $CreatedByName=$_SESSION['User']['AdministratorName'];
+        } 
+        if ($_SESSION['User']['UserModule']=="subadmin") {
+            $CreatedBy="Sub Admin";
+            $CreatedByID=$_SESSION['User']['UserID'];
+            $CreatedByName=$_SESSION['User']['UserName'];
+        }
+        if ($_SESSION['User']['UserModule']=="branchadmin") {
+            $CreatedBy="Branch Admin";
+            $CreatedByID=$_SESSION['User']['UserID'];
+            $CreatedByName=$_SESSION['User']['UserName'];
+        }
+        if ($_SESSION['User']['UserModule']=="branchuser") {
+            $CreatedBy="Branch User";
+            $CreatedByID=$_SESSION['User']['UserID'];
+            $CreatedByName=$_SESSION['User']['UserName'];
+        }
+        $BranchID=$Branch[0]['BranchID'];
+        $BranchCode=$Branch[0]['BranchCode'];
+        $BranchName=$Branch[0]['BranchName'];
         $ContractID = $mysql->insert("_tbl_contracts",array("ContractCode"         => $ContractCode,
                                                             "EntryDate"            => $_POST['EntryDate'],
                                                             
@@ -147,6 +175,13 @@ class Contracts {
                                                             "VoucherNumber"        => "",
                                                             "WastageDiscount"      => $SchemeData[0]['WastageDiscount'],
                                                             "MakingChargeDiscount" => $SchemeData[0]['MakingChargeDiscount'],
+                                                            
+                                                            "BranchID"              => $BranchID,
+                                                            "BranchCode"            => $BranchCode,
+                                                            "BranchName"            => $BranchName,
+                                                            "CreatedBy"             => $CreatedBy,
+                                                            "CreatedByID"           => $CreatedByID,
+                                                            "CreatedByName"         => $CreatedByName,
                                                             "CreatedByName"        => $CreatedByName));
         if ($ContractID>0) {
 
@@ -195,7 +230,7 @@ class Contracts {
                                                                   "CustomerID"           => $CustomerData[0]['CustomerID'],
                                                                   "CustomerCode"         => $CustomerData[0]['CustomerCode'],
                                                                   "CustomerName"         => $CustomerData[0]['CustomerName'],
-                                                                  "CustomerMobileNumber" => $CustomerData[0]['MobileNumber'],
+                                                                  "MobileNumber"        => $CustomerData[0]['MobileNumber'],
                                                                   "ContractID"           => $ContractID,
                                                                   "ContractCode"         => $ContractCode,
                                                                   "DueNumber"            => '1',
@@ -229,7 +264,7 @@ class Contracts {
             return json_encode(array("status"=>"success","message"=>"successfully created","ContractID"=>$ContractCode,"div"=>""));
             
         } else {
-            return json_encode(array("status"=>"failure","message"=>"unable to create","div"=>""));
+            return json_encode(array("status"=>"failure","message"=>"unable to create".$mysql->error,"div"=>""));
         }
      }
      
@@ -248,13 +283,13 @@ class Contracts {
              if (isset($_POST['SelectType'])) {
                  switch($_POST['SelectType']) {
                      case 'ALL':
-                        $data = $mysql->select("select * from _tbl_contracts where date(CreatedOn)>=date('".$_POST['FromDate']."') and date(CreatedOn)<=date('".$_POST['ToDate']."')");
+                        $data = $mysql->select("select * from _tbl_contracts where date(CreatedOn)>=date('".date("Y-m-d",strtotime($_POST['FromDate']))."') and date(CreatedOn)<=date('".date("Y-m-d",strtotime($_POST['ToDate']))."')");
                         break;
                      case 'ACTIVE':
-                        $data = $mysql->select("select * from _tbl_contracts where (date(CreatedOn)>=date('".$_POST['FromDate']."') and date(CreatedOn)<=date('".$_POST['ToDate']."')) and IsClosed='0'");
+                        $data = $mysql->select("select * from _tbl_contracts where (date(CreatedOn)>=date('".date("Y-m-d",strtotime($_POST['FromDate']))."') and date(CreatedOn)<=date('".date("Y-m-d",strtotime($_POST['ToDate']))."')) and IsClosed='0'");
                         break;
                      case 'CLOSED':
-                        $data = $mysql->select("select * from _tbl_contracts where (date(CreatedOn)>=date('".$_POST['FromDate']."') and date(CreatedOn)<=date('".$_POST['ToDate']."')) and  IsClosed='1'");
+                        $data = $mysql->select("select * from _tbl_contracts where (date(CreatedOn)>=date('".date("Y-m-d",strtotime($_POST['FromDate']))."') and date(CreatedOn)<=date('".date("Y-m-d",strtotime($_POST['ToDate']))."')) and  IsClosed='1'");
                         break;
                      default:
                         $data = $mysql->select("select * from _tbl_contracts");
@@ -368,15 +403,15 @@ class Contracts {
              $data = array();
              
              if ($_POST['SelectType']=="ALL") {
-                 $data = $mysql->select("select * from _tbl_contracts where date(StartDate)>=date('".$_POST['FromDate']."') and date(StartDate)<=date('".$_POST['ToDate']."')");
+                 $data = $mysql->select("select * from _tbl_contracts where date(StartDate)>=date('".date("Y-m-d",strtotime($_POST['FromDate']))."') and date(StartDate)<=date('".date("Y-m-d",strtotime($_POST['ToDate']))."')");
              }
              
              if ($_POST['SelectType']=="ACTIVE") {
-                 $data = $mysql->select("select * from _tbl_contracts where IsClosed='0' and (date(StartDate)>=date('".$_POST['FromDate']."') and date(StartDate)<=date('".$_POST['ToDate']."')) ");
+                 $data = $mysql->select("select * from _tbl_contracts where IsClosed='0' and (date(StartDate)>=date('".date("Y-m-d",strtotime($_POST['FromDate']))."') and date(StartDate)<=date('".date("Y-m-d",strtotime($_POST['ToDate']))."')) ");
              }
              
              if ($_POST['SelectType']=="CLOSED") {
-                 $data = $mysql->select("select * from _tbl_contracts where IsClosed='1' and (date(StartDate)>=date('".$_POST['FromDate']."') and date(StartDate)<=date('".$_POST['ToDate']."')) ");
+                 $data = $mysql->select("select * from _tbl_contracts where IsClosed='1' and (date(StartDate)>=date('".date("Y-m-d",strtotime($_POST['FromDate']))."') and date(StartDate)<=date('".date("Y-m-d",strtotime($_POST['ToDate']))."')) ");
              }
              
              $_recentContracts=array();
@@ -841,7 +876,7 @@ class Contracts {
                                                            "CustomerID"           => $CustomerData[0]['CustomerID'],
                                                            "CustomerCode"         => $CustomerData[0]['CustomerCode'],
                                                            "CustomerName"         => $CustomerData[0]['CustomerName'],
-                                                           "CustomerMobileNumber" => $CustomerData[0]['MobileNumber'],
+                                                           "MobileNumber"         => $CustomerData[0]['MobileNumber'],
                                                            "ContractID"           => $contract_information[0]['ContractID'],
                                                            "ContractCode"         => $contract_information[0]['ContractCode'],
                                                            "DueNumber"            => $due_information[0]['DueNumber'],
@@ -974,7 +1009,7 @@ class Contracts {
                                                            "CustomerID"           => $CustomerData[0]['CustomerID'],
                                                            "CustomerName"         => $CustomerData[0]['CustomerName'],
                                                            "CustomerCode"         => $CustomerData[0]['CustomerCode'],
-                                                           "CustomerMobileNumber" => $CustomerData[0]['MobileNumber'],
+                                                           "MobileNumber"         => $CustomerData[0]['MobileNumber'],
                                                            "ContractID"           => $contract_information[0]['ContractID'],
                                                            "ContractCode"         => $contract_information[0]['ContractCode'],
                                                            "GoldInGrams"          => $totalGoldInGrams,
@@ -1011,5 +1046,101 @@ class Contracts {
          
          return json_encode(array("status"=>"success","message"=>"Contract Closed Successfully"));
      }
+     
+     function listCustomize() {
+        global $mysql;
+        //sleep(10);
+            if (isset($_POST['OrderBy']) && $_POST['OrderBy']=="0") {
+                return json_encode(array("status"=>"failure","message"=>"Please select any one column","div"=>"message"));        
+            }
+            
+            $sql = "select
+                        `ContractID`,
+                        DATE_FORMAT(EntryDate,'".appConfig::DATEFORMAT."') as `EntryDate`,
+                        
+                        `ContractCode`,
+                        `CustomerID`,
+                        `CustomerCode`,
+                        `CustomerName`,
+                        `MobileNumber`,
+                       
+                        `SchemeID`,
+                        `SchemeCode`,
+                        `SchemeName`,
+                        FORMAT(ContractAmount, 2) as `ContractAmount`,
+                        `ModeOfBenifits`,
+                        
+                        DATE_FORMAT(StartDate,'".appConfig::DATEFORMAT."') as `StartDate`,
+                        DATE_FORMAT(EndDate,'".appConfig::DATEFORMAT."') as `EndDate`,
+                        DATE_FORMAT(EffectiveOn,'".appConfig::DATEFORMAT."') as `EffectiveOn`,
+                        
+                        `InstallmentMode`,
+                        `Duration`,
+                        `MaterialType`,
+                        FORMAT(DueAmount, 2) as `DueAmount`,
+                        
+                        `CreatedBy`,
+                        `CreatedByName`,
+                        
+                        `IsClosed`,
+                        DATE_FORMAT(ClosedOn,'".appConfig::DATEFORMAT."') as `ClosedOn`,
+                        `ClosedModel`,
+                        FORMAT(TotalPaidAmount, 2) as `TotalPaidAmount`,
+                        FORMAT(SettlementGold, 3) as `SettlementGold`,
+                        `SettlementMaterial`,
+                        `VoucherNumber`,
+                        FORMAT(WastageDiscount, 2) as `WastageDiscount`,
+                        FORMAT(MakingChargeDiscount, 2) as `MakingChargeDiscount`,
+                        FORMAT(CashBonusPercentage, 2) as `CashBonusPercentage`,
+                        FORMAT(CashBonusAmount, 2) as `CashBonusAmount`
+                         
+                         
+                    from _tbl_contracts where ContractID>0 ";
+             
+            if (isset($_POST['CustomerNameS']) && $_POST['CustomerNameS']==1) {
+                if ($_POST['selectCustomerNameFilter']=="0") {
+                    $sql .= " and CustomerName like '%".$_POST['SearchCustomerName']."%' ";    
+                }
+                if ($_POST['selectCustomerName']=="Startwith") {
+                    $sql .= " and CustomerName like '".$_POST['SearchCustomerName']."%' ";    
+                }
+                if ($_POST['selectCustomerName']=="Endwith") {
+                    $sql .= " and CustomerName like '%".$_POST['SearchCustomerName']."' ";    
+                }
+                
+            }
+            
+            if (isset($_POST['MobileNumberS']) && $_POST['MobileNumberS']==1) {
+                
+                if ($_POST['selectMobileNumberFilter']=="0") {
+                    $sql .= " and MobileNumber like '%".trim(str_replace("_","",$_POST['SearchMobileNumber']))."%' ";    
+                }
+                if ($_POST['selectMobileNumberFilter']=="Startwith") {
+                    $sql .= " and MobileNumber like '".trim(str_replace("_","",$_POST['SearchMobileNumber']))."%' ";    
+                }
+                if ($_POST['selectMobileNumberFilter']=="Endwith") {
+                    $sql .= " and MobileNumber like '%".trim(str_replace("_","",$_POST['SearchMobileNumber']))."' ";    
+                }
+            }
+            
+            if (isset($_POST['EntryDate']) && $_POST['EntryDate']=="1") {
+                $fromdate = strtotime($_POST['FromDate']);
+                $todate = strtotime($_POST['ToDate']);
+                if ($fromdate>$todate) {
+                    return json_encode(array("status"=>"failure","message"=>"Please select date on/or before ".date("d-m-Y",strtotime($_POST['ToDate'])),"div"=>"EntryDate"));        
+                }
+            
+                $sql .= " and  (date(EntryDate)>=date('".$_POST['FromDate']."') and date(EntryDate)<=date('".$_POST['ToDate']."')) ";    
+            }
+              
+            
+            if ($_POST['OrderBy']=="EntryDate") {
+                $_POST['OrderBy']="date(EntryDate)";
+            }
+            
+            $sql .= " order by ".$_POST['OrderBy']." ".$_POST['Filterby'];
+            $data = $mysql->select($sql);
+        return json_encode(array("status"=>"success","data"=>$data,"sql"=>$sql));
+    }
 }
 ?>

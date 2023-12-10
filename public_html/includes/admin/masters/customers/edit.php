@@ -15,24 +15,31 @@
         <div class="card">
             <div class="card-body">
                 <div class="row">
+                     <div class="col-sm-6 mb-3">
+                                <label class="form-label">Branch</label>
+                                <input type="text" disabled="disabled" value="<?php echo $data[0]['BranchName'];?>" name="BranchName" id="BranchName" class="form-control" placeholder="Branch Name">
+                                <span id="ErrBranchName" class="error_msg"></span>
+                            </div>
+                    <div class="col-sm-6 mb-3"></div>
                     <div class="col-sm-6 mb-3">
                         <label class="form-label">Customer ID</label>
                         <input type="text" value="<?php echo $data[0]['CustomerCode'];?>" disabled="disabled"  class="form-control">
                         <span id="ErrCustomerCode" class="error_msg"></span>
                     </div>
-                    <div class="col-sm-6 mb-3">
+                     <div class="col-sm-6 mb-3">
                         <label class="form-label">Entry Date</label>
                         <div class="input-group">
-                            <input type="date" readonly="readonly" value="<?php echo $data[0]['EntryDate'];?>" name="EntryDate" id="EntryDate" class="form-control" placeholder="Entry Date">
+                            <input type="text" readonly="readonly" value="<?php echo date("d-m-Y",strtotime($data[0]["EntryDate"])) ;?>" name="EntryDate" id="EntryDate" class="form-control" placeholder="Entry Date">
                         </div>
                     </div>
                      <div class="col-sm-6 mb-3">
                         <label class="form-label">Customer Type <span style='color:red'>*</span></label>
-                        <select data-live-search="true" data-size="5" name="CustomerTypeNameID" id="CustomerTypeNameID" class="form-select mselect">
+                        <select data-live-search="true" data-size="5" value="<?php echo $data[0]['CustomerTypeNameID'];?>" name="CustomerTypeNameID" id="CustomerTypeNameID" class="form-select mselect">
                             <option>loading...</option>
                         </select>
                         <span id="ErrCustomerTypeNameID" class="error_msg"></span>
                             </div>
+                            
                             <div class="col-sm-12 mb-3">
                                 <label class="form-label">Customer Name <span style='color:red'>*</span>
                                 <img src="<?php echo URL;?>assets/question.png" style="width: 12px;" class="dropdown"  id="dropdownMenuButton1" data-bs-toggle="dropdown">
@@ -49,6 +56,7 @@
                                 <input type="text" value="<?php echo $data[0]['CustomerName'];?>" name="CustomerName" id="CustomerName" class="form-control" placeholder="Customer Name">
                                 <span id="ErrCustomerName" class="error_msg"></span>
                             </div>
+                           
                             <div class="col-sm-12 mb-3">
                                 <label class="form-label">Father/Husband's Name <span style='color:red'>*</span>
                                 <img src="<?php echo URL;?>assets/question.png" style="width: 12px;" class="dropdown"  id="dropdownMenuButton1" data-bs-toggle="dropdown">
@@ -89,7 +97,7 @@
                                     </div>
                                 </div>
                                 </label>
-                                <input type="date" name="DateOfBirth" id="DateOfBirth" value="<?php echo $data[0]['DateOfBirth'];?>" class="form-control" placeholder="Date Of Birth">
+                                <input type="text" readonly="readonly" name="DateOfBirth" id="DateOfBirth" value="<?php echo date("d-m-Y",strtotime($data[0]['DateOfBirth']));?>" class="form-control" placeholder="Date Of Birth">
                                 <span id="ErrDateOfBirth" class="error_msg"></span>
                             </div>
                             <div class="col-sm-6 mb-3">
@@ -322,9 +330,8 @@
             <?php 
             $path=URL."dashboard.php";
             if (isset($_GET['fpg'])) {
-                $path.="?action=".$_GET['fpg'];
+                $path=URL."dashboard.php?action=".$_GET['fpg'];
             }
-            //&view=ID000124
             if (isset($_GET['customer'])) {
                 $path.="&customer=".$_GET['customer'];
             }
@@ -413,6 +420,7 @@
 </div> 
 
 <script>
+var _BranchID = "<?php echo $data[0]['BranchID'];?>";
 var _CustomerTypeNameID = "<?php echo $data[0]['CustomerTypeNameID'];?>";
 var _StateNameID = "<?php echo $data[0]['StateNameID'];?>";
 var _DistrictNameID = "<?php echo $data[0]['DistrictNameID'];?>";
@@ -464,6 +472,34 @@ function doUpdate() {
     });
     */
 }
+function ListBranches() {
+    $.post(URL+ "webservice.php?action=listAllActive&method=Branch","",function(data){
+        var obj = JSON.parse(data);
+        if (obj.status=="success") {
+            var html = "<option value='0'>Select Branch</option>";
+            $.each(obj.data, function (index, data) {
+                html += '<option value="'+data.BranchID+'">'+data.BranchName+'</option>';
+            });   
+            $('#BranchID').html(html);
+            /*$("#StateNameID").append($("#StateNameID option").remove().sort(function(a, b) {
+                var at = $(a).text(), bt = $(b).text();
+                return (at > bt)?1:((at < bt)?-1:0);
+            }));*/
+            $('#BranchID option').each(function() {
+                if($(this).val() == _BranchID) {
+                    $(this).prop("selected", true);
+                }
+            });
+            setTimeout(function(){
+                 $("#BranchID").select2({
+                  dropdownParent:$('#frm_edit')
+              }); 
+            },1500);
+        } else {
+            alert(obj.message);
+        }
+    });
+}
 
 function ListCustomerTypes() {
     $.post(URL+ "webservice.php?action=listAllActive&method=CustomerTypes","",function(data){
@@ -478,13 +514,18 @@ function ListCustomerTypes() {
                 var at = $(a).text(), bt = $(b).text();
                 return (at > bt)?1:((at < bt)?-1:0);
             }));*/
-            setTimeout(function(){
-                //$('.mselect').selectpicker();
+                
                 $('#CustomerTypeNameID option').each(function() {
                     if($(this).val() == _CustomerTypeNameID) {
                         $(this).prop("selected", true);
                     }
                 });
+                setTimeout(function(){
+                 $("#CustomerTypeNameID").select2({
+                  dropdownParent:$('#frm_edit')
+              });
+            
+                
             },1500);
         } else {
             alert(obj.message);
@@ -511,9 +552,10 @@ function listStateNames() {
                     $(this).prop("selected", true);
                 }
             });
-            setTimeout(function(){
-               // $('.mstateselect').selectpicker();
-                getDistrictNames();
+             setTimeout(function(){
+                 $("#StateNameID").select2({
+                  dropdownParent:$('#frm_edit')
+              }); 
             },1500);
         } else {
             alert(obj.message);
@@ -540,8 +582,9 @@ function getDistrictNames() {
                 }
             });
             setTimeout(function(){
-                //$('.mdistrictselect').selectpicker();
-                getAreaNames();
+                 $("#DistrictNameID").select2({
+                  dropdownParent:$('#frm_edit')
+              }); 
             },1500);
         } else {
             alert(obj.message);
@@ -567,8 +610,10 @@ function getAreaNames() {
                         $(this).prop("selected", true);
                     }
             });
-            setTimeout(function(){
-                //$('.mareaselect').selectpicker();
+           setTimeout(function(){
+                 $("#AreaNameID").select2({
+                  dropdownParent:$('#frm_edit')
+              }); 
             },1500);
         } else {
             alert(obj.message);
@@ -611,6 +656,7 @@ function fetchData() {
  
 
 setTimeout(function(){
+    ListBranches();
     ListCustomerTypes();
     listStateNames();
 },2000);

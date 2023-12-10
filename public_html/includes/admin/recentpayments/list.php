@@ -25,11 +25,11 @@
                                         <option value="APPROVED">Approved</option>
                                         <option value="REJECTED">Reject</option>
                                     </select>
-                                    <input type="date" name="FromDate" value="<?php echo date("Y-m-d");?>" id="FromDate" class="form-control" placeholder="From Date">
+                                    <input type="text" readonly="readonly" name="FromDate" value="<?php echo date("d-m-Y");?>" id="FromDate" class="form-control" placeholder="From Date">
                                     <div class="input-group-prepend">
                                         <span class="input-group-text" id="basic-addon1">To</span>
                                 </div>
-                                <input type="date" name="ToDate" value="<?php echo date("Y-m-d");?>" id="ToDate" class="form-control" placeholder="To Date">
+                                <input type="text" readonly="readonly" name="ToDate" value="<?php echo date("d-m-Y");?>" id="ToDate" class="form-control" placeholder="To Date">
                                 
                                 <button type="button" onclick="getData()" class="btn btn-primary">Get Data</button>
                             </div> 

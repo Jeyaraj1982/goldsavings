@@ -47,26 +47,64 @@
                                 <label class="form-label">Mode Of Benifits</label>
                                 <input type="text" name="ModeOfBenifits" id="viewModeOfBenifits" class="form-control" placeholder="ModeOfBenefits">
                                 <span id="ErrModeOfBenefits" class="error_msg"></span>
+                            </div>
+                            <div class="col-12 mb-2">
+                                <label class="form-label">Transaction Date <span style='color:red'>*</span>
+                                <img src="<?php echo URL;?>assets/question.png" style="width: 12px;" class="dropdown"  id="dropdownMenuButton1" data-bs-toggle="dropdown">
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton1" style="padding:0px;">
+                                    <div class="myheader">Transaction Date</div>
+                                    <div class="mycontainer">
+                                        1. Allow only last 5 days transaction<br>
+                                    </div>
+                                </div>
+                                </label>
+                                <input type="text" readonly="readonly" value="<?php echo date("d-m-Y");?>" name="PaymentDate" id="PaymentDate" class="form-control" placeholder="Transaction Date">
+                                <span id="ErrPaymentDate" class="error_msg"></span>
                             </div>                              
                             <div class="col-12 mb-2">
-                                <label class="form-label">Select Bank <span style='color:red'>*</span></label>
-                                <select data-live-search="true" data-size="5" name="PaymentBankID" id="PaymentBankID" class="form-select mstateselect">
+                                <label class="form-label">Select Bank <span style='color:red'>*</span>
+                                 <img src="<?php echo URL;?>assets/question.png" style="width: 12px;" class="dropdown"  id="dropdownMenuButton1" data-bs-toggle="dropdown">
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton1" style="padding:0px;">
+                                    <div class="myheader">Select Bank</div>
+                                    <div class="mycontainer">
+                                        1. Cash deposit not allow<br>
+                                    </div>
+                                </div>
+                                </label>
+                                <select data-live-search="true" data-size="5" name="PaymentBankID" id="PaymentBankID" class="form-select mstateselect" onchange="getBankdetails()">
                                 <option>loading...</option>
                                 </select>
                                 <span id="ErrPaymentBankID" class="error_msg"></span>
+                                <div id="get_Bankdetails"></div>
                             </div>
-                            <div class="col-6 mb-2">
-                                <label class="form-label">Reference Number <span style='color:red'>*</span></label>
+                            <div class="col-12 mb-2">
+                                <label class="form-label">Reference Number <span style='color:red'>*</span>
+                                  <img src="<?php echo URL;?>assets/question.png" style="width: 12px;" class="dropdown"  id="dropdownMenuButton1" data-bs-toggle="dropdown">
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton1" style="padding:0px;">
+                                    <div class="myheader">Reference Number</div>
+                                    <div class="mycontainer">
+                                        1. Allow alphanumeric characters<br>
+                                        2. Not allow cut,copy,paste<br>
+                                        3. Not allow special charecters and space
+                                    </div>
+                                </div>
+                                </label>
                                 <input type="text" name="BankReferenceNumber" id="BankReferenceNumber" class="form-control" placeholder="Bank Reference Number">
                                 <span id="ErrBankReferenceNumber" class="error_msg"></span>
-                            </div>
-                            <div class="col-6 mb-2">
-                                <label class="form-label">Transaction Date <span style='color:red'>*</span></label>
-                                <input type="date" value="<?php echo date("Y-m-d");?>" name="PaymentDate" id="PaymentDate" class="form-control" placeholder="Transaction Date">
-                                <span id="ErrPaymentDate" class="error_msg"></span>
-                            </div>
+                            </div>  
+                            
                             <div class="col-12 mb-3">
-                                <label class="form-label">Payment Remarks </label>
+                                <label class="form-label">Payment Remarks 
+                                <img src="<?php echo URL;?>assets/question.png" style="width: 12px;" class="dropdown"  id="dropdownMenuButton1" data-bs-toggle="dropdown">
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton1" style="padding:0px;">
+                                    <div class="myheader">Payment Remarks</div>
+                                    <div class="mycontainer">
+                                        1. Allow all characters, not allow <span style='color:red'>\'!~$"</span><br>
+                                        2. Maximum 250 characters require<br>
+                                        3. Not allow cut,copy,paste
+                                    </div>
+                                </div>
+                                </label>
                                 <input type="text" name="Remarks" id="Remarks" class="form-control" placeholder="Payment Remarks">
                                 <span id="ErrPaymentRemarks" class="error_msg"></span>
                             </div>
@@ -85,7 +123,7 @@
                 $path=URL."dashboard.php?action=".$_GET['fpg'];
             }
             ?>
-            <a href="<?php echo $path;?>" class="btn btn-outline-primary btn-sm">Back</a>&nbsp;
+            <a href="<?php echo $path;?>" class="btn btn-outline-primary btn-sm" style="font-size: 10px">Back</a>
     &nbsp;
     <button onclick="confirmationtoadd()" type="button" class="btn btn-primary btn-sm" style="font-size: 10px">Submit</button>    
 </div>
@@ -172,10 +210,11 @@ function addNew() {
              } else {
                 if (obj.div!="") {
                     $('#Err'+obj.div).html(obj.message)
+                    $('#process_popup').modal('hide');
                 } else {
-                    $('#failure_div').html(obj.message);
+                    $('#popupcontent').html( errorcontent(obj.message));
                 }
-                $('#process_popup').modal('hide');
+                
              }
         }
     });
@@ -205,6 +244,37 @@ function listPaymentbank() {
             setTimeout(function(){
             },1500);
         } else {
+            alert(obj.message);
+        }
+    });
+}
+
+var PaymentRequestID="";
+
+function getBankdetails() {
+     $('#get_Bankdetails').html(""); 
+     $('#ErrPaymentBankID').html(""); 
+    if ($('#PaymentBankID').val()==0){
+       $('#ErrPaymentBankID').html("Please Select Bank"); 
+    }
+  openPopup();
+    $.post(URL+ "webservice.php?action=getDetails&method=PaymentBanks&ID="+$('#PaymentBankID').val(),"",function(data){
+        var obj = JSON.parse(data);
+        if (obj.status=="success") {
+            closePopup();
+            html = "";
+            $.each(obj.data, function (index, data) {
+                html += '<div style="padding: left;padding-left: 20px;font-size: 12px;background: #f9ffea;">'
+                         + '<span>Name:&nbsp;&nbsp;' + data.AccountHolderName + '</span><br>'
+                         + '<span>A/C Number:&nbsp;&nbsp;' + data.AccountNumber + '</span><br>'
+                         + '<span>IFSC Code:&nbsp;&nbsp;' + data.IFSCode + '</span><br>'
+                         + '<span>Branch:&nbsp;&nbsp;' + data.Branch + '</span><br>'
+                         + '<span>Bank Name:&nbsp;&nbsp;' + data.BankName + '</span>'
+                      + '</div>'; 
+              }); 
+            $('#get_Bankdetails').html(html);
+            
+        }  else {
             alert(obj.message);
         }
     });

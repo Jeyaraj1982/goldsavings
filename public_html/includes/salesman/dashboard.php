@@ -47,15 +47,18 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-12 col-sm-6 col-xxl-3 d-flex">
+        <div class="col-12 col-sm-6 col-xxl-3 d-flex">
             <div class="card flex-fill" style="padding:15px">
                 <div class="card-header" style="padding:0px 10px;margin-bottom:5px;">
                     <div class="card-actions float-end">
                         <a href="https://goldsavings.nexifysoftware.in/dashboard.php?action=Todaysgoldrate/list" title="Previous Gold Rates" style="font-size: 10px;" style="color:#888;text-decoration:none;"><i class="align-middle" data-feather="external-link"></i></a>    
                     </div>
                         <h5 class="card-title mb-0">Today's Gold Rate</h5>
+                </div>
+                <div style="text-align: center; display: none;" id="goldrate_message">
+                   Gold rates not found
                 </div>  
-                <div class="row">
+                <div class="row" id="goldrate" style="display: none;">
                     <div class="col-6" style="padding-right: 5px;">
                         <button type="button" class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" id="gold22rate" style="width:100%;background: #fff !important;border: 1px solid #ccc;width: 100% !important;padding: 5px 5px;text-align: left;border-radius: 7px !important;color:#555 !important">
                         <img src="<?php echo URL;?>assets/goldcoin.png" style="width:32px; padding:0px">&nbsp;&nbsp;Loading ...
@@ -349,13 +352,20 @@ function loadDashboardData(){
              gold24Chart(obj.data.goldRates);
          var gold_rates="";
             $.each(obj.data.todaGoldRates, function (index, data) {
+           // if(data.todaGoldRates>0){
+                $('#goldrate').show();
+                $('#goldrate_message').hide();
                 gold_rates += '<li><a class="dropdown-item" href="javascript:void(0)">18 KT: &nbsp;&nbsp;'+data.GOLD_18+'</a></li>' ;
                 gold_rates += '<li><a class="dropdown-item" href="javascript:void(0)">22 KT: &nbsp;&nbsp;'+data.GOLD_22+'</a></li>' ;
                 gold_rates += '<li><a class="dropdown-item" href="javascript:void(0)">24 KT: &nbsp;&nbsp;'+data.GOLD_24+'</a></li>' ;
                 $('#gold22rate').html("<img src='<?php echo URL;?>assets/goldcoin.png' style='width:32px; padding:0px'>&nbsp;&nbsp;<span style='font-size:11px;'>22 KT:</span>&nbsp;&nbsp;<span style='font-weight:bold;'>"+data.GOLD_22+'&nbsp;&nbsp;</span>');
                 $('#SILVER').html("<table style='width:90%'><tr><td style='width:36px'><img src='<?php echo URL;?>assets/silvercoin.png' style='width:30px; height:30px'></td><td style='font-weight:bold; text-align:right'>"+data.SILVER+'</td></tr></table>');
+          // } else {
+           //     $('#goldrate_message').hide();
+           // }
             });
             $('#goldrate_list').html(gold_rates);
+            
     } 
     });
         }      
@@ -597,7 +607,15 @@ function listPendingDues(obj) {
         _price_18.push(data.GOLD_18);
         _price_22.push(data.GOLD_22);
         _price_24.push(data.GOLD_24);
+        /*if(obj.data.todaGoldRates>0){
+            $('#goldrate').show();
+        } else {
+            
+        } */
+        
     });
+    
+    
     
     new Chart(document.getElementById("chartjs-dashboard-bar-24"), {
         type: "bar",

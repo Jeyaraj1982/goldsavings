@@ -73,7 +73,7 @@
                                 <?php echo $data[0]['StateName'];?>
                             </div>
                             <div class="col-sm-6">
-                                <div style="font-weight: bold;">PinCode </div>
+                                <div style="font-weight: bold;">Pincode </div>
                                 <?php echo $data[0]['PinCode'];?>
                             </div>
                         </div>

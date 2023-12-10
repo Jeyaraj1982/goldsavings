@@ -74,7 +74,7 @@ function listReceipts() {
     var param = $('#frm_receipt').serialize();
     openPopup();
     clearDiv(['message']);
-    $.post(URL+ "webservice.php?action=getReceipts",param,function(data){
+    $.post(URL+ "webservice.php?action=listAll&method=Receipts",param,function(data){
         closePopup();
         var obj = JSON.parse(data);
         if (obj.status=="success") {

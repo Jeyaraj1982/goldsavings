@@ -24,15 +24,15 @@
                     <div class="card-body">
                         <div class="row">
                             <div class="col-sm-6 mb-1">
-                                <input class="form-check-input" type="checkbox" value="1" id="EntryDate" name="EntryDate"  onclick="printEntrydate()">&nbsp;
+                                <input class="form-check-input" type="checkbox" value="1" id="EntryDateC" name="EntryDate"  onclick="printEntrydate()">&nbsp;
                                 Entry Date
                                 <div id="Entrydate" style="display: none;">
                                     <div class="input-group">
-                                        <input type="date" name="FromDate" value="<?php echo date("Y-m-d");?>" id="FromDate" class="form-control" placeholder="From Date">
+                                        <input type="text" readonly="readonly" name="FromDate" value="<?php echo date("d-m-Y");?>" id="FromDate" class="form-control" placeholder="From Date">
                                         <div class="input-group-prepend">
                                             <span class="input-group-text" id="basic-addon1">To</span>
                                         </div>
-                                        <input type="date" name="ToDate" value="<?php echo date("Y-m-d");?>" id="ToDate" class="form-control" placeholder="To Date">
+                                        <input type="text" readonly="readonly" name="ToDate" value="<?php echo date("d-m-Y");?>" id="ToDate" class="form-control" placeholder="To Date">
                                     </div>
                                     <span id="ErrEntryDate" class="error_msg"></span> 
                                 </div> 
@@ -40,7 +40,7 @@
                             <script>
                                 function printEntrydate() {
                                     OrderByContent();
-                                    var checkBox = document.getElementById("EntryDate");
+                                    var checkBox = document.getElementById("EntryDateC");
                                     var div = document.getElementById("Entrydate");
                                     if (checkBox.checked == true){
                                         div.style.display = "block";
@@ -442,7 +442,7 @@ function getAreaNames() {
 function OrderByContent() {
     
      var html = "";
-     if ($('#EntryDate').prop("checked")) {
+     if ($('#EntryDateC').prop("checked")) {
         html += "<option value='EntryDate'>Entry Date</option>";
      }
      if ($('#SalesmanName').prop("checked")|| $('#SalesmanNameS').prop("checked")) {
@@ -517,10 +517,10 @@ function OrderByContent() {
 
 function getData() {
     $('#listData').hide();
-    clearDiv(['EntryDate','message'])
+    clearDiv(['EntryDateC','message'])
     var param = $('#frm_customreport').serialize();
     openPopup();
-    clearDiv(['EntryDate','message']);
+    clearDiv(['EntryDateC','message']);
     $.post(URL+ "webservice.php?action=listCustomize&method=Salesman",param,function(data){
         closePopup();
         var obj = JSON.parse(data);
@@ -530,7 +530,7 @@ function getData() {
             var header="";
             
             header ="<tr>";
-            if ($('#EntryDate').prop("checked")) {
+            if ($('#EntryDateC').prop("checked")) {
                 header += "<th>Entry Date</th>";
                 column_count++;
             }
@@ -623,7 +623,7 @@ function getData() {
             $('#tbl_header').html(header) ;
             $.each(obj.data, function (index, data) {
               html +=    '<tr>';
-              if ($('#EntryDate').prop("checked")) {
+              if ($('#EntryDateC').prop("checked")) {
                html += '<td>' + data.EntryDate + '</td>';
               }
               if ($('#SalesmanCode').prop("checked")) {

@@ -1,4 +1,4 @@
-<?php
+``<?php
     $data = $mysql->select("select * from _tbl_masters_customers where CustomerID='".$_GET['customer']."'");
 ?>
 <div class="container-fluid p-0">
@@ -35,7 +35,7 @@
                                 <div id="FatherName"></div>
                             </div>
                             <div class="col-sm-12 mb-3">
-                                <div style="font-weight: bold">EmailID</div>
+                                <div style="font-weight: bold">Email ID</div>
                                 <div id="EmailID"></div>
                             </div>
                             <div class="col-sm-6">

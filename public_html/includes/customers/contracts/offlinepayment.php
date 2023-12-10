@@ -9,7 +9,7 @@
                         <div class="row">
                             <div class="col-sm-4 mb-3">
                                 <label class="form-label">Installment Number</label>
-                                <input type="text" style="text-align: right;" name="Installment" id="viewInstallment" class="form-control" placeholder="Installment">
+                                <input type="text" style="text-align: right;" readonly="readonly" name="Installment" id="viewInstallment" class="form-control" placeholder="Installment">
                                 <span id="ErrInstallment" class="error_msg"></span>
                             </div>
                              <div class="col-sm-4 mb-3">
@@ -18,7 +18,7 @@
                                     <div class="input-group-prepend">
                                         <span class="input-group-text" id="basic-addon1">₹</span>
                                     </div>
-                                    <input type="text" style="text-align: right;" name="DueAmount" id="viewDueAmount" class="form-control" placeholder="Due Amount">
+                                    <input type="text" style="text-align: right;" readonly="readonly" name="DueAmount" id="viewDueAmount" class="form-control" placeholder="Due Amount">
                                 </div>
                                 <span id="ErrDueAmount" class="error_msg"></span>
                             </div>
@@ -26,7 +26,7 @@
                             </div>
                             <div class="col-sm-4 mb-3">
                                 <label class="form-label">Mode Of Benifits</label>
-                                <input type="text" name="ModeOfBenifits" id="viewModeOfBenifits" class="form-control" placeholder="ModeOfBenefits">
+                                <input type="text" name="ModeOfBenifits" readonly="readonly" id="viewModeOfBenifits" class="form-control" placeholder="ModeOfBenefits">
                                 <span id="ErrModeOfBenefits" class="error_msg"></span>
                             </div>
                             <div class="col-sm-4 mb-3" >
@@ -35,33 +35,70 @@
                                     <div class="input-group-prepend">
                                         <span class="input-group-text" id="basic-addon1">₹</span>
                                     </div>
-                                    <input type="text" style="text-align: right;" name="GoldPrice" id="viewGoldPrice" class="form-control" placeholder="Gold Price">
+                                    <input type="text" readonly="readonly" style="text-align: right;" name="GoldPrice" id="viewGoldPrice" class="form-control" placeholder="Gold Price">
                                 </div>
                                 <span id="ErrGoldPrice" class="error_msg"></span>
                             </div>
                             <div class="col-sm-4 mb-3">
                                 <label class="form-label">Gold in Grams </label>
-                                <input type="text" style="text-align: right;" name="GoldInGrams" id="viewGoldInGrams" readonly="readonly" class="form-control" placeholder="GoldInGrams">
+                                <input type="text" readonly="readonly" style="text-align: right;" name="GoldInGrams" id="viewGoldInGrams" readonly="readonly" class="form-control" placeholder="GoldInGrams">
                             </div>                              
                             <div class="col-sm-8 mb-3">
-                                <label class="form-label">Select Bank <span style='color:red'>*</span></label>
-                                <select data-live-search="true" data-size="5" name="PaymentBankID" id="PaymentBankID" class="form-select mstateselect">
+                                <label class="form-label">Select Bank <span style='color:red'>*</span>
+                                <img src="<?php echo URL;?>assets/question.png" style="width: 12px;" class="dropdown"  id="dropdownMenuButton1" data-bs-toggle="dropdown">
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton1" style="padding:0px;">
+                                    <div class="myheader">Select Bank</div>
+                                    <div class="mycontainer">
+                                        1. Cash deposit not allow<br>
+                                    </div>
+                                </div>
+                                </label>
+                                <select data-live-search="true" data-size="5" name="PaymentBankID" id="PaymentBankID" class="form-select mstateselect" onchange="getBankdetails()">
                                 <option>loading...</option>
                                 </select>
                                 <span id="ErrPaymentBankID" class="error_msg"></span>
+                                <div id="get_Bankdetails"></div>
                             </div>
                             <div class="col-sm-4 mb-3">
-                                <label class="form-label">Transaction Date <span style='color:red'>*</span></label>
-                                <input type="date" value="<?php echo date("Y-m-d");?>" name="PaymentDate" id="PaymentDate" class="form-control" placeholder="Transaction Date">
+                                <label class="form-label">Transaction Date <span style='color:red'>*</span>
+                                <img src="<?php echo URL;?>assets/question.png" style="width: 12px;" class="dropdown"  id="dropdownMenuButton1" data-bs-toggle="dropdown">
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton1" style="padding:0px;">
+                                    <div class="myheader">Transaction Date</div>
+                                    <div class="mycontainer">
+                                        1. Allow only last 5 days transaction<br>
+                                    </div>
+                                </div>
+                                </label>
+                                <input type="text" readonly="readonly" value="<?php echo date("d-m-Y");?>" name="PaymentDate" id="PaymentDate" class="form-control" placeholder="Transaction Date">
                                 <span id="ErrPaymentDate" class="error_msg"></span>
                             </div>
                             <div class="col-sm-12 mb-3">
-                                <label class="form-label">Bank Reference Number <span style='color:red'>*</span></label>
+                                <label class="form-label">Bank Reference Number <span style='color:red'>*</span>
+                                <img src="<?php echo URL;?>assets/question.png" style="width: 12px;" class="dropdown"  id="dropdownMenuButton1" data-bs-toggle="dropdown">
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton1" style="padding:0px;">
+                                    <div class="myheader">Bank Reference Number</div>
+                                    <div class="mycontainer">
+                                        1. Allow alphanumeric characters<br>
+                                        2. Not allow cut,copy,paste<br>
+                                        3. Not allow special charecters and space
+                                    </div>
+                                </div>
+                                </label>
                                 <input type="text" name="BankReferenceNumber" id="BankReferenceNumber" class="form-control" placeholder="Bank Reference Number">
                                 <span id="ErrBankReferenceNumber" class="error_msg"></span>
                             </div>
                             <div class="col-sm-12 mb-3">
-                                <label class="form-label">Payment Remarks </label>
+                                <label class="form-label">Payment Remarks 
+                                <img src="<?php echo URL;?>assets/question.png" style="width: 12px;" class="dropdown"  id="dropdownMenuButton1" data-bs-toggle="dropdown">
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton1" style="padding:0px;">
+                                    <div class="myheader">Payment Remarks</div>
+                                    <div class="mycontainer">
+                                        1. Allow all characters, not allow <span style='color:red'>\'!~$"</span><br>
+                                        2. Maximum 250 characters require<br>
+                                        3. Not allow cut,copy,paste
+                                    </div>
+                                </div>
+                                </label>
                                 <input type="text" name="Remarks" id="Remarks" class="form-control" placeholder="Payment Remarks">
                                 <span id="ErrPaymentRemarks" class="error_msg"></span>
                             </div>
@@ -72,8 +109,14 @@
         </div>
      </form>
 <div class="col-sm-12" style="text-align:right;">
-    <a href="<?php echo URL;?>dashboard.php?action=contracts/list_paymentrequests">Previous Transaction</a>&nbsp;&nbsp;
-    <a href="<?php echo URL;?>dashboard.php?" class="btn btn-outline-primary">Back</a>&nbsp;&nbsp;
+    <a href="<?php echo URL;?>dashboard.php?action=contracts/list_paymentrequests" class="btn btn-warning">Previous Transaction</a>&nbsp;&nbsp;
+    <?php 
+            $path=URL."dashboard.php";
+            if (isset($_GET['fpg'])) {
+                $path=URL."dashboard.php?action=".$_GET['fpg'];
+            }
+            ?>
+            <a href="<?php echo $path;?>" class="btn btn-outline-primary">Back</a>&nbsp;&nbsp;
     <button onclick="confirmationtoadd()" type="button" class="btn btn-primary">Submit</button>    
 </div>
 </div>
@@ -154,18 +197,25 @@ function addNew() {
              if (obj.status=="success") {
                 $('#frm_create').trigger("reset");
                 $('#PaymentBankID').val(obj.PaymentBankID);
-                $('#popupcontent').html(success_content(obj.message,'closePopup'));
+                $('#popupcontent').html(success_content(obj.message,'closePopup(); opencontractview'));
+                
              } else {
                 if (obj.div!="") {
                     $('#Err'+obj.div).html(obj.message)
+                     $('#process_popup').modal('hide');
                 } else {
-                    $('#failure_div').html(obj.message);
+                    $('#popupcontent').html( errorcontent(obj.message));
                 }
-                $('#process_popup').modal('hide');
+               
              }
-        }
+        }  
     });
 }
+
+function opencontractview()  {
+  location.href=URL +'dashboard.php?action=contracts/list_paymentrequests';  
+}
+
 setTimeout (function (){
     getData();
     listPaymentbank(); 
@@ -193,5 +243,48 @@ function listPaymentbank() {
     });
 }
 
+var PaymentRequestID="";
+ function copy_accountnumber(text){
+     navigator.clipboard.writeText(text);
+      var tooltip = document.getElementById("myTooltip_a/c");
+  tooltip.innerHTML = "Copied ";
+ }
+ 
+ 
+function copy_ifsc(text){                                  
+     navigator.clipboard.writeText(text);
+     var tooltip = document.getElementById("myTooltip_ifsc");
+  tooltip.innerHTML = "Copied ";
+ }
+function getBankdetails() {
+     $('#get_Bankdetails').html(""); 
+     $('#ErrPaymentBankID').html(""); 
+    if ($('#PaymentBankID').val()==0){
+       $('#ErrPaymentBankID').html("Please Select Bank"); 
+    }
+  openPopup();
+    $.post(URL+ "webservice.php?action=getDetails&method=PaymentBanks&ID="+$('#PaymentBankID').val(),"",function(data){
+        var obj = JSON.parse(data);
+        if (obj.status=="success") {
+            closePopup();
+            html = "";                            
+            $.each(obj.data, function (index, data) {
+                html += '<div style="padding: left;padding-left: 20px;font-size: 12px;background: #f9ffea;">'
+                         + '<span>Name:&nbsp;&nbsp;' + data.AccountHolderName + '</span><br>'
+                         + '<span>A/C Number:&nbsp;&nbsp;' + data.AccountNumber + '</span>&nbsp;<img src="<?php echo URL;?>/assets/copy.png"  href="javascript:void(0)" onclick="copy_accountnumber(\''+data.AccountNumber+'\')" style="width: 12px; cursor: pointer;"><span class="tooltiptext" id="myTooltip_a/c"></span><br>'
+                         + '<span>IFSC Code:&nbsp;&nbsp;' + data.IFSCode + '</span>&nbsp;<img src="<?php echo URL;?>/assets/copy.png" href="javascript:void(0)" onclick="copy_ifsc(\''+data.IFSCode+'\')" style="width: 12px; cursor: pointer;">&nbsp;<span class="tooltiptext" id="myTooltip_ifsc"></span><br>'
+                         + '<span>Branch:&nbsp;&nbsp;' + data.Branch + '</span><br>'
+                         + '<span>Bank Name:&nbsp;&nbsp;' + data.BankName + '</span>'
+                      + '</div>'; 
+              }); 
+            $('#get_Bankdetails').html(html);
+            
+        }  else {
+            alert(obj.message);
+        }
+    });
+}
+
 </script>
+
          

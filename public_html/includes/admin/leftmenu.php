@@ -8,6 +8,16 @@
         </li>
         <li class="sidebar-header">Quick Links</li>
         <li class="sidebar-item">
+            <a data-bs-target="#administrators" data-bs-toggle="collapse" class="sidebar-link collapsed">
+                <i class="align-middle" data-feather="layout"></i> <span class="align-middle">Administrators</span>
+            </a>
+            <ul id="administrators" class="sidebar-dropdown list-unstyled collapse " data-bs-parent="#sidebar">
+                <li class="sidebar-item"><a class="sidebar-link" href="<?php echo URL;?>dashboard.php?action=masters/administrators/new">New Administrator</a></li>
+                <li class="sidebar-item"><a class="sidebar-link" href="<?php echo URL;?>dashboard.php?action=masters/administrators/list">View Administrators</a></li>
+                <li class="sidebar-item"><a class="sidebar-link" href="<?php echo URL;?>dashboard.php?action=masters/administrators/searadministrators">Search Administrators</a></li>
+            </ul>
+        </li>
+        <li class="sidebar-item">
             <a data-bs-target="#customers" data-bs-toggle="collapse" class="sidebar-link collapsed">
                 <i class="align-middle" data-feather="layout"></i> <span class="align-middle">Customers</span>
             </a>

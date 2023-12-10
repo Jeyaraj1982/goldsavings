@@ -20,16 +20,23 @@
                                 <a style="color:#888;text-decoration:none;" href="<?php echo URL;?>dashboard.php?action=masters/customers/edit&customer=<?php echo $data[0]['CustomerID'];?>&fpg=masters/customers/view&customer=<?php echo $data[0]['CustomerID'];?>"><i class="align-middle me-2" data-feather="edit"></i><span class="align-middle">edit</span></a>
                             </div>
                             <div class="col-sm-6 mb-3">
+                                <div style="font-weight: bold;">Branch</div>
+                                <?php echo $data[0]['BranchName'];?>
+                            </div>
+                            
+                            <div class="col-sm-6 mb-3"></div>
+                            <div class="col-sm-6 mb-3">
                                 <div style="font-weight: bold;">Customer ID</div>
                                 <?php echo $data[0]['CustomerCode'];?>
                             </div>
-                           <div class="col-sm-6 mb-3">
-                                <div style="font-weight: bold;">Entry Date</div>
-                                <?php echo date("d-m-Y",strtotime($data[0]["EntryDate"])) ;?>
-                            </div>
+                            
                             <div class="col-sm-6 mb-3">
                                 <div style="font-weight: bold;">Customer Type</div>
                                 <?php echo $data[0]['CustomerTypeName'];?>
+                            </div>
+                            <div class="col-sm-6 mb-3">
+                                <div style="font-weight: bold;">Entry Date</div>
+                                <?php echo date("d-m-Y",strtotime($data[0]["EntryDate"])) ;?>
                             </div>
                             <div class="col-sm-12 mb-3">
                                 <div style="font-weight: bold;">Customer's Name</div>

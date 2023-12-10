@@ -86,7 +86,6 @@ function getData() {
                             + '<td style="text-align:right">' + data.GOLD_22 + '</td>'
                             + '<td style="text-align:right">' + data.GOLD_24 + '</td>'
                             + '<td style="text-align:right">' + data.SILVER + '</td>'
-
                             + '</tr>';
             });
              if (obj.data.length==0) {

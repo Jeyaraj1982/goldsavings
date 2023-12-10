@@ -8,12 +8,12 @@
                         <div class="row">
                        <div class="col-sm-3 mb-3">
                                 <label class="form-label">Entry Date <span style='color:red'>*</span></label>
-                                <input type="date" name="EntryDate" value="<?php echo date("Y-m-d");?>" id="EntryDate" class="form-control" placeholder="Entry Date" onchange="getGoldRate();">
+                                <input type="text" readonly="readonly" name="EntryDate" value="<?php echo date("d-m-Y");?>" id="EntryDate" class="form-control" placeholder="Entry Date" onchange="getGoldRate();">
                                 <span id="ErrEntryDate" class="error_msg"></span>
                             </div>
                             <div class="col-sm-12 mb-3">
                                 <label class="form-label">Customers <span style='color:red'>*</span></label>
-                                <input type="text" name="CustomerID" id="CustomerID" class="form-control" placeholder="Customer Name/Mobile Number">
+                                <input type="text" name="CustomerID" id="CustomerID" class="form-control" placeholder="Customer Name/Mobile Number" maxlength="50">
                                 <span id="ErrCustomerID" class="error_msg"></span>
                             </div>
                             <div class="col-sm-12 mb-3" id="CustomerResult">
@@ -130,8 +130,18 @@
                                 <span id="ErrPaymentModeID" class="error_msg"></span>
                             </div>
                             <div class="col-sm-12 mb-3">
-                                <label class="form-label">Payment Remarks <span style='color:red'>*</span></label>
-                                <input type="text" name="PaymentRemarks" id="PaymentRemarks" class="form-control" placeholder="Payment Remarks">
+                                <label class="form-label">Payment Remarks <span style='color:red'>*</span>
+                                <img src="<?php echo URL;?>assets/question.png" style="width: 12px;" class="dropdown"  id="dropdownMenuButton1" data-bs-toggle="dropdown">
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton1" style="padding:0px;">
+                                    <div class="myheader">Payment Remarks</div>
+                                    <div class="mycontainer">
+                                        1. Allow all characters, not allow <span style='color:red'>\'!~$"</span><br>
+                                        2. Maximum 250 characters require<br>
+                                        3. Not allow cut,copy,paste
+                                    </div>
+                                </div>
+                                </label>
+                                <input type="text" name="PaymentRemarks" id="PaymentRemarks" class="form-control" placeholder="Payment Remarks" maxlength="250">
                                 <span id="ErrPaymentRemarks" class="error_msg"></span>
                             </div>
                         </div>
@@ -309,7 +319,7 @@ function autocomplete(inp, arr) {
                                     + '</div>'
                                     + '<div class="col-sm-12" style="text-align:right;">'
                                         + '<!--<a href="'+URL +'dashboard.php?action=customers/view&edit='+item.value+'" class="btn btn-outline-primary btn-sm" target="_blank">View Details</a>-->'
-                                        + '<a href="'+URL+'dashboard.php?action=customers/view&customer='+item.CustomerID+'" class="btn btn-outline-primary btn-sm">View Details</a>'
+                                        + '<a href="'+URL+'dashboard.php?action=masters/customers/view&customer='+item.CustomerID+'&fpg=contracts/new" class="btn btn-outline-primary btn-sm">View Details</a>'
                                     + '</div>';
              $('#CustomerResult').html(txtHtml) ;
              $('#customersince').html(daysdifference(0,item.CreatedOn));
@@ -461,8 +471,8 @@ function scheme_autocomplete(inp, arr) {
                                         + item.MakingChargeDiscount
                                     + '</div>' 
                                     + '<div class="col-sm-12" style="text-align:right;">'
-                                        + '<!--<a href="'+URL +'dashboard.php?action=services/view&edit='+item.value+'" class="btn btn-outline-primary btn-sm" target="_blank">View Details</a>-->'
-                                        + '<a href="'+URL+'dashboard.php?action=schemes/view&edit='+item.SchemeID+'" class="btn btn-outline-primary btn-sm">View Details</a>'
+                                        + '<!--<a href="'+URL +'dashboard.php?action=masters/services/view&edit='+item.value+'" class="btn btn-outline-primary btn-sm" target="_blank">View Details</a>-->'
+                                        + '<a href="'+URL+'dashboard.php?action=masters/schemes/view&edit='+item.SchemeID+'&fpg=contracts/new" class="btn btn-outline-primary btn-sm">View Details</a>'
                                     + '</div>';
              $('#SchemeResult').html(txtHtml) ;
              $('#SchemeResult').show() ;
@@ -582,8 +592,48 @@ function addNew() {
 function opencontractview()  {
   location.href=URL +'dashboard.php?action=contracts/view&view='+CreatedContractID;  
 }
-setTimeout("listpaymentmodes();getGoldRate();",2000);
-
+setTimeout(function(){
+    listpaymentmodes();
+    getGoldRate();
+    $('#CustomerID').keydown(function (e) {
+          if (e.ctrlKey || e.altKey) {
+              e.preventDefault();
+          } else {
+              var key = e.keyCode;
+              if (!((key == 9) ||  (key == 8) || (key == 32) || (key == 46) || (key >= 35 && key <= 40) || (key >= 65 && key <= 90))) {
+                  e.preventDefault();
+              }
+          }
+      });
+      $('#SchemeID').keydown(function (e) {
+         // alert(e.keyCode);
+          if (e.ctrlKey || e.altKey){
+              e.preventDefault();
+          } else {
+              var key = e.keyCode;
+              if (e.shiftKey) {
+                  
+                  if (!((key == 240))) {
+                    e.preventDefault();
+                  }
+              } else {
+                  if (!((key == 9) || (key == 16)|| (key >= 48 && key <= 57) || (key == 50)  || (key == 173) || (key == 8) || (key == 32) || (key == 46) || (key == 173) || (key == 163) || (key == 109) || (key == 111) || (key >= 35 && key <= 40) || (key >= 65 && key <= 90) || (key >= 96 && key <= 105))) {
+                      e.preventDefault();
+                  }
+              }
+          }
+      });
+      /*$('#SchemeID').keydown(function (e) {
+          if (e.ctrlKey || e.altKey || e.shiftKey) {
+              e.preventDefault();
+          } else {
+              var key = e.keyCode;
+              if (!((key == 9) ||  (key == 8) || (key == 32) || (key == 46) || (key >= 35 && key <= 40) || (key >= 48 && key <= 57) || (key >= 96 && key <= 105) || (key >= 65 && key <= 90))) {
+                  e.preventDefault();
+              }
+          }
+      });*/
+},2000);
 
 function calculateGold() {
     
@@ -726,14 +776,34 @@ document.addEventListener('DOMContentLoaded', function () {
             target.setSelectionRange(state.selectionStart, state.selectionEnd);
         }
     });
-});
+});  
 
+document.addEventListener('DOMContentLoaded', function () {
+    const ele = document.getElementById('Duration');
+    const state = {
+        value: ele.value,
+    };
 
-</script>  
- <!--
- https://bootstrap-autocomplete.readthedocs.io/en/latest/
- https://www.w3schools.com/howto/howto_js_autocomplete.asp
-  -->
+    ele.addEventListener('keydown', function (e) {
+        const target = e.target;
+        state.selectionStart = target.selectionStart;
+        state.selectionEnd = target.selectionEnd;
+    });
+
+    ele.addEventListener('input', function (e) {
+        const target = e.target;
+
+        if (/^[0-9\s]*$/.test(target.value)) {
+            state.value = target.value;
+        } else {
+            // Users enter the not supported characters
+            // Restore the value and selection
+            target.value = state.value;
+            target.setSelectionRange(state.selectionStart, state.selectionEnd);
+        }
+    });
+}); 
+
 
 </script>  
  <!--

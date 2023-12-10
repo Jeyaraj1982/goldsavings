@@ -39,7 +39,7 @@
 
 <script>
 function selectpaymentForm(dueID){
-     var offline_url= URL+"dashboard.php?action=contracts/offlinepayment&due="+dueID+'&fpg=contracts/upcommingdues';
+     var offline_url= URL+"dashboard.php?action=contracts/offlinepayment&due="+dueID+'&fpg=contracts/pendingDues';
      $('#Offline_Url').attr("href",offline_url);
   $('#addPaymentmode').modal("show");
       clearDiv(['Offlinpayment','Onlinepayment']);

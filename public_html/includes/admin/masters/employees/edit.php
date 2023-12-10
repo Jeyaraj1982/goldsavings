@@ -16,11 +16,18 @@
             <div class="card-body">
                 <div class="row">
                     <div class="col-sm-6 mb-3">
-                        <label class="form-label">Employee Code</label>
+                                <label class="form-label">Branch</label>
+                                <input type="text" disabled="disabled" value="<?php echo $data[0]['BranchName'];?>" name="BranchName" id="BranchName" class="form-control" placeholder="Branch Name">
+                                <span id="ErrBranchName" class="error_msg"></span>
+                            </div>
+                            
+                    <div class="col-sm-6 mb-3"></div>
+                    <div class="col-sm-6 mb-3">
+                        <label class="form-label">Employee ID</label>
                         <input type="text" value="<?php echo $data[0]['EmployeeCode'];?>" disabled="disabled"  class="form-control">
                         <span id="ErrEmployeeCode" class="error_msg"></span>
                     </div>
-                    <div class="col-sm-6 mb-3">
+                     <div class="col-sm-6 mb-3">
                         <label class="form-label">Entry Date <span style='color:red'>*</span></label>
                         <div class="input-group">
                             <input type="date" readonly="readonly" value="<?php echo $data[0]['EntryDate'];?>" name="EntryDate" id="EntryDate" class="form-control" placeholder="Entry Date">
@@ -34,6 +41,7 @@
                         </select>
                         <span id="ErrEmployeeCategoryID" class="error_msg"></span>
                     </div>
+                     
                             <div class="col-sm-12 mb-3">
                                 <label class="form-label">Employee Name <span style='color:red'>*</span>
                                 <img src="<?php echo URL;?>assets/question.png" style="width: 12px;" class="dropdown"  id="dropdownMenuButton1" data-bs-toggle="dropdown">
@@ -90,7 +98,7 @@
                                     </div>
                                 </div>
                                 </label>
-                                <input type="date" name="DateOfBirth" id="DateOfBirth" value="<?php echo $data[0]['DateOfBirth'];?>" class="form-control" placeholder="Date Of Birth">
+                                <input type="text" readonly="readonly" name="DateOfBirth" id="DateOfBirth" value="<?php echo date("d-m-Y",strtotime($data[0]['DateOfBirth']));?>" class="form-control" placeholder="Date Of Birth">
                                 <span id="ErrDateOfBirth" class="error_msg"></span>
                             </div>
                             <div class="col-sm-6 mb-3">
@@ -276,7 +284,16 @@
      </div>
      </div>
        <div class="col-sm-12" style="text-align:right;">
-            <a href="<?php echo URL;?>dashboard.php?action=masters/employees/list" class="btn btn-outline-primary">Back</a>&nbsp;&nbsp;
+            <?php 
+            $path=URL."dashboard.php";
+            if (isset($_GET['fpg'])) {
+                $path=URL."dashboard.php?action=".$_GET['fpg'];
+            }
+            if (isset($_GET['employees'])) {
+                $path.="&employees=".$_GET['employees'];
+            }
+            ?>
+            <a href="<?php echo $path;?>" class="btn btn-outline-primary">Back</a>&nbsp;&nbsp;
             <button onclick="confirmationtoUpdate()" type="button" class="btn btn-primary">Update Employee</button>
        </div>
     </form>
@@ -344,6 +361,35 @@ function doUpdate() {
     });
 }
 
+function ListBranches() {
+    $.post(URL+ "webservice.php?action=listAllActive&method=Branch","",function(data){
+        var obj = JSON.parse(data);
+        if (obj.status=="success") {
+            var html = "<option value='0'>Select Branch</option>";
+            $.each(obj.data, function (index, data) {
+                html += '<option value="'+data.BranchID+'">'+data.BranchName+'</option>';
+            });   
+            $('#BranchID').html(html);
+            /*$("#StateNameID").append($("#StateNameID option").remove().sort(function(a, b) {
+                var at = $(a).text(), bt = $(b).text();
+                return (at > bt)?1:((at < bt)?-1:0);
+            }));*/
+            $('#BranchID option').each(function() {
+                if($(this).val() == BranchID) {
+                    $(this).prop("selected", true);
+                }
+            });
+             setTimeout(function(){
+                 $("#BranchID").select2({
+                  dropdownParent:$('#frm_edit')
+              }); 
+            },1500);
+        } else {
+            alert(obj.message);
+        }
+    });
+}
+
 function ListEmployeesCategory() {
     $.post(URL+ "webservice.php?action=listAllActive&method=EmployeeCategories","",function(data){
         var obj = JSON.parse(data);
@@ -357,13 +403,17 @@ function ListEmployeesCategory() {
                 var at = $(a).text(), bt = $(b).text();
                 return (at > bt)?1:((at < bt)?-1:0);
             }));*/
-            setTimeout(function(){
+           
                 //$('.mselect').selectpicker();
                 $('#EmployeeCategoryID option').each(function() {
                     if($(this).val() == _EmployeeCategoryID) {
                         $(this).prop("selected", true);
                     }
                 });
+                 setTimeout(function(){
+                 $("#EmployeeCategoryID").select2({
+                  dropdownParent:$('#frm_edit')
+              }); 
             },1500);
         } else {
             alert(obj.message);
@@ -391,9 +441,10 @@ function listStateNames() {
                 }
             });
             setTimeout(function(){
-               // $('.mstateselect').selectpicker();
-                getDistrictNames();
-            },1500);
+              $("#StateNameID").select2({
+                  dropdownParent:$('#frm_edit')
+              });  
+            },1000);
         } else {
             alert(obj.message);
         }
@@ -419,9 +470,10 @@ function getDistrictNames() {
                 }
             });
             setTimeout(function(){
-                //$('.mdistrictselect').selectpicker();
-                getAreaNames();
-            },1500);
+              $("#DistrictNameID").select2({
+                  dropdownParent:$('#frm_edit')
+              });  
+            },1000);
         } else {
             alert(obj.message);
         }
@@ -447,8 +499,10 @@ function getAreaNames() {
                     }
             });
             setTimeout(function(){
-                //$('.mareaselect').selectpicker();
-            },1500);
+              $("#AreaNameID").select2({
+                  dropdownParent:$('#frm_edit')
+              });  
+            },1000);
         } else {
             alert(obj.message);
         }
@@ -456,6 +510,7 @@ function getAreaNames() {
 } 
 
 setTimeout(function(){          
+    ListBranches();
     ListEmployeesCategory();
     listStateNames();
 },2000);

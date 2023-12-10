@@ -1,4 +1,5 @@
 RewriteRule ^admin index.php?role=admin [QSA,L]  
+RewriteRule ^branch index.php?role=branch [QSA,L]  
 RewriteRule ^customers index.php?role=customers [QSA,L] 
 RewriteRule ^salesmanapp salesmanapp.php?role=salesmanapp [QSA,L] 
 RewriteRule ^salesman index.php?role=salesman [QSA,L] 

@@ -6,6 +6,7 @@ class CustomersErrors {
     const EntryDate_GreaterThanToday = "Please select date on/or before ";
     const CustomerType_Empty = "Please select Customer Type";
     const CustomerName_Empty = "Please enter Customer Name";
+    const BranchName_Empty = "Please branch Name";
     
     const FatherName_Empty = "Please enter Father/Husband Name";
     const Gender_Empty = "Please select gender";
@@ -17,9 +18,14 @@ class CustomersErrors {
     const MobileNumber_Empty = "Please enter Mobile Number";
     const MobileNumber_InvalidFormat = "Please enter valid Mobile Number";
     const MobileNumber_Duplicate = "Mobile Number is already exists";
+    
     const WhatsappNumber_Empty = "Please enter Whatsapp Number";
     const WhatsappNumber_InvalidFormat = "Please enter valid Whatsapp Number";
     const WhatsappNumber_Duplicate = "Whatsapp Number is already exists";
+    
+    const AlternativeMobileNumber_Empty = "Please enter Alternative Mobile Number";
+    const AlternativeMobileNumber_InvalidFormat = "Please enter valid Alternative Mobile Number";
+    const AlternativeMobileNumber_Duplicate = "Alternative Mobile Number is already exists";
     
     const LoginUserName_Empty = "Please enter Login User Name";
     const LoginUserName_Duplicate = "Login User Name is already used";
@@ -42,8 +48,8 @@ class CustomersErrors {
     const StateName_Empty = "Please select State Name";
     const DistrictName_Empty = "Please select District Name";
     const AreaName_Empty = "Please select Area Name";
-    const PinCode_Empty = "Please select PinCode";
-    const PinCode_InvalidFormat = "PinCode is invalid format";
+    const PinCode_Empty = "Please select Pincode";
+    const PinCode_InvalidFormat = "Please enter valid Pincode";
     
     const Create_Success = "successfully created";
     const Create_Failure = "unable to create";
@@ -58,12 +64,18 @@ class CustomersErrors {
     const Document_Attachment_Type_Empty = "Please select document type";
     const Document_File_Empty = "Please select and attach file(s)";
 }
+
 class Customers {
     
     function addNew() {
         
         global $mysql;
         
+        if ($_SESSION['User']['UserModule']=="admin" || $_SESSION['User']['UserModule']=="subadmin") {
+           if ($_POST['BranchID']=="0") {
+                return json_encode(array("status"=>"failure","message"=>CustomersErrors::BranchName_Empty,"div"=>"BranchID"));    
+            }
+        }
         if (strlen(trim($_POST['CustomerCode']))==0) {
             return json_encode(array("status"=>"failure","message"=>CustomersErrors::CustomerCode_Empty,"div"=>"CustomerCode"));    
         } else {
@@ -74,7 +86,7 @@ class Customers {
         }
         
         if (isset($_SESSION['User']['SalesmanID']) && $_SESSION['User']['SalesmanID']>0) {
-            $_POST['EntryDate']=date("Y-m-d");
+            $_POST['EntryDate'] = date("Y-m-d");
         } else {
             if (strlen(trim($_POST['EntryDate']))==0) {
                 return json_encode(array("status"=>"failure","message"=>CustomersErrors::EntryDate_Empty,"div"=>"EntryDate"));    
@@ -85,6 +97,7 @@ class Customers {
                     return json_encode(array("status"=>"failure","message"=>CustomersErrors::EntryDate_GreaterThanToday.date("d-m-Y"),"div"=>"EntryDate"));        
                 }
             }
+            $_POST['EntryDate'] = date("Y-m-d",strtotime($_POST['EntryDate']));
         }
         
         if ($_POST['CustomerTypeNameID']==0) {
@@ -108,10 +121,11 @@ class Customers {
         } else {
             $currentYear = date("Y",strtotime(date("Y-m-d H:i:s")));
             $dobYear = date("Y",strtotime($_POST['DateOfBirth']));
-            if (($currentYear-$dobYear)<=18) {
+            if (($currentYear-$dobYear)<18) {
                 return json_encode(array("status"=>"failure","message"=>CustomersErrors::DateOfBirth_MinimumYear,"div"=>"DateOfBirth"));    
             }
         }
+        $_POST['DateOfBirth'] = date("Y-m-d",strtotime($_POST['DateOfBirth']));
         
         if (strlen(trim($_POST['EmailID']))==0) {
             return json_encode(array("status"=>"failure","message"=>CustomersErrors::EmailID_Empty,"div"=>"EmailID"));    
@@ -157,6 +171,23 @@ class Customers {
                 }
             } else {
                 return json_encode(array("status"=>"failure","message"=>CustomersErrors::WhatsappNumber_InvalidFormat,"div"=>"MobileNumber"));    
+            }
+        }
+        
+        if (strlen(trim($_POST['AlternativeMobileNumber']))==0) {
+           // return json_encode(array("status"=>"failure","message"=>"Please enter Whatsapp Number","div"=>"WhatsappNumber"));    
+        } else {
+            if (strlen(trim($_POST['AlternativeMobileNumber']))==10) {
+                if (!($_POST['AlternativeMobileNumber']>=6000000000 && $_POST['AlternativeMobileNumber']<=9999999999)) {
+                    return json_encode(array("status"=>"failure","message"=>CustomersErrors::AlternativeMobileNumber_InvalidFormat,"div"=>"AlternativeMobileNumber"));    
+                } else {
+                    $dupAltrMobile = $mysql->select("select * from _tbl_masters_customers where AlternativeMobileNumber='".trim($_POST['AlternativeMobileNumber'])."'");
+                    if (sizeof($dupAltrMobile)>0) {
+                        return json_encode(array("status"=>"failure","message"=>CustomersErrors::AlternativeMobileNumber_Duplicate,"div"=>"AlternativeMobileNumber"));    
+                    }
+                }
+            } else {
+                return json_encode(array("status"=>"failure","message"=>CustomersErrors::AlternativeMobileNumber_InvalidFormat,"div"=>"AlternativeMobileNumber"));    
             }
         }
         
@@ -317,6 +348,40 @@ class Customers {
         $AreaName = json_decode(AreaNames::getDetailsByID($_POST['AreaNameID']),true);
         $AreaName = $AreaName['data'];
         
+        if ($_SESSION['User']['UserModule']=="admin" || $_SESSION['User']['UserModule']=="subadmin") {
+            $Branch = $mysql->select("select * from _tbl_masters_branches where BranchID='".$_POST['BranchID']."'");
+        } else {
+            $Branch = $mysql->select("select * from _tbl_masters_branches where BranchID='".$_SESSION['User']['BranchID']."'");
+        }
+        if ($_SESSION['User']['UserModule']=="admin") {
+            $CreatedBy="Administrator";
+            $CreatedByID=$_SESSION['User']['AdministratorID'];
+            $CreatedByName=$_SESSION['User']['AdministratorName'];
+        } 
+        if ($_SESSION['User']['UserModule']=="subadmin") {
+            $CreatedBy="Sub Admin";
+            $CreatedByID=$_SESSION['User']['UserID'];
+            $CreatedByName=$_SESSION['User']['UserName'];
+        }
+        if ($_SESSION['User']['UserModule']=="branchadmin") {
+            $CreatedBy="Branch Admin";
+            $CreatedByID=$_SESSION['User']['UserID'];
+            $CreatedByName=$_SESSION['User']['UserName'];
+        }
+        if ($_SESSION['User']['UserModule']=="branchuser") {
+            $CreatedBy="Branch User";
+            $CreatedByID=$_SESSION['User']['UserID'];
+            $CreatedByName=$_SESSION['User']['UserName'];
+        }
+        if (isset($_SESSION['User']['SalesmanID']) && $_SESSION['User']['SalesmanID']>0) {
+            $CreatedBy="Salesman";
+            $CreatedByID=$_SESSION['User']['SalesmanID'];
+            $CreatedByName=$_SESSION['User']['SalesmanName'];
+        }
+        $BranchID=$Branch[0]['BranchID'];
+        $BranchCode=$Branch[0]['BranchCode'];
+        $BranchName=$Branch[0]['BranchName'];
+        
         $CustomerID = $mysql->insert("_tbl_masters_customers",array("CustomerCode"              => strtoupper($_POST['CustomerCode']),
                                                                     "EntryDate"                 => $_POST['EntryDate'],
                                                                     "CustomerTypeNameID"        => $cus_type[0]['CustomerTypeNameID'],
@@ -349,6 +414,13 @@ class Customers {
                                                                     "ReferredByID"              => $RefID,
                                                                     "ReferredByName"            => $RefName,
                                                                     "RefMobileNumber"           => $_POST['RefMobileNumber'],
+                                                                    
+                                                                     "BranchID"              => $BranchID,
+                                                            "BranchCode"            => $BranchCode,
+                                                            "BranchName"            => $BranchName,
+                                                            "CreatedBy"             => $CreatedBy,
+                                                            "CreatedByID"           => $CreatedByID,
+                                                            "CreatedByName"         => $CreatedByName,
 
                                                                     "Remarks"                   => $_POST['Remarks'],
                                                                     "CreatedOn"                 => date("Y-m-d H:i:s"),
@@ -361,16 +433,22 @@ class Customers {
             } 
             return json_encode(array("status"=>"success","message"=>CustomersErrors::Create_Success,"div"=>"","CustomerCode"=>SequnceList::updateNumber("_tbl_masters_customers")));
         } else {
-            return json_encode(array("status"=>"failure","message"=>CustomersErrors::Create_Failure,"div"=>""));
+            return json_encode(array("status"=>"failure","message"=>CustomersErrors::Create_Failure.$_SESSION['User']['UserModule'],"div"=>""));
         }
     }
     
     function ListAll() {
         global $mysql;
-        if (isset($_SESSION['User']['SalesmanID'])) {
-            $data = $mysql->select("select * from _tbl_masters_customers WHERE ReferByText='Salesman' and ReferredByID='".$_SESSION['User']['SalesmanID']."'");    
+        //if (isset($_SESSION['User']['SalesmanID'])) {
+            //$data = $mysql->select("select * from _tbl_masters_customers WHERE ReferByText='Salesman' and ReferredByID='".$_SESSION['User']['SalesmanID']."'");    
+        //} else {
+            //$data = $mysql->select("select * from _tbl_masters_customers");
+       // }
+                          
+        if (isset($_SESSION['User']['BranchID']) && ($_SESSION['User']['BranchID']>0) ) {
+               $data = $mysql->select("select * from _tbl_masters_customers where  BranchID='".$_SESSION['User']['BranchID']."'");
         } else {
-            $data = $mysql->select("select * from _tbl_masters_customers");
+               $data = $mysql->select("select * from _tbl_masters_customers");
         }
         return json_encode(array("status"=>"success","data"=>$data));
     }
@@ -390,14 +468,15 @@ class Customers {
         }
         
         if (strlen(trim($_POST['EntryDate']))==0) {
-                return json_encode(array("status"=>"failure","message"=>CustomersErrors::EntryDate_Empty,"div"=>"EntryDate"));    
-            } else {
-                $currentdate = strtotime(date("Y-m-d"));
-                $entrydate = strtotime($_POST['EntryDate']);
-                if ($entrydate>$currentdate) {
-                    return json_encode(array("status"=>"failure","message"=>CustomersErrors::EntryDate_GreaterThanToday.date("d-m-Y"),"div"=>"EntryDate"));        
-                }
-            }  
+            return json_encode(array("status"=>"failure","message"=>CustomersErrors::EntryDate_Empty,"div"=>"EntryDate"));    
+        } else {
+            $currentdate = strtotime(date("Y-m-d"));
+            $entrydate = strtotime($_POST['EntryDate']);
+            if ($entrydate>$currentdate) {
+                return json_encode(array("status"=>"failure","message"=>CustomersErrors::EntryDate_GreaterThanToday.date("d-m-Y"),"div"=>"EntryDate"));        
+            }
+        }
+        $_POST['EntryDate'] = date("Y-m-d",strtotime($_POST['EntryDate'])); 
         
         if (strlen(trim($_POST['CustomerName']))==0) {
             return json_encode(array("status"=>"failure","message"=>CustomersErrors::CustomerName_Empty,"div"=>"CustomerName"));    
@@ -416,10 +495,11 @@ class Customers {
         } else {
             $currentYear = date("Y",strtotime(date("Y-m-d H:i:s")));
             $dobYear = date("Y",strtotime($_POST['DateOfBirth']));
-            if (($currentYear-$dobYear)<=18) {
+            if (($currentYear-$dobYear)<18) {
                 return json_encode(array("status"=>"failure","message"=>CustomersErrors::DateOfBirth_MinimumYear,"div"=>"DateOfBirth"));    
             }
         }
+        $_POST['DateOfBirth'] = date("Y-m-d",strtotime($_POST['DateOfBirth']));
         
         if (strlen(trim($_POST['EmailID']))==0) {
             return json_encode(array("status"=>"failure","message"=>CustomersErrors::EmailID_Empty,"div"=>"EmailID"));    
@@ -464,7 +544,24 @@ class Customers {
                     }
                 }
             } else {
-                return json_encode(array("status"=>"failure","message"=>CustomersErrors::WhatsappNumber_InvalidFormat,"div"=>"MobileNumber"));    
+                return json_encode(array("status"=>"failure","message"=>CustomersErrors::WhatsappNumber_InvalidFormat,"div"=>"WhatsappNumber"));    
+            }
+        }
+        
+        if (strlen(trim($_POST['AlternativeMobileNumber']))==0) {
+           // return json_encode(array("status"=>"failure","message"=>"Please enter Whatsapp Number","div"=>"WhatsappNumber"));    
+        } else {
+            if (strlen(trim($_POST['AlternativeMobileNumber']))==10) {
+                if (!($_POST['AlternativeMobileNumber']>=6000000000 && $_POST['AlternativeMobileNumber']<=9999999999)) {
+                    return json_encode(array("status"=>"failure","message"=>CustomersErrors::AlternativeMobileNumber_InvalidFormat,"div"=>"AlternativeMobileNumber"));    
+                } else {
+                    $dupAltrMobile = $mysql->select("select * from _tbl_masters_customers where CustomerID<>'".$_POST['CustomerID']."' and AlternativeMobileNumber='".trim($_POST['AlternativeMobileNumber'])."'");
+                    if (sizeof($dupAltrMobile)>0) {
+                        return json_encode(array("status"=>"failure","message"=>CustomersErrors::AlternativeMobileNumber_Duplicate,"div"=>"AlternativeMobileNumber"));    
+                    }
+                }
+            } else {
+                return json_encode(array("status"=>"failure","message"=>CustomersErrors::AlternativeMobileNumber_InvalidFormat,"div"=>"AlternativeMobileNumber"));    
             }
         }
         
@@ -972,7 +1069,7 @@ class Customers {
                     return json_encode(array("status"=>"failure","message"=>CustomersErrors::EntryDate_GreaterThanToday.date("d-m-Y",strtotime($_POST['ToDate'])),"div"=>"EntryDate"));        
                 }
             
-                $sql .= " and  (date(EntryDate)>=date('".$_POST['FromDate']."') and date(EntryDate)<=date('".$_POST['ToDate']."')) ";    
+                $sql .= " and  (date(EntryDate)>=date('".date("Y-m-d",strtotime($_POST['FromDate']))."') and date(EntryDate)<=date('".date("Y-m-d",strtotime($_POST['ToDate']))."')) ";    
             }
             
             if (isset($_POST['Gender']) && $_POST['Gender']=="1") {

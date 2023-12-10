@@ -30,6 +30,9 @@ include_once("webservices/class.PaymentModes.php");
 include_once("webservices/class.PaymentBanks.php");
 include_once("webservices/class.PaymentRequests.php"); 
 include_once("webservices/class.Branch.php"); 
+include_once("webservices/class.Vouchers.php"); 
+include_once("webservices/class.Receipts.php"); 
+include_once("webservices/class.Administrators.php"); 
 
 function IsValidPanCard($pannumber) {
     if (!preg_match("/^([a-zA-Z]){5}([0-9]){4}([a-zA-Z]){1}?$/", $pannumber)) {
@@ -457,125 +460,6 @@ function getPendingDues() {
     }
     return json_encode(array("status"=>"success","data"=>$_pendingDues));
 }
-
-function getVouchers() {
-    
-    global $mysql;
-    
-    if (isset($_SESSION['User']['CustomerID'])) {
-        $data = $mysql->select("select * from  _tbl_vouchers Where CustomerID='".$_SESSION['User']['CustomerID']."' order by VoucherID desc");
-        $_recentVouchers = array();
-        foreach($data as $voucher) {
-            $tmp=array(); 
-            $tmp['VoucherNumber']=$voucher['VoucherNumber'];
-            $tmp['VoucherDate']= date("d-m-Y",strtotime($voucher['VoucherDate']));
-            $tmp['ContractCode']=$voucher['ContractCode'];
-            $tmp['VoucherType']=$voucher['VoucherType'];
-            $tmp['GoldInGrams']=$voucher['GoldInGrams'];
-            $tmp['MaterialType']=$voucher['MaterialType'];
-            $tmp['TotalPaidAmount']=number_format($voucher['TotalPaidAmount'],2);
-            $_recentVouchers[]=$tmp; 
-        }
-        return json_encode(array("status"=>"success","data"=>$_recentVouchers));
-    }
-    
-    if (strlen(trim($_POST['FromDate']))==0) {
-        return json_encode(array("status"=>"failure","message"=>"Please select Start date","div"=>"message"));    
-    } else {
-        $fromDate = strtotime($_POST['FromDate']);
-        if (!($fromDate<=strtotime(date("Y-m-d")))) {
-            return json_encode(array("status"=>"failure","message"=>"Please select valid Start date (date must have lessthan or equal to ".date("d-m-Y")."","div"=>"message"));        
-        }
-    }
-    
-    if (strlen(trim($_POST['ToDate']))==0) {
-        return json_encode(array("status"=>"failure","message"=>"Please select End date","div"=>"message"));    
-    } else {
-        $toDate = strtotime($_POST['ToDate']);
-        if (!($toDate<=strtotime(date("Y-m-d")))) {
-            return json_encode(array("status"=>"failure","message"=>"Please select valid End date (date must have lessthan or equal to ".date("d-m-Y")."","div"=>"message"));        
-        }
-    }
-    
-    if (!(strtotime($_POST['FromDate'])<=strtotime($_POST['ToDate']))) {
-        return json_encode(array("status"=>"failure","message"=>"Please select valid date (Start date must be equal or lessthan End Date)","div"=>"message"));        
-    }
-    
-    $data = $mysql->select("select * from  _tbl_vouchers where date(VoucherDate)>=date('".$_POST['FromDate']."') and date(VoucherDate)<=date('".$_POST['ToDate']."') order by VoucherID desc");
-    
-    $_recentVouchers = array();
-        foreach($data as $voucher) {
-            $tmp=array(); 
-            $tmp['VoucherNumber']=$voucher['VoucherNumber'];
-            $tmp['VoucherDate']= date("d-m-Y",strtotime($voucher['VoucherDate']));
-            $tmp['ContractCode']=$voucher['ContractCode'];
-            $tmp['GoldInGrams']=$voucher['GoldInGrams'];
-            $tmp['CustomerName']=$voucher['CustomerName'];
-            $tmp['TotalPaidAmount']=$voucher['TotalPaidAmount']; 
-            $tmp['VoucherType']=$voucher['VoucherType'];
-            $tmp['MaterialType']=$voucher['MaterialType'];
-            $tmp['TotalPaidAmount']=number_format($voucher['TotalPaidAmount'],2);
-            $_recentVouchers[]=$tmp; 
-        }
-        
-    return json_encode(array("status"=>"success","data"=>$_recentVouchers));
-}
-
-/*Finished*/
-function getReceipts() {
-    
-    global $mysql;
-    
-    if (isset($_SESSION['User']['CustomerID'])) {
-        $_recentReceipts = $mysql->select("SELECT 
-                                                `ReceiptNumber`,
-                                                `CustomerID`,
-                                                `CustomerName`,
-                                                `ContractCode`, 
-                                                `DueNumber`,
-                                                FORMAT(DueGold, 3) as `DueGold`,
-                                                FORMAT(DueAmount, 2) as `DueAmount`,
-                                                DATE_FORMAT(ReceiptDate,'".appConfig::DATEFORMAT."') as `ReceiptDate`
-                                           FROM 
-                                                `_tbl_receipts` 
-                                           WHERE 
-                                                `CustomerID`='".$_SESSION['User']['CustomerID']."' 
-                                           order by `ReceiptID` desc");
-                                           
-        return json_encode(array("status"=>"success","data"=>$_recentReceipts));
-    }
-    
-    if (isset($_GET['customer'])) {
-        $_recentReceipts = $mysql->select("SELECT `ReceiptNumber`, `CustomerID`, `CustomerName`, DATE_FORMAT(ReceiptDate,'".appConfig::DATEFORMAT."') as `ReceiptDate`, `ContractCode`, FORMAT(DueGold, 3) as `DueGold`, FORMAT(DueAmount, 2) as `DueAmount`, `DueNumber` from `_tbl_receipts` where `CustomerID`='".$_GET['customer']."' order by `ReceiptID` desc");
-        return json_encode(array("status"=>"success","data"=>$_recentReceipts));
-    }
-    
-    if (strlen(trim($_POST['FromDate']))==0) {
-        return json_encode(array("status"=>"failure","message"=>"Please select Start date","div"=>"message"));    
-    } else {
-        $fromDate = strtotime($_POST['FromDate']);
-        if (!($fromDate<=strtotime(date("Y-m-d")))) {
-            return json_encode(array("status"=>"failure","message"=>"Please select valid Start date (date must have lessthan or equal to ".date("d-m-Y").")","div"=>"message"));        
-        }
-    }
-    
-    if (strlen(trim($_POST['ToDate']))==0) {
-        return json_encode(array("status"=>"failure","message"=>"Please select End date","div"=>"message"));    
-    } else {
-        $toDate = strtotime($_POST['ToDate']);
-        if (!($toDate<=strtotime(date("Y-m-d")))) {
-            return json_encode(array("status"=>"failure","message"=>"Please select valid End date (date must have lessthan or equal to ".date("d-m-Y")."","div"=>"message"));        
-        }
-    }
-    
-    if (!(strtotime($_POST['FromDate'])<=strtotime($_POST['ToDate']))) {
-        return json_encode(array("status"=>"failure","message"=>"Please select valid date (Start date must be equal or lessthan End Date)","div"=>"message"));        
-    }
-    
-    $_recentReceipts = $mysql->select("SELECT `ReceiptNumber`, `CustomerID`, `CustomerName`, DATE_FORMAT(ReceiptDate,'".appConfig::DATEFORMAT."') as `ReceiptDate`, `ContractCode`, FORMAT(DueGold, 3) as `DueGold`, FORMAT(DueAmount, 2) as `DueAmount`, `DueNumber` from  `_tbl_receipts` where date(ReceiptDate)>=date('".$_POST['FromDate']."') and date(ReceiptDate)<=date('".$_POST['ToDate']."') order by `ReceiptID` desc");
-    return json_encode(array("status"=>"success","data"=>$_recentReceipts));
-}
-
 
 if (isset($_GET['method'])) {     
     $class=$_GET['method'];

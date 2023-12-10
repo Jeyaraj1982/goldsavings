@@ -18,6 +18,11 @@
                     <div class="card-body">
                         <div class="row">
                             <div class="col-sm-6 mb-3">
+                                <div style="font-weight: bold;">Branch</div> 
+                                <?php echo $data[0]['BranchName'];?>
+                            </div>
+                            <div class="col-sm-6 mb-3"></div>
+                            <div class="col-sm-6 mb-3">
                                 <div style="font-weight: bold;">Customer ID</div>
                                 <?php echo $data[0]['CustomerCode'];?>
                             </div>
@@ -168,8 +173,18 @@
                 </div>      
             </div>
             <div class="col-sm-12" style="text-align:right;">
-                <a href="<?php echo URL;?>dashboard.php?action=customers/list" class="btn btn-outline-primary">Back</a>&nbsp;&nbsp;
-            </div>
+            <?php 
+            $path=URL."dashboard.php";
+            if (isset($_GET['fpg'])) {
+                $path.="?action=".$_GET['fpg'];
+            }
+            //&view=ID000124
+            if (isset($_GET['view'])) {
+                $path.="&view=".$_GET['view'];
+            }  
+            ?>
+            <a href="<?php echo $path;?>" class="btn btn-outline-primary">Back</a>
+     </div>
         </div>
     </form>                            
 </div>

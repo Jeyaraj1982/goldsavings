@@ -15,6 +15,7 @@
     </div>
     <ul style="text-align:left;" class="list-group list-group-flush">
         <li class="list-group-item"><a href="<?php echo URL;?>dashboard.php?action=masters/employees/view&employees=<?php echo $_GET['employees'];?>">Employee Info</a></li>
+        <li class="list-group-item"><a href="<?php echo URL;?>dashboard.php?action=masters/employees/branchinfo&employees=<?php echo $_GET['employees'];?>">Branch Info</a></li>
         <li class="list-group-item"><a href="<?php echo URL;?>dashboard.php?action=masters/employees/documents&employees=<?php echo $_GET['employees'];?>">Documents</a></li>
         <li class="list-group-item"><a href="<?php echo URL;?>dashboard.php?action=masters/employees/activity&employees=<?php echo $_GET['employees'];?>">Activity</a></li> 
     </ul>

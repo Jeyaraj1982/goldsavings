@@ -48,9 +48,9 @@ class StateNames {
          $customers = $mysql->select("select * from _tbl_masters_customers where StateNameID='".$_GET['ID']."'");
          if (sizeof($statenames)>0) {
             return json_encode(array("status"=>"failure","message"=>"Unable to delete. This statename assigned in some cusotmer cutomers"));    
-         } 
+         }                             
          
-         $districtnames = $mysql->select("select * from _tbl_master_districtnames where StateNameID='".$_GET['ID']."'");
+         $districtnames = $mysql->select("select * from _tbl_masters_districtnames where StateNameID='".$_GET['ID']."'");
          if (sizeof($districtnames)>0) {
             return json_encode(array("status"=>"failure","message"=>"Unable to delete. This statename assigned in some district names"));    
          }

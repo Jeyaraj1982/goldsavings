@@ -588,7 +588,13 @@ class Salesman {
     
     function listAssignedSalesmanAreas() {
         global $mysql;
-        $data = $mysql->select("select * from _tbl_salesman_areas where SalesmanID='".$_GET['SalesmanID']."'");
+        $data = array();
+        if (isset($_GET['SalesmanID']) && $_GET['SalesmanID']>0) {
+            $data = $mysql->select("select * from _tbl_salesman_areas where SalesmanID='".$_GET['SalesmanID']."'");    
+        }
+        if (isset($_SESSION['User']['SalesmanID']) && $_SESSION['User']['SalesmanID']>0) {
+            $data = $mysql->select("select * from _tbl_salesman_areas where SalesmanID='".$_SESSION['User']['SalesmanID']."'");
+        }
         return json_encode(array("status"=>"success","data"=>$data));
     }
                          

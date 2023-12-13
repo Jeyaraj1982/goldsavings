@@ -215,7 +215,7 @@ if (isset($_POST['loginBtn'])) {
                                     <p class="lead">Select Portal</p>
                                     <div style="line-height:25px;">
                                         <a href="<?php echo WEB_URL;?>admin" class="btn btn-primary btn-sm">Super Admin</a>
-                                        <a href="<?php echo WEB_URL;?>users" class="btn btn-primary btn-sm">Sub Admins</a>
+                                        <a href="<?php echo WEB_URL;?>branch" class="btn btn-primary btn-sm">Branch</a>
                                         <a href="<?php echo WEB_URL;?>customers" class="btn btn-primary btn-sm">Customers</a>
                                         <a href="<?php echo WEB_URL;?>salesman" class="btn btn-primary btn-sm">Executives</a>
                                     </div>

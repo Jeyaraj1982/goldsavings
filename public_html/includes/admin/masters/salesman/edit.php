@@ -403,7 +403,7 @@ function listStateNames() {
             });
             setTimeout(function(){
                  $("#StateNameID").select2({
-                  dropdownParent:$('#frm_edit')
+                 
               }); 
             },1500);
         } else {
@@ -432,7 +432,7 @@ function getDistrictNames() {
             });
             setTimeout(function(){
                  $("#DistrictNameID").select2({
-                  dropdownParent:$('#frm_edit')
+                 
               }); 
             },1500);
         } else {
@@ -461,7 +461,7 @@ function getAreaNames() {
             });
              setTimeout(function(){
                  $("#AreaNameID").select2({
-                  dropdownParent:$('#frm_edit')
+                 
               }); 
             },1500);
         } else {

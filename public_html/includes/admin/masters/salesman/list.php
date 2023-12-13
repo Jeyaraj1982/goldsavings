@@ -19,6 +19,7 @@
                                 <th style="width:100px">Code</th>
                                 <th>Salesman Name</th>
                                 <th style="width:100px">Mobile Number</th>
+                                <th style="width:70px">Branch</th>
                                 <th style="width:70px">Status</th>
                                 <th style="width:50px"></th>
                             </tr>
@@ -65,6 +66,7 @@ function d() {
                             + '<td>' + data.SalesmanCode + '</td>'
                             + '<td>' + data.SalesmanName + '</td>'
                             + '<td>' + data.MobileNumber + '</td>'
+                            + '<td>' + data.BranchName + '</td>'
                             + '<td>' + ( (data.IsActive=="1") ? "<span class='badge bg-success'>Active</span>" : "<span class='badge bg-secondary'>Disabled</span>" ) + '</td>'
                             + '<td style="text-align:right">' 
                                 + '<div class="dropdown position-relative">'
@@ -117,6 +119,7 @@ function Remove(ID) {
                              + '<td>' + data.SalesmanCode + '</td>'
                             + '<td>' + data.SalesmanName + '</td>'
                             + '<td>' + data.MobileNumber + '</td>'
+                            + '<td>' + data.BranchName + '</td>'
                             + '<td>' + data.Remarks + '</td>'
                             + '<td>' + ( (data.IsActive=="1") ? "<span class='badge bg-success'>Active</span>" : "<span class='badge bg-secondary'>Disabled</span>" ) + '</td>'
                           + '<td style="text-align:right">' 

@@ -18,6 +18,7 @@
                                 <th>User Name</th>
                                 <th style="width: 100px;">Mobile Number</th>
                                 <th style="width: 100px;">Email ID</th>
+                                <th style="width: 100px;">Branch</th>
                                 <th style="width:70px">Status</th>
                                 <th style="width:50px"></th>
                             </tr>
@@ -67,6 +68,7 @@ function d() {
                             + '<td>' + data.UserName + '</td>'
                             + '<td>' + data.MobileNumber + '</td>'
                             + '<td>' + data.EmailID + '</td>'
+                            + '<td>' + data.BranchName + '</td>'
                             + '<td>' + ( (data.IsActive=="1") ? "<span class='badge bg-success'>Active</span>" : "<span class='badge bg-secondary'>Disabled</span>" ) + '</td>'
                             + '<td style="text-align:right">' 
                                 + '<div class="dropdown position-relative">'
@@ -122,6 +124,7 @@ function Remove() {
                             + '<td>' + data.UserName + '</td>'
                             + '<td>' + data.MobileNumber + '</td>'
                             + '<td>' + data.EmailID + '</td>'
+                            + '<td>' + data.BranchName + '</td>'
                             + '<td>' + ( (data.IsActive=="1") ? "<span class='badge bg-success'>Active</span>" : "<span class='badge bg-secondary'>Disabled</span>" ) + '</td>'
                             + '<td style="text-align:right">' 
                                 + '<div class="dropdown position-relative">'

@@ -151,16 +151,17 @@
                                     <table id="datatables-dashboard-projects" class="table table-striped my-0">
                                     <thead>
                                         <tr>
-                                            <th>State Name</th>
-                                            <th>District Name</th>
                                             <th>Area Name</th>
+                                            <th>District Name</th>
+                                            <th>State Name</th>
                                             <th>Asigned On</th>
                                             <th>Status</th>
+                                            <th></th>
                                         </tr>
                                     </thead>
                                         <tbody id="tbl_content">
                                             <tr>
-                                                <td colspan="8" style="text-align: center;background:#fff !important">Loading Areas...</td>
+                                                <td colspan="6" style="text-align: center;background:#fff !important">Loading Areas...</td>
                                             </tr>
                                         </tbody>
                                     </table>
@@ -191,7 +192,7 @@
                             </thead>
                                     <tbody id="tbl_pendingdues_content">
                                         <tr>
-                                            <td colspan="7" style="text-align: center;background:#fff !important">loading dues...</td>
+                                            <td colspan="8" style="text-align: center;background:#fff !important">loading dues...</td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -321,9 +322,6 @@
                                 </div> 
                             </div> 
                        </div> 
-                       
-                    </div>
-                    </div>
 <script>
 function loadDashboardData(){
   $('#viewModal').modal("show");
@@ -333,6 +331,7 @@ function loadDashboardData(){
         var obj = JSON.parse(data);
         if (obj.status=="success") {
             var html = "";     
+            listMyAreas(obj.data.assigned_area);
             listRecentContracts(obj.data.recentContracts);
             listRecentCustomers(obj.data.recentCustomers);
             listRecentReceipts(obj.data.recentReceipts);
@@ -373,57 +372,36 @@ setTimeout(function(){
     loadDashboardData();               
 },2000);
 
-function listMyAreas() {
-     $.post(URL+ "webservice.php?action=listAssignedSalesmanAreas&method=Salesman","",function(data){
-        closePopup();
-        var obj = JSON.parse(data);
-        if (obj.status=="success") {
-            var html = "";
-            $.each(obj.data, function (index, data) {
+function listMyAreas(obj) {
+            var html = ""; 
+            $.each(obj, function (index, data) {
                 html += '<tr>'
-                            + '<td>' + data.StateName + '</td>'
-                            + '<td>' + data.DistrictName + '</td>'
                             + '<td>' + data.AreaName + '</td>'
+                            + '<td>' + data.DistrictName + '</td>'
+                            + '<td>' + data.StateName + '</td>'
                             + '<td>' + data.AssignedOn + '</td>'
-                            + '<td>' + ( (data.IsActive=="1") ? "<span class='badge bg-success'>Active</span>" : "<span class='badge bg-secondary'>Deactivated</span>" ) + '</td>';
-                             + '<td style="text-align:right">' 
+                            + '<td>' + ( (data.IsActive=="1") ? "<span class='badge bg-success'>Active</span>" : "<span class='badge bg-secondary'>Deactivated</span>" ) + '</td>'
+                           + '<td style="text-align:right">' 
                                 + '<div class="dropdown position-relative">'
                                         + '<a href="javascript:void(0)" data-bs-toggle="dropdown" data-bs-display="static">'
                                             + '<img src="'+URL+'assets/icons/more.png">'
                                         + '</a>'
                                         + '<div class="dropdown-menu dropdown-menu-end">'
-                                                + '<a class="dropdown-item" href="'+URL+'dashboard.php?action=customers/view&customer='+data.CustomerID+'">View Customer</a>';
+                                                + '<a class="dropdown-item" href="'+URL+'dashboard.php?action=myareas/list_byareas&area='+data.AreaNameID+'">View Customers</a>'
                                         + '</div>'
                                 + '</div>'
                             + '</td>'
                       + '</tr>';
     });
-                                /*+ '<a href="'+URL+'dashboard.php?action=schemes/view&edit='+data.AssignedAreaID+'" class="btn btn-outline-primary btn-sm" style="font-size:10px">View</a>'
-                            if (data.IsActive=="1"){
-                                html +='<a onclick="AssignAreaDeactive(\''+data.AssignedAreaID+'\')" class="btn btn-primary btn-sm">DeActive</a>';
-                            } else {
-                                html += '<a onclick="AssignAreaActive(\''+data.AssignedAreaID+'\')" class="btn btn-primary btn-sm">Active</a>';
-                            }
-                            html +='</td>'
                             
-                      + '</tr>';
-            });  */
-             if (obj.data.length==0) {
+             if (obj.length==0) {
                  html += '<tr>'
                             + '<td colspan="6" style="text-align: center;background:#fff !important">No Data Found</td>'
                        + '</tr>';
             }   
             $('#tbl_content').html(html);
-           if (($.fn.dataTable.isDataTable("#datatables-fixed-header"))) {
-                $("#datatables-fixed-header").DataTable({
-                    fixedHeader: true,
-                    pageLength: 25
-                });
-            }
-        } else {
-            alert(obj.message);
-        }
-    });
+       
+       
 }
 
 function listRecentContracts(obj) {
@@ -436,7 +414,7 @@ function listRecentContracts(obj) {
                         + '<td style="text-align:right">' + data.ContractAmount + '</td>'
                         + '<td style="text-align:right;">' + data.StartDate + '</td>'
                         + '<td style="text-align:right;">' + data.EndDate + '</td>'
-              + '<td style="text-align:right">' 
+                        + '<td style="text-align:right">' 
                                 + '<div class="dropdown position-relative">'
                                         + '<a href="javascript:void(0)" data-bs-toggle="dropdown" data-bs-display="static">'
                                             + '<img src="'+URL+'assets/icons/more.png">'

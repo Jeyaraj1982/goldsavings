@@ -357,74 +357,80 @@ class Customers {
             $CreatedBy="Administrator";
             $CreatedByID=$_SESSION['User']['AdministratorID'];
             $CreatedByName=$_SESSION['User']['AdministratorName'];
+            $CreatedByCode=$_SESSION['User']['AdministratorCode'];
         } 
         if ($_SESSION['User']['UserModule']=="subadmin") {
             $CreatedBy="Sub Admin";
             $CreatedByID=$_SESSION['User']['UserID'];
             $CreatedByName=$_SESSION['User']['UserName'];
+            $CreatedByCode=$_SESSION['User']['UserCode'];
         }
         if ($_SESSION['User']['UserModule']=="branchadmin") {
             $CreatedBy="Branch Admin";
             $CreatedByID=$_SESSION['User']['UserID'];
             $CreatedByName=$_SESSION['User']['UserName'];
+            $CreatedByCode=$_SESSION['User']['UserCode'];
         }
         if ($_SESSION['User']['UserModule']=="branchuser") {
             $CreatedBy="Branch User";
             $CreatedByID=$_SESSION['User']['UserID'];
             $CreatedByName=$_SESSION['User']['UserName'];
+            $CreatedByCode=$_SESSION['User']['UserCode'];
         }
         if (isset($_SESSION['User']['SalesmanID']) && $_SESSION['User']['SalesmanID']>0) {
             $CreatedBy="Salesman";
             $CreatedByID=$_SESSION['User']['SalesmanID'];
             $CreatedByName=$_SESSION['User']['SalesmanName'];
+            $CreatedByCode=$_SESSION['User']['SalesmanCode'];
         }
         $BranchID=$Branch[0]['BranchID'];
         $BranchCode=$Branch[0]['BranchCode'];
         $BranchName=$Branch[0]['BranchName'];
         
-        $CustomerID = $mysql->insert("_tbl_masters_customers",array("CustomerCode"              => strtoupper($_POST['CustomerCode']),
-                                                                    "EntryDate"                 => $_POST['EntryDate'],
-                                                                    "CustomerTypeNameID"        => $cus_type[0]['CustomerTypeNameID'],
-                                                                    "CustomerTypeName"          => $cus_type[0]['CustomerTypeName'],
-                                                                    "CustomerName"              => $_POST['CustomerName'],
-                                                                    "FatherName"                => $_POST['FatherName'],
-                                                                    "EmailID"                   => strtolower(trim($_POST['EmailID'])),
-                                                                    "MobileNumber"              => trim($_POST['MobileNumber']),
-                                                                    "WhatsappNumber"            => trim($_POST['WhatsappNumber']),
-                                                                    "Gender"                    => trim($_POST['Gender']),
-                                                                    "AlternativeMobileNumber"   => trim($_POST['AlternativeMobileNumber']),
-                                                                    "DateOfBirth"               => trim($_POST['DateOfBirth']),
-                                                                    "LoginUserName"             => trim($_POST['LoginUserName']),
-                                                                    "LoginPassword"             => $_POST['LoginPassword'],
-                                                                    "PancardNumber"             => strtoupper($_POST['PancardNumber']),
-                                                                    "AadhaarCardNumber"         => $_POST['AadhaarCardNumber'],
-                                                                    "GSTIN"                     => $_POST['GSTIN'],
-                                                                    "AddressLine1"              => $_POST['AddressLine1'],
-                                                                    "AddressLine2"              => $_POST['AddressLine2'],
-                                                                    "StateNameID"               => $StatName[0]['StateNameID'],
-                                                                    "StateName"                 => $StatName[0]['StateName'],
-                                                                    "DistrictNameID"            => $DistrictName[0]['DistrictNameID'],
-                                                                    "DistrictName"              => $DistrictName[0]['DistrictName'],
-                                                                    "AreaNameID"                => $AreaName[0]['AreaNameID'],
-                                                                    "AreaName"                  => $AreaName[0]['AreaName'],
-                                                                    "PinCode"                   => $_POST['PinCode'],
+        $CustomerID = $mysql->insert("_tbl_masters_customers",array("CustomerCode"            => strtoupper($_POST['CustomerCode']),
+                                                                    "EntryDate"               => $_POST['EntryDate'],
+                                                                    "CustomerTypeNameID"      => $cus_type[0]['CustomerTypeNameID'],
+                                                                    "CustomerTypeName"        => $cus_type[0]['CustomerTypeName'],
+                                                                    "CustomerName"            => $_POST['CustomerName'],
+                                                                    "FatherName"              => $_POST['FatherName'],
+                                                                    "EmailID"                 => strtolower(trim($_POST['EmailID'])),
+                                                                    "MobileNumber"            => trim($_POST['MobileNumber']),
+                                                                    "WhatsappNumber"          => trim($_POST['WhatsappNumber']),
+                                                                    "Gender"                  => trim($_POST['Gender']),
+                                                                    "AlternativeMobileNumber" => trim($_POST['AlternativeMobileNumber']),
+                                                                    "DateOfBirth"             => trim($_POST['DateOfBirth']),
+                                                                    "LoginUserName"           => trim($_POST['LoginUserName']),
+                                                                    "LoginPassword"           => $_POST['LoginPassword'],
+                                                                    "PancardNumber"           => strtoupper($_POST['PancardNumber']),
+                                                                    "AadhaarCardNumber"       => $_POST['AadhaarCardNumber'],
+                                                                    "GSTIN"                   => $_POST['GSTIN'],
+                                                                    "AddressLine1"            => $_POST['AddressLine1'],
+                                                                    "AddressLine2"            => $_POST['AddressLine2'],
+                                                                    "StateNameID"             => $StatName[0]['StateNameID'],
+                                                                    "StateName"               => $StatName[0]['StateName'],
+                                                                    "DistrictNameID"          => $DistrictName[0]['DistrictNameID'],
+                                                                    "DistrictName"            => $DistrictName[0]['DistrictName'],
+                                                                    "AreaNameID"              => $AreaName[0]['AreaNameID'],
+                                                                    "AreaName"                => $AreaName[0]['AreaName'],
+                                                                    "PinCode"                 => $_POST['PinCode'],
                                                                     
-                                                                    "ReferredBy"                => $_POST['ReferredBy'],
-                                                                    "ReferByText"               => $ReferByText,
-                                                                    "ReferredByID"              => $RefID,
-                                                                    "ReferredByName"            => $RefName,
-                                                                    "RefMobileNumber"           => $_POST['RefMobileNumber'],
+                                                                    "ReferredBy"              => $_POST['ReferredBy'],
+                                                                    "ReferByText"             => $ReferByText,
+                                                                    "ReferredByID"            => $RefID,
+                                                                    "ReferredByName"          => $RefName,
+                                                                    "RefMobileNumber"         => $_POST['RefMobileNumber'],
                                                                     
-                                                                     "BranchID"              => $BranchID,
-                                                            "BranchCode"            => $BranchCode,
-                                                            "BranchName"            => $BranchName,
-                                                            "CreatedBy"             => $CreatedBy,
-                                                            "CreatedByID"           => $CreatedByID,
-                                                            "CreatedByName"         => $CreatedByName,
+                                                                    "BranchID"                => $BranchID,
+                                                                    "BranchCode"              => $BranchCode,
+                                                                    "BranchName"              => $BranchName,
+                                                                    "CreatedBy"               => $CreatedBy,
+                                                                    "CreatedByID"             => $CreatedByID,
+                                                                    "CreatedByName"           => $CreatedByName,
+                                                                    "CreatedByCode"           => $CreatedByCode,
 
-                                                                    "Remarks"                   => $_POST['Remarks'],
-                                                                    "CreatedOn"                 => date("Y-m-d H:i:s"),
-                                                                    "IsActive"                  => '1'));     
+                                                                    "Remarks"                 => $_POST['Remarks'],
+                                                                    "CreatedOn"               => date("Y-m-d H:i:s"),
+                                                                    "IsActive"                => '1'));     
         if ($CustomerID>0) {
             
             $path = "assets/uploads/customers/".$CustomerID;
@@ -439,17 +445,44 @@ class Customers {
     
     function ListAll() {
         global $mysql;
-        //if (isset($_SESSION['User']['SalesmanID'])) {
-            //$data = $mysql->select("select * from _tbl_masters_customers WHERE ReferByText='Salesman' and ReferredByID='".$_SESSION['User']['SalesmanID']."'");    
-        //} else {
-            //$data = $mysql->select("select * from _tbl_masters_customers");
-       // }
-                          
         if (isset($_SESSION['User']['BranchID']) && ($_SESSION['User']['BranchID']>0) ) {
-               $data = $mysql->select("select * from _tbl_masters_customers where  BranchID='".$_SESSION['User']['BranchID']."'");
+            
+            if (isset($_SESSION['User']['SalesmanID']) && ($_SESSION['User']['SalesmanID']>0) ) {
+                if (isset($_GET['filter']) && $_GET['filter']=="CreatedByMe") {
+                    $data = $mysql->select("select * from _tbl_masters_customers where CreatedByCode='".$_SESSION['User']['SalesmanCode']."'");
+                } else {
+                    $data = $mysql->select("select * from _tbl_masters_customers where BranchID='".$_SESSION['User']['BranchID']."' ");
+                }
+            } else {
+                if (isset($_GET['filter']) && $_GET['filter']=="CreatedByMe") {
+                    $data = $mysql->select("select * from _tbl_masters_customers where CreatedByCode='".$_SESSION['User']['UserCode']."' and   BranchID='".$_SESSION['User']['BranchID']."'");
+                } else {
+                    $data = $mysql->select("select * from _tbl_masters_customers where BranchID='".$_SESSION['User']['BranchID']."'");
+                }
+            }
+            
+        } elseif (isset($_SESSION['User']['AdministratorID']) && ($_SESSION['User']['AdministratorID']>0) ) {
+            
+            if (isset($_GET['filter']) && $_GET['filter']=="CreatedByMe") {
+                $data = $mysql->select("select * from _tbl_masters_customers where CreatedByCode='".$_SESSION['User']['AdministratorCode']."'");
+            } else {
+                $data = $mysql->select("select * from _tbl_masters_customers ");
+            }
+            
         } else {
-               $data = $mysql->select("select * from _tbl_masters_customers");
+            /*Sub Admin*/
+            if (isset($_GET['filter']) && $_GET['filter']=="CreatedByMe") {
+                $data = $mysql->select("select * from _tbl_masters_customers where CreatedByCode='".$_SESSION['User']['UserCode']."'");
+            } else {
+                $data = $mysql->select("select * from _tbl_masters_customers");
+            }
         }
+        return json_encode(array("status"=>"success","data"=>$data));
+    }
+    
+     function ListByAreaName() {
+        global $mysql;
+        $data = $mysql->select("select * from _tbl_masters_customers where AreaNameID='".$_GET['area']."'");
         return json_encode(array("status"=>"success","data"=>$data));
     }
     

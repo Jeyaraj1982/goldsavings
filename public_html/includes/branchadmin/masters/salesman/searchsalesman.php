@@ -247,7 +247,7 @@ function autocomplete(inp, arr) {
 
 /*An array containing all the country names in the world:*/
 <?php 
-$clients = $mysql->select("select SalesmanID,Date(CreatedOn) as CreatedOn, SalesmanID as value,SalesmanName as text,AreaName, SalesmanName, MobileNumber,concat(AddressLine1,', ',AddressLine2,', ',AreaName,', ',DistrictName,', ',StateName,', ',PinCode) as AddressLine from _tbl_masters_salesman where IsActive='1' order by SalesmanName");
+$clients = $mysql->select("select SalesmanID,Date(CreatedOn) as CreatedOn, SalesmanID as value,SalesmanName as text,AreaName, SalesmanName, MobileNumber,concat(AddressLine1,', ',AddressLine2,', ',AreaName,', ',DistrictName,', ',StateName,', ',PinCode) as AddressLine from _tbl_masters_salesman where IsActive='1' and BranchID='".$_SESSION['User']['BranchID']."' order by SalesmanName");
 ?>
 autocomplete(document.getElementById("SalesmanID"), <?php echo json_encode($clients);?>); 
 

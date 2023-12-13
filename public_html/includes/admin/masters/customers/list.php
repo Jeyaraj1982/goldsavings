@@ -23,7 +23,7 @@
                                     <th>Mobile Number</th>
                                     <th>Type</th>
                                     <th>Joined On</th>
-                                    <th>Referred By</th>
+                                    <th>Branch</th>
                                     <th></th>
                                 </tr>
                             </thead>
@@ -78,7 +78,7 @@ function ListallCustomers() {
                             + '<td>' + data.MobileNumber + '</td>'
                             + '<td>' + data.CustomerTypeName + '</td>'
                             + '<td>' + data.CreatedOn + '</td>'
-                            + '<td>' + data.ReferredByName + ' ('+ data.ReferByText +')</td>'
+                            + '<td>' + data.BranchName + '</td>'
                             + '<td style="text-align:right">' 
                                 + '<div class="dropdown position-relative">'
                                         + '<a href="javascript:void(0)" data-bs-toggle="dropdown" data-bs-display="static">'
@@ -145,7 +145,7 @@ function Remove() {
                             + '<td>' + data.MobileNumber + '</td>'
                             + '<td>' + data.CustomerTypeName + '</td>'
                             + '<td>' + data.CreatedOn + '</td>'
-                            + '<td>' + data.ReferredByName + ' ('+ data.ReferByText +')</td>'
+                            + '<td>' + data.BranchName + '</td>'
                             + '<td style="text-align:right">' 
                                 + '<div class="dropdown position-relative">'
                                         + '<a href="javascript:void(0)" data-bs-toggle="dropdown" data-bs-display="static">'

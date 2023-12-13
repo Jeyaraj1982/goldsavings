@@ -186,6 +186,14 @@
                                 Referrals
                             </div>
                             <div class="col-sm-4 mb-1">
+                                <input class="form-check-input" type="checkbox" value="1" id="CreatedBy" name="CreatedBy" onclick="OrderByContent()">&nbsp;
+                                Created By
+                            </div>
+                            <div class="col-sm-4 mb-1">
+                                <input class="form-check-input" type="checkbox" value="1" id="CreatedByName" name="CreatedByName" onclick="OrderByContent()">&nbsp;
+                                Created By Name
+                            </div>
+                            <div class="col-sm-4 mb-1">
                                 <input class="form-check-input" type="checkbox" value="1" id="Contracts" name="Contracts" onclick="OrderByContent()">&nbsp;
                                 Contracts
                             </div>
@@ -599,6 +607,12 @@ function OrderByContent() {
      if ($('#ReferredByText').prop("checked")) {
         html += "<option value='ReferredByText'>Referred By</option>";
      }
+      if ($('#CreatedBy').prop("checked")) {
+        html += "<option value='CreatedBy'>Created By</option>";
+     }
+     if ($('#CreatedByName').prop("checked")) {
+        html += "<option value='CreatedByName'>Created By Name</option>";
+     }
      if ($('#Contracts').prop("checked")) {
         html += "<option value='Contracts'>Contracts</option>";
      }
@@ -726,6 +740,14 @@ function getData() {
                 header += "<th>Referrals</th>";
                  column_count++;
             }
+             if ($('#CreatedBy').prop("checked")) {
+                header += "<th>Created By</th>";
+                 column_count++;
+            }
+            if ($('#CreatedByName').prop("checked")) {
+                header += "<th>Created By Name</th>";
+                 column_count++;
+            }
              if ($('#Contracts').prop("checked")) {
                 header += "<th>Contracts</th>";
                  column_count++;
@@ -835,6 +857,12 @@ function getData() {
               }
                if ($('#Referrals').prop("checked")) {
                html += '<td>' + data.Referrals + '</td>';
+              }
+              if ($('#CreatedBy').prop("checked")) {
+               html += '<td>' + data.CreatedBy + '</td>';
+              }
+              if ($('#CreatedByName').prop("checked")) {
+               html += '<td>' + data.CreatedByName + '</td>';
               }
               if ($('#Contracts').prop("checked")) {
                html += '<td>' + data.Contracts + '</td>';

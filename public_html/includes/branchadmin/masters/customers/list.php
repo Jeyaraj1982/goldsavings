@@ -23,7 +23,7 @@
                                     <th>Mobile Number</th>
                                     <th>Type</th>
                                     <th>Joined On</th>
-                                    <th>Referred By</th>
+                                    <th>Branch</th>
                                     <th></th>
                                 </tr>
                             </thead>
@@ -73,7 +73,7 @@ function d() {
                             + '<td>' + data.MobileNumber + '</td>'
                             + '<td>' + data.CustomerTypeName + '</td>'
                             + '<td>' + data.CreatedOn + '</td>'
-                            + '<td>' + data.ReferredByName + ' ('+ data.ReferByText +')</td>'
+                            + '<td>' + data.BranchName + '</td>'
                             + '<td style="text-align:right">' 
                                 + '<div class="dropdown position-relative">'
                                         + '<a href="javascript:void(0)" data-bs-toggle="dropdown" data-bs-display="static">'
@@ -81,7 +81,7 @@ function d() {
                                         + '</a>'
                                         + '<div class="dropdown-menu dropdown-menu-end">'
                                                 + '<a class="dropdown-item" href="'+URL+'dashboard.php?action=masters/customers/view&customer='+data.CustomerID+'&fpg=masters/customers/list">View</a>'
-                                                //+ '<a class="dropdown-item" href="'+URL+'dashboard.php?action=masters/customers/edit&customer='+data.CustomerID+'">Edit</a>'
+                                                + '<a class="dropdown-item" href="'+URL+'dashboard.php?action=masters/customers/edit&customer='+data.CustomerID+'">Edit</a>'
                                                 + '<hr style="margin:0px !important">'
                                                 + '<a class="dropdown-item" href="'+URL+'dashboard.php?action=masters/customers/contracts&customer='+data.CustomerID+'">View Contracts</a>'
                                                 + '<a class="dropdown-item" href="'+URL+'dashboard.php?action=reports/receipt&customer='+data.CustomerID+'">View Receipts</a>'
@@ -134,7 +134,7 @@ function Remove() {
                             + '<td>' + data.MobileNumber + '</td>'
                             + '<td>' + data.CustomerTypeName + '</td>'
                             + '<td>' + data.CreatedOn + '</td>'
-                            + '<td>' + data.ReferredByName + ' ('+ data.ReferByText +')</td>'
+                            + '<td>' + data.BranchName + '</td>'
                             + '<td style="text-align:right">' 
                                 + '<div class="dropdown position-relative">'
                                         + '<a href="javascript:void(0)" data-bs-toggle="dropdown" data-bs-display="static">'

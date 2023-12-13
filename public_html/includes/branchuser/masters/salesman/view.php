@@ -19,9 +19,6 @@
                 <div class="card">
                     <div class="card-body">
                         <div class="row">
-                            <div class="col-sm-12" style="text-align:right;">
-                                <a style="color:#888;text-decoration:none;" href="<?php echo URL;?>dashboard.php?action=masters/salesman/edit&salesman=<?php echo $data[0]['SalesmanID'];?>"><i class="align-middle me-2" data-feather="edit"></i><span class="align-middle">edit</span></a>
-                            </div>
                             <div class="col-sm-6 mb-3">
                                 <div style="font-weight: bold;">Branch</div>
                                 <?php echo $data[0]['BranchName'];?>

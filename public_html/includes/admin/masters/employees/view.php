@@ -144,6 +144,20 @@
             <div class="card">
                     <div class="card-body">
                         <div class="row">
+                        <div class="col-sm-6">         
+                                <div style="font-weight: bold;">Created By </div>
+                                 <?php echo $data[0]['CreatedBy'];?>
+                            </div>
+                            <div class="col-sm-6">         
+                                <div style="font-weight: bold;">Created By Name </div>
+                                 <?php echo $data[0]['CreatedByName'];?>
+                            </div>
+                        </div>
+                    </div>
+            </div>
+            <div class="card">
+                    <div class="card-body">
+                        <div class="row">
                             <div class="col-sm-6">
                                 <div style="font-weight: bold;">Joined On </div>
                                 <?php echo date("d-m-Y H:i",strtotime($data[0]["CreatedOn"])) ;?>

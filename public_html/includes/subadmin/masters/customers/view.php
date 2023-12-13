@@ -139,6 +139,20 @@
                 <div class="card">
                     <div class="card-body">
                         <div class="row">
+                        <div class="col-sm-6">         
+                                <div style="font-weight: bold;">Created By </div>
+                                 <?php echo $data[0]['CreatedBy'];?>
+                            </div>
+                            <div class="col-sm-6">         
+                                <div style="font-weight: bold;">Created By Name </div>
+                                 <?php echo $data[0]['CreatedByName'];?>
+                            </div>
+                        </div>
+                    </div>
+            </div>
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row">
                             <div class="col-sm-6 mb-3">         
                                 <div style="font-weight: bold;">Status </div>
                                 <?php echo ($data[0]['IsActive']==1) ? " Active " : "Deactivated";?>

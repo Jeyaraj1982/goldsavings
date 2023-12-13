@@ -228,6 +228,175 @@ function getDashboardData() {
         return json_encode(array("status"=>"success","data"=>$data)); 
     }
     
+    
+    if (isset($_SESSION['User']['SalesmanID'])) {
+        $closedContracts=$mysql->select("SELECT * FROM _tbl_contracts WHERE IsClosed='1'");
+        $activeContracts=$mysql->select("SELECT * FROM _tbl_contracts WHERE IsActive='1' and IsClosed='0'");
+        $activeCustomers=$mysql->select("SELECT * FROM _tbl_masters_customers WHERE IsActive='1'");
+        $receivedAmount=$mysql->select("SELECT sum(DueAmount) as Amount FROM _tbl_receipts WHERE date(ReceiptDate)='".date("Y-m-d")."'");
+
+        $_recentCustomers = array();
+        $recentCustomers = $mysql->select("select * from  _tbl_masters_customers order by CustomerID desc limit 0,5");
+        foreach($recentCustomers as $_recentCustomer) {
+            $tmp=array(); 
+            $tmp['CustomerID']=$_recentCustomer['CustomerID'];
+            $tmp['CustomerCode']=$_recentCustomer['CustomerCode'];
+            $tmp['CustomerName']=$_recentCustomer['CustomerName'];
+            $tmp['MobileNumber']=$_recentCustomer['MobileNumber'];
+            $tmp['CustomerTypeName']=$_recentCustomer['CustomerTypeName'];
+            $tmp['ReferredByName']=$_recentCustomer['ReferredByName'];
+            $tmp['ReferByText']=$_recentCustomer['ReferByText'];
+            $tmp['ReferredID']=$_recentCustomer['ReferredByID'];
+            $tmp['CreatedOn']= date("d-m-Y H:i",strtotime($_recentCustomer['CreatedOn']));
+            $_recentCustomers[]=$tmp; 
+        }
+        
+        $_recentReceipts = array();
+        $recentReceipts = $mysql->select("select * from  _tbl_receipts order by ReceiptID desc limit 0,5");
+        foreach($recentReceipts as $recentReceipt) {
+            $tmp=array(); 
+            $tmp['ReceiptNumber']=$recentReceipt['ReceiptNumber'];
+            $tmp['ReceiptDate']= date("d-m-Y",strtotime($recentReceipt['ReceiptDate']));
+            $tmp['ContractCode']=$recentReceipt['ContractCode'];
+            $tmp['CustomerName']=$recentReceipt['CustomerName'];
+            $tmp['DueGold']=$recentReceipt['DueGold'];
+            $tmp['DueAmount']= $recentReceipt['DueAmount'];
+            $tmp['DueNumber']= $recentReceipt['DueNumber'];
+            $_recentReceipts[]=$tmp; 
+        }
+         
+        $_recentVouchers = array();
+        $recentVouchers = $mysql->select("select * from  _tbl_vouchers order by VoucherID desc limit 0,5");
+        foreach($recentVouchers as $voucher) {
+            $tmp=array(); 
+            $tmp['VoucherNumber']=$voucher['VoucherNumber'];
+            $tmp['VoucherDate']= date("d-m-Y",strtotime($voucher['VoucherDate']));
+            $tmp['ContractCode']=$voucher['ContractCode'];
+            $tmp['CustomerName']=$voucher['CustomerName'];
+            $tmp['GoldInGrams']=$voucher['GoldInGrams'];
+            $tmp['TotalPaidAmount']=$voucher['TotalPaidAmount'];
+            $tmp['VoucherType'] = $voucher['VoucherType'];
+            $_recentVouchers[]=$tmp; 
+        } 
+            
+        $_recentContracts=array();
+        $recentContracts = $mysql->select("select * from  _tbl_contracts where IsClosed='0' order by ContractID desc limit 0,5");
+        foreach($recentContracts as $recentContract) {
+            $dues = $mysql->select("select * from _tbl_contracts_dues where ReceiptID>0 and   ContractID='".$recentContract['ContractID']."'");
+            $tmp=array();
+            $tmp['ContractCode']= $recentContract['ContractCode'];
+            $tmp['SchemeID']=  $recentContract['SchemeID'];
+            $tmp['SchemeName']= $recentContract['SchemeName'];
+            $tmp['StartDate']= date("d-m-Y",strtotime($recentContract['StartDate']));
+            $tmp['EndDate']= date("d-m-Y",strtotime($recentContract['EndDate']));
+            
+            $tmp['CustomerName']= $recentContract['CustomerName'];
+            $tmp['CustomerID']= $recentContract['CustomerID'];
+            $tmp['CustomerCode']= $recentContract['CustomerCode'];
+            $tmp['ContractAmount']= number_format($recentContract['ContractAmount'],2);
+            
+            $tmp['IsActive']= $recentContract['IsActive'];
+            
+            if ($tmp['IsActive']=="1"){
+                $tmp['StatusString']= "Active";
+            }
+            
+            if ($recentContract['IsClosed']=="1"){
+                $tmp['IsActive']="3";
+                $tmp['StatusString']= "Closed";
+            }
+            
+            $tmp['Receipts']= sizeof($dues);
+            $tmp['VoucherNumber']= $recentContract['VoucherNumber'];
+            $_recentContracts[]=$tmp; 
+        } 
+        
+        $_recentClosedContracts=array();
+        $recentClosedContracts = $mysql->select("select * from  _tbl_contracts where IsClosed='1' order by ContractID desc limit 0,5");
+        foreach($recentClosedContracts as $recentClosedContract) {
+            $dues = $mysql->select("select * from _tbl_contracts_dues where ReceiptID>0 and   ContractID='".$recentContract['ContractID']."'");
+            $tmp=array();
+            $tmp['ContractCode']= $recentClosedContract['ContractCode'];
+            $tmp['SchemeID']=  $recentClosedContract['SchemeID'];
+            $tmp['SchemeName']= $recentClosedContract['SchemeName'];
+            $tmp['StartDate']= date("d-m-Y",strtotime($recentClosedContract['StartDate']));
+            $tmp['EndDate']= date("d-m-Y",strtotime($recentClosedContract['EndDate']));
+            
+            $tmp['CustomerName']= $recentClosedContract['CustomerName'];
+            $tmp['CustomerID']= $recentClosedContract['CustomerID'];
+            $tmp['CustomerCode']= $recentClosedContract['CustomerCode'];
+            $tmp['ContractAmount']= number_format($recentClosedContract['ContractAmount'],2);
+            
+            $tmp['ClosedOn']= date("d-m-Y",strtotime($recentClosedContract['ClosedOn']));
+            $tmp['VoucherType'] = $recentClosedContract['VoucherType'];
+            $tmp['Receipts'] = sizeof($dues);
+            $tmp['VoucherNumber']= $recentClosedContract['VoucherNumber'];
+            $_recentClosedContracts[]=$tmp; 
+        }  
+        
+        $_pendingDues=array();
+        $pendingDues = $mysql->select("select * from  _tbl_contracts_dues where ReceiptID=0 and date(DueDate)<=date('".date("Y-m-d")."') order by DueID desc limit 0,5");
+        foreach($pendingDues as $pendingDue) {
+            $tmp=array(); 
+            $tmp['DueID']        = $pendingDue['DueID'];
+            $tmp['DueNumber']    = $pendingDue['DueNumber'];
+            $tmp['DueDate']      = date("d-m-Y",strtotime($pendingDue['DueDate']));
+            $tmp['DueAmount']    = number_format($pendingDue['DueAmount'],2);
+            $tmp['CustomerID']   = $pendingDue['CustomerID'];
+            $tmp['CustomerName'] = $pendingDue['CustomerName'];
+            $tmp['ContractID']   = $pendingDue['ContractID'];
+            $tmp['ContractCode'] = $pendingDue['ContractCode'];
+            $tmp['SchemeID']     = $pendingDue['SchemeID'];
+            $tmp['SchemeCode']   = $pendingDue['SchemeCode'];
+            $tmp['SchemeName']   = $pendingDue['SchemeName'];
+            $tmp['DaysBefore']   = (strtotime(date("Y-m-d"))-strtotime($pendingDue['DueDate']))/(60*60*24);
+            $_pendingDues[]=$tmp; 
+        }
+        
+        $_paymentrequests = array();
+        $paymentrequests = $mysql->select("select * from _tbl_payemt_requests where  RequestStatus='REQUEST' order by PaymentRequestID desc");
+        foreach($paymentrequests as $paymentrequest) {
+            $tmp=array(); 
+            
+            $tmp['PaymentRequestID']     = $paymentrequest['PaymentRequestID'];
+            $tmp['RequestCode']          = $paymentrequest['RequestCode'];
+            $tmp['PaymentDate']          = date("d-m-Y",strtotime($paymentrequest['PaymentDate']));
+            $tmp['DueAmount']            = number_format($paymentrequest['DueAmount'],2);
+            $tmp['ContractCode']         = $paymentrequest['ContractCode'];
+            $tmp['CustomerName']         = $paymentrequest['CustomerName'];
+            $tmp['CustomerCode']         = $paymentrequest['CustomerCode'];
+            $tmp['PaymentBankAccountHolderName']   = $paymentrequest['PaymentBankAccountHolderName'];
+            $tmp['PaymentBankName']     = $paymentrequest['PaymentBankName'];
+            $tmp['PaymentBankNumber']   = $paymentrequest['PaymentBankNumber'];
+            $tmp['PaymentBankIFSCode']  = $paymentrequest['PaymentBankIFSCode'];
+            $tmp['BankReferenceNumber'] = $paymentrequest['BankReferenceNumber'];
+            $tmp['RequestStatus']       = $paymentrequest['RequestStatus'];
+            $tmp['RequestedOn']         = $paymentrequest['RequestedOn'];
+            $tmp['Frequency']           = $paymentrequest['Frequency'];
+            
+            $_paymentrequests[]=$tmp;                
+        } 
+        
+        $assigned_area = $mysql->select("select * from _tbl_salesman_areas where IsActive='1' and SalesmanID='".$_SESSION['User']['SalesmanID']."'");
+        
+        $data = array("recentContracts"       => $_recentContracts,
+                      "recentCustomers"       => $_recentCustomers,
+                      "recentReceipts"        => $_recentReceipts,
+                      "recentVouchers"        => $_recentVouchers,
+                      "pendingDues"           => $_pendingDues,
+                      "paymentrequests"       => $_paymentrequests,
+                      "todaGoldRates"         => $todaGoldRates,
+                      "recentClosedContracts" => $_recentClosedContracts,
+                      "assigned_area"         => $assigned_area,
+                      "goldRates" => $goldRates,
+                      "additionalInfo"        => array("closedContracts" => sizeof($closedContracts),
+                                                       "activeContracts" => sizeof($activeContracts),
+                                                       "activeCustomers" => sizeof($activeCustomers),
+                                                       "receivedAmount"  => number_format(((isset($receivedAmount[0]['Amount']))? $receivedAmount[0]['Amount'] : "0"),2))
+                      );
+         
+         return json_encode(array("status"=>"success","data"=>$data));
+    }
     $closedContracts=$mysql->select("SELECT * FROM _tbl_contracts WHERE IsClosed='1'");
     $activeContracts=$mysql->select("SELECT * FROM _tbl_contracts WHERE IsActive='1' and IsClosed='0'");
     $activeCustomers=$mysql->select("SELECT * FROM _tbl_masters_customers WHERE IsActive='1'");

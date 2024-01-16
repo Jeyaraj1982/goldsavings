@@ -225,13 +225,16 @@ function doUpdate() {
                 $('#popupcontent').html(success_content(obj.message,'closePopup'));
              } else {
                 if (obj.div!="") {
-                    $('#Err'+obj.div).html(obj.message)
+                    $('#Err'+obj.div).html(obj.message);
+                    $('#process_popup').modal('hide');
                 } else {
-                    $('#failure_div').html(obj.message);
+                    $('#popupcontent').html( errorcontent(obj.message));
                 }
-                $('#process_popup').modal('hide');
+                
              }
         }
+    }).fail(function(){
+        networkunavailable(); 
     });
     /*
     $.post(URL+"webservice.php?action=doUpdate&method=Customers",param,function(data){
@@ -252,6 +255,7 @@ function doUpdate() {
 }
 
 function ListStateNames() {
+    openPopup();
     $.post(URL+ "webservice.php?action=listAllActive&method=StateNames","",function(data){
         var obj = JSON.parse(data);
         if (obj.status=="success") {
@@ -275,12 +279,15 @@ function ListStateNames() {
               }); 
             },1500);
         } else {
-            alert(obj.message);
+           $('#popupcontent').html( errorcontent(obj.message));
         }
+    }).fail(function(){
+        networkunavailable(); 
     });
 }
 
 function getDistrictNames() {
+    openPopup();
     $.post(URL+ "webservice.php?action=listAllActive&method=DistrictNames&StateNameID="+$('#StateNameID').val(),"",function(data){
         var obj = JSON.parse(data);
         if (obj.status=="success") {
@@ -304,12 +311,15 @@ function getDistrictNames() {
               }); 
             },1500);
         } else {
-            alert(obj.message);
+            $('#popupcontent').html( errorcontent(obj.message));
         }
+    }).fail(function(){
+        networkunavailable(); 
     });
 }
 
 function getAreaNames() {
+    openPopup();
     $.post(URL+ "webservice.php?action=listAllActive&method=AreaNames&DistrictNameID="+$('#DistrictNameID').val()+"&StateNameID="+$("#StateNameID").val(),"",function(data){
         var obj = JSON.parse(data);
         if (obj.status=="success") {
@@ -333,8 +343,10 @@ function getAreaNames() {
               }); 
             },1500);
         } else {
-            alert(obj.message);
+            $('#popupcontent').html( errorcontent(obj.message));
         }
+    }).fail(function(){
+        networkunavailable(); 
     });
 }                                  
 setTimeout(function(){

@@ -1,3 +1,6 @@
+<script>
+    var today="<?php echo date("d-m-Y");?>"; 
+</script>
 <div class="container-fluid p-0 mb-3">
     <form id="frm_customreport" name="frm_create" method="post" enctype="multipart/form-data">
         <div class="row">
@@ -46,6 +49,9 @@
                                         div.style.display = "block";
                                     } else {
                                         div.style.display = "none";
+                                        $('#FromDate').val(today);
+                                        $('#ToDate').val(today);
+                                        
                                     }
                                 }                 
                             </script>
@@ -71,6 +77,8 @@
                                         div.style.display = "block";
                                     } else {
                                         div.style.display = "none";
+                                       $('#BranchID').val("0");
+                                        
                                     }
                                 } 
                             </script>
@@ -109,6 +117,8 @@
                                         div.style.display = "block";
                                     } else {
                                         div.style.display = "none";
+                                        $('#selectGenderFilter').val("0");
+                                        
                                     }
                                 } 
                             </script>
@@ -135,6 +145,8 @@
                                         div.style.display = "block";
                                     } else {
                                         div.style.display = "none";
+                                        $('#UserRoleID').val("0");
+                                        
                                     }
                                 } 
                             </script>                                                      
@@ -171,6 +183,8 @@
                                         div.style.display = "block";
                                     } else {
                                         div.style.display = "none";
+                                        $('#selectStatusFilter').val("0");
+                                        
                                     }
                                 } 
                             </script>
@@ -247,6 +261,8 @@
                                         div.style.display = "block";
                                     } else {
                                         div.style.display = "none";
+                                        $('#StateNameID').val("0");
+                                        
                                     }
                                 } 
                             </script>
@@ -270,6 +286,8 @@
                                         div.style.display = "block";
                                       } else {
                                         div.style.display = "none";
+                                        $('#DistrictNameID').val("0");
+                                        
                                       }
                                     } 
                                 </script>
@@ -293,6 +311,8 @@
                                         div.style.display = "block";
                                       } else {
                                         div.style.display = "none";
+                                        $('#AreaNameID').val("0");
+                                        
                                       }
                                     } 
                                 </script>
@@ -311,6 +331,8 @@
                                    if (checkBox.checked == true){
                                         div.style.display = "block";
                                       } else {
+                                        $('#selectUserFilter').val("0");
+                                        $('#SearchUserName').val("");
                                         div.style.display = "none";
                                       }
                                     } 
@@ -353,6 +375,8 @@
                                    if (checkBox.checked == true){
                                         div.style.display = "block";
                                       } else {
+                                         $('#selectMobileNumberFilter').val("0");
+                                         $('#SearchMobileNumber').val("");
                                         div.style.display = "none";
                                       }
                                     } 
@@ -432,7 +456,7 @@
 
  <script>
  function ListBranches() {
-   
+     openPopup();
     $.post(URL+ "webservice.php?action=listAllActive&method=Branch","",function(data){
         var obj = JSON.parse(data);
         if (obj.status=="success") {
@@ -444,13 +468,17 @@
                  $("#BranchID").val("0");
                   setTimeout(function(){
             },1500);
+            closePopup();
         } else {
-            alert(obj.message);
+            $('#popupcontent').html( errorcontent(obj.message));
         }
+    }).fail(function(){
+        networkunavailable(); 
     });
 }
 
 function listUserRoles() {
+     openPopup();
     $.post(URL+ "webservice.php?action=listAllActive&method=UserRoles","",function(data){
         var obj = JSON.parse(data);
         if (obj.status=="success") {
@@ -466,14 +494,17 @@ function listUserRoles() {
             $("#UserRoleID").val("0");
             setTimeout(function(){
             },1500);
+            closePopup();
         } else {
-            alert(obj.message);
+            $('#popupcontent').html( errorcontent(obj.message));
         }
+    }).fail(function(){
+        networkunavailable(); 
     });
 }
 
 function listStateNames() {
-   
+     openPopup();
     $.post(URL+ "webservice.php?action=listAllActive&method=StateNames","",function(data){
         var obj = JSON.parse(data);
         if (obj.status=="success") {
@@ -490,13 +521,17 @@ function listStateNames() {
                  $("#StateNameID").val("0");
                   setTimeout(function(){
             },1500);
+            closePopup();
         } else {
-            alert(obj.message);
+            $('#popupcontent').html( errorcontent(obj.message));
         }
+    }).fail(function(){
+        networkunavailable(); 
     });
 }
 
 function getDistrictNames() {
+     openPopup();
     $.post(URL+ "webservice.php?action=listAllActive&method=DistrictNames&StateNameID="+$('#StateNameID').val(),"",function(data){
         var obj = JSON.parse(data);
         if (obj.status=="success") {
@@ -512,13 +547,17 @@ function getDistrictNames() {
             $("#DistrictNameID").val("0");
             setTimeout(function(){
             },1500);
+            closePopup();
         } else {
-            alert(obj.message);
+            $('#popupcontent').html( errorcontent(obj.message));
         }
+    }).fail(function(){
+        networkunavailable(); 
     });
 }
 
 function getAreaNames() {
+     openPopup();
     $.post(URL+ "webservice.php?action=listAllActive&method=AreaNames&DistrictNameID="+$('#DistrictNameID').val()+"&StateNameID="+$("#StateNameID").val(),"",function(data){
         var obj = JSON.parse(data);
         if (obj.status=="success") {
@@ -535,14 +574,16 @@ function getAreaNames() {
             setTimeout(function(){
                // $('.mareaselect').selectpicker();
             },1500);
+            closePopup();
         } else {
-            alert(obj.message);
+            $('#popupcontent').html( errorcontent(obj.message));
         }
+    }).fail(function(){
+        networkunavailable(); 
     });
 } 
 
 function OrderByContent() {
-    
      var html = "";
      if ($('#EntryDateC').prop("checked")) {
         html += "<option value='EntryDate'>Entry Date</option>";
@@ -777,7 +818,7 @@ function getData() {
                html += '<td>' + data.CreatedByName + '</td>';
               }
               if ($('#UserCode').prop("checked")) {
-               html += '<td>' + data.CreatedBy + '</td>';
+               html += '<td>' + data.UserCode + '</td>';
               }
               if ( $('#UserName').prop("checked") || $('#UserNameS').prop("checked")   ) {
                html += '<td>' + data.UserName + '</td>';
@@ -860,16 +901,20 @@ function getData() {
             
         } else {
             if (obj.div!="") {
-                $('#Err'+obj.div).html(obj.message)
+                $('#Err'+obj.div).html(obj.message);
+                 $('#process_popup').modal('hide');
             } else {
-                $('#failure_div').html(obj.message);
+                $('#popupcontent').html( errorcontent(obj.message));
             }
              $('#tbl_content').html("");
             $('#listData').hide();
-            $('#process_popup').modal('hide');
+           
         }
+    }).fail(function(){
+        networkunavailable(); 
     });
 }
+
 function selectAll() {
     
      var checkboxes = document.getElementsByTagName('input');    
@@ -880,6 +925,7 @@ function selectAll() {
          }
      }
      printEntrydate();
+     printBranchName();
      printChangegender();
      printUserrole();
      printBranchName();
@@ -891,7 +937,9 @@ function selectAll() {
      printMobilenumber();
     OrderByContent();
  }
+ 
  function deselectAll() {
+     $('#listData').hide();
      OrderByContent();
      var checkboxes = document.getElementsByTagName('input');    
      for (var i = 0; i < checkboxes.length; i++) {
@@ -901,6 +949,7 @@ function selectAll() {
          }
      }
      printEntrydate();
+     printBranchName();
      printChangegender();
      printBranchName();
      printUserrole();
@@ -911,6 +960,19 @@ function selectAll() {
      printUsername();
      printMobilenumber();
     OrderByContent();
+     $('#BranchID').val("0");
+     $('#UserRoleID').val("0");
+     $('#selectGenderFilter').val("0");
+     $('#selectStatusFilter').val("All");
+     $('#StateNameID').val("0");
+     $('#DistrictNameID').val("0");
+     $('#AreaNameID').val("0");
+     $('#selectSalesmanFilter').val("0");
+     $('#selectMobileNumberFilter').val("0");
+     $('#SearchUserName').val("");
+     $('#SearchMobileNumber').val("");
+     $('#FromDate').val(today);
+     $('#ToDate').val(today);
  }
 
 setTimeout(function(){

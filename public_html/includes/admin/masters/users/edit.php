@@ -350,17 +350,20 @@ function doUpdate() {
                 $('#popupcontent').html(success_content(obj.message,'closePopup() ;d()') );
              } else {
                 if (obj.div!="") {
-                    $('#Err'+obj.div).html(obj.message)
-                } else {
-                    $('#failure_div').html(obj.message);
+                    $('#Err'+obj.div).html(obj.message);
+                    $('#process_popup').modal('hide');
+                 } else {
+                   $('#popupcontent').html( errorcontent(obj.message));
                 }
-                $('#process_popup').modal('hide');
+              
              }
-        }
+        },
+        error:networkunavailable 
     });
 }
 
 function ListBranches() {
+    openPopup();
     $.post(URL+ "webservice.php?action=listAllActive&method=Branch","",function(data){
         var obj = JSON.parse(data);
         if (obj.status=="success") {
@@ -378,15 +381,20 @@ function ListBranches() {
               $("#BranchID").select2({
                   dropdownParent:$('#frm_edit')
               });  
+               $(".select2-container").each(function() {$(this).css({'z-index':'500'});});  
             },1000);
+            closePopup();
         } else {
-            alert(obj.message);
+            $('#popupcontent').html( errorcontent(obj.message));
         }
+    }).fail(function(){
+        networkunavailable(); 
     });
 }
 
 
 function ListStateNames() {
+    openPopup();
     $.post(URL+ "webservice.php?action=listAllActive&method=StateNames","",function(data){
         var obj = JSON.parse(data);
         if (obj.status=="success") {
@@ -407,16 +415,22 @@ function ListStateNames() {
             setTimeout(function(){
               $("#StateNameID").select2({
                   dropdownParent:$('#frm_edit')
-              });  
+              });
+              getDistrictNames();
+               $(".select2-container").each(function() {$(this).css({'z-index':'500'});});    
             },1000);
+            closePopup();
         } else {
-            alert(obj.message);
+            $('#popupcontent').html( errorcontent(obj.message));
         }
+    }).fail(function(){
+        networkunavailable(); 
     });
 }
 
 
 function getDistrictNames() {
+    openPopup();
     $.post(URL+ "webservice.php?action=listAllActive&method=DistrictNames&StateNameID="+$('#StateNameID').val(),"",function(data){
         var obj = JSON.parse(data);
         if (obj.status=="success") {
@@ -437,15 +451,21 @@ function getDistrictNames() {
             setTimeout(function(){
               $("#DistrictNameID").select2({
                   dropdownParent:$('#frm_edit')
-              });  
+              }); 
+                getAreaNames();
+               $(".select2-container").each(function() {$(this).css({'z-index':'500'});});   
             },1000);
+            closePopup();
         } else {
-            alert(obj.message);
+            $('#popupcontent').html( errorcontent(obj.message));
         }
+    }).fail(function(){
+        networkunavailable(); 
     });
 }
 
 function getAreaNames() {
+    openPopup();
     $.post(URL+ "webservice.php?action=listAllActive&method=AreaNames&DistrictNameID="+$('#DistrictNameID').val()+"&StateNameID="+$("#StateNameID").val(),"",function(data){
         var obj = JSON.parse(data);
         if (obj.status=="success") {
@@ -467,10 +487,14 @@ function getAreaNames() {
               $("#AreaNameID").select2({
                   dropdownParent:$('#frm_edit')
               });  
+               $(".select2-container").each(function() {$(this).css({'z-index':'500'});});  
             },1000);
+            closePopup();
         } else {
-            alert(obj.message);
+           $('#popupcontent').html( errorcontent(obj.message));
         }
+    }).fail(function(){
+        networkunavailable(); 
     });
 }
 

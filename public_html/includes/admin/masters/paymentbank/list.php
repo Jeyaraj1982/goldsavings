@@ -418,18 +418,20 @@ function listPaymentbank() {
                             + '<td colspan="6" style="text-align: center;background:#fff !important">No Data Found</td>'
                        + '</tr>';
             }   
-            $('#tbl_content').html(html);
-             if (($.fn.dataTable.isDataTable("#datatables-fixed-header"))) {
-                $("#datatables-fixed-header").DataTable({
-                    fixedHeader: true,
-                    pageLength: 25
-                });
-            }
+           $('#tbl_content').html(html);
+             //if (($.fn.dataTable.isDataTable("#datatables-fixed-header"))) {
+              //  $("#datatables-fixed-header").DataTable({
+                //    fixedHeader: true,
+                //    pageLength: 25
+               // });
+           // }
         } else {
-            alert(obj.message);
+           $('#popupcontent').html( errorcontent(obj.message));
         }
+    }).fail(function(){
+        networkunavailable(); 
     });
-} 
+}
 setTimeout("listPaymentbank()",2000);
 
 function addForm(){
@@ -447,31 +449,37 @@ function addForm(){
 }  
 function addNew() {
     var param = $('#frm_create').serialize();
+    openPopup();
       clearDiv(['PaymentBankID','PaymentBank','PaymentBankCode','BankName','Branch','AccountNumber','AccountHolderName','IFSCode','Remarks','IsActive']);
-    $.post(URL+"webservice.php?action=addNew&method=PaymentBanks",param,function(data){
-        var obj = JSON.parse(data); 
-        if (obj.status=="success") {
-            $('#addconfirmation').modal("hide");
-             openPopup();
-            $('#frm_create').trigger("reset");
-            if (obj.PaymentBankCode.length>3) {
+   jQuery.ajax({
+        type: 'POST',
+        url:URL+"webservice.php?action=addNew&method=PaymentBanks",
+        data: new FormData($("#frm_create")[0]),
+        processData: false, 
+        contentType: false, 
+        success: function(data) {
+             var obj = JSON.parse(data); 
+             if (obj.status=="success") {
+                $('#frm_create').trigger("reset");
                 $('#PaymentBankCode').val(obj.PaymentBankCode);
-            }
-            $('#popupcontent').html(success_content(obj.message,'closePopup() ; listPaymentbank')); 
-        } else {
-            if (obj.div!="") {
-                $('#Err'+obj.div).html(obj.message)
-            } else {
-                $('#failure_div').html(obj.message);
-            }
-            $('#process_popup').modal('hide');
-        }
+                $('#popupcontent').html(success_content(obj.message,'closePopup'));
+             } else {
+                if (obj.div!="") {
+                    $('#Err'+obj.div).html(obj.message);
+                    $('#process_popup').modal('hide');
+                } else {
+                   $('#popupcontent').html( errorcontent(obj.message));
+                }
+              
+             }
+        },
+        error:networkunavailable 
     });
 }
 
 function edit(ID){
   $('#editForm').modal("show");
-    
+   openPopup(); 
       clearDiv(['editPaymentBankID','editPaymentBankCode','editBankName','editBranch','editAccountNumber','editAccountHolderName','editIFSCode','editRemarks','editIsActive']);
     $.post(URL+ "webservice.php?action=getData&method=PaymentBanks&ID="+ID,"",function(data){
         closePopup();
@@ -491,32 +499,43 @@ function edit(ID){
                 $('#editRemarks').val(data.Remarks);
             });   
 }  
-  });
+  }).fail(function(){
+        networkunavailable(); 
+    });
 } 
 function doUpdate() {
     var param = $('#frm_edit').serialize();
       clearDiv(['editPaymentBankID','editPaymentBankCode','editBankName','editBranchName','editAccountNumber','editAccountHolderName','editIFSCode','editRemarks','editIsActive']);
-    $.post(URL+"webservice.php?action=doUpdate&method=PaymentBanks",param,function(data){
-        var obj = JSON.parse(data); 
-        if (obj.status=="success") {
+    jQuery.ajax({
+        type: 'POST',
+        url:URL+"webservice.php?action=doUpdate&method=PaymentBanks",
+        data: new FormData($("#frm_edit")[0]),
+        processData: false, 
+        contentType: false, 
+        success: function(data) {
+             var obj = JSON.parse(data); 
+              if (obj.status=="success") {
             $('#editForm').modal("hide"); 
             openPopup();
             //$('#frm_newservice').trigger("reset");
-            $('#popupcontent').html(success_content(obj.message,'closePopup() ; listPaymentbank'));
+            $('#popupcontent').html(success_content(obj.message,'listPaymentbank'));
         } else {
             if (obj.div!="") {
-                $('#Erredit'+obj.div).html(obj.message)
+                $('#Erredit'+obj.div).html(obj.message);
+                $('#process_popup').modal('hide');
             } else {
-                $('#failure_div').html(obj.message);
+               $('#popupcontent').html(errorcontent(obj.message));
             }
             closePopup();
         }
+        },
+        error:networkunavailable 
     });
 }
 
 function view(ID){
   $('#viewForm').modal("show");
-  
+  openPopup();
   $.post(URL+ "webservice.php?action=getData&method=PaymentBanks&ID="+ID,"",function(data){
         closePopup();
         var obj = JSON.parse(data);
@@ -540,7 +559,9 @@ function view(ID){
                 $('#viewRemarks').val(data.Remarks);
             });   
 }  
-  });
+  }).fail(function(){
+        networkunavailable(); 
+    });
 }
 
 var RemoveID="";
@@ -583,15 +604,17 @@ function Remove(ID) {
                        + '</tr>';
             }   
             $('#tbl_content').html(html);
-             if (($.fn.dataTable.isDataTable("#datatables-fixed-header"))) {
-                $("#datatables-fixed-header").DataTable({
-                    fixedHeader: true,
-                    pageLength: 25
-                });
-            }
+            // if (($.fn.dataTable.isDataTable("#datatables-fixed-header"))) {
+              //  $("#datatables-fixed-header").DataTable({
+                 //   fixedHeader: true,
+                 //   pageLength: 25
+               // });
+          //  }
         } else {
-            alert(obj.message);
+           $('#popupcontent').html( errorcontent(obj.message));
         }
+    }).fail(function(){
+        networkunavailable(); 
     });
-} 
+}
 </script>

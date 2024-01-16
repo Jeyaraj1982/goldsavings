@@ -237,6 +237,7 @@ function addForm(){
 }  
 function addNew() {
     var param = $('#frm_create').serialize();
+    openPopup();
     clearDiv(['EmployeeCategoryCode','EmployeeCategoryTitle','Remarks']);
     jQuery.ajax({
         type: 'POST',
@@ -254,13 +255,15 @@ function addNew() {
                 $('#popupcontent').html(success_content(obj.message,"listEmployeeCategory"));
              } else {
                 if (obj.div!="") {
-                    $('#Err'+obj.div).html(obj.message)
+                    $('#Err'+obj.div).html(obj.message);
+                    $('#process_popup').modal('hide');
                 } else {
-                    $('#failure_div').html(obj.message);
+                   $('#popupcontent').html( errorcontent(obj.message));
                 }
-                $('#process_popup').modal('hide');
+              
              }
-        }
+        },
+        error:networkunavailable 
     });
 }
 
@@ -279,30 +282,42 @@ function edit(EmployeeCategoryID){
                 $('#editEmployeeCategoryID').val(data.EmployeeCategoryID);
             });   
         }  
+    }).fail(function(){
+        networkunavailable(); 
     });
 }
 function doUpdate() {
     var param = $('#frm_edit').serialize();
     clearDiv(['editEmployeeCategoryTitle','editRemarks']);
-    $.post(URL+"webservice.php?action=doUpdate&method=EmployeeCategories",param,function(data){
-        var obj = JSON.parse(data); 
+     jQuery.ajax({
+        type: 'POST',
+        url:URL+"webservice.php?action=doUpdate&method=EmployeeCategories",
+        data: new FormData($("#frm_edit")[0]),
+        processData: false, 
+        contentType: false, 
+        success: function(data) {
+               var obj = JSON.parse(data); 
         if (obj.status=="success") {
-                $('#editForm').modal("hide");
-                openPopup();
-            //$('#frm_newservice').trigger("reset");
-            $('#popupcontent').html(success_content(obj.message,"listEmployeeCategory"));
+            $('#editForm').modal("hide");
+            openPopup();
+            $('#popupcontent').html(success_content(obj.message,'listEmployeeCategory'));
         } else {
             if (obj.div!="") {
-                $('#Erredit'+obj.div).html(obj.message)
+                $('#Erredit'+obj.div).html(obj.message);
+                $('#process_popup').modal('hide');
             } else {
-                $('#failure_div').html(obj.message);
-            }
-           
-        }
+                   $('#popupcontent').html( errorcontent(obj.message));
+                }
+              
+             }
+        },
+        error:networkunavailable
     });
-}
 
+}
+   
 function view(EmployeeCategoryID){
+    openPopup();
   $('#viewForm').modal("show");
   $.post(URL+ "webservice.php?action=getData&method=EmployeeCategories&ID="+EmployeeCategoryID,"",function(data){
         closePopup();
@@ -323,7 +338,9 @@ function view(EmployeeCategoryID){
                 $('#viewRemarks').val(data.Remarks);
             });   
 }  
-  });
+  }).fail(function(){
+        networkunavailable(); 
+    });
 }
 
 function listEmployeeCategory() {
@@ -368,8 +385,10 @@ function listEmployeeCategory() {
                 });
             }                                        
         } else {
-            alert(obj.message);
+            $('#popupcontent').html(errorcontent(obj.message));
         }
+    }).fail(function(){
+        networkunavailable(); 
     });
 }
 setTimeout("listEmployeeCategory()",2000);
@@ -419,6 +438,8 @@ function Remove() {
         } else {
             $('#popupcontent').html(errorcontent(obj.message));            
         }
+    }).fail(function(){
+        networkunavailable(); 
     });
       
 }

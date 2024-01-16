@@ -97,8 +97,10 @@ function d() {
                 });
             }
         } else {
-            alert(obj.message);
+            $('#popupcontent').html( errorcontent(obj.message));
         }
+    }).fail(function(){
+        networkunavailable(); 
     });
 } 
 setTimeout("d()",2000);
@@ -153,8 +155,10 @@ function Remove() {
                 });
             }
         } else {
-            alert(obj.message);
+            $('#popupcontent').html( errorcontent(obj.message));
         }
+    }).fail(function(){
+        networkunavailable(); 
     });
 } 
 </script>

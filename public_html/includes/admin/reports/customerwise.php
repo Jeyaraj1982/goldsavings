@@ -217,7 +217,7 @@ function autocomplete(inp, arr) {
                                     + '</div>'
                                     + '<div class="col-sm-12" style="text-align:right;">'
                                         + '<!--<a href="'+URL +'dashboard.php?action=customers/view&edit='+item.value+'" class="btn btn-outline-primary btn-sm" target="_blank">View Details</a>-->'
-                                        + '<a href="'+URL+'dashboard.php?action=reports/view_customerreport&customer='+item.CustomerID+'&fpg=reports/customerwise" class="btn btn-outline-primary btn-sm">View Report</a>'
+                                        + '<a href="'+URL+'dashboard.php?action=reports/view_customerreport&customer='+item.CustomerID+'&fpg=reports/customerwise" target="_blank" class="btn btn-outline-primary btn-sm">View Report</a>'
                                     + '</div>';
              $('#CustomerResult').html(txtHtml) ;
              $('#customersince').html(daysdifference(0,item.CreatedOn));

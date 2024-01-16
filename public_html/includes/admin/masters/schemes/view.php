@@ -105,6 +105,9 @@
              if (isset($_GET['view'])) {
                 $path.="&view=".$_GET['view'];
             }
+            if (isset($_GET['SchemeID'])) {
+                $path.="&SchemeID=".$_GET['SchemeID'];
+            }
             ?>
             <a href="<?php echo $path;?>" class="btn btn-outline-primary">Back</a>&nbsp;&nbsp;
             </div>

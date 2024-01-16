@@ -13,26 +13,29 @@
             <?php include_once("users_side_menu.php"); ?>
         </div>
         <div class="col-9 col-sm-9 col-xxl-9">
+            <?php
+                $branch_data = $mysql->select("select * from _tbl_masters_branches where BranchID='".$data[0]['BranchID']."'");
+            ?>
                 <div class="card">
                     <div class="card-body">
                         <div class="row">
                             <div class="col-sm-6 mb-3">
                                 <div style="font-weight: bold;">Branch ID</div>
-                                <?php echo $data[0]['BranchCode'];?>
+                                <?php echo $branch_data[0]['BranchCode'];?>
                             </div>
                             <div class="col-sm-12 mb-3">
                                 <div style="font-weight: bold;">Branch Name</div>
-                                <?php echo $data[0]['BranchName'];?>
+                                <?php echo $branch_data[0]['BranchName'];?>
                             </div>
                              <div class="col-sm-12 mb-3">
                                 <div style="font-weight: bold;">Address Line 1 </div>
-                                <?php echo $data[0]['AddressLine1'];?>
+                                <?php echo $branch_data[0]['AddressLine1'];?>
                             </div>
                             <div class="col-sm-12 mb-3">
                                 <div style="font-weight: bold">Address Line 2</div>
                                 <?php 
-                                    if (strlen($data[0]['AddressLine2'])>0) {
-                                        echo " ".$data[0]['AddressLine2'];  
+                                    if (strlen($branch_data[0]['AddressLine2'])>0) {
+                                        echo " ".$branch_data[0]['AddressLine2'];  
                                     } else {
                                        echo "N/A";     
                                     }
@@ -40,19 +43,19 @@
                                 </div>
                             <div class="col-sm-6 mb-3">
                                 <div style="font-weight: bold;">Area Name</div>
-                                <?php echo $data[0]['AreaName'];?>
+                                <?php echo $branch_data[0]['AreaName'];?>
                             </div>
                             <div class="col-sm-6 mb-3">
                                 <div style="font-weight: bold;">District Name</div>
-                                <?php echo $data[0]['DistrictName'];?>
+                                <?php echo $branch_data[0]['DistrictName'];?>
                             </div>
                             <div class="col-sm-6">
                                 <div style="font-weight: bold;">State Name</div>
-                                <?php echo $data[0]['StateName'];?>
+                                <?php echo $branch_data[0]['StateName'];?>
                             </div>
                             <div class="col-sm-6">
                                 <div style="font-weight: bold;">Pincode </div>
-                                <?php echo $data[0]['PinCode'];?>
+                                <?php echo $branch_data[0]['PinCode'];?>
                             </div>
                            </div>
                     </div>
@@ -62,17 +65,17 @@
                         <div class="row">
                             <div class="col-sm-12 mb-3">
                                 <div style="font-weight: bold;">Email ID </div> 
-                                <?php echo $data[0]['EmailID'];?>
+                                <?php echo $branch_data[0]['EmailID'];?>
                             </div>
                              <div class="col-sm-6 mb-3">
                                 <div style="font-weight: bold">Mobile Number</div>
-                                +91 <?php echo $data[0]['MobileNumber'];?>
+                                +91 <?php echo $branch_data[0]['MobileNumber'];?>
                             </div>
                             <div class="col-sm-6">
                                 <div style="font-weight: bold">Whatsapp Number</div>
                                 <?php 
-                                    if (strlen($data[0]['WhatsappNumber'])>0) {
-                                        echo "+91 ".$data[0]['WhatsappNumber'];  
+                                    if (strlen($branch_data[0]['WhatsappNumber'])>0) {
+                                        echo "+91 ".$branch_data[0]['WhatsappNumber'];  
                                     } else {
                                        echo "N/A";     
                                     }

@@ -4,9 +4,6 @@
             <h1 class="h3">User Role</h1>
             <h6 class="card-subtitle text-muted mb-3">List all User roles</h6>
         </div>
-        <div class="col-6" style="text-align:right;">
-            <a href="<?php echo URL;?>dashboard.php?action=masters/userroles/new" class="btn btn-primary btn-sm">New</a>
-        </div>
      </div>
      <div class="row">
         <div class="col-12">
@@ -70,8 +67,6 @@ function d() {
                                         + '</a>'
                                         + '<div class="dropdown-menu dropdown-menu-end">'
                                                 + '<a class="dropdown-item" href="'+URL+'dashboard.php?action=masters/userroles/view&edit='+data.UserRoleID+'">View</a>'
-                                                + '<a class="dropdown-item" href="'+URL+'dashboard.php?action=masters/userroles/edit&edit='+data.UserRoleID+'">Edit</a>'
-                                                + '<a class="dropdown-item" href="javascript:void(0)" onclick="confirmationtoDelete(\''+data.UserRoleID+'\')">Delete</a>'
                                         + '</div>'
                                 + '</div>'
                             + '</td>'                                                                                                    
@@ -121,8 +116,6 @@ function Remove(ID) {
                                         + '</a>'
                                         + '<div class="dropdown-menu dropdown-menu-end">'
                                                 + '<a class="dropdown-item" href="'+URL+'dashboard.php?action=masters/userroles/view&edit='+data.UserRoleID+'">View</a>'
-                                                + '<a class="dropdown-item" href="'+URL+'dashboard.php?action=masters/userroles/edit&edit='+data.UserRoleID+'">Edit</a>'
-                                                + '<a class="dropdown-item" href="javascript:void(0)" onclick="confirmationtoDelete(\''+data.UserRoleID+'\')">Delete</a>'
                                         + '</div>'
                                 + '</div>'
                             + '</td>'                                                                                                    

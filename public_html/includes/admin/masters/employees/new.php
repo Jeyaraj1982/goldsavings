@@ -1,7 +1,7 @@
 <div class="container-fluid p-0">
     <h1 class="h3 mb-3">New Employee</h1>
     <form id="frm_create" name="frm_create" method="post" enctype="multipart/form-data">
-        <div class="row">
+        <div class="row"  style="max-width:980px">
             <div class="col-12 col-xl-6">
                 <div class="card">
                     <div class="card-body">
@@ -35,9 +35,7 @@
                             </div>
                             <div class="col-sm-6 mb-3">
                                 <label class="form-label"><span id="_printlabel">Entry Date</span> <span style='color:red'>*</span></label>
-                                <div class="input-group">
-                                    <input type="text" readonly="readonly" value="<?php echo date("d-m-Y");?>" name="EntryDate" id="EntryDate" class="form-control" placeholder="Entry Date">
-                                </div>
+                                <input type="text" readonly="readonly" value="<?php echo date("d-m-Y");?>" name="EntryDate" id="EntryDate" class="form-control" placeholder="Entry Date" style="width:120px !important">
                                 <span id="ErrEntryDate" class="error_msg"></span>
                             </div>
                             <div class="col-sm-6 mb-3">
@@ -103,7 +101,7 @@
                                     </div>
                                 </div>
                                 </label>
-                                <input type="text" readonly="readonly" name="DateOfBirth" id="DateOfBirth" class="form-control" placeholder="Date Of Birth">
+                                <input type="text" readonly="readonly" name="DateOfBirth" id="DateOfBirth" class="form-control" placeholder="Date Of Birth" style="width: 140px !important;">
                                 <span id="ErrDateOfBirth" class="error_msg"></span>
                             </div>
                             <div class="col-sm-12 mb-3">
@@ -274,8 +272,6 @@
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="col-12">
                 <div class="card">
                     <div class="card-body">
                         <div class="row">
@@ -296,8 +292,9 @@
                             </div> 
                         </div>
                     </div>
-                </div>      
+                </div>
             </div>
+             
             <div class="col-sm-12" style="text-align:right;">
                 <a href="<?php echo URL;?>dashboard.php?action=masters/employees/list" class="btn btn-outline-primary">Back</a>&nbsp;&nbsp;
                 <button onclick="confirmationtoadd()" type="button" class="btn btn-primary">Create Employee</button>    
@@ -465,22 +462,35 @@ function addNew() {
         success: function(data) {
              var obj = JSON.parse(data); 
              if (obj.status=="success") {
+                 $('#BranchID').val("0");
+                 $('#select2-BranchID-container').html($("#BranchID option:selected").text());
+                  $('#StateNameID').val("0");
+                  $('#select2-StateNameID-container').html($("#StateNameID option:selected").text());
+                  $('#DistrictNameID').val("0");
+                  $('#select2-DistrictNameID-container').html($("#DistrictNameID option:selected").text());
+                  $('#AreaNameID').val("0");
+                   $('#select2-AreaNameID-container').html($("#AreaNameID option:selected").text());
+                   $('#EmployeeCategoryID').val("0");
+                   $('#select2-EmployeeCategoryID-container').html($("#EmployeeCategoryID option:selected").text());
                 $('#frm_create').trigger("reset");
                 $('#EmployeeCode').val(obj.EmployeeCode);
                 $('#popupcontent').html(success_content(obj.message,'closePopup'));
              } else {
                 if (obj.div!="") {
-                    $('#Err'+obj.div).html(obj.message)
-                } else {
-                    $('#failure_div').html(obj.message);
+                    $('#Err'+obj.div).html(obj.message);
+                    $('#process_popup').modal('hide');
+                 } else {
+                   $('#popupcontent').html( errorcontent(obj.message));
                 }
-                $('#process_popup').modal('hide');
+              
              }
-        }
+        },
+        error:networkunavailable 
     });
 }
 
 function ListBranches() {
+     openPopup();
     var i=0;
     $.post(URL+ "webservice.php?action=listAllActive&method=Branch","",function(data){
         var obj = JSON.parse(data);
@@ -498,15 +508,19 @@ function ListBranches() {
               $("#BranchID").select2({
                   dropdownParent:$('#frm_create')
               });  
+               $(".select2-container").each(function() {$(this).css({'z-index':'500','width':'calc(100% - 32px)'});});
             },1000);
-           
+            closePopup();
         } else {
-            alert(obj.message);
+            $('#popupcontent').html(errorcontent(obj.message));
         }
+    }).fail(function(){
+        networkunavailable(); 
     });
 }
 
 function ListEmployeesCategory() {
+     openPopup();
     var i=0;
     $.post(URL+ "webservice.php?action=listAllActive&method=EmployeeCategories","",function(data){
         var obj = JSON.parse(data);
@@ -528,14 +542,19 @@ function ListEmployeesCategory() {
               $("#EmployeeCategoryID").select2({
                   dropdownParent:$('#frm_create')
               });  
+               $(".select2-container").each(function() {$(this).css({'z-index':'500','width':'calc(100% - 32px)'});});
             },1000);
+            closePopup();
         } else {
-            alert(obj.message);
+           $('#popupcontent').html(errorcontent(obj.message));
         }
+    }).fail(function(){
+        networkunavailable(); 
     });
 }
 
 function listStateNames() {
+     openPopup();
     var i=0;
     $.post(URL+ "webservice.php?action=listAllActive&method=StateNames","",function(data){
         var obj = JSON.parse(data);
@@ -557,16 +576,20 @@ function listStateNames() {
                  setTimeout(function(){
               $("#StateNameID").select2({
                   dropdownParent:$('#frm_create')
-              });  
+              }); 
+               $(".select2-container").each(function() {$(this).css({'z-index':'500','width':'calc(100% - 32px)'});});
             },1000);
-           
+            closePopup();
         } else {
-            alert(obj.message);
+            $('#popupcontent').html(errorcontent(obj.message));
         }
+    }).fail(function(){
+        networkunavailable(); 
     });
 }
 
 function getDistrictNames() {
+     openPopup();
      var i=0;
     $.post(URL+ "webservice.php?action=listAllActive&method=DistrictNames&StateNameID="+$('#StateNameID').val(),"",function(data){
         var obj = JSON.parse(data);
@@ -589,14 +612,19 @@ function getDistrictNames() {
               $("#DistrictNameID").select2({
                   dropdownParent:$('#frm_create')
               });  
+               $(".select2-container").each(function() {$(this).css({'z-index':'500','width':'calc(100% - 32px)'});});
             },1000);
+            closePopup();
         } else {
-            alert(obj.message);
+           $('#popupcontent').html(errorcontent(obj.message));
         }
+    }).fail(function(){
+        networkunavailable(); 
     });
 }
 
 function getAreaNames() {
+     openPopup();
     var i=0;
     $.post(URL+ "webservice.php?action=listAllActive&method=AreaNames&DistrictNameID="+$('#DistrictNameID').val()+"&StateNameID="+$("#StateNameID").val(),"",function(data){
         var obj = JSON.parse(data);
@@ -617,11 +645,15 @@ function getAreaNames() {
            setTimeout(function(){
               $("#AreaNameID").select2({
                   dropdownParent:$('#frm_create')
-              });  
+              }); 
+               $(".select2-container").each(function() {$(this).css({'z-index':'500','width':'calc(100% - 32px)'});});
             },1000);
+            closePopup();
         } else {
-            alert(obj.message);
+           $('#popupcontent').html(errorcontent(obj.message));
         }
+    }).fail(function(){
+        networkunavailable(); 
     });
 }   
 
@@ -643,12 +675,14 @@ function addNewStateName() {
             $('#popupcontent').html(success_content(obj.message,'closePopup();listStateNames')); 
         } else {
             if (obj.div!="") {
-                $('#Err'+obj.div).html(obj.message)
+                $('#Err'+obj.div).html(obj.message);
+                $('#process_popup').modal('hide');
             } else {
-                $('#failure_div').html(obj.message);
+                $('#popupcontent').html(errorcontent(obj.message));
             }
-            $('#process_popup').modal('hide');
         }
+    }).fail(function(){
+        networkunavailable(); 
     });
 }
 
@@ -671,12 +705,14 @@ function addNewDistrictName() {
             $('#popupcontent').html(success_content(obj.message,'closePopup() ; getDistrictNames')); 
         } else {
             if (obj.div!="") {
-                $('#Err'+obj.div).html(obj.message)
+                $('#Err'+obj.div).html(obj.message);
+                $('#process_popup').modal('hide');
             } else {
-                $('#failure_div').html(obj.message);
+               $('#popupcontent').html(errorcontent(obj.message));
             }
-            $('#process_popup').modal('hide');
         }
+    }).fail(function(){
+        networkunavailable(); 
     });
 }
 
@@ -701,12 +737,14 @@ function addNewAreaName() {
             $('#popupcontent').html(success_content(obj.message,'closePopup() ; getAreaNames')); 
         } else {
             if (obj.div!="") {
-                $('#Err'+obj.div).html(obj.message)
+                $('#Err'+obj.div).html(obj.message);
+                $('#process_popup').modal('hide');
             } else {
-                $('#failure_div').html(obj.message);
+               $('#popupcontent').html(errorcontent(obj.message));
             }
-            $('#process_popup').modal('hide');
         }
+    }).fail(function(){
+        networkunavailable(); 
     });
 }
 
@@ -731,12 +769,15 @@ function addNewEmployeeCategory() {
             $('#popupcontent').html(success_content(obj.message,'closePopup();ListEmployeesCategory')); 
         } else {
             if (obj.div!="") {
-                $('#Err'+obj.div).html(obj.message)
+                $('#Err'+obj.div).html(obj.message);
+                $('#process_popup').modal('hide');
             } else {
-                $('#failure_div').html(obj.message);
+               $('#popupcontent').html(errorcontent(obj.message));
             }
-            $('#process_popup').modal('hide');
+            
         }
+    }).fail(function(){
+        networkunavailable(); 
     });
 }
 setTimeout(function(){          

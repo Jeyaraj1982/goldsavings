@@ -126,15 +126,16 @@ function addNew() {
                 $('#frm_create').trigger("reset");
                 $('#UserRoleCode').val(obj.UserRoleCode);
                 $('#popupcontent').html(success_content(obj.message,'closePopup'));
-             } else {
+              } else {
                 if (obj.div!="") {
                     $('#Err'+obj.div).html(obj.message)
                 } else {
-                    $('#failure_div').html(obj.message);
+                   $('#popupcontent').html( errorcontent(obj.message));
                 }
-                $('#process_popup').modal('hide');
+              
              }
-        }
+        },
+        error:networkunavailable 
     });
 }
 setTimeout(function d(){

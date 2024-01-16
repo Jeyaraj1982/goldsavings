@@ -106,10 +106,10 @@
                                         3. Not allow cut,copy,paste
                                     </div>
                                 </div>
-                                </div>
                             </label>
                             <input type="text" name="Remarks" id="Remarks" class="form-control" placeholder="Remarks" maxlength="250">
                             <span id="ErrRemarks" class="error_msg"></span>
+                        </div>
                         </div>
                 </form>
             </div>
@@ -163,7 +163,7 @@
 <script>
 function view(CustomerTypeNameID){
   $('#viewForm').modal("show");
-  
+  openPopup();
   $.post(URL+ "webservice.php?action=getData&method=CustomerTypes&ID="+CustomerTypeNameID,"",function(data){
         closePopup();
         var obj = JSON.parse(data);
@@ -183,12 +183,13 @@ function view(CustomerTypeNameID){
                 $('#viewRemarks').val(data.Remarks);
             });   
 }  
-  });
+  }).fail(function(){
+        networkunavailable(); 
+    });
 }
 
 function edit(CustomerTypeNameID){
     $('#editForm').modal("show");
-     
         clearDiv(['editCustomerTypeName','editRemarks']);
     $.post(URL+ "webservice.php?action=getData&method=CustomerTypes&ID="+CustomerTypeNameID,"",function(data){
         var obj = JSON.parse(data);
@@ -201,10 +202,13 @@ function edit(CustomerTypeNameID){
                 $('#editCustomerTypeCode').val(data.CustomerTypeCode);
             });   
         }  
+    }).fail(function(){
+        networkunavailable(); 
     });
 }
 
 function doUpdate() {
+    openPopup();
     var param = $('#frm_edit').serialize();
     clearDiv(['editCustomerTypeName','editRemarks']);
     jQuery.ajax({
@@ -221,13 +225,15 @@ function doUpdate() {
                 $('#popupcontent').html(success_content(obj.message,"listCustomerTypes"));
              } else {
                 if (obj.div!="") {
-                    $('#Erredit'+obj.div).html(obj.message)
+                    $('#Erredit'+obj.div).html(obj.message);
+                     $('#process_popup').modal('hide');
                 } else {
-                    $('#failure_div').html(obj.message);
+                   $('#popupcontent').html( errorcontent(obj.message));
                 }
-                $('#process_popup').modal('hide');
+              
              }
-        }
+        },
+        error:networkunavailable 
     });
 }
 
@@ -257,19 +263,17 @@ function addNew() {
                 $('#popupcontent').html(success_content(obj.message,"listCustomerTypes"));
              } else {
                 if (obj.div!="") {
-                    $('#Err'+obj.div).html(obj.message)
-                } else {
-                    $('#failure_div').html(obj.message);
+                    $('#Err'+obj.div).html(obj.message);
+                     $('#process_popup').modal('hide');
+                 } else {
+                   $('#popupcontent').html( errorcontent(obj.message));
                 }
-                $('#process_popup').modal('hide');
+              
              }
-        }
+        },
+        error:networkunavailable 
     });
 }
- 
-
- 
-
 
 function listCustomerTypes() {
     openPopup();
@@ -295,7 +299,7 @@ function listCustomerTypes() {
                                                 + '<a class="dropdown-item" href="javascript:void(0)" onclick="confirmationtoDelete(\''+data.CustomerTypeNameID+'\')">Delete</a>';
                                                 if (data.CustomerCount>0) {
                                                      html += '<hr style="margin:0px !important">';
-                                                     html += '<a class="dropdown-item" href="'+URL+'dashboard.php?action=masters/customertypes/ list_customersbycategory&CustomerTypeID='+data.CustomerTypeNameID+'" >View Customers</a>';
+                                                     html += '<a class="dropdown-item" href="'+URL+'dashboard.php?action=../common/customers/list_customersbycategory&CustomerTypeID='+data.CustomerTypeNameID+'" >View Customers</a>';
                                                 } else if (data.CustomerCount==0) {
                                                      html += '<hr style="margin:0px !important">';
                                                      html += '<a class="dropdown-item" href="javascript:void(0)" style="color:#888">View Customers</a>';
@@ -318,8 +322,10 @@ function listCustomerTypes() {
                 });
             }
         } else {
-            alert(obj.message);
+           $('#popupcontent').html( errorcontent(obj.message));
         }
+    }).fail(function(){
+        networkunavailable(); 
     });
 }
 
@@ -374,8 +380,10 @@ function Remove() {
                 });
             }
         } else {
-            alert(obj.message);
+            $('#popupcontent').html( errorcontent(obj.message));
         }
+    }).fail(function(){
+        networkunavailable(); 
     });
 }
 </script>

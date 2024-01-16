@@ -123,8 +123,10 @@ function listdocuments() {
                 });
             }
         } else {
-            alert(obj.message);
+            $('#popupcontent').html( errorcontent(obj.message));
         }
+    }).fail(function(){
+        networkunavailable(); 
     });
 } 
 
@@ -136,11 +138,11 @@ function addForm(){
   $('#progressBarsContainer').html('');
   $('#EmployeeID').val(_employeeID);
   listDocumentTypes();
-  clearDiv(['DocumentTypes','DocumentFile','Remarks']);
+  clearDiv(['DocumentTypes','DocumentFiles','Remarks','DocumentTypeID']);
 }  
 function addNew() {
     var param = $('#frm_create').serialize();
-  clearDiv(['DocumentTypes','DocumentFile','Remarks']);
+ clearDiv(['DocumentTypes','DocumentFiles','Remarks','DocumentTypeID']);
     $.post(URL+"webservice.php?action=addDocument&method=Employees",param,function(data){
         var obj = JSON.parse(data); 
         if (obj.status=="success") {
@@ -150,15 +152,19 @@ function addNew() {
             $('#popupcontent').html(success_content(obj.message,'closePopup() ; listdocuments')); 
         } else {
             if (obj.div!="") {
-                $('#Err'+obj.div).html(obj.message)
+                $('#Err'+obj.div).html(obj.message);
+                $('#process_popup').modal('hide');
             } else {
-                $('#failure_div').html(obj.message);
+                $('#popupcontent').html( errorcontent(obj.message));
             }
-            $('#process_popup').modal('hide');
+            
         }
+    }).fail(function(){
+        networkunavailable(); 
     });
 }
 function listDocumentTypes(ID) {
+    openPopup();
     $.post(URL+ "webservice.php?action=listAllActive&method=DocumentTypes&ID"+ID,"",function(data){
         var obj = JSON.parse(data);
         if (obj.status=="success") {
@@ -174,9 +180,12 @@ function listDocumentTypes(ID) {
             $("#DocumentTypeID").val("0");
             setTimeout(function(){
             },1500);
+             closePopup();
         } else {
-            alert(obj.message);
+            $('#popupcontent').html( errorcontent(obj.message));
         }
+    }).fail(function(){
+        networkunavailable(); 
     });
 }
 

@@ -74,12 +74,15 @@ function changePassword() {
             $('#popupcontent').html(success_content(obj.message,'closePopup'));
         } else {
             if (obj.div!="") {
-                $('#Err'+obj.div).html(obj.message)
+                $('#Err'+obj.div).html(obj.message);
+                 $('#process_popup').modal('hide');
             } else {
-                $('#failure_div').html(obj.message);
+                $('#popupcontent').html( errorcontent(obj.message));
             }
-            $('#process_popup').modal('hide');
+           
         }
+    }).fail(function(){
+        networkunavailable(); 
     });
 }
 </script>

@@ -23,13 +23,9 @@
                                 <input type="text" value="<?php echo SequnceList::getNextNumber("_tbl_masters_schemes");?>" name="SchemeCode" id="SchemeCode" class="form-control" placeholder="Scheme ID" maxlength="20" oninput="this.value=this.value.toUpperCase()">
                                 <span id="ErrSchemeCode" class="error_msg"></span>
                             </div>
-                            <div class="col-sm-2 mb-3">
-                            </div>
                             <div class="col-sm-4 mb-3">
                                 <label class="form-label">Entry Date <span style='color:red'>*</span></label>
-                                <div class="input-group">
-                                    <input type="date" value="<?php echo date("Y-m-d");?>" name="EntryDate" id="EntryDate" class="form-control" placeholder="Entry Date">
-                                </div>
+                                <input type="text" value="<?php echo date("d-m-Y");?>" name="EntryDate" id="EntryDate" class="form-control" placeholder="Entry Date" style="width: 120px !important">
                                 <span id="ErrEntryDate" class="error_msg"></span>
                             </div>
                             <div class="col-sm-12 mb-4">
@@ -38,7 +34,7 @@
                                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton1" style="padding:0px;">
                                     <div class="myheader">Scheme Name</div>
                                     <div class="mycontainer">
-                                        1. Allow only alphabets and space<br>
+                                        1. Allow only alphanumeric and space<br>
                                         2. Minimum 3 characters require<br>
                                         3. Maximum 50 characters require<br>
                                         4. Not allow cut,copy,paste
@@ -103,7 +99,7 @@
                             </div>
                             <div class="col-sm-6 mb-3">
                                 <div class="row" >
-                                    <div class="col-sm-12 mb-1">   
+                                    <div class="col-sm-12">   
                                     <label class="form-label">Duration(Months) <span style='color:red'>*</span>
                                         <img src="<?php echo URL;?>assets/question.png" style="width: 12px;" class="dropdown"  id="dropdownMenuButton1" data-bs-toggle="dropdown">
                                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton1" style="padding:0px;">
@@ -136,7 +132,7 @@
                                     <span id="ErrDuration" class="error_msg"></span>
                                 </div>
                             </div>
-                            <div class="col-sm-6 mb-3">
+                            <div class="col-sm-6">
                             <div class="input-group">
                              <span class="input-group-text" style="width: 190px;" id="basic-addon3">Wastage Discount </span>
                              <input type="text" style="text-align: right;" name="WastageDiscount" id="WastageDiscount" class="form-control" value="0.00" maxlength="">
@@ -150,7 +146,7 @@
                                 </div>
                                 <span id="ErrWastageDiscount" class="error_msg"></span>
                             </div>
-                        <div class="col-sm-6 mb-3">
+                        <div class="col-sm-6">
                             <div class="input-group">
                                 <span class="input-group-text" style="width: 190px;" id="basic-addon3">Making Charge Discount </span>
                                     <input type="text" style="text-align: right;" name="MakingChargeDiscount" id="MakingChargeDiscount" class="form-control" value="0.00" maxlength="">
@@ -158,15 +154,13 @@
                             </div>
                             <span id="ErrMakingChargeDiscount" class="error_msg"></span>
                         </div> 
-                        <div class="col-sm-6 mb-3">
-                        </div>
                 </div>
             </div>
         </div>
                 <div class="card">
                         <div class="card-body">
                             <div class="row">
-                              <div class="col-sm-12 mb-3">
+                              <div class="col-sm-12">
                                 <label class="form-label">Benefits <span style='color:red'>*</span>
                                 <img src="<?php echo URL;?>assets/question.png" style="width: 12px;" class="dropdown"  id="dropdownMenuButton1" data-bs-toggle="dropdown">
                                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton1" style="padding:0px;">
@@ -187,7 +181,7 @@
                 <div class="card">
                     <div class="card-body">
                         <div class="row">      
-                            <div class="col-sm-12 mb-3">
+                            <div class="col-sm-12">
                                 <label class="form-label">Terms and Condition <span style='color:red'>*</span>
                                 <img src="<?php echo URL;?>assets/question.png" style="width: 12px;" class="dropdown"  id="dropdownMenuButton1" data-bs-toggle="dropdown">
                                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton1" style="padding:0px;">
@@ -208,7 +202,7 @@
                  <div class="card">
                         <div class="card-body">
                             <div class="row">
-                              <div class="col-sm-12 mb-3">
+                              <div class="col-sm-12">
                                 <label class="form-label">Remarks
                                 <img src="<?php echo URL;?>assets/question.png" style="width: 12px;" class="dropdown"  id="dropdownMenuButton1" data-bs-toggle="dropdown">
                                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton1" style="padding:0px;">
@@ -286,16 +280,17 @@ function addNew() {
                 $('#popupcontent').html(success_content(obj.message,'closePopup'));
              } else {
                 if (obj.div!="") {
-                    $('#Err'+obj.div).html(obj.message)
+                    $('#Err'+obj.div).html(obj.message);
+                     $('#process_popup').modal('hide');
                 } else {
-                    $('#popupcontent').html(errorcontent(obj.message));
+                   $('#popupcontent').html( errorcontent(obj.message));
                 }
-                $('#process_popup').modal('hide');
+              
              }
-        }
+        },
+        error:networkunavailable 
     });
 }
-
 document.addEventListener('DOMContentLoaded', function () {
     const ele = document.getElementById('MinDueAmount');
     const state = {

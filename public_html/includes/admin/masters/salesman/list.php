@@ -84,7 +84,7 @@ function d() {
              });
             if (obj.data.length==0) {
                  html += '<tr>'
-                            + '<td colspan="5" style="text-align: center;background:#fff !important">No Data Found</td>'
+                            + '<td colspan="6" style="text-align: center;background:#fff !important">No Data Found</td>'
                        + '</tr>';
             }   
             $('#tbl_content').html(html);
@@ -95,8 +95,10 @@ function d() {
                 });
             }
         } else {
-            alert(obj.message);
+            $('#popupcontent').html(errorcontent(obj.message)); 
         }
+    }).fail(function(){
+        networkunavailable(); 
     });
 } 
 setTimeout("d()",2000);
@@ -138,7 +140,7 @@ function Remove(ID) {
             });
             if (obj.data.length==0) {
                  html += '<tr>'
-                            + '<td colspan="5" style="text-align: center;background:#fff !important">No Data Found</td>'
+                            + '<td colspan="6" style="text-align: center;background:#fff !important">No Data Found</td>'
                        + '</tr>';
             }   
             $('#tbl_content').html(html);
@@ -149,8 +151,10 @@ function Remove(ID) {
                 });
             }
         } else {
-            alert(obj.message);
+           $('#popupcontent').html(errorcontent(obj.message)); 
         }
+    }).fail(function(){
+        networkunavailable(); 
     });
 } 
 </script>

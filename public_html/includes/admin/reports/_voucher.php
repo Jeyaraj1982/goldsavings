@@ -1,27 +1,104 @@
+<?php $data= $mysql->select("select * from _tbl_receipts where ReceiptNumber='".$_GET['number']."'");?>
 <div class="container-fluid p-0">
-    <div class="col-sm-12">
-        <div class="row">
-        <div class="col-9">
-            <h1 class="h3">Customer</h1>
+    <div class="row">
+        <div class="col-6">
+            <h1 class="h3">Voucher</h1>
         </div>
-       <div class="col-3" style="text-align:right;">
-            <?php 
-            $path=URL."dashboard.php";
-            if (isset($_GET['fpg'])) {
-                $path=URL."dashboard.php?action=".$_GET['fpg'];
+        <div class="col-6" style="text-align:right;">
+            <a href="<?php echo URL;?>dashboard.php?action=reports/customized_voucherlist" class="btn btn-warning btn-sm">Customize Columns</a>
+    </div>
+</div>
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-body">
+                    <form id="frm_receipt" name="frm_receipt" id="frm_receipt">
+                    <div class="row">
+                        <div class="col-sm-9">
+                           <div class="col-12 mb-1">
+                                <input class="form-check-input" type="Radio" value="DATEWISE" id="Datewise" name="voucher" onclick="vouchersmethod('Datewise')">&nbsp;
+                                    Date Wise  &nbsp;&nbsp;
+                                 <input class="form-check-input" type="Radio" value="SEARCH" id="Search" name="voucher" onclick="vouchersmethod('Search')">&nbsp;
+                                    Search
+                                </div>
+                           </div>
+                        </div>
+                    </form> 
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row" style="display: none;" id="datewisevoucher">
+        <div class="col-sm-12">
+            <div class="card">
+            <div class="card-body">
+                <div class="col-sm-9 mb-3">
+                    <label class="form-label">Date Range <span style='color:red'>*</span></label>
+                        <div class="input-group">
+                            <input type="text" readonly="readonly" name="FromDate" value="<?php echo date("d-m-Y");?>" id="FromDate" class="form-control" placeholder="From Date">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="basic-addon1">To</span>
+                        </div>
+                            <input type="text" readonly="readonly" value="<?php echo date("d-m-Y");?>" name="ToDate" id="ToDate" class="form-control" placeholder="To Date">
+                            <button type="button" onclick="getData()" class="btn btn-primary">Get Data</button>
+                        </div> 
+                            <span id="Errmessage" class="error_msg"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        function vouchersmethod(m) {    
+           clearDiv(['message']); 
+            if (m=="Datewise"){
+               $('#datewisevoucher').show();   
+               $('#searchwisevoucher').hide();   
+            } 
+            if (m=="Search")  {
+               $('#datewisevoucher').hide();  
+               $('#searchwisevoucher').show();  
+               $('#listData').hide();  
             }
-            ?>
-            <a href="<?php echo $path;?>" class="btn btn-outline-primary mb-2">Back</a>
-     </div>
-     </div>
-     </div>
-    <form id="frm_create" name="frm_create" method="post" enctype="multipart/form-data">
+        } 
+    </script>
+    <div class="row" id="listData" style="display:none">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body" style="padding-top:25px">
+                    <table id="datatables-fixed-header" class="table table-striped" style="width:100%">
+                        <thead>
+                            <tr>
+                                <th>Voucher<br>Number</th>
+                                <th>Voucher<br>Date</th>
+                                <th>Customer<br>Name</th>
+                                <th>Contract<br>ID</th>
+                                <th>Voucher<br>Type</th>
+                                <th style="text-align: right;">Gold<br>(Grams)</th>
+                                <th style="text-align: right;">Settlement<br>Amount(₹)</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody id="tbl_content">
+                            <tr>
+                                <td colspan="7" style="text-align: center;background:#fff !important">Loading customers ...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row" style="display: none;" id="searchwisevoucher">
+        <div class="col-sm-12">
+            <form id="frm_create" name="frm_create" method="post" enctype="multipart/form-data" >
         <div class="row">
             <div class="col-12 col-xl-12">
                 <div class="card">
                     <div class="card-body" style="padding-bottom:0px">
                         <div class="row">
-                            <div class="col-sm-12 mb-3">
+                            <div class="col-sm-12">
                                 <label class="form-label">Customer <span style='color:red'>*</span></label>
                                 <input type="text" name="CustomerID" id="CustomerID" class="form-control" placeholder="Customer Name/Mobile Number">
                                 <span id="ErrCustomerID" class="error_msg"></span>
@@ -54,59 +131,66 @@
                     </div>
                 </div>
             </div>
-            <!--
-            <div class="col-9 col-xl-9">
-                <div class="card">
-                    <div class="card-body" style="padding-bottom:0px">
-                        <div class="row">
-                            <div class="col-sm-12 mb-3">
-                                <label class="form-label">Reffered By</label>
-                                <input type="text" name="RefferedBy" id="RefferedBy" class="form-control" placeholder="Reffered By">
-                                <span id="ErrRefferedBy" class="error_msg"></span>
-                            </div>
-                             
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-3 col-xl-3">
-                <div class="card">
-                    <div class="card-body" style="padding:10px 20px;padding-top: 12px;padding-bottom: 6px;">
-                        <div class="row">
-                            <div class="col-sm-12">
-                                <div class="row">
-                                    <div class="col-sm-12" style="margin-bottom:5px"><input type="radio"> Customer</div>
-                                    <div class="col-sm-12" style="margin-bottom:5px"><input type="radio"> Employee</div>
-                                    <div class="col-sm-12" style="margin-bottom:5px"><input type="radio"> Third Party</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            -->
             </div>                
     </form>
-</div>
-
-<div class="modal fade" id="confirmation" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Confimation</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        Do you want to create Customer ? 
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
-        <button type="button" onclick="addNew()" class="btn btn-primary">Yes, Create</button>
-      </div>
+        </div>
     </div>
-  </div>
-</div>
-            <style>
+
+<script>
+
+function getData() {
+    var param = $('#frm_voucher').serialize();
+    openPopup();
+    clearDiv(['message']);
+    $.post(URL+ "webservice.php?action=listAll&method=Vouchers",param,function(data){
+        closePopup();
+        var obj = JSON.parse(data);
+        if (obj.status=="success") {
+            var html = "";
+            $.each(obj.data, function (index, data) {
+                html += '<tr>'
+                            + '<td>' + data.VoucherNumber + '</td>'
+                    + '<td>' + data.VoucherDate + '</td>'
+                    + '<td>' + data.CustomerName + '</td>'
+                    + '<td>' + data.ContractCode + '</td>'
+                    + '<td>' + data.VoucherType + '</td>'
+                    + '<td style="text-align:right">' + data.GoldInGrams + '</td>'
+                    + '<td style="text-align:right">' + data.TotalPaidAmount + '</td>'
+                            + '<td style="text-align:right">' 
+                                + '<div class="dropdown position-relative">'
+                                        + '<a href="javascript:void(0)" data-bs-toggle="dropdown" data-bs-display="static">'
+                                            + '<img src="'+URL+'assets/icons/more.png">'
+                                        + '</a>'
+                                        + '<div class="dropdown-menu dropdown-menu-end">'
+                                                + '<a class="dropdown-item" href="'+URL+'dashboard.php?action=contracts/voucher&number='+data.VoucherNumber+'">View Voucher</a>'
+                                                + '<a class="dropdown-item" href="'+URL+'dashboard.php?action=contracts/view&view='+data.ContractCode+'">View Contract</a>'
+                                                + '<a class="dropdown-item" href="'+URL+'dashboard.php?action=customers/view&customer='+data.CustomerID+'">View Customer</a>'
+                                        + '</div>'
+                                + '</div>'
+                            + '</td>'
+                      + '</tr>';
+            }); 
+            if (obj.data.length==0) {
+         html += '<tr>'
+                    + '<td colspan="7" style="text-align: center;background:#fff !important">No Data Found</td>'
+               + '</tr>';
+    }  
+            $('#tbl_content').html(html);
+            $('#listData').show();
+            
+        } else {
+            if (obj.div!="") {
+                $('#Err'+obj.div).html(obj.message)
+            } else {
+                $('#failure_div').html(obj.message);
+            }
+            $('#process_popup').modal('hide');
+        }
+    });
+}
+</script>
+
+<style>
               
               .autocomplete {
   position: relative;
@@ -144,11 +228,8 @@
   background-color: DodgerBlue !important; 
   color: #ffffff; 
 }
-              </style>              
+              </style> 
                            
-  
-  
-
 <script>  
 
 
@@ -315,12 +396,9 @@ function autocomplete(inp, arr) {
 
 /*An array containing all the country names in the world:*/
 <?php 
-$clients = $mysql->select("select CustomerID,Date(CreatedOn) as CreatedOn, CustomerID as value,CustomerName as text,AreaName, CustomerName, MobileNumber,concat(AddressLine1,', ',AddressLine2,', ',AreaName,', ',DistrictName,', ',StateName,', ',PinCode) as AddressLine from _tbl_masters_customers where IsActive='1' order by CustomerName");
+$clients = $mysql->select("select CustomerID,Date(CreatedOn) as CreatedOn, CustomerID as value,CustomerName as text,AreaName, CustomerName, MobileNumber,concat(AddressLine1,', ',AddressLine2,', ',AreaName,', ',DistrictName,', ',StateName,', ',PinCode) as AddressLine from _tbl_masters_customers where IsActive='1' and CustomerID in (select CustomerID from _tbl_vouchers) order by CustomerName");
 ?>
 autocomplete(document.getElementById("CustomerID"), <?php echo json_encode($clients);?>); 
 
-</script>  
- <!--
- https://bootstrap-autocomplete.readthedocs.io/en/latest/
- https://www.w3schools.com/howto/howto_js_autocomplete.asp
-  -->
+</script>
+         

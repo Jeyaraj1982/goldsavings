@@ -51,7 +51,7 @@
                             </div>
                             <div class="col-sm-6 mb-3">
                                 <div style="font-weight: bold;">Date Of Birth</div>
-                                <?php echo $data[0]['DateOfBirth'];?>
+                                <?php echo date("d-m-Y",strtotime($data[0]["DateOfBirth"])) ;?>
                             </div>
                             <div class="col-sm-12 mb-3">
                                 <div style="font-weight: bold;">Email ID </div> 

@@ -5,14 +5,13 @@
             <h3>Dashboard</h3>
         </div>
         <div class="col-auto ms-auto text-end mt-n1" style="font-size:11px">
-        <?php
-            $lastLogin = $mysql->select("select * from _tbl_logs_employees_login where EmployeeID='".$_SESSION['User']['EmployeeID']."' order by LoginID Desc limit 1,1");
-            if (sizeof($lastLogin)>0) {
-                $t = json_decode( $lastLogin[0]['OtherDetails'],true);
-        ?>
-        <b>Last Logged:</b> <?php echo date("d-M-Y H:i:s",strtotime($lastLogin[0]['LoggedDateTime']));?><br>
-        <b>IP:</b> <?php echo $lastLogin[0]['IP'];?>
-        <?php } ?> 
+              <?php
+                $lastLogin = $mysql->select("select * from _tbl_logs_activity_admins where Activity='Login' and AdministratorID='".$_SESSION['User']['AdministratorID']."' order by ActivityID Desc limit 1,1");
+                if (sizeof($lastLogin)>0) {
+            ?>
+              <b>Last Logged:</b> <?php echo date("d-M-Y H:i:s",strtotime($lastLogin[0]['ActivityOn']));?><br>
+              <b>IP:</b> <?php echo $lastLogin[0]['IP'];?>
+            <?php } ?>
         </div>
     </div>
     <div class="row">
@@ -164,7 +163,7 @@
             <div class="card flex-fill" style="padding:15px">
                 <div class="card-header" style="padding:0px 10px;margin-bottom:5px;">
                     <div class="card-actions float-end">
-                        <a href="<?php echo URL;?>dashboard.php?action=contracts/list_paymentrequests" style="font-size: 10px;"><i class="align-middle" data-feather="external-link"></i></a>    
+                        <a href="<?php echo URL;?>dashboard.php?action=../common/contracts/list_paymentrequests" style="font-size: 10px;"><i class="align-middle" data-feather="external-link"></i></a>    
                     </div>
                     <h5 class="card-title mb-0">Customer's payment requests</h5>
                 </div>
@@ -231,7 +230,7 @@
             <div class="card flex-fill" style="padding:15px">
                 <div class="card-header" style="padding:0px 10px;margin-bottom:5px;">
                     <div class="card-actions float-end">
-                        <a href="<?php echo URL;?>dashboard.php?action=contracts/list" style="font-size: 10px;"><i class="align-middle" data-feather="external-link"></i></a>    
+                        <a href="<?php echo URL;?>dashboard.php?action=../common/contracts/list" style="font-size: 10px;"><i class="align-middle" data-feather="external-link"></i></a>    
                     </div>
                     <h5 class="card-title mb-0">Recently created contracts</h5>
                 </div>
@@ -263,7 +262,7 @@
             <div class="card flex-fill" style="padding:15px">
                 <div class="card-header" style="padding:0px 10px;margin-bottom:5px;">
                     <div class="card-actions float-end">
-                        <a href="<?php echo URL;?>dashboard.php?action=contracts/list" style="font-size: 10px;"><i class="align-middle" data-feather="external-link"></i></a>    
+                        <a href="<?php echo URL;?>dashboard.php?action=../common/contracts/list" style="font-size: 10px;"><i class="align-middle" data-feather="external-link"></i></a>    
                     </div>
                     <h5 class="card-title mb-0">Recently closed contracts</h5>
                 </div>
@@ -296,7 +295,7 @@
             <div class="card flex-fill" style="padding:15px">
                 <div class="card-header" style="padding:0px 10px;margin-bottom:5px;">
                     <div class="card-actions float-end">
-                        <a href="<?php echo URL;?>dashboard.php?action=masters/customers/list" style="font-size: 10px;"><i class="align-middle" data-feather="external-link"></i></a>    
+                        <a href="<?php echo URL;?>dashboard.php?action=../common/customers/list" style="font-size: 10px;"><i class="align-middle" data-feather="external-link"></i></a>    
                     </div>
                     <h5 class="card-title mb-0">Recently joined customers</h5>
                 </div>
@@ -308,8 +307,8 @@
                                     <th>Customer ID</th>
                                     <th>Customer Name</th>
                                     <th>Mobile Number</th>
-                                    <th>Type</th>
-                                    <th>Joined On</th>
+                                    <th>Branch Name</th>
+                                    <th>Entry Date</th>
                                     <th>Referred By</th>
                                     <th style="width:50px"></th>
                                 </tr>
@@ -328,7 +327,7 @@
             <div class="card flex-fill" style="padding:15px">
                 <div class="card-header" style="padding:0px 10px;margin-bottom:5px;">
                     <div class="card-actions float-end">
-                        <a href="<?php echo URL;?>dashboard.php?action=reports/receipt" style="font-size: 10px;"><i class="align-middle" data-feather="external-link"></i></a>    
+                        <a href="<?php echo URL;?>dashboard.php?action=../common/receipts/receipt" style="font-size: 10px;"><i class="align-middle" data-feather="external-link"></i></a>    
                     </div>
                     <h5 class="card-title mb-0">Recent receipts</h5>
                 </div>
@@ -349,7 +348,7 @@
                             </thead>
                             <tbody id="tbl_receipts_content">
                                 <tr>
-                                    <td colspan="7" style="text-align: center;background:#fff !important">Loading receipts...</td>
+                                    <td colspan="8" style="text-align: center;background:#fff !important">Loading receipts...</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -361,7 +360,7 @@
             <div class="card flex-fill" style="padding:15px">
                 <div class="card-header" style="padding:0px 10px;margin-bottom:5px;">
                     <div class="card-actions float-end">
-                        <a href="<?php echo URL;?>dashboard.php?action=reports/voucher" style="font-size: 10px;"><i class="align-middle" data-feather="external-link"></i></a>    
+                        <a href="<?php echo URL;?>dashboard.php?action=../common/vouchers/voucher" style="font-size: 10px;"><i class="align-middle" data-feather="external-link"></i></a>    
                     </div>
                     <h5 class="card-title mb-0">Recent vouchers</h5>
                 </div>
@@ -475,11 +474,11 @@
                                             + '<img src="'+URL+'assets/icons/more.png">'
                                         + '</a>'
                                         + '<div class="dropdown-menu dropdown-menu-end">'
-                                                + '<a class="dropdown-item" href="'+URL+'dashboard.php?action=contracts/view&view='+data.ContractCode+'">View</a>'
+                                                + '<a class="dropdown-item" href="'+URL+'dashboard.php?action==../common/contracts/view&view='+data.ContractCode+'">View</a>'
                                                 /*+ '<a class="dropdown-item" href="javascript:void(0)" onclick="confirmationtoDelete(\''+data.ContractID+'\')">Delete</a>'*/
-                                                + '<a class="dropdown-item" href="'+URL+'dashboard.php?action=masters/customers/view&customer='+data.CustomerID+'">View Customer</a>'
+                                                + '<a class="dropdown-item" href="'+URL+'dashboard.php?action=../common/customers/view&customer='+data.CustomerID+'">View Customer</a>'
                                                 + '<a class="dropdown-item" href="'+URL+'dashboard.php?action=masters/schemes/view&edit='+data.SchemeID+'">View Scheme</a>'
-                                        html += '</div>'
+                                       + '</div>'
                                 + '</div>'
                             + '</td>'
                       + '</tr>';
@@ -500,17 +499,21 @@ function listRecentCustomers(obj) {
                             + '<td>' + data.CustomerCode + '</td>'
                             + '<td>' + data.CustomerName + '</td>'
                             + '<td>' + data.MobileNumber + '</td>'
-                            + '<td>' + data.CustomerTypeName + '</td>'
-                            + '<td>' + data.CreatedOn + '</td>'
-                            + '<td>' + data.ReferredByName + ' ('+ data.ReferByText +')</td>'
-                            + '<td style="text-align:right">' 
+                            + '<td>' + data.BranchName + '</td>'
+                            + '<td>' + data.EntryDate + '</td>';
+                            if (data.ReferByText.length>4) {
+                            html += '<td>' + data.ReferredByName + ' ('+ data.ReferByText +')</td>';    
+                            } else {
+                            html += '<td></td>';                                
+                            }
+                            html += '<td style="text-align:right">' 
                                 + '<div class="dropdown position-relative">'
                                         + '<a href="javascript:void(0)" data-bs-toggle="dropdown" data-bs-display="static">'
                                             + '<img src="'+URL+'assets/icons/more.png">'
                                         + '</a>'
                                         + '<div class="dropdown-menu dropdown-menu-end">'
-                                                + '<a class="dropdown-item" href="'+URL+'dashboard.php?action=masters/customers/view&customer='+data.CustomerID+'">View</a>'
-                                                + '<a class="dropdown-item" href="'+URL+'dashboard.php?action=masters/customers/edit&customer='+data.CustomerID+'">Edit</a>'
+                                                + '<a class="dropdown-item" href="'+URL+'dashboard.php?action=../common/customers/view&customer='+data.CustomerID+'">View</a>'
+                                                + '<a class="dropdown-item" href="'+URL+'dashboard.php?action=../common/customers/edit&customer='+data.CustomerID+'">Edit</a>'
                                                 + '<a class="dropdown-item" href="javascript:void(0)" onclick="confirmationtoDelete(\''+data.CustomerID+'\')">Delete</a>'
                                         + '</div>'
                                 + '</div>'
@@ -544,17 +547,21 @@ function Remove() {
                             + '<td>' + data.CustomerCode + '</td>'
                             + '<td>' + data.CustomerName + '</td>'
                             + '<td>' + data.MobileNumber + '</td>'
-                            + '<td>' + data.CustomerTypeName + '</td>'
-                            + '<td>' + data.CreatedOn + '</td>'
-                            + '<td>' + data.ReferredByName + ' ('+ data.ReferByText +')</td>'
-                            + '<td style="text-align:right">' 
+                            + '<td>' + data.BranchName + '</td>'
+                            + '<td>' + data.EntryDate + '</td>'
+                            if (data.ReferByText.length>4) {
+                            html += '<td>' + data.ReferredByName + ' ('+ data.ReferByText +')</td>';    
+                            } else {
+                            html += '<td></td>';                                
+                            }
+                            html += '<td style="text-align:right">' 
                                 + '<div class="dropdown position-relative">'
                                         + '<a href="javascript:void(0)" data-bs-toggle="dropdown" data-bs-display="static">'
                                             + '<img src="'+URL+'assets/icons/more.png">'
                                         + '</a>'
                                         + '<div class="dropdown-menu dropdown-menu-end">'
-                                                + '<a class="dropdown-item" href="'+URL+'dashboard.php?action=masters/customers/view&customer='+data.CustomerID+'">View</a>'
-                                                + '<a class="dropdown-item" href="'+URL+'dashboard.php?action=masters/customers/edit&customer='+data.CustomerID+'">Edit</a>'
+                                                + '<a class="dropdown-item" href="'+URL+'dashboard.php?action=../common/customers/view&customer='+data.CustomerID+'">View</a>'
+                                                + '<a class="dropdown-item" href="'+URL+'dashboard.php?action=../common/customers/edit&customer='+data.CustomerID+'">Edit</a>'
                                                 + '<a class="dropdown-item" href="javascript:void(0)" onclick="confirmationtoDelete(\''+data.CustomerID+'\')">Delete</a>'
                                         + '</div>'
                                 + '</div>'
@@ -602,10 +609,10 @@ function listRecentClosedContracts(obj) {
                                             + '<img src="'+URL+'assets/icons/more.png">'
                                         + '</a>'
                                         + '<div class="dropdown-menu dropdown-menu-end">'
-                                                + '<a class="dropdown-item" href="'+URL+'dashboard.php?action=contracts/view&view='+data.ContractCode+'">View</a>'
+                                                + '<a class="dropdown-item" href="'+URL+'dashboard.php?action==../common/contracts/view&view='+data.ContractCode+'">View</a>'
                                                 /*+ '<a class="dropdown-item" href="javascript:void(0)" onclick="confirmationtoDelete(\''+data.ContractID+'\')">Delete</a>'*/
-                                                + '<a class="dropdown-item" href="'+URL+'dashboard.php?action=masters/customers/view&customer='+data.CustomerID+'">View Customer</a>'                                                       + '<a class="dropdown-item" href="'+URL+'dashboard.php?action=schemes/view&edit='+data.SchemeID+'">View Scheme</a>'
-                                        html += '</div>'
+                                                + '<a class="dropdown-item" href="'+URL+'dashboard.php?action=../common/customers/view&customer='+data.CustomerID+'">View Customer</a>'                                                       + '<a class="dropdown-item" href="'+URL+'dashboard.php?action=schemes/view&edit='+data.SchemeID+'">View Scheme</a>'
+                                        + '</div>'
                                 + '</div>'
                             + '</td>'
                       + '</tr>';
@@ -635,9 +642,10 @@ function listRecentReceipts(obj) {
                                             + '<img src="'+URL+'assets/icons/more.png">'
                                         + '</a>'
                                         + '<div class="dropdown-menu dropdown-menu-end">'
-                                                + '<a class="dropdown-item" href="'+URL+'dashboard.php?action=receipts/receipt&number='+data.ReceiptNumber+'">View Receipt</a>'
-                                                + '<a class="dropdown-item" href="'+URL+'dashboard.php?action=contracts/view&view='+data.ContractCode+'">View Contract</a>'
-                                                + '<a class="dropdown-item" href="'+URL+'dashboard.php?action=masters/customers/view&customer='+data.CustomerID+'">View Customer</a>'                                        + '</div>'
+                                                + '<a class="dropdown-item" href="'+URL+'dashboard.php?action=../common/receipts/viewreceipt&number='+data.ReceiptNumber+'">View Receipt</a>'
+                                                + '<a class="dropdown-item" href="'+URL+'dashboard.php?action=../common/contracts/view&view='+data.ContractCode+'">View Contract</a>'
+                                                + '<a class="dropdown-item" href="'+URL+'dashboard.php?action=../common/customers/view&customer='+data.CustomerID+'">View Customer</a>'                                        
+                                        + '</div>'
                                 + '</div>'
                             + '</td>'
                       + '</tr>';
@@ -668,9 +676,10 @@ function listRecentVouchers(obj) {
                                             + '<img src="'+URL+'assets/icons/more.png">'
                                         + '</a>'
                                         + '<div class="dropdown-menu dropdown-menu-end">'
-                                                + '<a class="dropdown-item" href="'+URL+'dashboard.php?action=contracts/voucher&number='+data.VoucherNumber+'">View Voucher</a>'
-                                                + '<a class="dropdown-item" href="'+URL+'dashboard.php?action=contracts/view&view='+data.ContractCode+'">View Contract</a>'
-                                                + '<a class="dropdown-item" href="'+URL+'dashboard.php?action=masters/customers/view&customer='+data.CustomerID+'">View Customer</a>'
+                                                + '<a class="dropdown-item" href="'+URL+'dashboard.php?action=../common/vouchers/viewvoucher&number='+data.VoucherNumber+'">View Voucher</a>'
+                                                + '<a class="dropdown-item" href="'+URL+'dashboard.php?action==../common/contracts/view&view='+data.ContractCode+'">View Contract</a>'
+                                                + '<a class="dropdown-item" href="'+URL+'dashboard.php?action=../common/customers/view&customer='+data.CustomerID+'">View Customer</a>'
+                                        + '</div>'
                                 + '</div>'
                             + '</td>'
                       + '</tr>';
@@ -701,8 +710,8 @@ function listPendingDues(obj) {
                                             + '<img src="'+URL+'assets/icons/more.png">'
                                         + '</a>'
                                         + '<div class="dropdown-menu dropdown-menu-end">'
-                                        + '<a class="dropdown-item" href="'+URL+'dashboard.php?action=masters/customers/view&customer='+data.CustomerID+'">View Customer</a>'
-                                                + '<a class="dropdown-item" href="'+URL+'dashboard.php?action=contracts/view&view='+data.ContractCode+'">View Contract</a>'
+                                        + '<a class="dropdown-item" href="'+URL+'dashboard.php?action=../common/customers/view&customer='+data.CustomerID+'">View Customer</a>'
+                                                + '<a class="dropdown-item" href="'+URL+'dashboard.php?action==../common/contracts/view&view='+data.ContractCode+'">View Contract</a>'
                                                 + '<a class="dropdown-item" href="'+URL+'dashboard.php?action=masters/schemes/view&edit='+data.SchemeID+'">View Scheme</a>'
                                         + '</div>'
                                 + '</div>'
@@ -742,7 +751,7 @@ function listPaymentrequest(obj) {
                                             + '<img src="'+URL+'assets/icons/more.png">'
                                         + '</a>'
                                         + '<div class="dropdown-menu dropdown-menu-end">'
-                                        + '<a class="dropdown-item" href="'+URL+'dashboard.php?action=contracts/viewrecentpayment&id='+data.PaymentRequestID+'">View</a>'
+                                        + '<a class="dropdown-item" href="'+URL+'dashboard.php?action=../common/contracts/viewrecentpayment&id='+data.PaymentRequestID+'">View</a>'
                                         + '</div>'
                                 + '</div>'
                             + '</td>'

@@ -292,9 +292,11 @@ function d() {
             }   
             $('#tbl_content').html(html);
         } else {
-            alert(obj.message);
+             $('#popupcontent').html( errorcontent(obj.message));
         }
-    });                                           
+    }).fail(function(){
+        networkunavailable(); 
+    });                                        
 }
 setTimeout("d()",2000);
 
@@ -307,30 +309,37 @@ function addForm(){
   clearDiv(['DistrictName','StateName','DistrictNameCode','Remarks','IsActive']);
 }  
 function addNew() {
+    openPopup();
     var param = $('#frm_create').serialize();
     clearDiv(['DistrictName','StateName','DistrictNameCode','Remarks','IsActive']);
-    $.post(URL+"webservice.php?action=addNew&method=DistrictNames",param,function(data){
-        var obj = JSON.parse(data); 
-        if (obj.status=="success") {
-            $('#addconfirmation').modal("hide");
-            openPopup();
-            $('#frm_create').trigger("reset");
-            if (obj.DistrictNameCode.length>3) {
+    jQuery.ajax({
+        type: 'POST',
+        url:URL+"webservice.php?action=addNew&method=DistrictNames",
+        data: new FormData($("#frm_create")[0]),
+        processData: false, 
+        contentType: false, 
+        success: function(data) {
+             var obj = JSON.parse(data); 
+             if (obj.status=="success") {
+                $('#frm_create').trigger("reset");
                 $('#DistrictNameCode').val(obj.DistrictNameCode);
-            }
-            $('#popupcontent').html(success_content(obj.message,'closePopup() ; d')); 
-        } else {
-            if (obj.div!="") {
-                $('#Err'+obj.div).html(obj.message)
-            } else {
-                $('#failure_div').html(obj.message);
-            }
-            $('#process_popup').modal('hide');
-        }
+                $('#popupcontent').html(success_content(obj.message,'closePopup'));
+             } else {
+                if (obj.div!="") {
+                    $('#Err'+obj.div).html(obj.message);
+                    $('#process_popup').modal('hide');
+                } else {
+                   $('#popupcontent').html( errorcontent(obj.message));
+                }
+              
+             }
+        },
+        error:networkunavailable 
     });
-} 
- 
+}
+
 function listStateNames() {
+    openPopup();
     $.post(URL+ "webservice.php?action=listAllActive&method=StateNames","",function(data){
         var obj = JSON.parse(data);
         if (obj.status=="success") {
@@ -346,15 +355,18 @@ function listStateNames() {
             $("#StateNameID").val("0");
             setTimeout(function(){
             },1500);
+            closePopup();
         } else {
-            alert(obj.message);
+            $('#popupcontent').html( errorcontent(obj.message));
         }
+    }).fail(function(){
+        networkunavailable(); 
     });
 }
 var _StateNameID = "<?php echo $data[0]['StateNameID'];?>";
 function edit(ID){
   $('#editForm').modal("show");
-     
+   openPopup();  
    listStateNames();
        clearDiv(['editDistrictName','editStateNameID','editDistrictNameCode','editRemarks','editIsActive']);
     $.post(URL+ "webservice.php?action=getData&method=DistrictNames&ID="+ID,"",function(data){
@@ -370,31 +382,44 @@ function edit(ID){
                 $('#editRemarks').val(data.Remarks);
                 $('#editDistrictNameID').val(data.DistrictNameID);
                 listeditStateNames(data.StateNameID);
-            });   
+            }); 
+            closePopup();  
 }  
-  });
+  }).fail(function(){
+        networkunavailable(); 
+    });
 } 
 function doUpdate() {
+    
     var param = $('#frm_edit').serialize();
+    openPopup();
     clearDiv(['editDistrictName','editStateName','editDistrictNameCode','editRemarks','editIsActive']);
-    $.post(URL+"webservice.php?action=doUpdate&method=DistrictNames",param,function(data){
-        var obj = JSON.parse(data); 
-        if (obj.status=="success") {
-            $('#editForm').modal("hide");
-            openPopup();
-            $('#popupcontent').html(success_content(obj.message,'closePopup=d()'));
-        } else {
-            if (obj.div!="") {
-                $('#Erredit'+obj.div).html(obj.message)
-            } else {
-                $('#failure_div').html(obj.message);
-            }
-            closePopup();
-        }
+    jQuery.ajax({
+        type: 'POST',
+        url:URL+"webservice.php?action=doUpdate&method=DistrictNames",
+        data: new FormData($("#frm_edit")[0]),
+        processData: false, 
+        contentType: false, 
+        success: function(data) {
+             var obj = JSON.parse(data); 
+             if (obj.status=="success") {
+                $('#popupcontent').html(success_content(obj.message,'closePopup'));
+             } else {
+                if (obj.div!="") {
+                    $('#Err'+obj.div).html(obj.message);
+                    $('#process_popup').modal('hide');
+                } else {
+                   $('#popupcontent').html( errorcontent(obj.message));
+                }
+              
+             }
+        },
+        error:networkunavailable 
     });
 }
-
+  
 function listeditStateNames(StateNameID) {
+    openPopup();
     $.post(URL+ "webservice.php?action=ListAll&method=StateNames","",function(data){
         var obj = JSON.parse(data);
         if (obj.status=="success") {
@@ -411,14 +436,16 @@ function listeditStateNames(StateNameID) {
             setTimeout(function d(){
             },1500);
         } else {
-            alert(obj.message);
+            $('#popupcontent').html(errorcontent(obj.message)); 
         }
+    }).fail(function(){
+        networkunavailable(); 
     });
 }
 
 function view(ID){
   $('#viewForm').modal("show");
-  
+  openPopup();
   $.post(URL+ "webservice.php?action=getData&method=DistrictNames&ID="+ID,"",function(data){
         closePopup();
         var obj = JSON.parse(data);
@@ -439,7 +466,9 @@ function view(ID){
                 $('#viewRemarks').val(data.Remarks);
             });   
 }  
-  });
+  }).fail(function(){
+        networkunavailable(); 
+    });
 }
 
 var RemoveID="";
@@ -482,6 +511,8 @@ function Remove() {
         } else {
             $('#popupcontent').html(errorcontent(obj.message));            
         }
+    }).fail(function(){
+        networkunavailable(); 
     });
       
 }

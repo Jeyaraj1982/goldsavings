@@ -345,45 +345,18 @@ function doUpdate() {
              } else {
                 if (obj.div!="") {
                     $('#Err'+obj.div).html(obj.message)
-                } else {
-                    $('#failure_div').html(obj.message);
+                 } else {
+                   $('#popupcontent').html( errorcontent(obj.message));
                 }
-                $('#process_popup').modal('hide');
+              
              }
-        }
-    });
-}
-
-function ListBranches() {
-    $.post(URL+ "webservice.php?action=listAllActive&method=Branch","",function(data){
-        var obj = JSON.parse(data);
-        if (obj.status=="success") {
-            var html = "<option value='0'>Select Branch</option>";
-            $.each(obj.data, function (index, data) {
-                html += '<option value="'+data.BranchID+'">'+data.BranchName+'</option>';
-            });   
-            $('#BranchID').html(html);
-            /*$("#StateNameID").append($("#StateNameID option").remove().sort(function(a, b) {
-                var at = $(a).text(), bt = $(b).text();
-                return (at > bt)?1:((at < bt)?-1:0);
-            }));*/
-            $('#BranchID option').each(function() {
-                if($(this).val() == BranchID) {
-                    $(this).prop("selected", true);
-                }
-            });
-            setTimeout(function(){
-                 $("#BranchID").select2({
-                  dropdownParent:$('#frm_edit')
-              }); 
-            },1500);
-        } else {
-            alert(obj.message);
-        }
+        },
+        error:networkunavailable 
     });
 }
 
 function listStateNames() {
+    openPopup();
     $.post(URL+ "webservice.php?action=listAllActive&method=StateNames","",function(data){
         var obj = JSON.parse(data);
         if (obj.status=="success") {
@@ -403,16 +376,21 @@ function listStateNames() {
             });
             setTimeout(function(){
                  $("#StateNameID").select2({
-                 
               }); 
-            },1500);
+               getDistrictNames(); 
+               $(".select2-container").each(function() {$(this).css({'z-index':'500'});}); 
+            },1000);
+            closePopup();
         } else {
-            alert(obj.message);
+            $('#popupcontent').html(errorcontent(obj.message)); 
         }
+    }).fail(function(){
+        networkunavailable(); 
     });
 }
 
 function getDistrictNames() {
+    openPopup();
     $.post(URL+ "webservice.php?action=listAllActive&method=DistrictNames&StateNameID="+$('#StateNameID').val(),"",function(data){
         var obj = JSON.parse(data);
         if (obj.status=="success") {
@@ -432,16 +410,21 @@ function getDistrictNames() {
             });
             setTimeout(function(){
                  $("#DistrictNameID").select2({
-                 
-              }); 
-            },1500);
+              });
+              getAreaNames();
+               $(".select2-container").each(function() {$(this).css({'z-index':'500'});});  
+            },1000);
+            closePopup();
         } else {
-            alert(obj.message);
+           $('#popupcontent').html(errorcontent(obj.message)); 
         }
+    }).fail(function(){
+        networkunavailable(); 
     });
 }
 
 function getAreaNames() {
+    openPopup();
     $.post(URL+ "webservice.php?action=listAllActive&method=AreaNames&DistrictNameID="+$('#DistrictNameID').val()+"&StateNameID="+$("#StateNameID").val(),"",function(data){
         var obj = JSON.parse(data);
         if (obj.status=="success") {
@@ -461,17 +444,19 @@ function getAreaNames() {
             });
              setTimeout(function(){
                  $("#AreaNameID").select2({
-                 
-              }); 
-            },1500);
+              });
+               $(".select2-container").each(function() {$(this).css({'z-index':'500'});}); 
+            },1000);   
+            closePopup();
         } else {
-            alert(obj.message);
+            $('#popupcontent').html(errorcontent(obj.message)); 
         }
+    }).fail(function(){
+        networkunavailable(); 
     });
 } 
 
 setTimeout(function(){
-    ListBranches();
     listStateNames();
 },2000);
 </script>

@@ -196,7 +196,7 @@
                                     </div>
                                 </div>
                                 </label>
-                                <input type="text" value="" name="Remarks" id="editRemarks" class="form-control" placeholder="Remarks" maxlength="250">
+                                <input type="text" value="<?php echo $data[0]['Remarks'];?>" name="Remarks" id="editRemarks" class="form-control" placeholder="Remarks" maxlength="250">
                                 <span id="ErreditRemarks" class="error_msg"></span>
                             </div>
                             <div class="col-sm-6 mb-3">
@@ -315,13 +315,14 @@ function d() {
                 });
             }
         } else {
-            alert(obj.message);
+             $('#popupcontent').html( errorcontent(obj.message));
         }
     });
 }
 setTimeout("d()",2000);
 
 function listStateNames() {
+    openPopup();
     $.post(URL+ "webservice.php?action=listAllActive&method=StateNames","",function(data){
         var obj = JSON.parse(data);
         if (obj.status=="success") {
@@ -340,13 +341,15 @@ function listStateNames() {
                   dropdownParent:$('#addconfirmation')
               });  
             },1000);
+            closePopup();
         } else {
-            alert(obj.message);
+            $('#popupcontent').html( errorcontent(obj.message));
         }
     });
 }
 
 function getDistrictNames() {
+    openPopup();
     $.post(URL+ "webservice.php?action=listDistrictNames&method=DistrictNames&StateNameID="+$('#StateNameID').val(),"",function(data){
         var obj = JSON.parse(data);
         if (obj.status=="success") {
@@ -365,8 +368,9 @@ function getDistrictNames() {
                   dropdownParent:$('#addconfirmation')
               });  
             },1000);
+            closePopup();
         } else {
-            alert(obj.message);
+            $('#popupcontent').html( errorcontent(obj.message));
         }
     });
 }
@@ -385,32 +389,38 @@ function addForm(){
 function addNew() {
     var param = $('#frm_create').serialize();
     clearDiv(['AreaNameCode','AreaName','StateNameID','DistrictNameID','Remarks','IsActive']);
-    $.post(URL+"webservice.php?action=addNew&method=AreaNames",param,function(data){
-        var obj = JSON.parse(data); 
-        if (obj.status=="success") {
-            $('#addconfirmation').modal("hide");
-             openPopup(); 
-            $('#frm_create').trigger("reset");
-            if (obj.AreaNameCode.length>3) {
+     jQuery.ajax({
+        type: 'POST',
+        url:URL+"webservice.php?action=addNew&method=AreaNames",
+        data: new FormData($("#frm_create")[0]),
+        processData: false, 
+        contentType: false, 
+        success: function(data) {
+             var obj = JSON.parse(data); 
+             if (obj.status=="success") {
+                 $('#addconfirmation').modal("hide");
+                 openPopup();
+                $('#frm_create').trigger("reset");
                 $('#AreaNameCode').val(obj.AreaNameCode);
-            }
-            $('#popupcontent').html(success_content(obj.message,'closePopup=d()'));
-        } else {
-            if (obj.div!="") {
-                $('#Err'+obj.div).html(obj.message)
-            } else {
-                $('#failure_div').html(obj.message);
-            }
-            $('#process_popup').modal('hide');
-        }
+                $('#popupcontent').html(success_content(obj.message,'closePopup=d()'));
+             } else {
+                if (obj.div!="") {
+                    $('#Err'+obj.div).html(obj.message)
+                } else {
+                   $('#popupcontent').html( errorcontent(obj.message));
+                }
+              
+             }
+        },
+        error:networkunavailable 
     });
 }
-
+   
 var _StateNameID = "<?php echo $data[0]['StateNameID'];?>";
 var _DistrictNameID = "<?php echo $data[0]['DistrictNameID'];?>";
 function edit(ID){
   $('#editForm').modal("show"); 
-      clearDiv(['editAreaNameCode','editAreaName','editStateNameID','editDistrictNameID','editRemarks','editIsActive']);
+      clearDiv(['editAreaNameCode','editAreaName','editStateNameID','editDistrictNameID','editRemarks','editIsActive']);       
     $.post(URL+ "webservice.php?action=getData&method=AreaNames&ID="+ID,"",function(data){
         closePopup();
         var obj = JSON.parse(data);
@@ -435,22 +445,34 @@ function edit(ID){
 function doUpdate() {
     var param = $('#frm_edit').serialize();
     clearDiv(['editAreaNameCode','editAreaName','editStateNameID','editDistrictNameID','editRemarks','editIsActive']);
-    $.post(URL+"webservice.php?action=doUpdate&method=AreaNames",param,function(data){
-        var obj = JSON.parse(data); 
+     jQuery.ajax({
+        type: 'POST',
+        url:URL+"webservice.php?action=doUpdate&method=AreaNames",
+        data: new FormData($("#frm_edit")[0]),
+        processData: false, 
+        contentType: false, 
+        success: function(data) {
+               var obj = JSON.parse(data); 
         if (obj.status=="success") {
             $('#editForm').modal("hide");
-             openPopup();
+            openPopup();
             $('#popupcontent').html(success_content(obj.message,'closePopup=d()'));
         } else {
             if (obj.div!="") {
-                $('#Erredit'+obj.div).html(obj.message)
+                $('#Erredit'+obj.div).html(obj.message);
+                 $('#process_popup').modal('hide');
             } else {
-                $('#failure_div').html(obj.message);
-            }
-        }
+                   $('#popupcontent').html( errorcontent(obj.message));
+                }
+              
+             }
+        },
+        error:networkunavailable
     });
+
 }
 function listeditStateNames(StateNameID,DistrictNameID) {
+     openPopup();
     $.post(URL+ "webservice.php?action=ListAll&method=StateNames","",function(data){
         var obj = JSON.parse(data);
         if (obj.status=="success") {
@@ -459,19 +481,35 @@ function listeditStateNames(StateNameID,DistrictNameID) {
                 html += '<option value="'+data.StateNameID+'">'+data.StateName+'</option>';
             });   
             $('#editStateNameID').html(html);
-            $("#editStateNameID").append($("#editStateNameID option").remove().sort(function(a, b) {
-                var at = $(a).text(), bt = $(b).text();
-                return (at > bt)?1:((at < bt)?-1:0);
-            }));
+           // $("#editStateNameID").append($("#editStateNameID option").remove().sort(function(a, b) {
+             //   var at = $(a).text(), bt = $(b).text();
+              //  return (at > bt)?1:((at < bt)?-1:0);
+           // }));
             $("#editStateNameID").val(StateNameID);
-            editDistrictNames(StateNameID,DistrictNameID); 
+             $('#editStateNameID option').each(function() {
+                if($(this).val() == _StateNameID) {
+                    $(this).prop("selected", true);
+                }
+            });
+             setTimeout(function(){
+                 $("#editStateNameID").select2({
+                  dropdownParent:$('#frm_edit')
+              }); 
+             
+            editDistrictNames(StateNameID,DistrictNameID);
+             $(".select2-container").each(function() {$(this).css({'z-index':'500'});}); 
+             },1500); 
+            closePopup();
         } else {
-            alert(obj.message);
+            $('#popupcontent').html( errorcontent(obj.message));
         }
+    }).fail(function(){
+        networkunavailable(); 
     });
 }
 
 function editDistrictNames(StateNameID,DistrictNameID) {
+     openPopup();
     $.post(URL+ "webservice.php?action=listDistrictNames&method=DistrictNames&StateNameID="+StateNameID,"",function(data){
         var obj = JSON.parse(data);
         if (obj.status=="success") {
@@ -480,14 +518,28 @@ function editDistrictNames(StateNameID,DistrictNameID) {
                 html += '<option value="'+data.DistrictNameID+'">'+data.DistrictName+'</option>';
             });   
             $('#editDistrictNameID').html(html);
-            $("#editDistrictNameID").append($("#editDistrictNameID option").remove().sort(function(a, b) {
-                var at = $(a).text(), bt = $(b).text();
-                return (at > bt)?1:((at < bt)?-1:0);
-            }));
-            $("#editDistrictNameID").val(DistrictNameID); 
+           // $("#editDistrictNameID").append($("#editDistrictNameID option").remove().sort(function(a, b) {
+               // var at = $(a).text(), bt = $(b).text();
+               // return (at > bt)?1:((at < bt)?-1:0);
+           // }));
+           $("#editDistrictNameID").val(DistrictNameID);
+            $('#editDistrictNameID option').each(function() {
+                if($(this).val() == _DistrictNameID) {
+                    $(this).prop("selected", true);
+                }
+            });
+             setTimeout(function(){
+                 $("#editDistrictNameID").select2({
+                  dropdownParent:$('#frm_edit')
+              }); 
+            $(".select2-container").each(function() {$(this).css({'z-index':'500'});}); 
+            },1500); 
+            closePopup(); 
         } else {
-            alert(obj.message);
+             $('#popupcontent').html( errorcontent(obj.message));
         }
+    }).fail(function(){
+        networkunavailable(); 
     });
 }
 
@@ -496,7 +548,7 @@ function editDistrictNames(StateNameID,DistrictNameID) {
 
 function view(ID){
   $('#viewForm').modal("show");
-  
+   openPopup();
   $.post(URL+ "webservice.php?action=getData&method=AreaNames&ID="+ID,"",function(data){
         closePopup();
         var obj = JSON.parse(data);
@@ -519,7 +571,9 @@ function view(ID){
                 $('#viewRemarks').val(data.Remarks);
             });   
 }  
-  });
+  }).fail(function(){
+        networkunavailable(); 
+    });
 }
 
 var RemoveID="";
@@ -534,7 +588,7 @@ function Remove() {
         var obj = JSON.parse(data);
         if (obj.status=="success") {
             html = "";
-            $('#popupcontent').html(success_content(obj.message));
+            $('#popupcontent').html(success_content(obj.message,'closePopup'));
             $.each(obj.data, function (index, data) {
                 html += '<tr>'
                             + '<td>' + data.AreaNameCode + '</td>'
@@ -566,6 +620,8 @@ function Remove() {
         } else {
             $('#popupcontent').html(errorcontent(obj.message));            
         }
+    }).fail(function(){
+        networkunavailable(); 
     });
 }
 </script>

@@ -146,14 +146,14 @@ function doUpdate() {
                 if (obj.div!="") {
                     $('#Err'+obj.div).html(obj.message)
                 } else {
-                    $('#failure_div').html(obj.message);
+                   $('#popupcontent').html( errorcontent(obj.message));
                 }
-                $('#process_popup').modal('hide');
+              
              }
-        }
+        },
+        error:networkunavailable 
     });
 }
-
 setTimeout(function d(){
 },2000);
 

@@ -17,7 +17,7 @@
                             </div>
                             <div class="col-sm-6 mb-3">
                                 <label class="form-label">Entry Date <span style='color:red'>*</span></label>
-                                <input type="date" value="<?php echo $data[0]['EntryDate'];?>" name="EntryDate" id="EntryDate" class="form-control" placeholder="Scheme Name">
+                                <input type="text" value="<?php echo date("d-m-Y",strtotime($data[0]['EntryDate']));?>" name="EntryDate" id="EntryDate" class="form-control" placeholder="Scheme Name" style="width: 120px !important">
                                 <span id="ErrEntryDate" class="error_msg"></span>
                             </div>
                             <div class="col-sm-12 mb-2">
@@ -124,7 +124,7 @@
                         <div class="col-sm-6 mb-3">
                             <div class="input-group">
                              <span class="input-group-text" id="basic-addon3" style="width:200px">Wastage Discount </span>
-                                <input type="text" style="text-align: right;" name="WastageDiscount" id="WastageDiscount" class="form-control" placeholder="0.00" maxlength="">
+                                <input type="text" style="text-align: right;" value="<?php echo $data[0]['WastageDiscount'];?>" name="WastageDiscount" id="WastageDiscount" class="form-control" placeholder="0.00" maxlength="">
                                 <span class="input-group-text" id="basic-addon3">%</span>
                              </div>
                                 <span id="ErrWastageDiscount" class="error_msg"></span>
@@ -132,7 +132,7 @@
                         <div class="col-sm-6 mb-3">
                             <div class="input-group">
                              <span class="input-group-text" id="basic-addon3" style="width:200px">Making Charge Discount </span>
-                                <input type="text" style="text-align: right;" name="MakingChargeDiscount" id="MakingChargeDiscount" class="form-control" placeholder="0.00" maxlength="">
+                                <input type="text" style="text-align: right;" value="<?php echo $data[0]['MakingChargeDiscount'];?>" name="MakingChargeDiscount" id="MakingChargeDiscount" class="form-control" placeholder="0.00" maxlength="">
                                 <span class="input-group-text" id="basic-addon3">%</span>
                                 </div>
                                 <span id="ErrMakingChargeDiscount" class="error_msg"></span>
@@ -272,33 +272,20 @@ function doUpdate() {
              var obj = JSON.parse(data); 
              if (obj.status=="success") {
                 $('#popupcontent').html(success_content(obj.message,'closePopup'));
-             } else {
-                if (obj.div!="") {
-                    $('#Err'+obj.div).html(obj.message)
-                } else {
-                    $('#popupcontent').html(errorcontent(obj.message));
-                }
-                $('#process_popup').modal('hide');
-             }
-        }
-    });
-    /*
-    $.post(URL+"webservice.php?action=doUpdate&method=Customers",param,function(data){
-        var obj = JSON.parse(data); 
-        if (obj.status=="success") {
-            //$('#frm_newservice').trigger("reset");
-            $('#popupcontent').html(successcontent(obj.message));
-        } else {
-            if (obj.div!="") {
-                $('#Err'+obj.div).html(obj.message)
             } else {
-                $('#failure_div').html(obj.message);
-            }
-            closePopup();
-        }
+                if (obj.div!="") {
+                    $('#Err'+obj.div).html(obj.message);
+                    $('#process_popup').modal('hide');
+                } else {
+                   $('#popupcontent').html( errorcontent(obj.message));
+                }
+              
+             }
+        },
+        error:networkunavailable 
     });
-    */
 }
+
 
 document.addEventListener('DOMContentLoaded', function () {
     const ele = document.getElementById('MaxDueAmount');
@@ -402,7 +389,9 @@ document.addEventListener('DOMContentLoaded', function () {
             target.setSelectionRange(state.selectionStart, state.selectionEnd);
         }
     });
-});
+}).fail(function(){
+        networkunavailable(); 
+    });
 setTimeout(function(){
 },2000);
 </script> 

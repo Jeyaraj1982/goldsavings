@@ -9,7 +9,14 @@
         <div class="col-6" style="text-align: right;">
             <a href="<?php echo URL;?>dashboard.php?action=reports/pendingdues">All</a>&nbsp;|&nbsp;       
             <a href="<?php echo URL;?>dashboard.php?action=reports/customerwise_pendingdues">Customer Wise</a>&nbsp;|&nbsp;        
-            <a href="<?php echo URL;?>dashboard.php?action=reports/salesmanwise_pendingdues">Salesman Wise</a>        
+            <a href="<?php echo URL;?>dashboard.php?action=reports/salesmanwise_pendingdues">Salesman Wise</a>&nbsp;|&nbsp;
+             <?php   
+                 $path=URL."dashboard.php";
+                if (isset($_GET['fpg'])) {
+                $path.="?action=".$_GET['fpg'];
+            }        
+            ?>
+            <a href="<?php echo $path;?>">Back</a>        
             </div>
         
      </div>
@@ -45,8 +52,8 @@
                     <table id="datatables-fixed-header" class="table table-striped" style="width:100%">
                          <thead>
                                 <tr>
-                                    <th>Contract<br>ID</th>
                                     <th>Customer<br>Name</th>
+                                    <th>Contract<br>ID</th>
                                     <th>Scheme</th>
                                     <th>Due<br>Date</th>
                                     <th style="text-align:right">Due<br>Number</th>
@@ -95,7 +102,7 @@ function getData() {
                                         + '</a>'
                                         + '<div class="dropdown-menu dropdown-menu-end">'
                                         + '<a class="dropdown-item" href="'+URL+'dashboard.php?action=masters/customers/view&customer='+data.CustomerID+'&fbg=reports/pendingdues">View Customer</a>'
-                                                + '<a class="dropdown-item" href="'+URL+'dashboard.php?action=contracts/view&view='+data.ContractCode+'&fbg=reports/pendingdues">View Contract</a>'
+                                                + '<a class="dropdown-item" href="'+URL+'dashboard.php?action=../common/contracts/view&view='+data.ContractCode+'&fbg=reports/pendingdues">View Contract</a>'
                                                 + '<a class="dropdown-item" href="'+URL+'dashboard.php?action=masters/schemes/view&edit='+data.SchemeID+'&fbg=reports/pendingdues">View Scheme</a>'
                                         + '</div>'
                                 + '</div>'

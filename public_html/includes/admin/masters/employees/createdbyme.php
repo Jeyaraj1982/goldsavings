@@ -1,11 +1,8 @@
 <div class="container-fluid p-0">
-    <div class="row">
+     <div class="row">
         <div class="col-6">
-            <h1 class="h3">Address Book</h1>
-            <h6 class="card-subtitle text-muted mb-3">List all Contacts</h6>
-        </div>
-        <div class="col-6" style="text-align:right;">
-            <a href="<?php echo URL;?>dashboard.php?action=addressbook/new" class="btn btn-primary btn-sm">New Contact</a>
+            <h1 class="h3">Employees created by me</h1>
+            <h6 class="card-subtitle text-muted mb-3">List of Employees</h6>
         </div>
      </div>
      <div class="row">
@@ -16,17 +13,16 @@
                         <thead>
                             <tr>
                                 <th style="width:100px">Code</th>
-                                <th>Person Name</th>
-                                <th style="width: 100px;">Business Name</th>
-                                <th style="width: 100px;">Mobile Number</th>
-                                <th style="width: 100px;">Email ID</th>
+                                <th>Employee Name</th>
+                                <th style="width: 100px;">Category</th>
+                                <th style="width: 100px;">Branch</th>
                                 <th style="width:70px">Status</th>
                                 <th style="width:50px"></th>
                             </tr>
                         </thead>
                         <tbody id="tbl_content">
                             <tr>
-                                <td colspan="7" style="text-align: center;background:#fff !important">loading contacts...</td>
+                                <td colspan="7" style="text-align: center;background:#fff !important">Loading employees ...</td>
                             </tr>
                         </tbody>
                     </table>
@@ -51,41 +47,40 @@
             </div>
         </div>
     </div>
-</div>    
-<script> 
+</div> 
+<script>
 
 function d() {
     openPopup();
-    $.post(URL+ "webservice.php?action=listAll&method=AddressBook","",function(data){
+    $.post(URL+ "webservice.php?action=listAll&method=Employees&filter=CreatedByMe","",function(data){
         closePopup();
         var obj = JSON.parse(data);
         if (obj.status=="success") {
             var html = "";
             $.each(obj.data, function (index, data) {
                 html += '<tr>'
-                            + '<td>' + data.ContactCode + '</td>'
-                            + '<td>' + data.ContactPersonName + '</td>'
-                            + '<td>' + data.BusinessName + '</td>'
-                            + '<td>' + data.MobileNumber + '</td>'
-                            + '<td>' + data.EmailID + '</td>'
+                            + '<td>' + data.EmployeeCode + '</td>'
+                            + '<td>' + data.EmployeeName + '</td>'
+                            + '<td>' + data.EmployeeCategoryTitle + '</td>'
+                            + '<td>' + data.BranchName + '</td>'
                             + '<td>' + ( (data.IsActive=="1") ? "<span class='badge bg-success'>Active</span>" : "<span class='badge bg-secondary'>Disabled</span>" ) + '</td>'
-                              + '<td style="text-align:right">' 
+                             + '<td style="text-align:right">' 
                                 + '<div class="dropdown position-relative">'
                                         + '<a href="javascript:void(0)" data-bs-toggle="dropdown" data-bs-display="static">'
                                             + '<img src="'+URL+'assets/icons/more.png">'
                                         + '</a>'
                                         + '<div class="dropdown-menu dropdown-menu-end">'
-                                                + '<a class="dropdown-item" href="'+URL+'dashboard.php?action=addressbook/view&edit='+data.ContactID+'">View</a>'
-                                                + '<a class="dropdown-item" href="'+URL+'dashboard.php?action=addressbook/edit&edit='+data.ContactID+'">Edit</a>'
-                                                + '<a class="dropdown-item" href="javascript:void(0)" onclick="confirmationtoDelete(\''+data.ContactID+'\')">Delete</a>'
+                                                + '<a class="dropdown-item" href="'+URL+'dashboard.php?action=masters/employees/view&employees='+data.EmployeeID+'&fpg=masters/employees/list">View</a>'
+                                                + '<a class="dropdown-item" href="'+URL+'dashboard.php?action=masters/employees/edit&employees='+data.EmployeeID+'&fpg=masters/employees/list">Edit</a>'
+                                                + '<a class="dropdown-item" href="javascript:void(0)" onclick="confirmationtoDelete(\''+data.EmployeeID+'\')">Delete</a>'
                                         + '</div>'
                                 + '</div>'
                             + '</td>'                                                                                                    
                       + '</tr>';
-             });
+            });
             if (obj.data.length==0) {
                  html += '<tr>'
-                            + '<td colspan="7" style="text-align: center;background:#fff !important">No Data Found</td>'
+                            + '<td colspan="6" style="text-align: center;background:#fff !important">No Data Found</td>'
                        + '</tr>';
             }   
             $('#tbl_content').html(html);
@@ -96,12 +91,12 @@ function d() {
                 });
             }
         } else {
-            $('#popupcontent').html(errorcontent(obj.message));
+           $('#popupcontent').html( errorcontent(obj.message));
         }
     }).fail(function(){
         networkunavailable(); 
     });
-}
+} 
 setTimeout("d()",2000);
 
 var RemoveID=0;
@@ -109,39 +104,38 @@ function confirmationtoDelete(ID){
     RemoveID=ID;
     $('#confirmation').modal("show"); 
 }
-function Remove() {
-    $('#confirmation').modal("hide"); 
+function Remove(ID) {
+    $('#confirmation').modal("hide");
   openPopup();
-    $.post(URL+ "webservice.php?action=remove&method=AddressBook&ID="+RemoveID,"",function(data){
+    $.post(URL+ "webservice.php?action=remove&method=Employees&ID="+RemoveID,"",function(data){
         var obj = JSON.parse(data);
         if (obj.status=="success") {
             html = "";
-            $('#popupcontent').html(success_content(obj.message,'closePopup'));
+            $('#popupcontent').html(success_content(obj.message,'closePopup=d()'));
             $.each(obj.data, function (index, data) {
                 html += '<tr>'
-                             + '<td>' + data.ContactCode + '</td>'
-                            + '<td>' + data.ContactPersonName + '</td>'
-                            + '<td>' + data.BusinessName + '</td>'
-                            + '<td>' + data.MobileNumber + '</td>'
-                            + '<td>' + data.EmailID + '</td>'
+                            + '<td>' + data.EmployeeCode + '</td>'
+                            + '<td>' + data.EmployeeName + '</td>'
+                            + '<td>' + data.EmployeeCategoryTitle + '</td>'
+                            + '<td>' + data.BranchName + '</td>'
                             + '<td>' + ( (data.IsActive=="1") ? "<span class='badge bg-success'>Active</span>" : "<span class='badge bg-secondary'>Disabled</span>" ) + '</td>'
-                          + '<td style="text-align:right">' 
+                            + '<td style="text-align:right">' 
                                 + '<div class="dropdown position-relative">'
                                         + '<a href="javascript:void(0)" data-bs-toggle="dropdown" data-bs-display="static">'
                                             + '<img src="'+URL+'assets/icons/more.png">'
                                         + '</a>'
                                         + '<div class="dropdown-menu dropdown-menu-end">'
-                                                + '<a class="dropdown-item" href="'+URL+'dashboard.php?action=addressbook/view&edit='+data.ContactID+'">View</a>'
-                                                + '<a class="dropdown-item" href="'+URL+'dashboard.php?action=addressbook/edit&edit='+data.ContactID+'">Edit</a>'
-                                                + '<a class="dropdown-item" href="javascript:void(0)" onclick="confirmationtoDelete(\''+data.ContactID+'\')">Delete</a>'
+                                                + '<a class="dropdown-item" href="'+URL+'dashboard.php?action=masters/employees/view&employees='+data.EmployeeID+'">View</a>'
+                                                + '<a class="dropdown-item" href="'+URL+'dashboard.php?action=masters/employees/edit&employees='+data.EmployeeID+'">Edit</a>'
+                                                + '<a class="dropdown-item" href="javascript:void(0)" onclick="confirmationtoDelete(\''+data.EmployeeID+'\')">Delete</a>'
                                         + '</div>'
                                 + '</div>'
                             + '</td>'                                                                                                    
                       + '</tr>';
-             });
+            });
             if (obj.data.length==0) {
                  html += '<tr>'
-                            + '<td colspan="7" style="text-align: center;background:#fff !important">No Data Found</td>'
+                            + '<td colspan="6" style="text-align: center;background:#fff !important">No Data Found</td>'
                        + '</tr>';
             }   
             $('#tbl_content').html(html);
@@ -152,10 +146,10 @@ function Remove() {
                 });
             }
         } else {
-            $('#popupcontent').html(errorcontent(obj.message));
+            $('#popupcontent').html( errorcontent(obj.message));
         }
     }).fail(function(){
         networkunavailable(); 
     });
-}
+} 
 </script>

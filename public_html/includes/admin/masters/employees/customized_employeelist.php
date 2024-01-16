@@ -1,3 +1,6 @@
+<script>
+    var today="<?php echo date("d-m-Y");?>"; 
+ </script>
 <div class="container-fluid p-0 mb-3">
     <form id="frm_customreport" name="frm_create" method="post" enctype="multipart/form-data">
         <div class="row">
@@ -46,10 +49,48 @@
                                         div.style.display = "block";
                                     } else {
                                         div.style.display = "none";
+                                        $('#FromDate').val(today);
+                                        $('#ToDate').val(today);
                                     }
                                 }                 
                             </script>
                             <div class="col-sm-6 mb-1">
+                            </div>
+                            <div class="col-sm-4 mb-1">
+                                <input class="form-check-input" type="checkbox" value="1" id="BranchName" name="BranchName" onclick="printBranchName()">&nbsp;
+                                Branch Name
+                                <div  style="display:none" id="selectBranchName">
+                                    <div class="input-group">
+                                      <select data-live-search="true" data-size="5" name="BranchID" id="BranchID" class="form-select mstateselect">
+                                        <option value="0">All Branch Names</option>
+                                    </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <script>
+                                function printBranchName() {
+                                    OrderByContent();
+                                    var checkBox = document.getElementById("BranchName");
+                                    var div = document.getElementById("selectBranchName");
+                                    if (checkBox.checked == true){
+                                        div.style.display = "block";
+                                    } else {
+                                        div.style.display = "none";
+                                         $('#BranchID').val("0");
+                                    }
+                                } 
+                            </script>
+                             <div class="col-sm-4 mb-1">
+                                <input class="form-check-input" type="checkbox" value="1" id="BranchCode" name="BranchCode" onclick="OrderByContent()">&nbsp;
+                                Branch ID
+                            </div>
+                              <div class="col-sm-4 mb-1">
+                                <input class="form-check-input" type="checkbox" value="1" id="CreatedBy" name="CreatedBy" onclick="OrderByContent()">&nbsp;
+                                Created By
+                            </div>
+                            <div class="col-sm-4 mb-1">
+                                <input class="form-check-input" type="checkbox" value="1" id="CreatedByName" name="CreatedByName" onclick="OrderByContent()">&nbsp;
+                                Created By Name
                             </div>
                             <div class="col-sm-4 mb-1">
                                 <input class="form-check-input" type="checkbox" value="1" id="EmployeeCode" name="EmployeeCode" onclick="OrderByContent()">&nbsp;
@@ -72,6 +113,7 @@
                                         div.style.display = "block";
                                     } else {
                                         div.style.display = "none";
+                                        $('#selectGenderFilter').val("0");
                                     }
                                 } 
                             </script>
@@ -98,6 +140,7 @@
                                         div.style.display = "block";
                                     } else {
                                         div.style.display = "none";
+                                         $('#EmployeeCategoryID').val("0");
                                     }
                                 } 
                             </script>                                                      
@@ -107,7 +150,7 @@
                                 <div style="display:none" id="selectEmployeeCategory">
                                     <div class="input-group">
                                         <select data-live-search="true" data-size="5" name="EmployeeCategoryID" id="EmployeeCategoryID" class="form-select mselect">
-                                            <option>loading...</option>
+                                            <option value="0">All</option>
                                         </select>
                                     </div>
                                 </div>
@@ -134,6 +177,7 @@
                                         div.style.display = "block";
                                     } else {
                                         div.style.display = "none";
+                                        $('#selectStatusFilter').val("0");
                                     }
                                 } 
                             </script>
@@ -177,7 +221,7 @@
                                 <input class="form-check-input" type="checkbox" value="1" id="Remarks" name="Remarks" onclick="OrderByContent()" >&nbsp;
                                 Remarks
                             </div>
-                            <div class="col-sm-8 mb-1"></div>
+                            <div class="col-sm-4 mb-1"></div>
                             <div class="col-sm-4 mb-1">
                                 <input class="form-check-input" type="checkbox" value="1" id="AddressLine1" name="AddressLine1" onclick="OrderByContent()">&nbsp;
                                 Address Line 1
@@ -210,6 +254,7 @@
                                         div.style.display = "block";
                                     } else {
                                         div.style.display = "none";
+                                        $('#StateNameID').val("0");
                                     }
                                 } 
                             </script>
@@ -233,6 +278,7 @@
                                         div.style.display = "block";
                                       } else {
                                         div.style.display = "none";
+                                        $('#DistrictNameID').val("0");
                                       }
                                     } 
                                 </script>
@@ -256,6 +302,7 @@
                                         div.style.display = "block";
                                       } else {
                                         div.style.display = "none";
+                                        $('#AreaNameID').val("0");
                                       }
                                     } 
                                 </script>
@@ -275,6 +322,8 @@
                                         div.style.display = "block";
                                       } else {
                                         div.style.display = "none";
+                                        $('#selectEmployeeFilter').val("0");
+                                        $('#SearchCustomerName').val("");
                                       }
                                     } 
                                 </script>
@@ -317,6 +366,8 @@
                                         div.style.display = "block";
                                       } else {
                                         div.style.display = "none";
+                                        $('#selectMobileNumberFilter').val("0");
+                                         $('#SearchMobileNumber').val("");
                                       }
                                     } 
                                 </script>
@@ -394,9 +445,30 @@
 </div>
 
  <script>
- 
+function ListBranches() {
+    openPopup();
+    $.post(URL+ "webservice.php?action=listAllActive&method=Branch","",function(data){
+        var obj = JSON.parse(data);
+        if (obj.status=="success") {
+            var html = "<option value='0'>All Branch Names</option>";
+            $.each(obj.data, function (index, data) {
+                html += '<option value="'+data.BranchID+'">'+data.BranchName+'</option>';
+            });   
+            $('#BranchID').html(html);
+                 $("#BranchID").val("0");
+                  setTimeout(function(){
+            },1500);
+            closePopup();
+        } else {
+             $('#popupcontent').html( errorcontent(obj.message));
+        }
+    }).fail(function(){
+        networkunavailable(); 
+    });
+} 
+
 function ListEmployeeCategory() {
-   
+    openPopup();
     $.post(URL+ "webservice.php?action=listAllActive&method=EmployeeCategories","",function(data){
         var obj = JSON.parse(data);
         if (obj.status=="success") {
@@ -412,14 +484,17 @@ function ListEmployeeCategory() {
                  $("#EmployeeCategoryID").val(0);
                   setTimeout(function(){
             },1500);
+            closePopup();
         } else {
-            alert(obj.message);
+            $('#popupcontent').html( errorcontent(obj.message));
         }
+    }).fail(function(){
+        networkunavailable(); 
     });
 }
 
 function listStateNames() {
-   
+    openPopup();
     $.post(URL+ "webservice.php?action=listAllActive&method=StateNames","",function(data){
         var obj = JSON.parse(data);
         if (obj.status=="success") {
@@ -436,13 +511,17 @@ function listStateNames() {
                  $("#StateNameID").val("0");
                   setTimeout(function(){
             },1500);
+            closePopup();
         } else {
-            alert(obj.message);
+             $('#popupcontent').html( errorcontent(obj.message));
         }
+    }).fail(function(){
+        networkunavailable(); 
     });
 }
 
 function getDistrictNames() {
+    openPopup();
     $.post(URL+ "webservice.php?action=listAllActive&method=DistrictNames&StateNameID="+$('#StateNameID').val(),"",function(data){
         var obj = JSON.parse(data);
         if (obj.status=="success") {
@@ -458,13 +537,17 @@ function getDistrictNames() {
             $("#DistrictNameID").val("0");
             setTimeout(function(){
             },1500);
+            closePopup();
         } else {
-            alert(obj.message);
+             $('#popupcontent').html( errorcontent(obj.message));
         }
+    }).fail(function(){
+        networkunavailable(); 
     });
 }
 
 function getAreaNames() {
+    openPopup();
     $.post(URL+ "webservice.php?action=listAllActive&method=AreaNames&DistrictNameID="+$('#DistrictNameID').val()+"&StateNameID="+$("#StateNameID").val(),"",function(data){
         var obj = JSON.parse(data);
         if (obj.status=="success") {
@@ -481,17 +564,31 @@ function getAreaNames() {
             setTimeout(function(){
                // $('.mareaselect').selectpicker();
             },1500);
+            closePopup();
         } else {
-            alert(obj.message);
+            $('#popupcontent').html( errorcontent(obj.message));
         }
+    }).fail(function(){
+        networkunavailable(); 
     });
 } 
 
 function OrderByContent() {
-    
      var html = "";
      if ($('#EntryDateC').prop("checked")) {
         html += "<option value='EntryDate'>Entry Date</option>";
+     }
+      if ($('#BranchName').prop("checked")) {
+        html += "<option value='BranchID'>Branch Name</option>";
+     }
+     if ($('#BranchID').prop("checked")) {
+        html += "<option value='BranchCode'>Branch ID</option>";
+     }
+      if ($('#CreatedBy').prop("checked")) {
+        html += "<option value='CreatedBy'>Created By</option>";
+     }
+     if ($('#CreatedByName').prop("checked")) {
+        html += "<option value='CreatedBy'>Created By Name</option>";
      }
      if ($('#EmployeeName').prop("checked")|| $('#EmployeeNameS').prop("checked")) {
         html += "<option value='EmployeeName'>Employee Name</option>";
@@ -583,6 +680,22 @@ function getData() {
             header ="<tr>";
             if ($('#EntryDateC').prop("checked")) {
                 header += "<th>Entry Date</th>";
+                column_count++;
+            }
+             if ($('#BranchName').prop("checked")) {
+                header += "<th>Branch Name</th>";
+                column_count++;
+            }
+            if ($('#BranchCode').prop("checked")) {
+                header += "<th>Branch ID</th>";
+                column_count++;
+            }
+            if ($('#CreatedBy').prop("checked")) {
+                header += "<th>Created By</th>";
+                column_count++;
+            }
+            if ($('#CreatedByName').prop("checked")) {
+                header += "<th>Created By Name</th>";
                 column_count++;
             }
             if ($('#EmployeeCode').prop("checked")) {
@@ -682,6 +795,18 @@ function getData() {
               if ($('#EntryDateC').prop("checked")) {
                html += '<td>' + data.EntryDate + '</td>';
               }
+               if ($('#BranchName').prop("checked")) {
+               html += '<td>' + data.BranchName + '</td>';
+              }
+              if ($('#BranchCode').prop("checked")) {
+               html += '<td>' + data.BranchCode + '</td>';
+              }
+              if ($('#CreatedBy').prop("checked")) {
+               html += '<td>' + data.CreatedBy + '</td>';
+              }
+              if ($('#CreatedByName').prop("checked")) {
+               html += '<td>' + data.CreatedByName + '</td>';
+              }
               if ($('#EmployeeCode').prop("checked")) {
                html += '<td>' + data.EmployeeCode + '</td>';
               }
@@ -767,14 +892,17 @@ function getData() {
             
         } else {
             if (obj.div!="") {
-                $('#Err'+obj.div).html(obj.message)
+                $('#Err'+obj.div).html(obj.message);
+                $('#process_popup').modal('hide');
             } else {
-                $('#failure_div').html(obj.message);
+                 $('#popupcontent').html( errorcontent(obj.message));
             }
              $('#tbl_content').html("");
             $('#listData').hide();
-            $('#process_popup').modal('hide');
+            
         }
+    }).fail(function(){
+        networkunavailable(); 
     });
 }
 function selectAll() {
@@ -798,6 +926,7 @@ function selectAll() {
     OrderByContent();
  }
  function deselectAll() {
+    $('#listData').hide();
      OrderByContent();
      var checkboxes = document.getElementsByTagName('input');    
      for (var i = 0; i < checkboxes.length; i++) {
@@ -816,9 +945,23 @@ function selectAll() {
      printEmployeename();
      printMobilenumber();
     OrderByContent();
+    $('#CustomerTypeNameID').val("0");
+     $('#BranchID').val("0");
+     $('#selectGenderFilter').val("0");
+     $('#selectStatusFilter').val("All");
+     $('#StateNameID').val("0");
+     $('#DistrictNameID').val("0");
+     $('#AreaNameID').val("0");
+     $('#selectCustomerFilter').val("0");
+     $('#selectMobileNumberFilter').val("0");
+     $('#SearchCustomerName').val("");
+     $('#SearchMobileNumber').val("");
+     $('#FromDate').val(today);
+     $('#ToDate').val(today);
  }
 
 setTimeout(function(){
+    ListBranches();
     ListEmployeeCategory();
     listStateNames();               
 },2000);

@@ -270,8 +270,10 @@ function listAll() {
                 });
             }                                       
         } else {
-            alert(obj.message);
+             $('#popupcontent').html(errorcontent(obj.message));
         }
+    }).fail(function(){
+        networkunavailable(); 
     });
 }
 setTimeout("listAll()",2000);
@@ -283,32 +285,40 @@ function addForm(){
       $('#Remarks').val("");
 }  
 function addNew() {
+    openPopup();
     var param = $('#frm_create').serialize();
     clearDiv(['ExtensionCode','FileExtension','Remarks']);
-    $.post(URL+"webservice.php?action=addNew&method=FileExtensions",param,function(data){
-        var obj = JSON.parse(data); 
-        if (obj.status=="success") {
-            $('#addconfirmation').modal("hide");
-            openPopup(); 
-            $('#frm_create').trigger("reset");
-            if (obj.ExtensionCode.length>3) {
+     jQuery.ajax({
+        type: 'POST',
+        url:URL+"webservice.php?action=addNew&method=FileExtensions",
+        data: new FormData($("#frm_create")[0]),
+        processData: false, 
+        contentType: false, 
+        success: function(data) {
+             var obj = JSON.parse(data); 
+             if (obj.status=="success") {
+                $('#frm_create').trigger("reset");
                 $('#ExtensionCode').val(obj.ExtensionCode);
-            }
-            $('#popupcontent').html(success_content(obj.message,'listAll' ));
-        } else {
-            if (obj.div!="") {
-                $('#Err'+obj.div).html(obj.message)
-            } else {
-                $('#failure_div').html(obj.message);
-            }
-            $('#process_popup').modal('hide');
-        }
+                $('#popupcontent').html(success_content(obj.message,'closePopup'));
+             } else {
+                if (obj.div!="") {
+                    $('#Err'+obj.div).html(obj.message);
+                    $('#process_popup').modal('hide');
+                } else {
+                   $('#popupcontent').html( errorcontent(obj.message));
+                }
+              
+             }
+        },
+        error:networkunavailable 
     });
 }
+    
+  
 
 function edit(ID){
   $('#editForm').modal("show");
-      
+      openPopup();
       clearDiv(['editFileExtension','editRemarks']);
   $.post(URL+ "webservice.php?action=getData&method=FileExtensions&ID="+ID,"",function(data){
         closePopup();
@@ -323,32 +333,44 @@ function edit(ID){
                 $('#editFileExtensionID').val(data.FileExtensionID);
             });   
 }  
-  });
+  }).fail(function(){
+        networkunavailable(); 
+    });
 }   
 
 function doUpdate() {
     var param = $('#frm_edit').serialize();
     clearDiv(['editFileExtension','editRemarks']);
-    $.post(URL+"webservice.php?action=doUpdate&method=FileExtensions",param,function(data){
-        var obj = JSON.parse(data); 
+     jQuery.ajax({
+        type: 'POST',
+        url:URL+"webservice.php?action=doUpdate&method=FileExtensions",
+        data: new FormData($("#frm_edit")[0]),
+        processData: false, 
+        contentType: false, 
+        success: function(data) {
+               var obj = JSON.parse(data); 
         if (obj.status=="success") {
             $('#editForm').modal("hide");
             openPopup();
             $('#popupcontent').html(success_content(obj.message,'closePopup=listAll()'));
         } else {
             if (obj.div!="") {
-                $('#Erredit'+obj.div).html(obj.message)
+                $('#Erredit'+obj.div).html(obj.message);
+                $('#process_popup').modal('hide');
             } else {
-                $('#failure_div').html(obj.message);
-            }
-            closePopup();
-        }
+                   $('#popupcontent').html( errorcontent(obj.message));
+                }
+              
+             }
+        },
+        error:networkunavailable
     });
+
 }
 
 function view(ID){
   $('#viewForm').modal("show");
-  
+  openPopup();
   $.post(URL+ "webservice.php?action=getData&method=FileExtensions&ID="+ID,"",function(data){
         closePopup();
         var obj = JSON.parse(data);
@@ -368,7 +390,9 @@ function view(ID){
                 $('#viewRemarks').val(data.Remarks);
             });   
 }  
-  });
+  }).fail(function(){
+        networkunavailable(); 
+    });
 }
 
 var RemoveID="";
@@ -408,6 +432,8 @@ function Remove() {
         } else {
             $('#popupcontent').html(errorcontent(obj.message));            
         }
+    }).fail(function(){
+        networkunavailable(); 
     });
       
 }

@@ -186,7 +186,7 @@ function autocomplete(inp, arr) {
                                     + '</div>'
                                     + '<div class="col-sm-12" style="text-align:right;">'
                                         + '<!--<a href="'+URL +'dashboard.php?action=Users/view&edit='+item.value+'" class="btn btn-outline-primary btn-sm" target="_blank">View Details</a>-->'
-                                        + '<a href="'+URL+'dashboard.php?action=masters/users/view&user='+item.UserID+'" class="btn btn-outline-primary btn-sm">View Details</a>'
+                                        + '<a href="'+URL+'dashboard.php?action=masters/users/view&user='+item.UserID+'" target="_blank" class="btn btn-outline-primary btn-sm">View Details</a>'
                                     + '</div>';
              $('#UserResult').html(txtHtml) ;
              $('#Usersince').html(daysdifference(0,item.CreatedOn));

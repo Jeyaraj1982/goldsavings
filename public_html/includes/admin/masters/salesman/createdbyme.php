@@ -1,12 +1,8 @@
 <div class="container-fluid p-0">
      <div class="row">
         <div class="col-6">
-            <h1 class="h3">Administrators</h1>
-            <h6 class="card-subtitle text-muted mb-3">List of Administrators</h6>
-        </div>
-        <div class="col-6" style="text-align:right;">
-            <a href="<?php echo URL;?>dashboard.php?action=masters/administrators/new" class="btn btn-primary btn-sm">New Administrator</a>
-            <!--<a href="<?php echo URL;?>dashboard.php?action=masters/administrators/customized_employeelist" class="btn btn-warning btn-sm">Customize Columns</a>-->
+            <h1 class="h3">Salesmans created by me</h1>
+            <h6 class="card-subtitle text-muted mb-3">List all Salesman</h6>
         </div>
      </div>
      <div class="row">
@@ -17,14 +13,16 @@
                         <thead>
                             <tr>
                                 <th style="width:100px">Code</th>
-                                <th>Administrators Name</th>
+                                <th>Salesman Name</th>
+                                <th style="width:100px">Mobile Number</th>
+                                <th style="width:70px">Branch</th>
                                 <th style="width:70px">Status</th>
                                 <th style="width:50px"></th>
                             </tr>
                         </thead>
                         <tbody id="tbl_content">
                             <tr>
-                                <td colspan="6" style="text-align: center;background:#fff !important">Loading administrators ...</td>
+                                <td colspan="6" style="text-align: center;background:#fff !important">loading salesman...</td>
                             </tr>
                         </tbody>
                     </table>
@@ -54,33 +52,35 @@
 
 function d() {
     openPopup();
-    $.post(URL+ "webservice.php?action=listAll&method=Administrators","",function(data){
+    $.post(URL+ "webservice.php?action=listAll&method=Salesman&filter=CreatedByMe","",function(data){
         closePopup();
         var obj = JSON.parse(data);
         if (obj.status=="success") {
             var html = "";
             $.each(obj.data, function (index, data) {
                 html += '<tr>'
-                            + '<td>' + data.AdministratorCode + '</td>'
-                            + '<td>' + data.AdministratorName + '</td>'
+                            + '<td>' + data.SalesmanCode + '</td>'
+                            + '<td>' + data.SalesmanName + '</td>'
+                            + '<td>' + data.MobileNumber + '</td>'
+                            + '<td>' + data.BranchName + '</td>'
                             + '<td>' + ( (data.IsActive=="1") ? "<span class='badge bg-success'>Active</span>" : "<span class='badge bg-secondary'>Disabled</span>" ) + '</td>'
-                             + '<td style="text-align:right">' 
+                            + '<td style="text-align:right">' 
                                 + '<div class="dropdown position-relative">'
                                         + '<a href="javascript:void(0)" data-bs-toggle="dropdown" data-bs-display="static">'
                                             + '<img src="'+URL+'assets/icons/more.png">'
                                         + '</a>'
                                         + '<div class="dropdown-menu dropdown-menu-end">'
-                                                + '<a class="dropdown-item" href="'+URL+'dashboard.php?action=masters/administrators/view&administrator='+data.AdministratorID+'&fpg=masters/administrators/list">View</a>'
-                                                + '<a class="dropdown-item" href="'+URL+'dashboard.php?action=masters/administrators/edit&administrator='+data.AdministratorID+'&fpg=masters/administrators/list">Edit</a>'
-                                                + '<a class="dropdown-item" href="javascript:void(0)" onclick="confirmationtoDelete(\''+data.AdministratorID+'\')">Delete</a>'
+                                                + '<a class="dropdown-item" href="'+URL+'dashboard.php?action=masters/salesman/view&salesman='+data.SalesmanID+'&fpg=masters/salesman/list">View</a>'
+                                                + '<a class="dropdown-item" href="'+URL+'dashboard.php?action=masters/salesman/edit&salesman='+data.SalesmanID+'&fpg=masters/salesman/list">Edit</a>'
+                                                + '<a class="dropdown-item" href="javascript:void(0)" onclick="confirmationtoDelete(\''+data.SalesmanID+'\')">Delete</a>'
                                         + '</div>'
                                 + '</div>'
                             + '</td>'                                                                                                    
                       + '</tr>';
-            });
+             });
             if (obj.data.length==0) {
                  html += '<tr>'
-                            + '<td colspan="6" style="text-align: center;background:#fff !important">No Data Found</td>'
+                            + '<td colspan="5" style="text-align: center;background:#fff !important">No Data Found</td>'
                        + '</tr>';
             }   
             $('#tbl_content').html(html);
@@ -91,8 +91,10 @@ function d() {
                 });
             }
         } else {
-            alert(obj.message);
+            $('#popupcontent').html(errorcontent(obj.message)); 
         }
+    }).fail(function(){
+        networkunavailable(); 
     });
 } 
 setTimeout("d()",2000);
@@ -105,25 +107,28 @@ function confirmationtoDelete(ID){
 function Remove(ID) {
     $('#confirmation').modal("hide");
   openPopup();
-    $.post(URL+ "webservice.php?action=remove&method=Administrators&ID="+RemoveID,"",function(data){
+    $.post(URL+ "webservice.php?action=remove&method=Salesman&ID="+RemoveID,"",function(data){
         var obj = JSON.parse(data);
         if (obj.status=="success") {
             html = "";
             $('#popupcontent').html(success_content(obj.message,'closePopup=d()'));
             $.each(obj.data, function (index, data) {
-                 html += '<tr>'
-                            + '<td>' + data.AdministratorCode + '</td>'
-                            + '<td>' + data.AdministratorName + '</td>'
+                html += '<tr>'
+                             + '<td>' + data.SalesmanCode + '</td>'
+                            + '<td>' + data.SalesmanName + '</td>'
+                            + '<td>' + data.MobileNumber + '</td>'
+                            + '<td>' + data.BranchName + '</td>'
+                            + '<td>' + data.Remarks + '</td>'
                             + '<td>' + ( (data.IsActive=="1") ? "<span class='badge bg-success'>Active</span>" : "<span class='badge bg-secondary'>Disabled</span>" ) + '</td>'
-                             + '<td style="text-align:right">' 
+                          + '<td style="text-align:right">' 
                                 + '<div class="dropdown position-relative">'
                                         + '<a href="javascript:void(0)" data-bs-toggle="dropdown" data-bs-display="static">'
                                             + '<img src="'+URL+'assets/icons/more.png">'
                                         + '</a>'
                                         + '<div class="dropdown-menu dropdown-menu-end">'
-                                                + '<a class="dropdown-item" href="'+URL+'dashboard.php?action=masters/administrators/view&employees='+data.AdministratorsID+'&fpg=masters/administrators/list">View</a>'
-                                                + '<a class="dropdown-item" href="'+URL+'dashboard.php?action=masters/administrators/edit&employees='+data.AdministratorsID+'&fpg=masters/administrators/list">Edit</a>'
-                                                + '<a class="dropdown-item" href="javascript:void(0)" onclick="confirmationtoDelete(\''+data.AdministratorsID+'\')">Delete</a>'
+                                                + '<a class="dropdown-item" href="'+URL+'dashboard.php?action=masters/salesman/view&salesman='+data.SalesmanID+'&fpg=masters/salesman/list">View</a>'
+                                                + '<a class="dropdown-item" href="'+URL+'dashboard.php?action==masters/salesman/edit&salesman='+data.SalesmanID+'">Edit</a>'
+                                                + '<a class="dropdown-item" href="javascript:void(0)" onclick="confirmationtoDelete(\''+data.SalesmanID+'\')">Delete</a>'
                                         + '</div>'
                                 + '</div>'
                             + '</td>'                                                                                                    
@@ -131,7 +136,7 @@ function Remove(ID) {
             });
             if (obj.data.length==0) {
                  html += '<tr>'
-                            + '<td colspan="6" style="text-align: center;background:#fff !important">No Data Found</td>'
+                            + '<td colspan="5" style="text-align: center;background:#fff !important">No Data Found</td>'
                        + '</tr>';
             }   
             $('#tbl_content').html(html);
@@ -142,8 +147,10 @@ function Remove(ID) {
                 });
             }
         } else {
-            alert(obj.message);
+           $('#popupcontent').html(errorcontent(obj.message)); 
         }
+    }).fail(function(){
+        networkunavailable(); 
     });
 } 
 </script>

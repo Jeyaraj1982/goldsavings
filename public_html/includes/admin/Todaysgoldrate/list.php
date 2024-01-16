@@ -16,11 +16,11 @@
                     <div class="col-sm-9 mb-3">
                                 <label class="form-label">Date Range <span style='color:red'>*</span></label>
                                 <div class="input-group">
-                                    <input type="date" name="FromDate" value="<?php echo date("Y-m-d");?>" id="FromDate" class="form-control" placeholder="From Date">
+                                    <input type="text" name="FromDate" value="<?php echo date("Y-m-d");?>" id="FromDate" class="form-control" placeholder="From Date">
                                     <div class="input-group-prepend">
                                         <span class="input-group-text" id="basic-addon1">To</span>
                                 </div>
-                                <input type="date" value="<?php echo date("Y-m-d");?>" name="ToDate" id="ToDate" class="form-control" placeholder="To Date">
+                                <input type="text" value="<?php echo date("Y-m-d");?>" name="ToDate" id="ToDate" class="form-control" placeholder="To Date">
                                 <button type="button" onclick="getData()" class="btn btn-primary">Get Data</button>
                             </div> 
                            <span id="Errmessage" class="error_msg"></span>

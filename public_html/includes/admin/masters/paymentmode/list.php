@@ -304,8 +304,10 @@ function listPaymentmodes() {
                 });
             }
         } else {
-            alert(obj.message);
+           $('#popupcontent').html(errorcontent(obj.message));
         }
+    }).fail(function(){
+        networkunavailable(); 
     });
 } 
 setTimeout("listPaymentmodes()",2000);
@@ -319,31 +321,36 @@ function addForm(){
 }  
 function addNew() {
     var param = $('#frm_create').serialize();
+    openPopup();
       clearDiv(['PaymentMode','PaymentModeCode','LinkedBank','Remarks','IsActive']);
-    $.post(URL+"webservice.php?action=addNew&method=PaymentModes",param,function(data){
-        var obj = JSON.parse(data); 
-        if (obj.status=="success") {
-            $('#addconfirmation').modal("hide");
-             openPopup();
-            $('#frm_create').trigger("reset");
-            if (obj.PaymentModeCode.length>3) {
+   jQuery.ajax({
+        type: 'POST',
+        url:URL+"webservice.php?action=addNew&method=PaymentModes",
+        data: new FormData($("#frm_create")[0]),
+        processData: false, 
+        contentType: false, 
+        success: function(data) {
+             var obj = JSON.parse(data); 
+             if (obj.status=="success") {
+                $('#frm_create').trigger("reset");
                 $('#PaymentModeCode').val(obj.PaymentModeCode);
-            }
-            $('#popupcontent').html(success_content(obj.message,'closePopup() ; listPaymentmodes')); 
-        } else {
-            if (obj.div!="") {
-                $('#Err'+obj.div).html(obj.message)
-            } else {
-                $('#failure_div').html(obj.message);
-            }
-            $('#process_popup').modal('hide');
-        }
+                $('#popupcontent').html(success_content(obj.message,'closePopup'));
+             } else {
+                if (obj.div!="") {
+                    $('#Err'+obj.div).html(obj.message);
+                    $('#process_popup').modal('hide');
+                } else {
+                   $('#popupcontent').html( errorcontent(obj.message));
+                }
+              
+             }
+        },
+        error:networkunavailable 
     });
 }
-
 function edit(ID){
   $('#editForm').modal("show");
-     
+    openPopup(); 
       clearDiv(['editPaymentMode','editPaymentModeCode','editLinkedBank','editRemarks','editIsActive']);
     $.post(URL+ "webservice.php?action=getData&method=PaymentModes&ID="+ID,"",function(data){
         closePopup();
@@ -359,29 +366,40 @@ function edit(ID){
                 $('#editPaymentModeID').val(data.PaymentModeID);
             });   
 }  
-  });
+  }).fail(function(){
+        networkunavailable(); 
+    });
 } 
 function doUpdate() {
     var param = $('#frm_edit').serialize();
       clearDiv(['editPaymentMode','editPaymentModeCode','editLinkedBank','editRemarks','editIsActive']);
-    $.post(URL+"webservice.php?action=doUpdate&method=PaymentModes",param,function(data){
-        var obj = JSON.parse(data); 
-        if (obj.status=="success") {
+    jQuery.ajax({
+        type: 'POST',
+        url:URL+"webservice.php?action=doUpdate&method=PaymentModes",
+        data: new FormData($("#frm_edit")[0]),
+        processData: false, 
+        contentType: false, 
+        success: function(data) {
+             var obj = JSON.parse(data); 
+             if (obj.status=="success") {
             $('#editForm').modal("hide"); 
             openPopup();
             //$('#frm_newservice').trigger("reset");
-            $('#popupcontent').html(success_content(obj.message,'closePopup() ; listPaymentmodes'));
+            $('#popupcontent').html(success_content(obj.message,'listPaymentmodes'));
         } else {
             if (obj.div!="") {
-                $('#Erredit'+obj.div).html(obj.message)
+                $('#Erredit'+obj.div).html(obj.message);
+                $('#process_popup').modal('hide');
             } else {
-                $('#failure_div').html(obj.message);
+               $('#popupcontent').html(errorcontent(obj.message));
             }
             closePopup();
         }
+        },
+        error:networkunavailable 
     });
 }
-
+   
 function view(ID){
   $('#viewForm').modal("show");
   
@@ -405,7 +423,9 @@ function view(ID){
                 $('#viewRemarks').val(data.Remarks);
             });   
 }  
-  });
+  }).fail(function(){
+        networkunavailable(); 
+    });
 }
 
 var RemoveID="";
@@ -454,8 +474,10 @@ function Remove(ID) {
                 });
             }
         } else {
-            alert(obj.message);
+           $('#popupcontent').html(errorcontent(obj.message));
         }
+    }).fail(function(){
+        networkunavailable(); 
     });
 } 
 </script>

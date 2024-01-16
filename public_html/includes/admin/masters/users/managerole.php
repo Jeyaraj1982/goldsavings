@@ -115,6 +115,7 @@
     
 <script>
 function listAssignedUserRoles() {
+    openPopup();
      $.post(URL+ "webservice.php?action=listAssignedUserRoles&method=Users&UserID=<?php echo $data[0]['UserID'];?>","",function(data){
         closePopup();
         var obj = JSON.parse(data);
@@ -142,8 +143,10 @@ function listAssignedUserRoles() {
                 });
             }
         } else {
-            alert(obj.message);
+            $('#popupcontent').html( errorcontent(obj.message));
         }
+    }).fail(function(){
+        networkunavailable(); 
     });
 }   
 
@@ -155,7 +158,7 @@ function assignRoleShowModal(){
 }  
 function addNew() {
     $('#assignRoleForm').modal("hide");
-   
+    openPopup();
     var param = $('#frm_createrole').serialize();
     openPopup();
       clearDiv(['UserRole']);
@@ -175,16 +178,19 @@ function addNew() {
              } else {
                 if (obj.div!="") {
                     $('#Err'+obj.div).html(obj.message);
-                } else {
-                    $('#failure_div').html(obj.message);
+                    $('#process_popup').modal('hide');
+                 } else {
+                   $('#popupcontent').html( errorcontent(obj.message));
                 }
-                $('#process_popup').modal('hide');
+              
              }
-        }
+        },
+        error:networkunavailable 
     });
-} 
+}
 
 function listUserRoles() {
+    openPopup();
     $.post(URL+ "webservice.php?action=listAllActive&method=UserRoles","",function(data){
         var obj = JSON.parse(data);
         if (obj.status=="success") {
@@ -200,14 +206,18 @@ function listUserRoles() {
             $("#UserRoleID").val("0");
             setTimeout(function(){
             },1500);
+             closePopup();
         } else {
-            alert(obj.message);
+            $('#popupcontent').html( errorcontent(obj.message));
         }
+    }).fail(function(){
+        networkunavailable(); 
     });
 }
 
 
 function view(ID) {
+    openPopup();
    $('#viewForm').modal("show");
     $.post(URL+ "webservice.php?action=getData&method=UserRoles&ID="+ID,"",function(data){
         var  obj = JSON.parse(data);
@@ -227,9 +237,12 @@ function view(ID) {
              
             
              });
-               closePopup();
+              closePopup();
+               $('#popupcontent').html( errorcontent(obj.message));
         }
-  });
+  }).fail(function(){
+        networkunavailable(); 
+    });
 }
 setTimeout(function(){
     listAssignedUserRoles();

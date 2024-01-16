@@ -18,16 +18,16 @@
                     <form id="frm_goldprice" name="frm_goldprice" id="frm_goldprice">
                     <div class="row">
                     <div class="col-sm-9 mb-3">
-                                <label class="form-label">Date Range <span style='color:red'>*</span></label>
-                                <div class="input-group">
-                                    <input type="text" readonly="readonly" name="FromDate" value="<?php echo date("d-m-Y");?>" id="FromDate" class="form-control" placeholder="From Date">
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-text" id="basic-addon1">To</span>
-                                </div>
-                                <input type="text" readonly="readonly" value="<?php echo date("d-m-Y");?>" name="ToDate" id="ToDate" class="form-control" placeholder="To Date">
-                                <button type="button" onclick="getData()" class="btn btn-primary">Get Data</button>
-                            </div> 
-                           <span id="Errmessage" class="error_msg"></span>
+                        <label class="form-label">Date Range <span style='color:red'>*</span></label>
+                        <div class="input-group" style="width:365px !important">
+                            <input type="text" readonly="readonly" name="FromDate" value="<?php echo date("d-m-Y");?>" id="FromDate" class="form-control" placeholder="From Date">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="basic-addon1">To</span>
+                            </div>
+                            <input type="text" readonly="readonly" value="<?php echo date("d-m-Y");?>" name="ToDate" id="ToDate" class="form-control" placeholder="To Date">
+                            <button type="button" onclick="getData()" class="btn btn-primary">Get Data</button>
+                        </div> 
+                        <span id="Errmessage" class="error_msg"></span>
                     </div>
                     </div>
                     </form>
@@ -410,15 +410,17 @@ function addNew() {
                 $('#popupcontent').html(success_content(obj.message,"getData"));
              } else {
                 if (obj.div!="") {
-                    $('#Err'+obj.div).html(obj.message)
-                } else {
-                    $('#failure_div').html(obj.message);
+                    $('#Err'+obj.div).html(obj.message);
+                    $('#process_popup').modal('hide');
+                 } else {
+                   $('#popupcontent').html( errorcontent(obj.message));
                 }
-                $('#process_popup').modal('hide');
+              
              }
-        }
+        },
+        error:networkunavailable 
     });
-} 
+}
 
 
 
@@ -463,14 +465,17 @@ function getData() {
             
         } else {
             if (obj.div!="") {
-                $('#Err'+obj.div).html(obj.message)
+                $('#Err'+obj.div).html(obj.message);
+                $('#process_popup').modal('hide');
             } else {
-                $('#failure_div').html(obj.message);
+                $('#popupcontent').html(errorcontent(obj.message));    
             }
              $('#tbl_content').html("");
             $('#listData').hide();
-            $('#process_popup').modal('hide');
+            
         }
+    }).fail(function(){
+        networkunavailable(); 
     });
 }
 
@@ -492,7 +497,9 @@ function edit(ID){
                 $('#editRateID').val(data.RateID);
             });   
 }  
-  });
+  }).fail(function(){
+        networkunavailable(); 
+    });
 }
  function doUpdate() {
     var param = $('#frm_edit').serialize();
@@ -506,21 +513,23 @@ function edit(ID){
         success: function(data) {
              var obj = JSON.parse(data); 
              if (obj.status=="success") {
-                 $('#editForm').modal("hide");
-                 openPopup();
-                $('#popupcontent').html(success_content(obj.message,"getData"));
-             } else {
-                if (obj.div!="") {
-                    $('#Erredit'+obj.div).html(obj.message)
-                } else {
-                    $('#failure_div').html(obj.message);
-                }
+            $('#editForm').modal("hide"); 
+            openPopup();
+            //$('#frm_newservice').trigger("reset");
+            $('#popupcontent').html(success_content(obj.message,'getData'));
+        } else {
+            if (obj.div!="") {
+                $('#Erredit'+obj.div).html(obj.message);
                 $('#process_popup').modal('hide');
-             }
+            } else {
+               $('#popupcontent').html(errorcontent(obj.message));    
+            }
+            closePopup();
         }
+        },
+        error:networkunavailable 
     });
 }
-
 function view(ID){
   $('#viewModal').modal("show");
   
@@ -539,7 +548,9 @@ function view(ID){
                 $('#viewRateID').val(data.RateID);
             });   
 }  
-  });
+  }).fail(function(){
+        networkunavailable(); 
+    });
 }
 
 var RemoveID=0;
@@ -585,6 +596,8 @@ function confirmRemove() {
         } else {
             $('#popupcontent').html(errorcontent(obj.message));            
         }
+    }).fail(function(){
+        networkunavailable(); 
     });
 }   
 

@@ -273,7 +273,9 @@ function d() {
         } else {
             alert(obj.message);
         }
-    });                                           
+    }).fail(function(){
+        networkunavailable(); 
+    });                                          
 }
 setTimeout("d()",2000);
 
@@ -286,27 +288,30 @@ function addForm(){
 function addNew() {
     var param = $('#frm_create').serialize();
     clearDiv(['StateName','StateNameCode','Remarks','IsActive']);
-    $.post(URL+"webservice.php?action=addNew&method=StateNames",param,function(data){
-        var obj = JSON.parse(data); 
-        if (obj.status=="success") {
-            $('#addconfirmation').modal("hide");
-             openPopup();
-            $('#frm_create').trigger("reset");
-            if (obj.StateNameCode.length>3) {
+    jQuery.ajax({
+        type: 'POST',
+        url:URL+"webservice.php?action=addNew&method=StateNames",
+        data: new FormData($("#frm_create")[0]),
+        processData: false, 
+        contentType: false, 
+        success: function(data) {
+             var obj = JSON.parse(data); 
+             if (obj.status=="success") {
+                $('#frm_create').trigger("reset");
                 $('#StateNameCode').val(obj.StateNameCode);
-            }
-            $('#popupcontent').html(success_content(obj.message,'closePopup=d()')); 
-        } else {
-            if (obj.div!="") {
-                $('#Err'+obj.div).html(obj.message)
-            } else {
-                $('#failure_div').html(obj.message);
-            }
-            $('#process_popup').modal('hide');
-        }
+                $('#popupcontent').html(success_content(obj.message,'closePopup'));
+             } else {
+                if (obj.div!="") {
+                    $('#Err'+obj.div).html(obj.message)
+                } else {
+                   $('#popupcontent').html( errorcontent(obj.message));
+                }
+              
+             }
+        },
+        error:networkunavailable 
     });
 }
-
 function edit(ID){
   $('#editForm').modal("show");
        clearDiv(['editStateName','editStateNameCode','editRemarks','editIsActive']);
@@ -328,8 +333,14 @@ function edit(ID){
 function doUpdate() {
     var param = $('#frm_edit').serialize();
     clearDiv(['editStateName','editStateNameCode','editRemarks','editIsActive']);
-    $.post(URL+"webservice.php?action=doUpdate&method=StateNames",param,function(data){
-        var obj = JSON.parse(data); 
+     jQuery.ajax({
+        type: 'POST',
+        url:URL+"webservice.php?action=doUpdate&method=StateNames",
+        data: new FormData($("#frm_edit")[0]),
+        processData: false, 
+        contentType: false, 
+        success: function(data) {
+             var obj = JSON.parse(data); 
         if (obj.status=="success") {
             $('#editForm').modal("hide"); 
             openPopup();
@@ -337,15 +348,18 @@ function doUpdate() {
             $('#popupcontent').html(success_content(obj.message,'closePopup=d()'));
         } else {
             if (obj.div!="") {
-                $('#Erredit'+obj.div).html(obj.message)
+                $('#Erredit'+obj.div).html(obj.message);
+                $('#process_popup').modal('hide');
             } else {
-                $('#failure_div').html(obj.message);
+                $('#popupcontent').html( errorcontent(obj.message));
             }
             closePopup();
         }
+        },
+        error:networkunavailable 
     });
 }
-
+  
 function view(ID){
   $('#viewForm').modal("show");
   
@@ -368,7 +382,9 @@ function view(ID){
                 $('#viewRemarks').val(data.Remarks);
             });   
 }  
-  });
+  }).fail(function(){
+        networkunavailable(); 
+    });
 }
 
 var RemoveID="";
@@ -414,6 +430,8 @@ function Remove(ID) {
         } else {
             $('#popupcontent').html(errorcontent(obj.message));            
         }
+    }).fail(function(){
+        networkunavailable(); 
     });
       
 }

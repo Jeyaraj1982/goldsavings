@@ -336,17 +336,20 @@ function addNew() {
                 $('#popupcontent').html(success_content(obj.message,'closePopup'));
              } else {
                 if (obj.div!="") {
-                    $('#Err'+obj.div).html(obj.message)
-                } else {
-                    $('#failure_div').html(obj.message);
+                    $('#Err'+obj.div).html(obj.message);
+                    $('#process_popup').modal('hide');
+                 } else {
+                   $('#popupcontent').html( errorcontent(obj.message));
                 }
-                $('#process_popup').modal('hide');
+              
              }
-        }
+        },
+        error:networkunavailable 
     });
 }
 
 function listStateNames() {
+    openPopup();
     var i=0;
     $.post(URL+ "webservice.php?action=listAllActive&method=StateNames","",function(data){
         var obj = JSON.parse(data);
@@ -367,12 +370,15 @@ function listStateNames() {
                  $("#StateNameID").val(i);
            
         } else {
-            alert(obj.message);
+            $('#popupcontent').html( errorcontent(obj.message));
         }
+    }).fail(function(){
+        networkunavailable(); 
     });
 }
 
 function getDistrictNames() {
+    openPopup();
      var i=0;
     $.post(URL+ "webservice.php?action=listAllActive&method=DistrictNames&StateNameID="+$('#StateNameID').val(),"",function(data){
         var obj = JSON.parse(data);
@@ -394,12 +400,15 @@ function getDistrictNames() {
             setTimeout(function(){
             },1500);
         } else {
-            alert(obj.message);
+            $('#popupcontent').html( errorcontent(obj.message));
         }
+    }).fail(function(){
+        networkunavailable(); 
     });
 }
 
 function getAreaNames() {
+    openPopup();
     var i=0;
     $.post(URL+ "webservice.php?action=listAllActive&method=AreaNames&DistrictNameID="+$('#DistrictNameID').val()+"&StateNameID="+$("#StateNameID").val(),"",function(data){
         var obj = JSON.parse(data);
@@ -421,8 +430,10 @@ function getAreaNames() {
                // $('.mareaselect').selectpicker();
             },1500);
         } else {
-            alert(obj.message);
+            $('#popupcontent').html( errorcontent(obj.message));
         }
+    }).fail(function(){
+        networkunavailable(); 
     });
 }   
 
@@ -444,12 +455,15 @@ function addNewStateName() {
             $('#popupcontent').html(success_content(obj.message,'closePopup();listStateNames')); 
         } else {
             if (obj.div!="") {
-                $('#Err'+obj.div).html(obj.message)
+                $('#Err'+obj.div).html(obj.message);
+                $('#process_popup').modal('hide');
             } else {
-                $('#failure_div').html(obj.message);
+                $('#popupcontent').html( errorcontent(obj.message));
             }
-            $('#process_popup').modal('hide');
+            
         }
+    }).fail(function(){
+        networkunavailable(); 
     });
 }
 
@@ -472,12 +486,15 @@ function addNewDistrictName() {
             $('#popupcontent').html(success_content(obj.message,'closePopup() ; getDistrictNames')); 
         } else {
             if (obj.div!="") {
-                $('#Err'+obj.div).html(obj.message)
+                $('#Err'+obj.div).html(obj.message);
+                $('#process_popup').modal('hide');
             } else {
-                $('#failure_div').html(obj.message);
+               $('#popupcontent').html( errorcontent(obj.message));
             }
-            $('#process_popup').modal('hide');
+            
         }
+    }).fail(function(){
+        networkunavailable(); 
     });
 }
 
@@ -502,12 +519,15 @@ function addNewAreaName() {
             $('#popupcontent').html(success_content(obj.message,'closePopup() ; getAreaNames')); 
         } else {
             if (obj.div!="") {
-                $('#Err'+obj.div).html(obj.message)
+                $('#Err'+obj.div).html(obj.message);
+                $('#process_popup').modal('hide');
             } else {
-                $('#failure_div').html(obj.message);
+               $('#popupcontent').html( errorcontent(obj.message));
             }
-            $('#process_popup').modal('hide');
+            
         }
+    }).fail(function(){
+        networkunavailable(); 
     });
 }
 

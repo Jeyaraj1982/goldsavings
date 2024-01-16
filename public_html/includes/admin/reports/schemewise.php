@@ -198,7 +198,7 @@ function scheme_autocomplete(inp, arr) {
                                    
                                     + '<div class="col-sm-12" style="text-align:right;">'
                                         + '<!--<a href="'+URL +'dashboard.php?action=masters/services/view&edit='+item.value+'" class="btn btn-outline-primary btn-sm" target="_blank">View Details</a>-->'
-                                        + '<a href="'+URL+'dashboard.php?action=masters/schemes/view&edit='+item.SchemeID+'&fpg=reports/schemewise" class="btn btn-outline-primary btn-sm">View Details</a>'
+                                        + '<a href="'+URL+'dashboard.php?action=masters/schemes/view&edit='+item.SchemeID+'&fpg=reports/schemewise" target="_blank" class="btn btn-outline-primary btn-sm">View Details</a>'
                                     + '</div>';
              $('#SchemeResult').html(txtHtml) ;
              $('#SchemeResult').show() ;

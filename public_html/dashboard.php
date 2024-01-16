@@ -22,10 +22,7 @@ if ($_GET['action']!='profile/changepassword') {
 	<link rel="canonical" href="https://appstack.bootlab.io/dashboard-default.html" />
 	<link rel="shortcut icon" href="img/favicon.ico">
 	<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
-    
 	<link class="js-stylesheet" href="css/light.css" rel="stylesheet">
-    
-     
 	<style>
      /*
      .modal-footer{padding: 3px !important;background: #cfdbee !important;}
@@ -218,23 +215,62 @@ input:checked + .slider:before {
   .select2-container{z-index:10000}
   .ui-datepicker{z-index: 99999999 !important};
   </style>
+  
+  <script src="https://code.jquery.com/jquery-1.12.4.min.js" integrity="sha384-nvAa0+6Qg9clwYCGGPpDQLVpLNn0fRaROjHqs13t4Ggj3Ez50XnGQqc/r8MhnRDZ" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/blitzer/jquery-ui.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.js"></script>
+<link href="https://www.jqueryscript.net/css/jquerysctipttop.css" rel="stylesheet" type="text/css">
+  <link type="text/css" href="<?php echo WEB_URL;?>assets/jquery.ui.datepicker/jquery.ui.datepicker.monthyearpicker.css" rel="stylesheet" />
+<script type="text/javascript" src="<?php echo WEB_URL;?>assets/jquery.ui.datepicker/jquery.ui.datepicker.monthyearpicker.js"></script>
+
+<style>                                                
+        #EntryDate, #FromDate, #ToDate, #PaymentDate, #Date, #DateOfBirth {
+            background: url(<?php echo WEB_URL;?>assets/datepicker.png) no-repeat right;
+            background-position-y: center;
+            background-size: auto;
+            background-origin: padding-box;
+            width: 122px !important;
+            background-size: 16px;
+            background-position-y: center;
+            background-origin: content-box;
+        }
+        .select2-selection--single {
+            padding: 3px !important;
+  height: 35px !important;
+  border: 1px solid #ddd;
+        }
+        
+        .ui-widget-header {
+  border: 1px solid #7aacd9 !important;
+  background: #3e6c95 !important;
+        }
+        .container {
+        
+  padding: 20px !important;
+        }
+</style>
 </head>
  
 <body data-theme="default" data-layout="fluid" data-sidebar-position="left" data-sidebar-behavior="sticky">
 	<div class="wrapper">
+        <?php if ($_SESSION['User']['UserRole']=="admin") {?>
+        <?php } else { ?>
+        <!--
 		<nav id="sidebar" class="sidebar">
-			<?php include_once("includes/".$_SESSION['User']['UserRole']."/leftmenu.php");?>
+			<?php //include_once("includes/".$_SESSION['User']['UserRole']."/leftmenu.php");?>
 		</nav>
+        -->
+        <?php } ?>
 		<div class="main">
             <?php
-            $css= "";
+            $css= " style='padding:0px 10px !important' ";
             $css2= "";
                 if (UserRole=="customerapp") {
                     $css = 'style="position: fixed;z-index: 1;"';
                     $css2 = 'style="margin-top:70px;"';
                 }
             ?>
-			<nav class="navbar navbar-expand navbar-light navbar-bg" <?php echo $css;?>>
+			<nav class="navbar navbar-expand navbar-light navbar-bg" <?php echo $css;?> >
 				<a class="sidebar-toggle">
                     <i class="hamburger align-self-center"></i>
                 </a>
@@ -406,6 +442,9 @@ input:checked + .slider:before {
                 <?php } elseif (isset($_SESSION['User']['SalesmanID']) && $_SESSION['User']['SalesmanID']>0) { ?>
                     <b>Salesman</b><br>
                     <span style="color:#888"><?php echo $_SESSION['User']['SalesmanName'];?></span>
+                <?php } elseif (isset($_SESSION['User']['DeveloperID']) && $_SESSION['User']['DeveloperID']>0) { ?>
+                    <b>Developer Portal</b><br>
+                    <span style="color:#888"><?php echo $_SESSION['User']['DeveloperName'];?></span>
                 <?php } else {?>
                     <?php echo $_SESSION['User']['EmployeeName'];?> 
                     <?php echo $_SESSION['User']['UserRole'];?>
@@ -413,18 +452,124 @@ input:checked + .slider:before {
                 </span>
               </a>
 							<div class="dropdown-menu dropdown-menu-end">
+                                <?php
+                                    if (isset($_SESSION['User']['DeveloperID']) && $_SESSION['User']['DeveloperID']>0) {
+                                        
+                                    } else {
+                                ?>
 								<a class="dropdown-item" href="<?php echo URL;?>dashboard.php?action=profile/profile"><i class="align-middle me-1" data-feather="user"></i> Profile</a>
 								<!--<a class="dropdown-item" href="#"><i class="align-middle me-1" data-feather="pie-chart"></i> Analytics</a>-->
 								<div class="dropdown-divider"></div>
 								<a class="dropdown-item" href="<?php echo URL;?>dashboard.php?action=profile/changepassword">Change Password</a>
 								<!--<a class="dropdown-item" href="<?php echo URL;?>dashboard.php?action=help/index">Help</a>-->
                                 <a class="dropdown-item" href="<?php echo URL.substr($_SERVER['REQUEST_URI'],1,strlen($_SERVER['REQUEST_URI']));?>">Refresh</a>
+                                <?php } ?>
 								<a class="dropdown-item" href="<?php echo URL;?>dashboard.php?action=logout">Sign out</a>
 							</div>
 						</li>
 					</ul>
 				</div>
 			</nav>
+              <div>
+              <style>
+             
+
+          
+
+
+    
+
+
+
+
+
+.menu2 {
+    background-color: #293042;
+}
+.menu2 ul {
+    all: unset;
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    background-color: #293042;
+}
+            
+.menu2 ul li {
+    position: relative;
+    z-index: 100000;
+    
+}
+
+.menu2 ul li a {
+    display: block;
+    font-size: 13px;
+    color: rgb(204, 204, 204);
+    text-align: left;
+    padding: 8px 12px;
+    text-decoration: none;
+}
+
+/* Style the submenus */
+.menu2 ul li ul {
+    position: absolute;
+    display: none;
+    flex-direction: column;
+}
+
+.menu2 ul ul li {
+    width: max-content;
+    min-width: 160px;
+    max-width: 200px;
+}
+
+.menu2 ul a {
+    all: unset;
+    color: #fff;
+    cursor: pointer;
+    font-size: 13px;
+    color: rgb(204, 204, 204);
+    text-align: left;
+    padding: 8px 12px;
+    text-decoration: none;
+}
+
+.menu2 ul a:hover {
+    background: rgba(0, 0, 0, 0.7);
+}
+
+.menu2 ul li:hover > ul {
+    display: flex; /* Show submenus on hover */
+}
+
+.menu2 ul li ul li a {
+       
+    cursor: pointer;
+    font-size: 12px;
+    color: rgb(204, 204, 204);
+    text-align: left;
+    padding: 6px 12px;
+    text-decoration: none;
+}
+.menu2 ul li ul li a:hover {
+    cursor: pointer;
+    font-size: 12px;
+    text-align: left;
+    padding: 6px 12px;
+    text-decoration: none;
+}
+            /* Style the third-level submenu */
+            .menu2 ul ul ul {
+                top: 0;
+                left: 100%;
+            }
+ 
+  .content{padding:20px !important}
+</style>
+            <?php 
+                //if ($_SESSION['User']['UserRole']=="admin") {
+                    include_once("includes/".$_SESSION['User']['UserRole']."/menu_horizontal.php");
+                //} 
+            ?>
 			<main class="content" <?php echo $css2;?>>
 				<?php 
                 if (isset($_GET['action'])) {
@@ -433,8 +578,9 @@ input:checked + .slider:before {
                     include_once("includes/".UserRole."/dashboard.php");
                 }
                 ?>
+                
 			</main>
-			<footer class="footer">
+			<footer class="footer" style="position: fixed;width: 100%;bottom: 0;display:none">
 				<div class="container-fluid">
 					<div class="row text-muted">
 						<div class="col-6 text-start">
@@ -489,8 +635,31 @@ input:checked + .slider:before {
 <button type="button" class="btn btn-danger btn-floating btn-lg" style="font-size: 10px; " id="btn-back-to-top">
                        <i class="fas fa-arrow-up" data-feather="arrow-up-circle"></i>
                    </button>
+                   
+<div class="modal fade" id="networkerrors" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+    <form name="frm_errormsg" id="frm_errormsg">
+      <div class="modal-header">
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+      Unable to connect server,please check your network
+    </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline-primary" data-bs-dismiss="modal">Ok</button>
+      </div>
+     </form> 
+    </div>
+  </div>
+</div>
+
 </body>
 <script>
+function networkunavailable(){
+    $('#process_popup').modal('hide');
+    $('#networkerrors').modal("show");  
+}
 function uploadFiles() {
     var fileInput = document.getElementById('DocumentFiles');
     var files = fileInput.files;
@@ -615,7 +784,7 @@ function backToTop() {
 <script type="text/javascript" src="<?php echo URL;?>assets/jspdf/libs/sprintf.js"></script>
 <script type="text/javascript" src="<?php echo URL;?>assets/jspdf/jspdf.js"></script>
 <script type="text/javascript" src="<?php echo URL;?>assets/jspdf/libs/base64.js"></script>
-<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+<!--<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>-->
 
 <script src='<?php echo URL;?>assets/select2/dist/js/select2.min.js' type='text/javascript'></script>
 <script>
@@ -1969,6 +2138,54 @@ if ($('#EventTitle').length){
         e.preventDefault();
     });
  } 
+ if ($('#NomineeName').length){
+/* Alphabets with space*/
+   $('#NomineeName').keydown(function (e) {
+        if (e.ctrlKey || e.altKey) {
+            e.preventDefault();
+        } else {
+            var notallowkeys = [48,49,50,51,52,53,54,55,56,57,188,190,191,59,220,221,222,219,173,61,192,111,106,109,107,46,103,104,105,100,101,102,97,98,99,96,110,190]
+            var allowedkeys  = [9,8,32,46,35,36,37,38,39,40,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90]
+            if (e.shiftKey) {
+                if (notallowkeys.includes(e.keyCode)) {
+                    e.preventDefault();
+                }
+            } else {
+                if (!(allowedkeys.includes(e.keyCode))) {
+                    e.preventDefault();
+                }
+            }
+        }
+    });
+    $('#RelationName').on("cut copy paste",function(e){
+        e.preventDefault();
+    });
+ }
+ 
+ if ($('#Age').length){
+/* Numbers without space*/
+   $('#Age').keydown(function (e) {
+        if (e.ctrlKey || e.altKey) {
+            e.preventDefault();
+        } else {
+            var notallowkeys = [48,49,50,51,52,53,54,55,56,57,16,188,190,191,59,222,220,219,221,173,61,192,111,106,109,107,46,110,190,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90]
+            var allowedkeys  = [9,8,46,35,36,37,38,39,40,48,49,50,51,52,53,54,55,56,57,103,104,105,100,101,102,97,98,99,96]
+            if (e.shiftKey) {
+                if (notallowkeys.includes(e.keyCode)) {
+                    e.preventDefault();
+                }
+            } else {
+                if (!(allowedkeys.includes(e.keyCode))) {
+                    e.preventDefault();
+                }
+            }
+        }
+    });
+    $('#Age').on("cut copy paste",function(e){
+        e.preventDefault();
+    });
+ }
+  
  if ($('#editLinkedBank').length){
 /* Alphabets with space*/
    $('#editLinkedBank').keydown(function (e) {
@@ -2812,6 +3029,54 @@ if ($('#BankReferenceNumber').length){
         e.preventDefault();
     });
  }
+ if ($('#Silver').length){
+/* Numbers without space only allow dot */
+   $('#Silver').keydown(function (e) {
+        if (e.ctrlKey || e.altKey) {
+            e.preventDefault();
+        } else {
+            console.log(e.keyCode);
+            var notallowkeys = [48,49,50,51,52,53,54,55,56,57,16,188,190,191,59,222,220,219,221,173,61,192,111,106,109,107,46,110,190,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90]
+            var allowedkeys  = [9,8,46,35,36,37,38,39,40,48,49,50,51,52,53,54,55,56,57,103,104,105,100,101,102,97,98,99,96,110,190]
+            if (e.shiftKey) {
+                if (notallowkeys.includes(e.keyCode)) {
+                    e.preventDefault();
+                }
+            } else {
+                if (!(allowedkeys.includes(e.keyCode))) {
+                    e.preventDefault();
+                }
+            }
+        }
+    });
+    $('#Silver').on("cut copy paste",function(e){
+        e.preventDefault();
+    });
+ }
+  if ($('#Silver').length){
+/* Numbers without space only allow dot */
+   $('#Silver').keydown(function (e) {
+        if (e.ctrlKey || e.altKey) {
+            e.preventDefault();
+        } else {
+            console.log(e.keyCode);
+            var notallowkeys = [48,49,50,51,52,53,54,55,56,57,16,188,190,191,59,222,220,219,221,173,61,192,111,106,109,107,46,110,190,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90]
+            var allowedkeys  = [9,8,46,35,36,37,38,39,40,48,49,50,51,52,53,54,55,56,57,103,104,105,100,101,102,97,98,99,96,110,190]
+            if (e.shiftKey) {
+                if (notallowkeys.includes(e.keyCode)) {
+                    e.preventDefault();
+                }
+            } else {
+                if (!(allowedkeys.includes(e.keyCode))) {
+                    e.preventDefault();
+                }
+            }
+        }
+    });
+    $('#Silver').on("cut copy paste",function(e){
+        e.preventDefault();
+    });
+ }
  
 if ($('#EntryDate').length){
     
@@ -2825,7 +3090,7 @@ if ($('#EntryDate').length){
 if ($('#FromDate').length){                             
     
     $('#FromDate').datepicker({
-        dateFormat: "dd-mm-yy",
+        dateFormat: "dd-mm-yy",                 
         minDate:new Date(2023,0,1),
         maxDate:new Date(<?php echo date("Y");?>,<?php echo date("m")-1;?>,<?php echo date("d");?>) 
         
@@ -2856,7 +3121,7 @@ if ($('#ToDate').length){
         
     }); */
         
-}
+}                                        
 if ($('#PaymentDate').length){
     
     $('#PaymentDate').datepicker({
@@ -2866,7 +3131,16 @@ if ($('#PaymentDate').length){
         
     });
 }
-if ($('#Date').length){
+if ($('#PreCloseDate').length){
+    
+    $('#PreCloseDate').datepicker({
+        dateFormat: "dd-mm-yy",
+        minDate:new Date(<?php echo date("Y");?>,<?php echo date("m")-1;?>,<?php echo date("d-5");?>),
+        maxDate:new Date(<?php echo date("Y");?>,<?php echo date("m")-1;?>,<?php echo date("d");?>) 
+        
+    });
+}
+if ($('#Date').length){             
     
     $('#Date').datepicker({
         dateFormat: "dd-mm-yy",
@@ -2897,6 +3171,239 @@ $('#AadhaarCardNumber').on("cut copy paste",function(e){
         e.preventDefault();
     });
 }
+
+if ($('#TransactionID').length){
+    /*Alphanumeric without space*/
+    $('#TransactionID').keydown(function (e) {
+        if (e.ctrlKey || e.altKey) {
+            e.preventDefault();
+        } else {
+            var notallowkeys = [48,49,50,51,52,53,54,55,56,57,188,190,191,59,220,221,222,219,173,61,192,111,106,109,107,46]
+            var allowedkeys  = [96,97,98,99,100,101,102,103,104,105,9,8,16,46,35,36,37,38,39,40,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,48,49,50,51,52,53,54,55,56,57,33,34,35,36,37,38,39,40,45,12]
+            if (e.shiftKey) {
+                if (notallowkeys.includes(e.keyCode)) {
+                    e.preventDefault();
+                }
+            } else {
+                if (!(allowedkeys.includes(e.keyCode))) {
+                    e.preventDefault();
+                }
+            }
+        }
+    });
+    $('#TransactionID').on("cut copy paste",function(e){
+        e.preventDefault();
+    });
+}
+
+if ($('#Amount').length){
+/* Numbers without space*/
+   $('#Amount').keydown(function (e) {
+        if (e.ctrlKey || e.altKey) {
+            e.preventDefault();
+        } else {
+            var notallowkeys = [48,49,50,51,52,53,54,55,56,57,16,188,190,191,59,222,220,219,221,173,61,192,111,106,109,107,46,110,190,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90]
+            var allowedkeys  = [9,8,46,35,36,37,38,39,40,48,49,50,51,52,53,54,55,56,57,103,104,105,100,101,102,97,98,99,96]
+            if (e.shiftKey) {
+                if (notallowkeys.includes(e.keyCode)) {
+                    e.preventDefault();
+                }
+            } else {
+                if (!(allowedkeys.includes(e.keyCode))) {
+                    e.preventDefault();
+                }
+            }
+        }
+    });
+    $('#Amount').on("cut copy paste",function(e){
+        e.preventDefault();
+    });
+ }
+ 
+ if ($('#Quantity500').length){
+/* Numbers without space*/
+   $('#Quantity500').keydown(function (e) {
+        if (e.ctrlKey || e.altKey) {
+            e.preventDefault();
+        } else {
+            var notallowkeys = [48,49,50,51,52,53,54,55,56,57,16,188,190,191,59,222,220,219,221,173,61,192,111,106,109,107,46,110,190,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90]
+            var allowedkeys  = [9,8,46,35,36,37,38,39,40,48,49,50,51,52,53,54,55,56,57,103,104,105,100,101,102,97,98,99,96]
+            if (e.shiftKey) {
+                if (notallowkeys.includes(e.keyCode)) {
+                    e.preventDefault();
+                }
+            } else {
+                if (!(allowedkeys.includes(e.keyCode))) {
+                    e.preventDefault();
+                }
+            }
+        }
+    });
+    $('#Quantity500').on("cut copy paste",function(e){
+        e.preventDefault();
+    });
+ }
+ if ($('#Quantity200').length){
+/* Numbers without space*/
+   $('#Quantity200').keydown(function (e) {
+        if (e.ctrlKey || e.altKey) {
+            e.preventDefault();
+        } else {
+            var notallowkeys = [48,49,50,51,52,53,54,55,56,57,16,188,190,191,59,222,220,219,221,173,61,192,111,106,109,107,46,110,190,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90]
+            var allowedkeys  = [9,8,46,35,36,37,38,39,40,48,49,50,51,52,53,54,55,56,57,103,104,105,100,101,102,97,98,99,96]
+            if (e.shiftKey) {
+                if (notallowkeys.includes(e.keyCode)) {
+                    e.preventDefault();
+                }
+            } else {
+                if (!(allowedkeys.includes(e.keyCode))) {
+                    e.preventDefault();
+                }
+            }
+        }
+    });
+    $('#Quantity200').on("cut copy paste",function(e){
+        e.preventDefault();
+    });
+ }
+ if ($('#Quantity100').length){
+/* Numbers without space*/
+   $('#Quantity100').keydown(function (e) {
+        if (e.ctrlKey || e.altKey) {
+            e.preventDefault();
+        } else {
+            var notallowkeys = [48,49,50,51,52,53,54,55,56,57,16,188,190,191,59,222,220,219,221,173,61,192,111,106,109,107,46,110,190,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90]
+            var allowedkeys  = [9,8,46,35,36,37,38,39,40,48,49,50,51,52,53,54,55,56,57,103,104,105,100,101,102,97,98,99,96]
+            if (e.shiftKey) {
+                if (notallowkeys.includes(e.keyCode)) {
+                    e.preventDefault();
+                }
+            } else {
+                if (!(allowedkeys.includes(e.keyCode))) {
+                    e.preventDefault();
+                }
+            }
+        }
+    });
+    $('#Quantity100').on("cut copy paste",function(e){
+        e.preventDefault();
+    });
+ }
+ if ($('#Quantity50').length){
+/* Numbers without space*/
+   $('#Quantity50').keydown(function (e) {
+        if (e.ctrlKey || e.altKey) {
+            e.preventDefault();
+        } else {
+            var notallowkeys = [48,49,50,51,52,53,54,55,56,57,16,188,190,191,59,222,220,219,221,173,61,192,111,106,109,107,46,110,190,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90]
+            var allowedkeys  = [9,8,46,35,36,37,38,39,40,48,49,50,51,52,53,54,55,56,57,103,104,105,100,101,102,97,98,99,96]
+            if (e.shiftKey) {
+                if (notallowkeys.includes(e.keyCode)) {
+                    e.preventDefault();
+                }
+            } else {
+                if (!(allowedkeys.includes(e.keyCode))) {
+                    e.preventDefault();
+                }
+            }
+        }
+    });
+    $('#Quantity50').on("cut copy paste",function(e){
+        e.preventDefault();
+    });
+ }
+ if ($('#Quantity20').length){
+/* Numbers without space*/
+   $('#Quantity20').keydown(function (e) {
+        if (e.ctrlKey || e.altKey) {
+            e.preventDefault();
+        } else {
+            var notallowkeys = [48,49,50,51,52,53,54,55,56,57,16,188,190,191,59,222,220,219,221,173,61,192,111,106,109,107,46,110,190,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90]
+            var allowedkeys  = [9,8,46,35,36,37,38,39,40,48,49,50,51,52,53,54,55,56,57,103,104,105,100,101,102,97,98,99,96]
+            if (e.shiftKey) {
+                if (notallowkeys.includes(e.keyCode)) {
+                    e.preventDefault();
+                }
+            } else {
+                if (!(allowedkeys.includes(e.keyCode))) {
+                    e.preventDefault();
+                }
+            }
+        }
+    });
+    $('#Quantity20').on("cut copy paste",function(e){
+        e.preventDefault();
+    });
+ }
+ if ($('#Quantity10').length){
+/* Numbers without space*/
+   $('#Quantity10').keydown(function (e) {
+        if (e.ctrlKey || e.altKey) {
+            e.preventDefault();
+        } else {
+            var notallowkeys = [48,49,50,51,52,53,54,55,56,57,16,188,190,191,59,222,220,219,221,173,61,192,111,106,109,107,46,110,190,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90]
+            var allowedkeys  = [9,8,46,35,36,37,38,39,40,48,49,50,51,52,53,54,55,56,57,103,104,105,100,101,102,97,98,99,96]
+            if (e.shiftKey) {
+                if (notallowkeys.includes(e.keyCode)) {
+                    e.preventDefault();
+                }
+            } else {
+                if (!(allowedkeys.includes(e.keyCode))) {
+                    e.preventDefault();
+                }
+            }
+        }
+    });
+    $('#Quantity10').on("cut copy paste",function(e){
+        e.preventDefault();
+    });
+ }
+ if ($('#Quantity5').length){
+/* Numbers without space*/
+   $('#Quantity5').keydown(function (e) {
+        if (e.ctrlKey || e.altKey) {
+            e.preventDefault();
+        } else {
+            var notallowkeys = [48,49,50,51,52,53,54,55,56,57,16,188,190,191,59,222,220,219,221,173,61,192,111,106,109,107,46,110,190,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90]
+            var allowedkeys  = [9,8,46,35,36,37,38,39,40,48,49,50,51,52,53,54,55,56,57,103,104,105,100,101,102,97,98,99,96]
+            if (e.shiftKey) {
+                if (notallowkeys.includes(e.keyCode)) {
+                    e.preventDefault();
+                }
+            } else {
+                if (!(allowedkeys.includes(e.keyCode))) {
+                    e.preventDefault();
+                }
+            }
+        }
+    });
+    $('#Quantity5').on("cut copy paste",function(e){
+        e.preventDefault();
+    });
+ } 
+ if ($('#QuantityCoins').length){
+/* Numbers without space*/
+   $('#QuantityCoins').keydown(function (e) {
+        if (e.ctrlKey || e.altKey) {
+            e.preventDefault();
+        } else {
+            var notallowkeys = [48,49,50,51,52,53,54,55,56,57,16,188,190,191,59,222,220,219,221,173,61,192,111,106,109,107,46,110,190,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90]
+            var allowedkeys  = [9,8,46,35,36,37,38,39,40,48,49,50,51,52,53,54,55,56,57,103,104,105,100,101,102,97,98,99,96]
+            if (e.shiftKey) {
+                if (notallowkeys.includes(e.keyCode)) {
+                    e.preventDefault();
+                }
+            } else {
+                if (!(allowedkeys.includes(e.keyCode))) {
+                    e.preventDefault();
+                }
+            }
+        }
+    });
+    $('#QuantityCoins').on("cut copy paste",function(e){
+        e.preventDefault();
+    });
+ }
 
 
 </script>

@@ -4,6 +4,12 @@ function hideMobilNumber($number) {
     $number = array_map('intval', str_split(trim($number)));
      return $number[0].$number[1]."X"."X"."X"."X"."X".$number[7].$number[8].$number[9];
 }
+function isLogged() {
+    if (isset($_SESSION['User']['IsActive'])) {
+        return true;
+    }
+    return false;
+}
 include_once("webservices/class.AreaNames.php");
 include_once("webservices/class.Customers.php");
 include_once("webservices/class.CustomerTypes.php");
@@ -33,6 +39,37 @@ include_once("webservices/class.Branch.php");
 include_once("webservices/class.Vouchers.php"); 
 include_once("webservices/class.Receipts.php"); 
 include_once("webservices/class.Administrators.php"); 
+include_once("webservices/class.Wallet.php"); 
+
+
+class MailController {
+    
+    public static function sendMail($to,$customerName,$subject,$msgbody) {
+        
+        global $mail,$mysql;
+        
+        $mail->isSMTP(); 
+        $mail->SMTPDebug = 0; // 0 = off (for production use) - 1 = client messages - 2 = client and server messages
+        $mail->Host = "mail.nexifysoftware.in"; // use $mail->Host = gethostbyname('smtp.gmail.com'); // if your network does not support SMTP over IPv6
+        $mail->Port = 465; // TLS only 587
+        $mail->SMTPSecure = 'ssl'; // ssl is depracated tls
+        $mail->SMTPAuth = true;
+        $mail->Username = "support@nexifysoftware.in";
+        $mail->Password = "Welcome@@1982";        
+        $mail->setFrom("support@nexifysoftware.in", "nexifysoftware");
+        $mail->addAddress($to,$customerName);
+        $mail->Subject = $subject;
+        $mail->msgHTML($msgbody); //$mail->msgHTML(file_get_contents('contents.html'), __DIR__); //Read an HTML message body from an external file, convert referenced images to embedded,
+        $mail->AltBody = 'HTML messaging not supported';
+        // $mail->addAttachment('images/phpmailer_mini.png'); //Attach an image file
+        //$mail->addAttachment('logo.png'); //Attach an image file
+        if(!$mail->send()){
+            return "Mailer Error: " . $mail->ErrorInfo;
+        } else{
+            return "Message sent!";
+        }
+    }
+}
 
 function IsValidPanCard($pannumber) {
     if (!preg_match("/^([a-zA-Z]){5}([0-9]){4}([a-zA-Z]){1}?$/", $pannumber)) {
@@ -71,7 +108,6 @@ function getDashboardData() {
     $date = date('Y-m-d', strtotime(date("Y-m-d"). ' - '.$days_before.' days'));
     
     $goldRates = $mysql->select("select DATE_FORMAT(Date,'".appConfig::DATEFORMAT."') as `Date`,GOLD_18,GOLD_22,GOLD_24,SILVER from _tbl_masters_goldrates where  date(Date)>date('".$date."') order by date(Date)");
-     
     
     if (isset($_SESSION['User']['CustomerID'])) {
         
@@ -228,15 +264,14 @@ function getDashboardData() {
         return json_encode(array("status"=>"success","data"=>$data)); 
     }
     
-    
     if (isset($_SESSION['User']['SalesmanID'])) {
         $closedContracts=$mysql->select("SELECT * FROM _tbl_contracts WHERE IsClosed='1'");
         $activeContracts=$mysql->select("SELECT * FROM _tbl_contracts WHERE IsActive='1' and IsClosed='0'");
-        $activeCustomers=$mysql->select("SELECT * FROM _tbl_masters_customers WHERE IsActive='1'");
+        $activeCustomers=$mysql->select("SELECT * FROM _tbl_masters_customers WHERE   BranchID='".$_SESSION['User']['BranchID']."' and AreaNameID in (select AreaNameID from _tbl_salesman_areas where SalesmanID='".$_SESSION['User']['SalesmanID']."' and IsActive='1') ");
         $receivedAmount=$mysql->select("SELECT sum(DueAmount) as Amount FROM _tbl_receipts WHERE date(ReceiptDate)='".date("Y-m-d")."'");
 
         $_recentCustomers = array();
-        $recentCustomers = $mysql->select("select * from  _tbl_masters_customers order by CustomerID desc limit 0,5");
+        $recentCustomers = $mysql->select("select * from  _tbl_masters_customers where BranchID='".$_SESSION['User']['BranchID']."' and AreaNameID in (select AreaNameID from _tbl_salesman_areas where SalesmanID='".$_SESSION['User']['SalesmanID']."' and IsActive='1') order by CustomerID desc limit 0,5");
         foreach($recentCustomers as $_recentCustomer) {
             $tmp=array(); 
             $tmp['CustomerID']=$_recentCustomer['CustomerID'];
@@ -397,13 +432,71 @@ function getDashboardData() {
          
          return json_encode(array("status"=>"success","data"=>$data));
     }
-    $closedContracts=$mysql->select("SELECT * FROM _tbl_contracts WHERE IsClosed='1'");
-    $activeContracts=$mysql->select("SELECT * FROM _tbl_contracts WHERE IsActive='1' and IsClosed='0'");
-    $activeCustomers=$mysql->select("SELECT * FROM _tbl_masters_customers WHERE IsActive='1'");
-    $receivedAmount=$mysql->select("SELECT sum(DueAmount) as Amount FROM _tbl_receipts WHERE date(ReceiptDate)='".date("Y-m-d")."'");
+    
+    if ($_SESSION['User']['UserModule']=="branchadmin" || $_SESSION['User']['UserModule']=="branchuser" ) {
+        $closedContracts=$mysql->select("SELECT * FROM _tbl_contracts WHERE IsClosed='1' and  BranchID='".$_SESSION['User']['BranchID']."'");
+        $activeContracts=$mysql->select("SELECT * FROM _tbl_contracts WHERE IsActive='1' and IsClosed='0' and  BranchID='".$_SESSION['User']['BranchID']."'");
+        $activeCustomers=$mysql->select("SELECT * FROM _tbl_masters_customers WHERE IsActive='1' and  BranchID='".$_SESSION['User']['BranchID']."'");
+        $receivedAmount=$mysql->select("SELECT sum(DueAmount) as Amount FROM _tbl_receipts WHERE date(ReceiptDate)='".date("Y-m-d")."' and  BranchID='".$_SESSION['User']['BranchID']."'");
 
-    $_recentCustomers = array();
-    $recentCustomers = $mysql->select("select * from  _tbl_masters_customers order by CustomerID desc limit 0,5");
+        $_recentCustomers = array();                   
+        $recentCustomers = $mysql->select("select * from  _tbl_masters_customers where BranchID='".$_SESSION['User']['BranchID']."' order by CustomerID desc limit 0,5");
+        
+        $_recentReceipts = array();
+        $recentReceipts = $mysql->select("select * from  _tbl_receipts where BranchID='".$_SESSION['User']['BranchID']."' order by ReceiptID desc limit 0,5");
+        
+        $_recentVouchers = array();
+        $recentVouchers = $mysql->select("select * from  _tbl_vouchers where BranchID='".$_SESSION['User']['BranchID']."' order by VoucherID desc limit 0,5");
+        
+        $_recentContracts=array();
+        $recentContracts = $mysql->select("select * from  _tbl_contracts where IsClosed='0' and  BranchID='".$_SESSION['User']['BranchID']."' order by ContractID desc limit 0,5");
+        
+        $_recentClosedContracts=array();
+        $recentClosedContracts = $mysql->select("select * from  _tbl_contracts where IsClosed='1' and  BranchID='".$_SESSION['User']['BranchID']."' order by ContractID desc limit 0,5");
+        
+        $_pendingDues=array();
+        $pendingDues = $mysql->select("select * from  _tbl_contracts_dues where ReceiptID=0 and date(DueDate)<=date('".date("Y-m-d")."') order by DueID desc limit 0,5");
+        
+        $_paymentrequests = array();
+        $paymentrequests = $mysql->select("select * from _tbl_payemt_requests where  RequestStatus='REQUEST' order by PaymentRequestID desc");
+    
+    }
+   
+   
+    if ($_SESSION['User']['UserModule']=="admin" || $_SESSION['User']['UserModule']=="subadmin" ) {
+        //$_recentReceipts = $mysql->select("SELECT `ReceiptNumber`, `CustomerID`, `CustomerName`, DATE_FORMAT(ReceiptDate,'".appConfig::DATEFORMAT."') as `ReceiptDate`, `ContractCode`, FORMAT(DueGold, 3) as `DueGold`, FORMAT(DueAmount, 2) as `DueAmount`, `DueNumber` from  `_tbl_receipts` where BranchID='".$_SESSION['User']['BranchID']."' and date(ReceiptDate)>=date('".date("Y-m-d",strtotime($_POST['FromDate']))."') and date(ReceiptDate)<=date('".date("Y-m-d",strtotime($_POST['ToDate']))."') order by `ReceiptID` desc");
+        $closedContracts=$mysql->select("SELECT * FROM _tbl_contracts WHERE IsClosed='1'");
+        $activeContracts=$mysql->select("SELECT * FROM _tbl_contracts WHERE IsActive='1' and IsClosed='0'");
+        $activeCustomers=$mysql->select("SELECT * FROM _tbl_masters_customers WHERE IsActive='1'");
+        $receivedAmount=$mysql->select("SELECT sum(DueAmount) as Amount FROM _tbl_receipts WHERE date(ReceiptDate)='".date("Y-m-d")."'");
+
+        $_recentCustomers = array();
+        $recentCustomers = $mysql->select("select * from  _tbl_masters_customers  order by CustomerID desc limit 0,5");
+        
+        $_recentReceipts = array();
+        $recentReceipts = $mysql->select("select * from  _tbl_receipts order by ReceiptID desc limit 0,5");
+        
+        $_recentVouchers = array();
+        $recentVouchers = $mysql->select("select * from  _tbl_vouchers order by VoucherID desc limit 0,5");
+        
+        $_recentContracts=array();
+        $recentContracts = $mysql->select("select * from  _tbl_contracts where IsClosed='0' order by ContractID desc limit 0,5");
+        
+        $_recentClosedContracts=array();
+        $recentClosedContracts = $mysql->select("select * from  _tbl_contracts where IsClosed='1' order by ContractID desc limit 0,5");
+        
+        $_pendingDues=array();
+        $pendingDues = $mysql->select("select * from  _tbl_contracts_dues where ReceiptID=0 and date(DueDate)<=date('".date("Y-m-d")."') order by DueID desc limit 0,5");
+        
+        $_paymentrequests = array();
+        $paymentrequests = $mysql->select("select * from _tbl_payemt_requests where  RequestStatus='REQUEST' order by PaymentRequestID desc");
+    
+    }
+    
+    if (isset($_SESSION['User']['SalesmanID']) &&  $_SESSION['User']['SalesmanID']>0 ) {
+        $_recentReceipts = $mysql->select("SELECT `ReceiptNumber`, `CustomerID`, `CustomerName`, DATE_FORMAT(ReceiptDate,'".appConfig::DATEFORMAT."') as `ReceiptDate`, `ContractCode`, FORMAT(DueGold, 3) as `DueGold`, FORMAT(DueAmount, 2) as `DueAmount`, `DueNumber` from  `_tbl_receipts` where  date(ReceiptDate)>=date('".date("Y-m-d",strtotime($_POST['FromDate']))."') and date(ReceiptDate)<=date('".date("Y-m-d",strtotime($_POST['ToDate']))."') and CustomerID in (select CustomerID from _tbl_masters_customers where BranchID='".$_SESSION['User']['BranchID']."' and AreaNameID in (select AreaNameID from _tbl_salesman_areas where SalesmanID='".$_SESSION['User']['SalesmanID']."')) order by `ReceiptID` desc");
+    }
+        
     foreach($recentCustomers as $_recentCustomer) {
         $tmp=array(); 
         $tmp['CustomerID']=$_recentCustomer['CustomerID'];
@@ -414,40 +507,37 @@ function getDashboardData() {
         $tmp['ReferredByName']=$_recentCustomer['ReferredByName'];
         $tmp['ReferByText']=$_recentCustomer['ReferByText'];
         $tmp['ReferredID']=$_recentCustomer['ReferredByID'];
-        $tmp['CreatedOn']= date("d-m-Y H:i",strtotime($_recentCustomer['CreatedOn']));
+        $tmp['BranchName']=$_recentCustomer['BranchName'];
+        $tmp['EntryDate']= date("d-m-Y",strtotime($_recentCustomer['EntryDate']));
         $_recentCustomers[]=$tmp; 
     }
     
-    $_recentReceipts = array();
-    $recentReceipts = $mysql->select("select * from  _tbl_receipts order by ReceiptID desc limit 0,5");
     foreach($recentReceipts as $recentReceipt) {
         $tmp=array(); 
         $tmp['ReceiptNumber']=$recentReceipt['ReceiptNumber'];
         $tmp['ReceiptDate']= date("d-m-Y",strtotime($recentReceipt['ReceiptDate']));
         $tmp['ContractCode']=$recentReceipt['ContractCode'];
+        $tmp['CustomerID']= $recentReceipt['CustomerID'];
         $tmp['CustomerName']=$recentReceipt['CustomerName'];
         $tmp['DueGold']=$recentReceipt['DueGold'];
         $tmp['DueAmount']= $recentReceipt['DueAmount'];
         $tmp['DueNumber']= $recentReceipt['DueNumber'];
         $_recentReceipts[]=$tmp; 
     }
-     
-    $_recentVouchers = array();
-    $recentVouchers = $mysql->select("select * from  _tbl_vouchers order by VoucherID desc limit 0,5");
+    
     foreach($recentVouchers as $voucher) {
         $tmp=array(); 
         $tmp['VoucherNumber']=$voucher['VoucherNumber'];
         $tmp['VoucherDate']= date("d-m-Y",strtotime($voucher['VoucherDate']));
         $tmp['ContractCode']=$voucher['ContractCode'];
         $tmp['CustomerName']=$voucher['CustomerName'];
+        $tmp['CustomerID']=$voucher['CustomerID'];
         $tmp['GoldInGrams']=$voucher['GoldInGrams'];
         $tmp['TotalPaidAmount']=$voucher['TotalPaidAmount'];
         $tmp['VoucherType'] = $voucher['VoucherType'];
         $_recentVouchers[]=$tmp; 
     } 
         
-    $_recentContracts=array();
-    $recentContracts = $mysql->select("select * from  _tbl_contracts where IsClosed='0' order by ContractID desc limit 0,5");
     foreach($recentContracts as $recentContract) {
         $dues = $mysql->select("select * from _tbl_contracts_dues where ReceiptID>0 and   ContractID='".$recentContract['ContractID']."'");
         $tmp=array();
@@ -478,8 +568,6 @@ function getDashboardData() {
         $_recentContracts[]=$tmp; 
     } 
     
-    $_recentClosedContracts=array();
-    $recentClosedContracts = $mysql->select("select * from  _tbl_contracts where IsClosed='1' order by ContractID desc limit 0,5");
     foreach($recentClosedContracts as $recentClosedContract) {
         $dues = $mysql->select("select * from _tbl_contracts_dues where ReceiptID>0 and   ContractID='".$recentContract['ContractID']."'");
         $tmp=array();
@@ -501,8 +589,6 @@ function getDashboardData() {
         $_recentClosedContracts[]=$tmp; 
     }  
     
-    $_pendingDues=array();
-    $pendingDues = $mysql->select("select * from  _tbl_contracts_dues where ReceiptID=0 and date(DueDate)<=date('".date("Y-m-d")."') order by DueID desc limit 0,5");
     foreach($pendingDues as $pendingDue) {
         $tmp=array(); 
         $tmp['DueID']        = $pendingDue['DueID'];
@@ -520,8 +606,6 @@ function getDashboardData() {
         $_pendingDues[]=$tmp; 
     }
     
-    $_paymentrequests = array();
-    $paymentrequests = $mysql->select("select * from _tbl_payemt_requests where  RequestStatus='REQUEST' order by PaymentRequestID desc");
     foreach($paymentrequests as $paymentrequest) {
         $tmp=array(); 
         

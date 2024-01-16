@@ -7,3 +7,9 @@ https://goldsavings.nexifysoftware.in/customerapp
 https://goldsavings.nexifysoftware.in/salesmanapp
 
 https://goldsavings.nexifysoftware.in/developer
+
+
+
+
+example:
+https://codepedia.info/editor-example?id=7

@@ -234,6 +234,44 @@ class Branch {
     
     public static function remove() {
         global $mysql;
+        
+            $customers = $mysql->select("select * from _tbl_masters_customers where BranchID='".$_GET['ID']."'");
+         if (sizeof($customers)>0) {
+            return json_encode(array("status"=>"failure","message"=>"Unable to delete. This branch name assigned  to ".sizeof($customers)." cusotmer(s)"));    
+         }
+         
+          
+         
+         $employees = $mysql->select("select * from _tbl_employees where BranchID='".$_GET['ID']."'");
+         if (sizeof($employees)>0) {
+            return json_encode(array("status"=>"failure","message"=>"Unable to delete. This branch name assigned  to ".sizeof($employees)." employee(s)"));    
+         } 
+         
+         $branchadmins = $mysql->select("select * from _tbl_masters_users where UserModule='branchadmin' and BranchID='".$_GET['ID']."'");
+         if (sizeof($branchadmins)>0) {
+            return json_encode(array("status"=>"failure","message"=>"Unable to delete. This branch name assigned to ".sizeof($branchadmins)." branch admin(s)"));    
+         }
+         
+         $branchusers = $mysql->select("select * from _tbl_masters_users where UserModule='branchuser' and BranchID='".$_GET['ID']."'");
+         if (sizeof($branchusers)>0) {
+            return json_encode(array("status"=>"failure","message"=>"Unable to delete. This branch name assigned to ".sizeof($branchusers)."  branch user(s)"));    
+         } 
+         
+         $subadmins = $mysql->select("select * from _tbl_masters_users where UserModule='subadmin' and BranchID='".$_GET['ID']."'");
+         if (sizeof($subadmins)>0) {
+            return json_encode(array("status"=>"failure","message"=>"Unable to delete. This branch name assigned to ".sizeof($subadmins)." branch user(s)"));    
+         }
+         
+         $salesman = $mysql->select("select * from _tbl_masters_salesman where BranchID='".$_GET['ID']."'");
+         if (sizeof($salesman)>0) {
+            return json_encode(array("status"=>"failure","message"=>"Unable to delete. This branch name assigned  to ".sizeof($salesman)."  salesman(s)"));    
+         }
+         
+         $contracts = $mysql->select("select * from _tbl_contracts where BranchID='".$_GET['ID']."'");
+         if (sizeof($salesman)>0) {
+            return json_encode(array("status"=>"failure","message"=>"Unable to delete. This branch name assigned  to ".sizeof($contracts)."  contract(s)"));    
+         }
+         
         $mysql->execute("delete from _tbl_masters_branches where BranchID='".$_GET['ID']."'");
         return json_encode(array("status"=>"success","message"=>"Deleted Successfully","data"=>$mysql->select("select * from _tbl_masters_branches")));
     }

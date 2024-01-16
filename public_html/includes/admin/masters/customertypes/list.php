@@ -119,6 +119,7 @@
             </div>
         </div>
     </div>
+</div>
 
 <div class="modal fade" id="viewForm" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -163,9 +164,7 @@
 <script>
 function view(CustomerTypeNameID){
   $('#viewForm').modal("show");
-  openPopup();
   $.post(URL+ "webservice.php?action=getData&method=CustomerTypes&ID="+CustomerTypeNameID,"",function(data){
-        closePopup();
         var obj = JSON.parse(data);
         if (obj.status=="success") {
             var html = "";
@@ -190,7 +189,7 @@ function view(CustomerTypeNameID){
 
 function edit(CustomerTypeNameID){
     $('#editForm').modal("show");
-        clearDiv(['editCustomerTypeName','editRemarks']);
+    clearDiv(['editCustomerTypeName','editRemarks']);
     $.post(URL+ "webservice.php?action=getData&method=CustomerTypes&ID="+CustomerTypeNameID,"",function(data){
         var obj = JSON.parse(data);
         if (obj.status=="success") {
@@ -296,11 +295,12 @@ function listCustomerTypes() {
                                         + '<div class="dropdown-menu dropdown-menu-end">'
                                                 + '<a class="dropdown-item" onclick="view(\''+data.CustomerTypeNameID+'\')">View</a>'
                                                 + '<a class="dropdown-item" onclick="edit(\''+data.CustomerTypeNameID+'\')">Edit</a>'
-                                                + '<a class="dropdown-item" href="javascript:void(0)" onclick="confirmationtoDelete(\''+data.CustomerTypeNameID+'\')">Delete</a>';
                                                 if (data.CustomerCount>0) {
+                                                    html += '<a class="dropdown-item" href="javascript:void(0)" style="color:#888">Delete</a>';
                                                      html += '<hr style="margin:0px !important">';
                                                      html += '<a class="dropdown-item" href="'+URL+'dashboard.php?action=../common/customers/list_customersbycategory&CustomerTypeID='+data.CustomerTypeNameID+'" >View Customers</a>';
                                                 } else if (data.CustomerCount==0) {
+                                                     html += '<a class="dropdown-item" href="javascript:void(0)" onclick="confirmationtoDelete(\''+data.CustomerTypeNameID+'\')">Delete</a>';
                                                      html += '<hr style="margin:0px !important">';
                                                      html += '<a class="dropdown-item" href="javascript:void(0)" style="color:#888">View Customers</a>';
                                                     }
@@ -315,12 +315,12 @@ function listCustomerTypes() {
                 + '</tr>'
             }   
             $('#tbl_content').html(html);
-             if (($.fn.dataTable.isDataTable("#datatables-fixed-header"))) {
-                $("#datatables-fixed-header").DataTable({
-                    fixedHeader: true,
+            // if (($.fn.dataTable.isDataTable("#datatables-fixed-header"))) {
+             //   $("#datatables-fixed-header").DataTable({
+              //      fixedHeader: true,
                     pageLength: 25
-                });
-            }
+              //  });
+         //   }
         } else {
            $('#popupcontent').html( errorcontent(obj.message));
         }
@@ -373,12 +373,12 @@ function Remove() {
                 + '</tr>'
             }   
             $('#tbl_content').html(html);
-             if (($.fn.dataTable.isDataTable("#datatables-fixed-header"))) {
-                $("#datatables-fixed-header").DataTable({
-                    fixedHeader: true,
-                    pageLength: 25
-                });
-            }
+           //  if (($.fn.dataTable.isDataTable("#datatables-fixed-header"))) {
+              //  $("#datatables-fixed-header").DataTable({
+              //      fixedHeader: true,
+              //      pageLength: 25
+               // });
+           // }
         } else {
             $('#popupcontent').html( errorcontent(obj.message));
         }

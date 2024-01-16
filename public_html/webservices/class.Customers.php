@@ -8,7 +8,7 @@ class CustomersErrors {
     const CustomerName_Empty = "Please enter Customer Name";
     const BranchName_Empty = "Please branch Name";
     
-    const FatherName_Empty = "Please enter Father/Husband Name";
+    const FatherName_Empty = "Please enter Father/Husband's Name";
     const Gender_Empty = "Please select gender";
     const DateOfBirth_Empty = "Please select Date Of Birth";
     const DateOfBirth_MinimumYear = "Age must be greater than 18";
@@ -63,16 +63,20 @@ class CustomersErrors {
     const Document_Attach_success = "Added successfully";
     const Document_Attachment_Type_Empty = "Please select document type";
     const Document_File_Empty = "Please select and attach file(s)";
+    
 }
 
 class Customers {
     
     function addNew() {
         
-        global $mysql;
         
+        global $mysql;
+        //if (!isLogged()) {
+           // return json_encode(array("status"=>"failure","message"=>"Your login session expired. Login again and continue","div"=>""));    
+       // }
         if ($_SESSION['User']['UserModule']=="admin" || $_SESSION['User']['UserModule']=="subadmin") {
-           if ($_POST['BranchID']=="0") {
+           if ($_POST['BranchID']=="0" || $_POST['BranchID']==0 || $_POST['BranchID']=="") {
                 return json_encode(array("status"=>"failure","message"=>CustomersErrors::BranchName_Empty,"div"=>"BranchID"));    
             }
         }
@@ -348,6 +352,10 @@ class Customers {
         $AreaName = json_decode(AreaNames::getDetailsByID($_POST['AreaNameID']),true);
         $AreaName = $AreaName['data'];
         
+        $BranchID="0";
+        $BranchCode="";
+        $BranchName="";
+        
         if ($_SESSION['User']['UserModule']=="admin" || $_SESSION['User']['UserModule']=="subadmin") {
             $Branch = $mysql->select("select * from _tbl_masters_branches where BranchID='".$_POST['BranchID']."'");
         } else {
@@ -358,6 +366,7 @@ class Customers {
             $CreatedByID=$_SESSION['User']['AdministratorID'];
             $CreatedByName=$_SESSION['User']['AdministratorName'];
             $CreatedByCode=$_SESSION['User']['AdministratorCode'];
+             
         } 
         if ($_SESSION['User']['UserModule']=="subadmin") {
             $CreatedBy="Sub Admin";
@@ -383,9 +392,11 @@ class Customers {
             $CreatedByName=$_SESSION['User']['SalesmanName'];
             $CreatedByCode=$_SESSION['User']['SalesmanCode'];
         }
-        $BranchID=$Branch[0]['BranchID'];
-        $BranchCode=$Branch[0]['BranchCode'];
-        $BranchName=$Branch[0]['BranchName'];
+        if (sizeof($Branch)>0) {
+            $BranchID=$Branch[0]['BranchID'];
+            $BranchCode=$Branch[0]['BranchCode'];
+            $BranchName=$Branch[0]['BranchName'];
+        }
         
         $CustomerID = $mysql->insert("_tbl_masters_customers",array("CustomerCode"            => strtoupper($_POST['CustomerCode']),
                                                                     "EntryDate"               => $_POST['EntryDate'],
@@ -451,7 +462,7 @@ class Customers {
                 if (isset($_GET['filter']) && $_GET['filter']=="CreatedByMe") {
                     $data = $mysql->select("select * from _tbl_masters_customers where CreatedByCode='".$_SESSION['User']['SalesmanCode']."'");
                 } else {
-                    $data = $mysql->select("select * from _tbl_masters_customers where BranchID='".$_SESSION['User']['BranchID']."' ");
+                    $data = $mysql->select("select * from _tbl_masters_customers where BranchID='".$_SESSION['User']['BranchID']."' and AreaNameID in (select AreaNameID from _tbl_salesman_areas where SalesmanID='".$_SESSION['User']['SalesmanID']."' and IsActive='1') ");
                 }
             } else {
                 if (isset($_GET['filter']) && $_GET['filter']=="CreatedByMe") {
@@ -480,7 +491,13 @@ class Customers {
         return json_encode(array("status"=>"success","data"=>$data));
     }
     
-     function ListByAreaName() {
+    function listBranchCustomers() {
+        global $mysql;
+        $data = $mysql->select("select CustomerID,CustomerCode,CustomerName,MobileNumber,EmailID,IsActive,DATE_FORMAT(EntryDate,'".appConfig::DATEFORMAT."') as `EntryDate`,ReferredByID,ReferByText,ReferredByName from _tbl_masters_customers where BranchID='".$_GET['Branch']."'");
+        return json_encode(array("status"=>"success","data"=>$data));
+    }
+    
+    function ListByAreaName() {
         global $mysql;
         $data = $mysql->select("select * from _tbl_masters_customers where AreaNameID='".$_GET['area']."'");
         return json_encode(array("status"=>"success","data"=>$data));
@@ -791,9 +808,15 @@ class Customers {
     }
     
      public static function remove() {
-         global $mysql;
-         $mysql->execute("delete from _tbl_masters_customers where CustomerID='".$_GET['ID']."'");
-         return json_encode(array("status"=>"success","message"=>CustomersErrors::Delete_Success,"data"=>$mysql->select("select * from _tbl_masters_customers")));
+         global $mysql;         
+         $contracts = $mysql->select("select * from _tbl_contracts where CustomerID='".$_GET['ID']."'");
+         //return json_encode(array("status"=>"success","message"=>CustomersErrors::Delete_Success.sizeof($contracts),"data"=>$mysql->select("select * from _tbl_masters_customers")));   
+          if (sizeof($contracts)==0) {
+            $mysql->execute("delete from _tbl_masters_customers where CustomerID='".$_GET['ID']."'");
+            return json_encode(array("status"=>"success","message"=>CustomersErrors::Delete_Success,"data"=>$mysql->select("select * from _tbl_masters_customers")));    
+         } else {
+            return json_encode(array("status"=>"failure","message"=>"Error: unable to delete customer. Reason: Customer has ".(sizeof($contracts))." contract(s)","div"=>""));
+         }
      }
       
      public static function getDetailsByID($CustomerID) {
@@ -1066,6 +1089,15 @@ class Customers {
                         `RefMobileNumber`,
                         `Remarks`,
                         `CreatedOn`,
+                        `CreatedByID`,
+                        `CreatedByName`,
+                        `CreatedByCode`,
+                        `CreatedBy`,
+                        `BranchID`,
+                        `BranchCode`,
+                        `BranchName`,
+                        `WalletBalance`,
+                        
                         `IsActive` 
                from _tbl_masters_customers where CustomerID>0 ";
              
@@ -1152,6 +1184,16 @@ class Customers {
                 }
             }
             
+            if (isset($_POST['BranchName']) && $_POST['BranchName']=="1") {
+                if ($_POST['BranchID']!="0") {
+                    $sql .= " and BranchID='".$_POST['BranchID']."' ";    
+                }
+            }
+            
+            if ($_SESSION['User']['UserModule']=="branchadmin" || $_SESSION['User']['UserModule']=="branchuser") {
+                $sql .= " and BranchID='".$_SESSION['User']['BranchID']."' ";        
+            }
+            
             if ($_POST['OrderBy']=="StateNameID") {
                 $_POST['OrderBy']="StateName";
             }
@@ -1179,6 +1221,11 @@ class Customers {
             $sql .= " order by ".$_POST['OrderBy']." ".$_POST['Filterby'];
             $data = $mysql->select($sql);
         }
+        return json_encode(array("status"=>"success","data"=>$data,"sql"=>$sql));
+    }
+    function viewAllActivities() {
+        global $mysql;
+        $data = $mysql->select("select * from _tbl_logs_activity_customers where CustomerID='".(isset($_GET['ID']) ? $_GET['ID'] : $_SESSION['User']['CustomerID'])."'");
         return json_encode(array("status"=>"success","data"=>$data,"sql"=>$sql));
     }
 }

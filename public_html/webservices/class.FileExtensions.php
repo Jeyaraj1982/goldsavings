@@ -37,8 +37,14 @@ class FileExtensions {
       public static function remove() {
          global $mysql;
          
-         $mysql->execute("delete from _tbl_masters_file_extensions where FileExtensionID='".$_GET['ID']."'");
-         return json_encode(array("status"=>"success","message"=>"Deleted Successfully","data"=>$mysql->select("select * from _tbl_masters_file_extensions")));
+         $data_exists = $mysql->select("select * from _tbl_masters_file_extensions where FileExtensionID='".$_GET['ID']."'");
+         if (sizeof($data)==0){
+            $mysql->execute("delete from _tbl_assets where DocumentTypeID='".$_GET['ID']."'");
+            return json_encode(array("status"=>"success","message"=>"Deleted Successfully","data"=>$mysql->select("select * from _tbl_masters_file_extensions")));    
+         } else {
+             return json_encode(array("status"=>"failure","message"=>"Unable to delete. This file extension used  to ".sizeof($contracts)."  item(s)"));    
+         }
+         
      }
 
      public static function listAll() {

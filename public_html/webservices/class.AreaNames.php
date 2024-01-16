@@ -2,7 +2,7 @@
 
 class AreaNames {
     
-    function addNew() {
+    public static function addNew() {
         
         global $mysql;
         if (isset($_POST['AreaNameCode'])) {
@@ -57,42 +57,92 @@ class AreaNames {
         }
      }
      
-       public static function remove() {
+    public static function remove() {
          global $mysql;
-         $statenames = $mysql->select("select * from _tbl_employees where AreaNameID='".$_GET['ID']."'");
-         if (sizeof($statenames)>0) {
-            return json_encode(array("status"=>"failure","message"=>"Unable to delete. This area name assigned in employees"));    
-         }
+         
          $customers = $mysql->select("select * from _tbl_masters_customers where AreaNameID='".$_GET['ID']."'");
-         if (sizeof($statenames)>0) {
-            return json_encode(array("status"=>"failure","message"=>"Unable to delete. This area assigned in cutomers"));    
+         if (sizeof($customers)>0) {
+            return json_encode(array("status"=>"failure","message"=>"Unable to delete. This area name assigned  to ".sizeof($customers)." cusotmer(s)"));    
+         }
+         
+         $administrators = $mysql->select("select * from _tbl_administrators where AreaNameID='".$_GET['ID']."'");
+         if (sizeof($administrators)>0) {
+            return json_encode(array("status"=>"failure","message"=>"Unable to delete. This area name assigned  to ".sizeof($administrators)." administrator(s)"));    
+         }
+         
+         $employees = $mysql->select("select * from _tbl_employees where AreaNameID='".$_GET['ID']."'");
+         if (sizeof($employees)>0) {
+            return json_encode(array("status"=>"failure","message"=>"Unable to delete. This area name assigned  to ".sizeof($employees)." employee(s)"));    
          } 
+         
+         $branchadmins = $mysql->select("select * from _tbl_masters_users where UserModule='branchadmin' and AreaNameID='".$_GET['ID']."'");
+         if (sizeof($branchadmins)>0) {
+            return json_encode(array("status"=>"failure","message"=>"Unable to delete. This area name assigned to ".sizeof($branchadmins)." branch admin(s)"));    
+         }
+         
+         $branchusers = $mysql->select("select * from _tbl_masters_users where UserModule='branchuser' and AreaNameID='".$_GET['ID']."'");
+         if (sizeof($branchusers)>0) {
+            return json_encode(array("status"=>"failure","message"=>"Unable to delete. This area name assigned to ".sizeof($branchusers)."  branch user(s)"));    
+         } 
+         
+         $subadmins = $mysql->select("select * from _tbl_masters_users where UserModule='subadmin' and AreaNameID='".$_GET['ID']."'");
+         if (sizeof($subadmins)>0) {
+            return json_encode(array("status"=>"failure","message"=>"Unable to delete. This area name assigned to ".sizeof($subadmins)." sub admin(s)"));    
+         }
+         
+         $salesman = $mysql->select("select * from _tbl_masters_salesman where AreaNameID='".$_GET['ID']."'");
+         if (sizeof($salesman)>0) {
+            return json_encode(array("status"=>"failure","message"=>"Unable to delete. This area name assigned  to ".sizeof($salesman)."  salesman(s)"));    
+         }
+         
+         $salesman_assigned = $mysql->select("select * from _tbl_salesman_areas where AreaNameID='".$_GET['ID']."'");
+         if (sizeof($areanames)>0) {
+            return json_encode(array("status"=>"failure","message"=>"Unable to delete. This area name allocated to ".sizeof($salesman_assigned)." salesman(s) "));    
+         }
+         
+         //branch
+         $branchs = $mysql->select("select * from _tbl_masters_branches where AreaNameID='".$_GET['ID']."'");
+         if (sizeof($branchs)>0) {
+            return json_encode(array("status"=>"failure","message"=>"Unable to delete. This area name assigned  to ".sizeof($branchs)." branch(s)"));    
+         }
+         
+         //company
+         $companies = $mysql->select("select * from _tbl_companies where AreaNameID='".$_GET['ID']."'");
+         if (sizeof($companies)>0) {
+            return json_encode(array("status"=>"failure","message"=>"Unable to delete. This area name assigned  to ".sizeof($companies)." compan(y/ies)"));    
+         }
+          
+         //address book
+         $addressbook = $mysql->select("select * from _tbl_apps_addressbook where AreaNameID='".$_GET['ID']."'");
+         if (sizeof($addressbook)>0) {
+            return json_encode(array("status"=>"failure","message"=>"Unable to delete. This area name assigned  to ".sizeof($addressbook)." contact(s)"));    
+         }
        
          $mysql->execute("delete from _tbl_masters_areanames where AreaNameID='".$_GET['ID']."'");
          return json_encode(array("status"=>"success","message"=>"Deleted Successfully","data"=>$mysql->select("select * from _tbl_masters_areanames")));
      }
 
-     public static function listAll() {
-         global $mysql;
-         $data = $mysql->select("select * from _tbl_masters_areanames order by AreaName");
-         return json_encode(array("status"=>"success","data"=>$data));
-     }
-     
-     public static function listAllActive() {
-         global $mysql;
-         if (isset($_GET['DistrictNameID'])) {
+    public static function listAll() {
+        global $mysql;
+        $data = $mysql->select("select * from _tbl_masters_areanames order by AreaName");
+        return json_encode(array("status"=>"success","data"=>$data));
+    }
+    
+    public static function listAllActive() {
+        global $mysql;
+        if (isset($_GET['DistrictNameID'])) {
             $data = $mysql->select("select * from _tbl_masters_areanames where IsActive='1' and DistrictNameID='".$_GET['DistrictNameID']."' order by AreaName");
-         } else {
+        } else {
             $data = $mysql->select("select * from _tbl_masters_areanames where IsActive='1' order by AreaName");
-         }
-         return json_encode(array("status"=>"success","data"=>$data));
-     }
+        }
+        return json_encode(array("status"=>"success","data"=>$data));
+    }
      
-     public static function ListAreaNames() {
-         global $mysql;
-         $data = $mysql->select("select * from _tbl_masters_areanames where StateNameID='".$_GET['StateNameID']."' and DistrictNameID='".$_GET['DistrictNameID']."' order by AreaName");
-         return json_encode(array("status"=>"success","data"=>$data));
-     }
+    public static function ListAreaNames() {
+        global $mysql;
+        $data = $mysql->select("select * from _tbl_masters_areanames where StateNameID='".$_GET['StateNameID']."' and DistrictNameID='".$_GET['DistrictNameID']."' order by AreaName");
+        return json_encode(array("status"=>"success","data"=>$data));
+    }
      
      public static function getDetailsByID($AreaNameID) {
          global $mysql;

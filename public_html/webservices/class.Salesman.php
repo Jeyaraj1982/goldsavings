@@ -8,7 +8,7 @@ class SalesmanErrors {
     const BranchName_Empty = "Please branch Name";
     
     const Salesman_Empty = "Please enter Salesman Name";
-    const FatherName_Empty = "Please enter Father/Husband Name";
+    const FatherName_Empty = "Please enter Father/Husband's Name";
     const Gender_Empty = "Please select gender";
     const DateOfBirth_Empty = "Please select Date Of Birth";
     const DateOfBirth_MinimumYear = "Age must be greater than 18";
@@ -215,7 +215,7 @@ class Salesman {
             if (!(IsValidPanCard(trim($_POST['PancardNumber'])))) {
                 return json_encode(array("status"=>"failure","message"=>SalesmanErrors::PancardNumber_InvalidFormat,"div"=>"PancardNumber"));        
             }
-            $dupPancard = $mysql->select("select * from _tbl_masters_employees where PancardNumber='".trim($_POST['PancardNumber'])."'");
+            $dupPancard = $mysql->select("select * from _tbl_masters_salesman where PancardNumber='".trim($_POST['PancardNumber'])."'");
             if (sizeof($dupPancard)>0) {
                 return json_encode(array("status"=>"failure","message"=>SalesmanErrors::PancardNumber_Duplicate,"div"=>"PancardNumber"));    
             }
@@ -232,7 +232,7 @@ class Salesman {
                 return json_encode(array("status"=>"failure","message"=>SalesmanErrors::AadhaarCardNumber_InvalidFormat,"div"=>"AadhaarCardNumber"));    
             }
             
-            $dupAadhaar = $mysql->select("select * from _tbl_masters_employees where AadhaarCardNumber='".trim($_POST['AadhaarCardNumber'])."'");
+            $dupAadhaar = $mysql->select("select * from _tbl_masters_salesman where AadhaarCardNumber='".trim($_POST['AadhaarCardNumber'])."'");
             if (sizeof($dupAadhaar)>0) {
                 return json_encode(array("status"=>"failure","message"=>SalesmanErrors::AadhaarCardNumber_Duplicate,"div"=>"AadhaarCardNumber"));    
             }
@@ -286,20 +286,24 @@ class Salesman {
             $CreatedBy="Administrator";
             $CreatedByID=$_SESSION['User']['AdministratorID'];
             $CreatedByName=$_SESSION['User']['AdministratorName'];
+            $CreatedByCode=$_SESSION['User']['AdministratorCode'];
         } 
         if ($_SESSION['User']['UserModule']=="subadmin") {
             $CreatedBy="Sub Admin";
             $CreatedByID=$_SESSION['User']['UserID'];
             $CreatedByName=$_SESSION['User']['UserName'];
+            $CreatedByCode=$_SESSION['User']['UserCode'];
         }
         if ($_SESSION['User']['UserModule']=="branchadmin") {
             $CreatedBy="Branch Admin";
             $CreatedByID=$_SESSION['User']['UserID'];
             $CreatedByName=$_SESSION['User']['UserName'];
+            $CreatedByCode=$_SESSION['User']['UserCode'];
         }
         if ($_SESSION['User']['UserModule']=="branchuser") {
             $CreatedBy="Branch User";
             $CreatedByID=$_SESSION['User']['UserID'];
+            $CreatedByCode=$_SESSION['User']['UserCode'];
             $CreatedByName=$_SESSION['User']['UserName'];
         }
         $BranchID=$Branch[0]['BranchID'];
@@ -335,6 +339,8 @@ class Salesman {
                                                             "BranchName"            => $BranchName,
                                                             "CreatedBy"             => $CreatedBy,
                                                             "CreatedByID"           => $CreatedByID,
+                                                            "CreatedByCode"           => $CreatedByCode,
+                                                            
                                                             "CreatedByName"         => $CreatedByName,
                                                                     "AllowToChangePasswordFirstLogin" => $AllowToChangePasswordFirstLogin,
                                                                     "CreatedOn"             => date("Y-m-d H:i:s"),
@@ -348,13 +354,36 @@ class Salesman {
     
     function ListAll() {
         global $mysql;
-        
-        if (isset($_SESSION['User']['BranchID']) && $_SESSION['User']['BranchID']>0) {
-          $data = $mysql->select("select * from _tbl_masters_salesman where BranchID='".$_SESSION['User']['BranchID']."'");  
-        } else {
-           $data = $mysql->select("select * from _tbl_masters_salesman");
+        $data = array();
+        if ($_SESSION['User']['UserModule']=="admin") {
+            if (isset($_GET['filter']) && $_GET['filter']=="CreatedByMe") {
+                $data = $mysql->select("select * from _tbl_masters_salesman where CreatedByCode='".$_SESSION['User']['AdministratorCode']."'");
+            } else {
+                $data = $mysql->select("select * from _tbl_masters_salesman");
+            }
+        }
+        if ($_SESSION['User']['UserModule']=="subadmin") {
+            if (isset($_GET['filter']) && $_GET['filter']=="CreatedByMe") {
+                $data = $mysql->select("select * from _tbl_masters_salesman where CreatedByCode='".$_SESSION['User']['UserCode']."'");
+            } else {
+                $data = $mysql->select("select * from _tbl_masters_salesman");
+            }
+        }
+        if ($_SESSION['User']['UserModule']=="branchadmin" || $_SESSION['User']['UserModule']=="branchuser") {
+            if (isset($_GET['filter']) && $_GET['filter']=="CreatedByMe") {
+                $data = $mysql->select("select * from _tbl_masters_salesman where  BranchID='".$_SESSION['User']['BranchID']."' and CreatedByCode='".$_SESSION['User']['UserCode']."'");
+            } else {
+                $data = $mysql->select("select * from _tbl_masters_salesman where BranchID='".$_SESSION['User']['BranchID']."'");
+            }
+            
         }
         
+        return json_encode(array("status"=>"success","data"=>$data));
+    }
+    
+    function listBranchSalesman() {
+        global $mysql;
+        $data = $mysql->select("select SalesmanID,SalesmanCode,SalesmanName,MobileNumber,EmailID,IsActive,DATE_FORMAT(EntryDate,'".appConfig::DATEFORMAT."') as `EntryDate` from _tbl_masters_salesman where BranchID='".$_GET['Branch']."'");
         return json_encode(array("status"=>"success","data"=>$data));
     }
     
@@ -639,11 +668,13 @@ class Salesman {
                                                    "IsActive"       => "1"));
         return json_encode(array("status"=>"success","message"=>"successfully assigned","div"=>""));
     }
+ 
     function deactiveSalesmanArea() {
         global $mysql;
         $data = $mysql->execute("update _tbl_salesman_areas set IsActive='0'  where AssignedAreaID='".$_GET['ID']."'");
         return json_encode(array("status"=>"success","message"=>"successfully deactivated", "data"=>$data));
     }
+ 
     function activeSalesmanArea() {               
         global $mysql;
         $data = $mysql->execute("update _tbl_salesman_areas set IsActive='1'  where AssignedAreaID='".$_GET['ID']."'");
@@ -662,7 +693,7 @@ class Salesman {
         return json_encode(array("status"=>"success","data"=>$data));
      }
      
-       public static function changePassword() {
+    public static function changePassword() {
          global $mysql;
          if (strlen(trim($_POST['CurrentPassword']))==0) {
              return json_encode(array("status"=>"failure","message"=>"Please Current Password","div"=>"CurrentPassword"));    
@@ -689,11 +720,11 @@ class Salesman {
             return json_encode(array("status"=>"failure","message"=>"Current Password is invalid","div"=>"CurrentPassword"));    
          }
 
-         $mysql->execute("update _tbl_masters_salesman set LoginPassword ='".$_POST['NewPassword']."',
-                                                    AllowToChangePasswordFirstLogin='0'
+         $mysql->execute("update _tbl_masters_salesman set LoginPassword ='".$_POST['NewPassword']."' 
+                                                    
                                                             where SalesmanID='".$_SESSION['User']['SalesmanID']."'");
          
-         $_SESSION['User']['AllowToChangePasswordFirstLogin']=0;
+         //$_SESSION['User']['AllowToChangePasswordFirstLogin']=0;
                                                           
          return json_encode(array("status"=>"success","message"=>"Password changed successfully".$mysql->error,"div"=>""));
      }
@@ -779,6 +810,13 @@ class Salesman {
                         `PinCode`,
                         `Remarks`,
                         `CreatedOn`,
+                        `CreatedByID`,
+                        `CreatedByName`,
+                        `CreatedByCode`,
+                        `CreatedBy`,
+                        `BranchID`,
+                        `BranchCode`,
+                        `BranchName`,
                         `IsActive`
                    from _tbl_masters_salesman where SalesmanID>0 ";
              
@@ -841,6 +879,10 @@ class Salesman {
                   } 
             }
             
+            if ($_SESSION['User']['UserModule']=="branchadmin" || $_SESSION['User']['UserModule']=="branchuser") {
+                $sql .= " and BranchID='".$_SESSION['User']['BranchID']."' ";        
+            }
+            
             if (isset($_POST['StateName']) && $_POST['StateName']=="1") {
                 if ($_POST['StateNameID']!="0") {
                     $sql .= " and StateNameID='".$_POST['StateNameID']."' ";    
@@ -856,6 +898,12 @@ class Salesman {
             if (isset($_POST['AreaName']) && $_POST['AreaName']=="1") {
                 if ($_POST['AreaNameID']!="0") {
                     $sql .= " and AreaNameID='".$_POST['AreaNameID']."' ";    
+                }
+            }
+            
+            if (isset($_POST['BranchName']) && $_POST['BranchName']=="1") {
+                if ($_POST['BranchID']!="0") {
+                    $sql .= " and BranchID='".$_POST['BranchID']."' ";    
                 }
             }
             
@@ -882,6 +930,11 @@ class Salesman {
             $sql .= " order by ".$_POST['OrderBy']." ".$_POST['Filterby'];
             $data = $mysql->select($sql);
         }
+        return json_encode(array("status"=>"success","data"=>$data,"sql"=>$sql));
+    }
+    function viewAllActivities() {
+        global $mysql;
+        $data = $mysql->select("select * from _tbl_logs_activity_salesman where SalesmanID='".(isset($_GET['ID']) ? $_GET['ID'] : $_SESSION['User']['SalesmanID'])."'");
         return json_encode(array("status"=>"success","data"=>$data,"sql"=>$sql));
     }
 }

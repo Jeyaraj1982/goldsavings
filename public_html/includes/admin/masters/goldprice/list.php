@@ -17,7 +17,7 @@
                 <div class="card-body">
                     <form id="frm_goldprice" name="frm_goldprice" id="frm_goldprice">
                     <div class="row">
-                    <div class="col-sm-9 mb-3">
+                    <div class="col-sm-9">
                         <label class="form-label">Date Range <span style='color:red'>*</span></label>
                         <div class="input-group" style="width:365px !important">
                             <input type="text" readonly="readonly" name="FromDate" value="<?php echo date("d-m-Y");?>" id="FromDate" class="form-control" placeholder="From Date">
@@ -389,7 +389,8 @@
 <script>
 
 function confirmationtoadd() {
-   $('#addconfirmation').modal("show"); 
+   $('#addconfirmation').modal("show");
+   clearDiv(['Date','Gold18','Gold22','Gold24','Silver','Remarks']); 
 }
 function addNew() {
     var param = $('#frm_create').serialize();
@@ -483,6 +484,7 @@ function getData() {
   
 function edit(ID){
   $('#editForm').modal("show");
+  clearDiv(['editDate','editGold18','editGold22','editGold24','editRemarks']);
     $.post(URL+ "webservice.php?action=viewGoldRate&method=GoldRates&id="+ID,"",function(data){
         var obj = JSON.parse(data);
         if (obj.status=="success") {

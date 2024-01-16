@@ -63,9 +63,15 @@ class PaymentModes {
     public static function remove() {
         
         global $mysql;
+
+        $data = $mysql->select("select * from _tbl_wallet where PaymentModeID='".$_GET['ID']."'");
+        if (sizeof($data)==0) {
+            $mysql->execute("delete from _tbl_masters_paymentmodes where PaymentModeID='".$_GET['ID']."'");
+            return json_encode(array("status"=>"success","message"=>"Deleted Successfully","data"=>$mysql->select("select * from _tbl_masters_paymentmodes")));
+        }  else {
+            return json_encode(array("status"=>"failure","message"=>"Unable to remmove. This Payment Mode used to ".sizeof($data)." wallet transaction(s)"));    
+        }
         
-        $mysql->execute("delete from _tbl_masters_paymentmodes where PaymentModeID='".$_GET['ID']."'");
-        return json_encode(array("status"=>"success","message"=>"Deleted Successfully","data"=>$mysql->select("select * from _tbl_masters_paymentmodes")));
     }
 
     public static function listAll() {
@@ -73,6 +79,7 @@ class PaymentModes {
         $data = $mysql->select("select * from _tbl_masters_paymentmodes");
         return json_encode(array("status"=>"success","data"=>$data));
     }
+    
     public static function listAllActive() {
         global $mysql;
         $data = $mysql->select("select * from _tbl_masters_paymentmodes where IsActive='1'");

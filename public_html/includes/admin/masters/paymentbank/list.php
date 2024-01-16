@@ -460,6 +460,7 @@ function addNew() {
         success: function(data) {
              var obj = JSON.parse(data); 
              if (obj.status=="success") {
+                  $('#addconfirmation').hide("show");
                 $('#frm_create').trigger("reset");
                 $('#PaymentBankCode').val(obj.PaymentBankCode);
                 $('#popupcontent').html(success_content(obj.message,'closePopup'));

@@ -62,8 +62,13 @@ class CustomerTypes {
         
         global $mysql;
         
-        $mysql->execute("delete from _tbl_masters_customertypename where CustomerTypeNameID='".$_GET['ID']."'");
-        return json_encode(array("status"=>"success","message"=>"Deleted Successfully","data"=>$mysql->select("select * from _tbl_masters_customertypename")));
+        $data_exists = $mysql->select("select * from _tbl_masters_customers where CustomerTypeNameID='".$_GET['ID']."'");
+        if (sizeof($data_exists)==0) {
+            $mysql->execute("delete from _tbl_masters_customertypename where CustomerTypeNameID='".$_GET['ID']."'");
+            return json_encode(array("status"=>"success","message"=>"Deleted Successfully","data"=>$mysql->select("select * from _tbl_masters_customertypename")));    
+        } else {
+             return json_encode(array("status"=>"failure","message"=>"Error: unable to delete customer type name. Reason: Customer Type name has assigned ".(sizeof($data_exists))." customer(s)","div"=>""));
+        }
     }
 
     public static function listAll() {

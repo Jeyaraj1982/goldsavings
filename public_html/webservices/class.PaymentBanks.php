@@ -61,8 +61,16 @@ class PaymentBanks {
      
      public static function remove() {
          global $mysql;
-         $mysql->execute("delete from _tbl_masters_paymentbanks where PaymentBankID='".$_GET['ID']."'");
+         
+         $data = $mysql->select("select * from _tbl_payemt_requests where PaymentBankID='".$_GET['ID']."'");
+        if (sizeof($data)==0) {
+            $mysql->execute("delete from _tbl_masters_paymentbanks where PaymentBankID='".$_GET['ID']."'");
          return json_encode(array("status"=>"success","message"=>"Deleted Successfully","data"=>$mysql->select("select * from _tbl_masters_paymentbanks")));
+        }  else {
+            return json_encode(array("status"=>"failure","message"=>"Unable to remmove. This Bank used to ".sizeof($data)." Wallet Request(s)"));    
+        }
+        
+         
      }
 
      public static function listAll() {

@@ -78,9 +78,14 @@ ON t1.EmployeeCategoryID=t2.EmployeeCategoryID  order by t1.EmployeeCategoryTitl
     public static function remove() {
         
         global $mysql;
-        $mysql->execute("delete from _tbl_masters_employee_categories where EmployeeCategoryID='".$_GET['ID']."'");
-        $list = json_decode(self::listAll(),true);
-        return json_encode(array("status"=>"success","message"=>"Deleted Successfully","data"=>$list['data']));
+        $data_exists = $mysql->select("select * from _tbl_employees where EmployeeCategoryID='".$_GET['ID']."'");
+        if (sizeof($data_exists)==0) {
+            $mysql->execute("delete from _tbl_masters_employee_categories where EmployeeCategoryID='".$_GET['ID']."'");
+            $list = json_decode(self::listAll(),true);
+            return json_encode(array("status"=>"success","message"=>"Deleted Successfully","data"=>$list['data']));
+        } else {
+            return json_encode(array("status"=>"failure","message"=>"Error: unable to delete employee cattegory. Reason: Employee category has assigned ".(sizeof($data_exists))." employee(s)","div"=>""));
+        }
     }
     
     public static function getData() {

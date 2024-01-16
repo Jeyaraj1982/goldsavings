@@ -84,10 +84,18 @@ class GoldRates {
      public static function remove() {
          
          global $mysql;
+          $data_exists = $mysql->select("select * from _tbl_masters_goldrates where RateID='".$_GET['ID']."'");
+          if (sizeof($data_exists)>0) {
+                $receipts = $mysql->select("select * from _tbl_receipts where date(PriceOnDate)==date('".$data_exists[0]['Date']."')");
+                if (sizeof($receipts)>0){
+                    return json_encode(array("status"=>"failure","message"=>"Unable to delete. This date gold pricing information used  to ".sizeof($receipts)."  receipt(s)"));    
+                }
+          }
          $mysql->execute("delete from _tbl_masters_goldrates where RateID='".$_GET['ID']."'");
          $data = $mysql->select("select `RateID`,DATE_FORMAT(`Date`,'%d-%m-%Y') AS `Date`,`GOLD_18`,`GOLD_22`,`GOLD_24`,`SILVER` from _tbl_masters_goldrates order by Date(Date) desc");
          return json_encode(array("status"=>"success","message"=>"Deleted Successfully","data"=>$data));
-     }
+          }
+   
 
      public static function listAll() {
                                                                     

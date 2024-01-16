@@ -52,13 +52,68 @@ class DistrictNames {
      
      public static function remove() {
          global $mysql;
-         $statenames = $mysql->select("select * from _tbl_employees where DistrictNameID='".$_GET['ID']."'");
-         if (sizeof($statenames)>0) {
-            return json_encode(array("status"=>"failure","message"=>"Unable to delete. This district name assigned in employees"));    
-         }
+         
          $customers = $mysql->select("select * from _tbl_masters_customers where DistrictNameID='".$_GET['ID']."'");
-         if (sizeof($statenames)>0) {
-            return json_encode(array("status"=>"failure","message"=>"Unable to delete. This district name assigned in cutomers"));    
+         if (sizeof($customers)>0) {
+            return json_encode(array("status"=>"failure","message"=>"Unable to delete. This district name assigned  to ".sizeof($customers)." cusotmer(s)"));    
+         }
+         
+         $administrators = $mysql->select("select * from _tbl_administrators where DistrictNameID='".$_GET['ID']."'");
+         if (sizeof($administrators)>0) {
+            return json_encode(array("status"=>"failure","message"=>"Unable to delete. This district name assigned  to ".sizeof($administrators)." administrator(s)"));    
+         }
+         
+         $employees = $mysql->select("select * from _tbl_employees where DistrictNameID='".$_GET['ID']."'");
+         if (sizeof($employees)>0) {
+            return json_encode(array("status"=>"failure","message"=>"Unable to delete. This district name assigned  to ".sizeof($employees)." employee(s)"));    
+         } 
+         
+         $branchadmins = $mysql->select("select * from _tbl_masters_users where UserModule='branchadmin' and DistrictNameID='".$_GET['ID']."'");
+         if (sizeof($branchadmins)>0) {
+            return json_encode(array("status"=>"failure","message"=>"Unable to delete. This district name assigned to ".sizeof($branchadmins)." branch admin(s)"));    
+         }
+         
+         $branchusers = $mysql->select("select * from _tbl_masters_users where UserModule='branchuser' and DistrictNameID='".$_GET['ID']."'");
+         if (sizeof($branchusers)>0) {
+            return json_encode(array("status"=>"failure","message"=>"Unable to delete. This district name assigned to ".sizeof($branchusers)."  branch user(s)"));    
+         } 
+         
+         $subadmins = $mysql->select("select * from _tbl_masters_users where UserModule='subadmin' and DistrictNameID='".$_GET['ID']."'");
+         if (sizeof($subadmins)>0) {
+            return json_encode(array("status"=>"failure","message"=>"Unable to delete. This district name assigned to ".sizeof($subadmins)." sub admin(s)"));    
+         }
+         
+         $salesman = $mysql->select("select * from _tbl_masters_salesman where DistrictNameID='".$_GET['ID']."'");
+         if (sizeof($salesman)>0) {
+            return json_encode(array("status"=>"failure","message"=>"Unable to delete. This district name assigned  to ".sizeof($salesman)."  salesman(s)"));    
+         }
+         
+         $areanames = $mysql->select("select * from _tbl_master_areanames where DistrictNameID='".$_GET['ID']."'");
+         if (sizeof($areanames)>0) {
+            return json_encode(array("status"=>"failure","message"=>"Unable to delete. This district name assigned to ".sizeof($areanames)." area names "));    
+         }
+         
+         $salesman_assigned = $mysql->select("select * from _tbl_salesman_areas where DistrictNameID='".$_GET['ID']."'");
+         if (sizeof($areanames)>0) {
+            return json_encode(array("status"=>"failure","message"=>"Unable to delete. This district name allocated to ".sizeof($salesman_assigned)." salesman(s) "));    
+         }
+         
+         //branch
+         $branchs = $mysql->select("select * from _tbl_masters_branches where DistrictNameID='".$_GET['ID']."'");
+         if (sizeof($branchs)>0) {
+            return json_encode(array("status"=>"failure","message"=>"Unable to delete. This district name assigned  to ".sizeof($branchs)." branch(s)"));    
+         }
+         
+         //company
+         $companies = $mysql->select("select * from _tbl_companies where DistrictNameID='".$_GET['ID']."'");
+         if (sizeof($companies)>0) {
+            return json_encode(array("status"=>"failure","message"=>"Unable to delete. This district name assigned  to ".sizeof($companies)." compan(y/ies)"));    
+         }
+          
+         //address book
+         $addressbook = $mysql->select("select * from _tbl_apps_addressbook where DistrictNameID='".$_GET['ID']."'");
+         if (sizeof($addressbook)>0) {
+            return json_encode(array("status"=>"failure","message"=>"Unable to delete. This district name assigned  to ".sizeof($addressbook)." contact(s)"));    
          } 
 
          $mysql->execute("delete from _tbl_masters_districtnames where DistrictNameID='".$_GET['ID']."'");
@@ -68,7 +123,16 @@ class DistrictNames {
      public static function listAll() {
          global $mysql;
          $data = $mysql->select("select * from _tbl_masters_districtnames order by DistrictName");
-         return json_encode(array("status"=>"success","data"=>$data));
+         
+         $data = $mysql->select("SELECT t1.*, IFNULL(t2.cnt,0) AS  AreaCount 
+                                    FROM 
+                                        _tbl_masters_districtnames AS t1
+                                    LEFT JOIN 
+                                        (SELECT DistrictNameID, COUNT(*) AS cnt FROM _tbl_masters_areanames GROUP BY DistrictNameID) AS t2
+                                    ON 
+                                    t1.DistrictNameID=t2.DistrictNameID");
+                                    
+         return json_encode(array("status"=>"success","data"=>$data));  
      }
      
       public static function listAllActive() {

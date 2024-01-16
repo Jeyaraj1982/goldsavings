@@ -8,7 +8,7 @@ class EmployeesErrors {
     const EmployeeName_Empty = "Please enter Employee Name";
     const BranchName_Empty = "Please branch Name";
     
-    const FatherName_Empty = "Please enter Father/Husband Name";
+    const FatherName_Empty = "Please enter Father/Husband's Name";
     const Gender_Empty = "Please select gender";
     const DateOfBirth_Empty = "Please select Date Of Birth";
     const DateOfBirth_MinimumYear = "Age must be greater than 18";
@@ -183,7 +183,7 @@ class Employees {
                 if (!($_POST['AlternativeMobileNumber']>=6000000000 && $_POST['AlternativeMobileNumber']<=9999999999)) {
                     return json_encode(array("status"=>"failure","message"=>EmployeesErrors::AlternativeMobileNumber_InvalidFormat,"div"=>"AlternativeMobileNumber"));    
                 } else {
-                    $dupAltrMobile = $mysql->select("select * from _tbl_masters_employees where AlternativeMobileNumber='".trim($_POST['AlternativeMobileNumber'])."'");
+                    $dupAltrMobile = $mysql->select("select * from _tbl_employees where AlternativeMobileNumber='".trim($_POST['AlternativeMobileNumber'])."'");
                     if (sizeof($dupAltrMobile)>0) {
                         return json_encode(array("status"=>"failure","message"=>EmployeesErrors::AlternativeMobileNumber_Duplicate,"div"=>"AlternativeMobileNumber"));    
                     }
@@ -226,7 +226,7 @@ class Employees {
             if (!(IsValidPanCard(trim($_POST['PancardNumber'])))) {
                 return json_encode(array("status"=>"failure","message"=>EmployeesErrors::PancardNumber_InvalidFormat,"div"=>"PancardNumber"));        
             }
-            $dupPancard = $mysql->select("select * from _tbl_masters_employees where PancardNumber='".trim($_POST['PancardNumber'])."'");
+            $dupPancard = $mysql->select("select * from _tbl_employees where PancardNumber='".trim($_POST['PancardNumber'])."'");
             if (sizeof($dupPancard)>0) {
                 return json_encode(array("status"=>"failure","message"=>EmployeesErrors::PancardNumber_Duplicate,"div"=>"PancardNumber"));    
             }
@@ -243,7 +243,7 @@ class Employees {
                 return json_encode(array("status"=>"failure","message"=>EmployeesErrors::AadhaarCardNumber_InvalidFormat,"div"=>"AadhaarCardNumber"));    
             }
             
-            $dupAadhaar = $mysql->select("select * from _tbl_masters_employees where AadhaarCardNumber='".trim($_POST['AadhaarCardNumber'])."'");
+            $dupAadhaar = $mysql->select("select * from _tbl_employees where AadhaarCardNumber='".trim($_POST['AadhaarCardNumber'])."'");
             if (sizeof($dupAadhaar)>0) {
                 return json_encode(array("status"=>"failure","message"=>EmployeesErrors::AadhaarCardNumber_Duplicate,"div"=>"AadhaarCardNumber"));    
             }
@@ -293,7 +293,11 @@ class Employees {
         $AreaName = $AreaName['data'];
         
         $AllowToChangePasswordFirstLogin = (isset($_POST['AllowToChangePasswordFirstLogin']) && $_POST['AllowToChangePasswordFirstLogin']==1) ? 1 : 0;
-                if ($_SESSION['User']['UserModule']=="admin" || $_SESSION['User']['UserModule']=="subadmin") {
+        
+        $BranchID="0";
+        $BranchCode="";
+        $BranchName="";
+        if ($_SESSION['User']['UserModule']=="admin" || $_SESSION['User']['UserModule']=="subadmin") {
             $Branch = $mysql->select("select * from _tbl_masters_branches where BranchID='".$_POST['BranchID']."'");
         } else {
             $Branch = $mysql->select("select * from _tbl_masters_branches where BranchID='".$_SESSION['User']['BranchID']."'");
@@ -302,25 +306,31 @@ class Employees {
             $CreatedBy="Administrator";
             $CreatedByID=$_SESSION['User']['AdministratorID'];
             $CreatedByName=$_SESSION['User']['AdministratorName'];
+            $CreatedByCode=$_SESSION['User']['AdministratorCode']; 
         } 
         if ($_SESSION['User']['UserModule']=="subadmin") {
             $CreatedBy="Sub Admin";
             $CreatedByID=$_SESSION['User']['UserID'];
             $CreatedByName=$_SESSION['User']['UserName'];
+            $CreatedByCode=$_SESSION['User']['UserCode'];
         }
         if ($_SESSION['User']['UserModule']=="branchadmin") {
             $CreatedBy="Branch Admin";
             $CreatedByID=$_SESSION['User']['UserID'];
             $CreatedByName=$_SESSION['User']['UserName'];
+            $CreatedByCode=$_SESSION['User']['UserCode'];
         }
         if ($_SESSION['User']['UserModule']=="branchuser") {
             $CreatedBy="Branch User";
             $CreatedByID=$_SESSION['User']['UserID'];
             $CreatedByName=$_SESSION['User']['UserName'];
+            $CreatedByCode=$_SESSION['User']['UserCode'];
         }
+        if (sizeof($Branch)>0) {
         $BranchID=$Branch[0]['BranchID'];
         $BranchCode=$Branch[0]['BranchCode'];
         $BranchName=$Branch[0]['BranchName'];
+        }
         $EmployeeID = $mysql->insert("_tbl_employees",array("EmployeeCode"          => $_POST['EmployeeCode'],
                                                             "EntryDate"          => $_POST['EntryDate'],
                                                             "EmployeeName"          => $_POST['EmployeeName'],
@@ -357,6 +367,7 @@ class Employees {
                                                             "BranchName"            => $BranchName,
                                                             "CreatedBy"             => $CreatedBy,
                                                             "CreatedByID"           => $CreatedByID,
+                                                            "CreatedByCode"          => $CreatedByCode,
                                                             "CreatedByName"         => $CreatedByName,
                                                             "CreatedOn"             => date("Y-m-d H:i:s"),
                                                             "IsActive"              => '1'));     
@@ -390,10 +401,32 @@ class Employees {
     
     public static function ListAll() {
         global $mysql;
+        $data = array();
+        
+        if ($_SESSION['User']['UserModule']=="branchadmin") {
+                $data = $mysql->select("select * from _tbl_employees where BranchID='".$_SESSION['User']['BranchID']."'");    
+            }
         if (isset($_SESSION['User']['BranchID']) && ($_SESSION['User']['BranchID']>0) ) {
-        $data = $mysql->select("select * from _tbl_employees where BranchID='".$_SESSION['User']['BranchID']."'");
+            if ($_SESSION['User']['UserModule']=="branchAdmin") {
+                $data = $mysql->select("select * from _tbl_employees where BranchID='".$_SESSION['User']['BranchID']."'");    
+            }
+            if (isset($_GET['filter']) && $_GET['filter']=="CreatedByMe") {
+                $data = $mysql->select("select * from _tbl_employees where BranchID='".$_SESSION['User']['BranchID']."' and  CreatedByCode='".$_SESSION['User']['UserCode']."'");   
+            }
+             
         } else {
             $data = $mysql->select("select * from _tbl_employees");
+            if ($_SESSION['User']['UserModule']=="admin") {
+                if (isset($_GET['filter']) && $_GET['filter']=="CreatedByMe") {
+                    $data = $mysql->select("select * from _tbl_employees where CreatedByCode='".$_SESSION['User']['AdministratorCode']."'");   
+                }
+            }
+            if ($_SESSION['User']['UserModule']=="subadmin") {
+                if (isset($_GET['filter']) && $_GET['filter']=="CreatedByMe") {
+                    $data = $mysql->select("select * from _tbl_employees where CreatedByCode='".$_SESSION['User']['UserCode']."'");   
+                }
+            }
+            
         }
         return json_encode(array("status"=>"success","data"=>$data));
     }
@@ -456,7 +489,7 @@ class Employees {
             if (!checkemail(trim($_POST["EmailID"]))) {
                 return json_encode(array("status"=>"failure","message"=>EmployeesErrors::EmailID_InvalidFormat,"div"=>"EmailID"));    
             } else {
-                $dupEmail = $mysql->select("select * from _tbl_masters_employees where EmployeeID<>'".$_POST['EmployeeID']."' and EmailID='".trim($_POST['EmailID'])."'");
+                $dupEmail = $mysql->select("select * from _tbl_employees where EmployeeID<>'".$_POST['EmployeeID']."' and EmailID='".trim($_POST['EmailID'])."'");
                 if (sizeof($dupEmail)>0) {
                     return json_encode(array("status"=>"failure","message"=>EmployeesErrors::EmailID_Duplicate,"div"=>"EmailID"));    
                 }
@@ -470,7 +503,7 @@ class Employees {
                 if (!($_POST['MobileNumber']>=6000000000 && $_POST['MobileNumber']<=9999999999)) {
                     return json_encode(array("status"=>"failure","message"=>EmployeesErrors::MobileNumber_InvalidFormat,"div"=>"MobileNumber"));    
                 } else {
-                    $dupMobile = $mysql->select("select * from _tbl_masters_employees where EmployeeID<>'".$_POST['EmployeeID']."' and MobileNumber='".trim($_POST['MobileNumber'])."'");
+                    $dupMobile = $mysql->select("select * from _tbl_employees where EmployeeID<>'".$_POST['EmployeeID']."' and MobileNumber='".trim($_POST['MobileNumber'])."'");
                     if (sizeof($dupMobile)>0) {
                         return json_encode(array("status"=>"failure","message"=>EmployeesErrors::MobileNumber_Duplicate,"div"=>"MobileNumber"));    
                     }
@@ -487,7 +520,7 @@ class Employees {
                 if (!($_POST['WhatsappNumber']>=6000000000 && $_POST['WhatsappNumber']<=9999999999)) {
                     return json_encode(array("status"=>"failure","message"=>EmployeesErrors::WhatsappNumber_InvalidFormat,"div"=>"WhatsappNumber"));    
                 } else {
-                    $dupWaMobile = $mysql->select("select * from _tbl_masters_employees where EmployeeID<>'".$_POST['EmployeeID']."' and WhatsappNumber='".trim($_POST['WhatsappNumber'])."'");
+                    $dupWaMobile = $mysql->select("select * from _tbl_employees where EmployeeID<>'".$_POST['EmployeeID']."' and WhatsappNumber='".trim($_POST['WhatsappNumber'])."'");
                     if (sizeof($dupWaMobile)>0) {
                         return json_encode(array("status"=>"failure","message"=>EmployeesErrors::WhatsappNumber_Duplicate,"div"=>"WhatsappNumber"));    
                     }
@@ -504,7 +537,7 @@ class Employees {
                 if (!($_POST['AlternativeMobileNumber']>=6000000000 && $_POST['AlternativeMobileNumber']<=9999999999)) {
                     return json_encode(array("status"=>"failure","message"=>EmployeesErrors::AlternativeMobileNumber_InvalidFormat,"div"=>"AlternativeMobileNumber"));    
                 } else {
-                    $dupAltrMobile = $mysql->select("select * from _tbl_masters_employees where EmployeeID<>'".$_POST['EmployeeID']."' and AlternativeMobileNumber='".trim($_POST['AlternativeMobileNumber'])."'");
+                    $dupAltrMobile = $mysql->select("select * from _tbl_employees where EmployeeID<>'".$_POST['EmployeeID']."' and AlternativeMobileNumber='".trim($_POST['AlternativeMobileNumber'])."'");
                     if (sizeof($dupAltrMobile)>0) {
                         return json_encode(array("status"=>"failure","message"=>EmployeesErrors::AlternativeMobileNumber_Duplicate,"div"=>"AlternativeMobileNumber"));    
                     }
@@ -523,7 +556,7 @@ class Employees {
             if (strlen(trim($_POST['LoginUserName']))>8) {
                 return json_encode(array("status"=>"failure","message"=>EmployeesErrors::LoginUserName_RequireMaximumLength,"div"=>"LoginUserName"));    
             }
-           $dupLoginName = $mysql->select("select * from _tbl_masters_employees where EmployeeID<>'".$_POST['EmployeeID']."' and LoginUserName='".trim($_POST['LoginUserName'])."'");
+           $dupLoginName = $mysql->select("select * from _tbl_employees where EmployeeID<>'".$_POST['EmployeeID']."' and LoginUserName='".trim($_POST['LoginUserName'])."'");
            if (sizeof($dupLoginName)>0) {
                return json_encode(array("status"=>"failure","message"=>EmployeesErrors::LoginUserName_Duplicate,"div"=>"LoginUserName"));    
            } 
@@ -546,7 +579,7 @@ class Employees {
             if (!(IsValidPanCard(trim($_POST['PancardNumber'])))) {
                 return json_encode(array("status"=>"failure","message"=>EmployeesErrors::PancardNumber_InvalidFormat,"div"=>"PancardNumber"));        
             }
-            $dupPancard = $mysql->select("select * from _tbl_masters_employees where EmployeeID<>'".$_POST['EmployeeID']."' and  PancardNumber='".trim($_POST['PancardNumber'])."'");
+            $dupPancard = $mysql->select("select * from _tbl_employees where EmployeeID<>'".$_POST['EmployeeID']."' and  PancardNumber='".trim($_POST['PancardNumber'])."'");
             if (sizeof($dupPancard)>0) {
                 return json_encode(array("status"=>"failure","message"=>EmployeesErrors::PancardNumber_Duplicate,"div"=>"PancardNumber"));    
             }
@@ -562,7 +595,7 @@ class Employees {
                 return json_encode(array("status"=>"failure","message"=>EmployeesErrors::AadhaarCardNumber_InvalidFormat,"div"=>"AadhaarCardNumber"));    
             }
             
-            $dupAadhaar = $mysql->select("select * from _tbl_masters_employees where EmployeeID<>'".$_POST['EmployeeID']."' and  AadhaarCardNumber='".trim($_POST['AadhaarCardNumber'])."'");
+            $dupAadhaar = $mysql->select("select * from _tbl_employees where EmployeeID<>'".$_POST['EmployeeID']."' and  AadhaarCardNumber='".trim($_POST['AadhaarCardNumber'])."'");
             if (sizeof($dupAadhaar)>0) {
                 return json_encode(array("status"=>"failure","message"=>EmployeesErrors::AadhaarCardNumber_Duplicate,"div"=>"AadhaarCardNumber"));    
             }
@@ -810,6 +843,13 @@ class Employees {
                         `Remarks`,
                         `CreatedOn`,
                         `IsActive`,
+                        `CreatedByID`,
+                        `CreatedByName`,
+                        `CreatedByCode`,
+                        `CreatedBy`,
+                        `BranchID`,
+                        `BranchCode`,
+                        `BranchName`,
                         `EmployeeCategoryID`,
                         `EmployeeCategoryCode`,
                         `EmployeeCategoryTitle`
@@ -896,6 +936,16 @@ class Employees {
                 if ($_POST['EmployeeCategoryID']!="0") {
                     $sql .= " and EmployeeCategoryID='".$_POST['EmployeeCategoryID']."' ";    
                 }
+            }
+            
+            if (isset($_POST['BranchName']) && $_POST['BranchName']=="1") {
+                if ($_POST['BranchID']!="0") {
+                    $sql .= " and BranchID='".$_POST['BranchID']."' ";    
+                }
+            }
+            
+            if ($_SESSION['User']['UserModule']=="branchadmin" || $_SESSION['User']['UserModule']=="branchuser") {
+                $sql .= " and BranchID='".$_SESSION['User']['BranchID']."' ";        
             }
             
             if ($_POST['OrderBy']=="StateNameID") {

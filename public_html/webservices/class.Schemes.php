@@ -101,6 +101,9 @@ class Schemes {
             return json_encode(array("status"=>"failure","message"=>"Please enter Terms Of Conditions","div"=>"TermsOfConditions"));    
         }
         
+        $_POST['MakingChargeDiscount']= strlen(trim($_POST['MakingChargeDiscount']))==0 ? "0" : $_POST['MakingChargeDiscount'];
+         $_POST['WastageDiscount']= strlen(trim($_POST['WastageDiscount']))==0 ? "0" : $_POST['WastageDiscount'];
+        
         $id = $mysql->insert("_tbl_masters_schemes",array("SchemeCode"           => $_POST['SchemeCode'],
                                                           "EntryDate"            => $_POST['EntryDate'],
                                                           "SchemeName"           => $_POST['SchemeName'],
@@ -126,10 +129,10 @@ class Schemes {
      public static function remove() {
          
          global $mysql;
-         
-         $schemes = $mysql->select("select count(SchemeID) as cnt from _tbl_contracts where SchemeID='".$_GET['ID']."'");
+                                                    
+         $schemes = $mysql->select("select count(*) as cnt from _tbl_contracts where SchemeID='".$_GET['ID']."'");
          if (isset($schemes[0]['cnt']) && $schemes[0]['cnt']>0) {
-            return json_encode(array("status"=>"failure","message"=>"Unable to remmove. This scheme assigned to ".$schemes[0]['cnt']." contract(s)","data"=>$mysql->select("select * from _tbl_masters_schemes")));    
+            return json_encode(array("status"=>"failure","message"=>"Unable to remmove. This scheme assigned to ".$schemes[0]['cnt']." contract(s)"));    
          }
          
          $mysql->execute("delete from _tbl_masters_schemes where SchemeID='".$_GET['ID']."'");
@@ -146,7 +149,16 @@ class Schemes {
 
      public static function listAll() {
          
-         global $mysql;
+         global $mysql;                  
+         if (isset($_SESSION['User']['CustomerID'])) {
+               $data = $mysql->select("SELECT t1.*, IFNULL(t2.cnt,0) AS ContractCount 
+                                    FROM 
+                                        _tbl_masters_schemes AS t1
+                                    LEFT JOIN 
+                                        (SELECT SchemeID, COUNT(*) AS cnt FROM _tbl_contracts where CustomerID='".$_SESSION['User']['CustomerID']."' GROUP BY SchemeID) AS t2
+                                    ON 
+                                    t1.SchemeID=t2.SchemeID");
+         } else {
          
          $data = $mysql->select("SELECT t1.*, IFNULL(t2.cnt,0) AS ContractCount 
                                     FROM 
@@ -156,14 +168,22 @@ class Schemes {
                                     ON 
                                     t1.SchemeID=t2.SchemeID");
                                     
-                                    
+         }                            
          return json_encode(array("status"=>"success","data"=>$data));
      }
      
      public static function listAllActive() {
          
          global $mysql;
-         
+         if (isset($_SESSION['User']['CustomerID'])) {
+         $data = $mysql->select("SELECT t1.*, IFNULL(t2.cnt,0) AS ContractCount 
+                                    FROM 
+                                        _tbl_masters_schemes AS t1
+                                    LEFT JOIN 
+                                        (SELECT SchemeID, COUNT(*) AS cnt FROM _tbl_contracts where CustomerID='".$_SESSION['User']['CustomerID']."' GROUP BY SchemeID) AS t2
+                                    ON 
+                                    t1.SchemeID=t2.SchemeID where t1.IsActive='1'");
+         } else {
          $data = $mysql->select("SELECT t1.*, IFNULL(t2.cnt,0) AS ContractCount 
                                     FROM 
                                         _tbl_masters_schemes AS t1
@@ -171,6 +191,7 @@ class Schemes {
                                         (SELECT SchemeID, COUNT(*) AS cnt FROM _tbl_contracts GROUP BY SchemeID) AS t2
                                     ON 
                                     t1.SchemeID=t2.SchemeID where t1.IsActive='1'");
+         }
          return json_encode(array("status"=>"success","data"=>$data));
      }
      
@@ -210,6 +231,8 @@ class Schemes {
          if (strlen(trim($_POST['ShortDescription']))==0) {
              return json_encode(array("status"=>"failure","message"=>"Please enter Short Description","div"=>"ShortDescription"));    
          }
+         $_POST['MakingChargeDiscount']= strlen(trim($_POST['MakingChargeDiscount']))==0 ? "0" : $_POST['MakingChargeDiscount'];
+         $_POST['WastageDiscount']= strlen(trim($_POST['WastageDiscount']))==0 ? "0" : $_POST['WastageDiscount'];
          
          $mysql->execute("update _tbl_masters_schemes set SchemeName           = '".$_POST['SchemeName']."',
                                                           EntryDate            = '".$_POST['EntryDate']."',

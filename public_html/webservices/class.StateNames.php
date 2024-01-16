@@ -41,23 +41,73 @@ class StateNames {
      
      public static function remove() {
          global $mysql;
-         $statenames = $mysql->select("select * from _tbl_employees where StateNameID='".$_GET['ID']."'");
-         if (sizeof($statenames)>0) {
-            return json_encode(array("status"=>"failure","message"=>"Unable to delete. This statename assigned in some employees"));    
-         }
+         
          $customers = $mysql->select("select * from _tbl_masters_customers where StateNameID='".$_GET['ID']."'");
-         if (sizeof($statenames)>0) {
-            return json_encode(array("status"=>"failure","message"=>"Unable to delete. This statename assigned in some cusotmer cutomers"));    
-         }                             
+         if (sizeof($customers)>0) {
+            return json_encode(array("status"=>"failure","message"=>"Unable to delete. This state name assigned  to ".sizeof($customers)." cusotmer(s)"));    
+         }
+         
+         $administrators = $mysql->select("select * from _tbl_administrators where StateNameID='".$_GET['ID']."'");
+         if (sizeof($administrators)>0) {
+            return json_encode(array("status"=>"failure","message"=>"Unable to delete. This state name assigned  to ".sizeof($administrators)." administrator(s)"));    
+         }
+         
+         $employees = $mysql->select("select * from _tbl_employees where StateNameID='".$_GET['ID']."'");
+         if (sizeof($employees)>0) {
+            return json_encode(array("status"=>"failure","message"=>"Unable to delete. This state name assigned  to ".sizeof($employees)." employee(s)"));    
+         } 
+         
+         $branchadmins = $mysql->select("select * from _tbl_masters_users where UserModule='branchadmin' and StateNameID='".$_GET['ID']."'");
+         if (sizeof($branchadmins)>0) {
+            return json_encode(array("status"=>"failure","message"=>"Unable to delete. This state name assigned to ".sizeof($branchadmins)." branch admin(s)"));    
+         }
+         
+         $branchusers = $mysql->select("select * from _tbl_masters_users where UserModule='branchuser' and StateNameID='".$_GET['ID']."'");
+         if (sizeof($branchusers)>0) {
+            return json_encode(array("status"=>"failure","message"=>"Unable to delete. This state name assigned to ".sizeof($branchusers)."  branch user(s)"));    
+         } 
+         
+         $subadmins = $mysql->select("select * from _tbl_masters_users where UserModule='subadmin' and StateNameID='".$_GET['ID']."'");
+         if (sizeof($subadmins)>0) {
+            return json_encode(array("status"=>"failure","message"=>"Unable to delete. This state name assigned to ".sizeof($subadmins)." sub admin(s)"));    
+         }
+         
+         $salesman = $mysql->select("select * from _tbl_masters_salesman where StateNameID='".$_GET['ID']."'");
+         if (sizeof($salesman)>0) {
+            return json_encode(array("status"=>"failure","message"=>"Unable to delete. This state name assigned  to ".sizeof($salesman)."  salesman(s)"));    
+         }
          
          $districtnames = $mysql->select("select * from _tbl_masters_districtnames where StateNameID='".$_GET['ID']."'");
          if (sizeof($districtnames)>0) {
-            return json_encode(array("status"=>"failure","message"=>"Unable to delete. This statename assigned in some district names"));    
+            return json_encode(array("status"=>"failure","message"=>"Unable to delete. This statename assigned  to ".sizeof($districtnames)." district names"));    
          }
          
          $areanames = $mysql->select("select * from _tbl_master_areanames where StateNameID='".$_GET['ID']."'");
          if (sizeof($areanames)>0) {
-            return json_encode(array("status"=>"failure","message"=>"Unable to delete. This statename assigned in some area names "));    
+            return json_encode(array("status"=>"failure","message"=>"Unable to delete. This state name assigned to ".sizeof($areanames)." area names "));    
+         }
+         
+         $salesman_assigned = $mysql->select("select * from _tbl_salesman_areas where StateNameID='".$_GET['ID']."'");
+         if (sizeof($areanames)>0) {
+            return json_encode(array("status"=>"failure","message"=>"Unable to delete. This state name allocated to ".sizeof($salesman_assigned)." salesman(s) "));    
+         }
+         
+         //branch
+         $branchs = $mysql->select("select * from _tbl_masters_branches where StateNameID='".$_GET['ID']."'");
+         if (sizeof($branchs)>0) {
+            return json_encode(array("status"=>"failure","message"=>"Unable to delete. This state name assigned  to ".sizeof($branchs)." branch(s)"));    
+         }
+         
+         //company
+         $companies = $mysql->select("select * from _tbl_companies where StateNameID='".$_GET['ID']."'");
+         if (sizeof($companies)>0) {
+            return json_encode(array("status"=>"failure","message"=>"Unable to delete. This state name assigned  to ".sizeof($companies)." compan(y/ies)"));    
+         }
+          
+         //address book
+         $addressbook = $mysql->select("select * from _tbl_apps_addressbook where StateNameID='".$_GET['ID']."'");
+         if (sizeof($addressbook)>0) {
+            return json_encode(array("status"=>"failure","message"=>"Unable to delete. This state name assigned  to ".sizeof($addressbook)." contact(s)"));    
          }
 
          $mysql->execute("delete from _tbl_masters_statenames where StateNameID='".$_GET['ID']."'");

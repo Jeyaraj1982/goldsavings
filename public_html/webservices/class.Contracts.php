@@ -1,7 +1,7 @@
 <?php
 class Contracts {
     
-    function addNew() {
+    public static function addNew() {
         
         global $mysql;
                               
@@ -19,6 +19,11 @@ class Contracts {
             }
         }
         $_POST['EntryDate'] = date("Y-m-d",strtotime($_POST['EntryDate']));
+        
+        $customer = $mysql->select("select * from _tbl_masters_customers  where CustomerID='".$_GET['Customer']."'");
+        if (!(strtotime($customer[0]['EntryDate'])<=strtotime($_POST['EntryDate']))) {
+             return json_encode(array("status"=>"failure","message"=>"Contract date (".date("d-m-Y",strtotime($_POST['EntryDate'])).") not allowed. Reason: customer created on ".date("d-m-Y",strtotime($customer[0]['EntryDate']))." ","div"=>"EntryDate"));    
+        }
         
         if (isset($_POST['ContractCode'])) {
             if (strlen(trim($_POST['ContractCode']))==0) {
@@ -61,7 +66,6 @@ class Contracts {
              }
         }
         
-        
         if (strlen(trim($_POST['Duration']))==0 || trim($_POST['Duration'])=="") {
             return json_encode(array("status"=>"failure","message"=>"Please enter duration  min: ".$SchemeData[0]['MinDuration']." & max: ".$SchemeData[0]['MaxDuration'],"div"=>"Duration"));    
         } else {
@@ -78,14 +82,6 @@ class Contracts {
             return json_encode(array("status"=>"failure","message"=>"Please select material type","div"=>"MaterialType"));    
         }
         
-        if ($_POST['PaymentModeID']=="0") {
-            return json_encode(array("status"=>"failure","message"=>"Please select Payment Mode","div"=>"PaymentModeID"));    
-        }
-        
-        if ($_POST['PaymentRemarks']=="") {
-            return json_encode(array("status"=>"failure","message"=>"Please enter payment remarks","div"=>"PaymentRemarks"));    
-        }
-        
         $todayGoldPrice=$mysql->select("select * from  _tbl_masters_goldrates where Date='".$_POST['EntryDate']."'");
         if (sizeof($todayGoldPrice)==0) {
            return json_encode(array("status"=>"failure","message"=>"Please update gold price on ".date("d-m-Y",strtotime($_POST['EntryDate'])),"div"=>"PaymentModeID"));     
@@ -94,59 +90,69 @@ class Contracts {
         $CustomerData = json_decode(Customers::getDetailsByID($_GET['Customer']),true);
         $CustomerData = $CustomerData['data'];                              
         
-        if (isset($_SESSION['User']['SalesmanID'])) {
-             $CreatedBy="Salesman";
-             $CreatedByID=$_SESSION['User']['SalesmanID'];
-             $CreatedByName=$_SESSION['User']['SalesmanName'];
-        } 
+        $BranchID="0";
+        $BranchCode="";
+        $BranchName="";
         
-        if (isset($_SESSION['User']['UserID'])) {
-             $CreatedBy="User";
-             $CreatedByID=$_SESSION['User']['UserID'];
-             $CreatedByName=$_SESSION['User']['UserName'];
+        if ($_SESSION['User']['UserModule']=="admin" || $_SESSION['User']['UserModule']=="subadmin") {
+            $Branch = $mysql->select("select * from _tbl_masters_branches where BranchID='".$CustomerData[0]['BranchID']."'");
+        } else {
+            $Branch = $mysql->select("select * from _tbl_masters_branches where BranchID='".$_SESSION['User']['BranchID']."'");
+        }
+                                
+        if ($_SESSION['User']['UserModule']=="admin") {
+            $CreatedBy="Administrator";
+            $CreatedByID=$_SESSION['User']['AdministratorID'];
+            $CreatedByName=$_SESSION['User']['AdministratorName'];
+            $CreatedByCode=$_SESSION['User']['AdministratorCode'];
         } 
+        if ($_SESSION['User']['UserModule']=="subadmin") {
+            $CreatedBy="Sub Admin";
+            $CreatedByID=$_SESSION['User']['UserID'];
+            $CreatedByName=$_SESSION['User']['UserName'];
+            $CreatedByCode=$_SESSION['User']['UserCode'];
+        }
+        if ($_SESSION['User']['UserModule']=="branchadmin") {
+            $CreatedBy="Branch Admin";
+            $CreatedByID=$_SESSION['User']['UserID'];
+            $CreatedByName=$_SESSION['User']['UserName'];
+            $CreatedByCode=$_SESSION['User']['UserCode'];
+        }
         
-        if (isset($_SESSION['User']['CustomerID'])) {
-             $CreatedBy="User";
+        if ($_SESSION['User']['UserModule']=="branchuser") {
+            $CreatedBy="Branch User";
+            $CreatedByID=$_SESSION['User']['UserID'];
+            $CreatedByName=$_SESSION['User']['UserName'];
+            $CreatedByCode=$_SESSION['User']['UserCode'];
+        }
+        
+        if (isset($_SESSION['User']['SalesmanID']) && $_SESSION['User']['SalesmanID']>0) {
+            $CreatedBy="Salesman";
+            $CreatedByID=$_SESSION['User']['SalesmanID'];
+            $CreatedByName=$_SESSION['User']['SalesmanName'];
+            $CreatedByCode=$_SESSION['User']['SalesmanCode'];
+        }
+        
+        if (isset($_SESSION['User']['CustomerID']) && $_SESSION['User']['CustomerID']>0) {
+             $CreatedBy="Customer";
              $CreatedByID=$_SESSION['User']['CustomerID'];
              $CreatedByName=$_SESSION['User']['CustomerName'];
+             $CreatedByCode=$_SESSION['User']['CustomerCode'];
         } 
         
         if (isset($_SESSION['User']['EmployeeID'])) {
              $CreatedBy="Employee";
              $CreatedByID=$_SESSION['User']['EmployeeID'];
              $CreatedByName=$_SESSION['User']['EmployeeName'];
+             $CreatedByCode=$_SESSION['User']['SalesmanCode'];
         }
-                                
-        $_POST['ModeOfBenifits'] = "GOLD";
-        if ($_SESSION['User']['UserModule']=="admin" || $_SESSION['User']['UserModule']=="subadmin") {
-            $Branch = $mysql->select("select * from _tbl_masters_branches where BranchID='".$_POST['BranchID']."'");
-        } else {
-            $Branch = $mysql->select("select * from _tbl_masters_branches where BranchID='".$_SESSION['User']['BranchID']."'");
-        }
-        if ($_SESSION['User']['UserModule']=="admin") {
-            $CreatedBy="Administrator";
-            $CreatedByID=$_SESSION['User']['AdministratorID'];
-            $CreatedByName=$_SESSION['User']['AdministratorName'];
-        } 
-        if ($_SESSION['User']['UserModule']=="subadmin") {
-            $CreatedBy="Sub Admin";
-            $CreatedByID=$_SESSION['User']['UserID'];
-            $CreatedByName=$_SESSION['User']['UserName'];
-        }
-        if ($_SESSION['User']['UserModule']=="branchadmin") {
-            $CreatedBy="Branch Admin";
-            $CreatedByID=$_SESSION['User']['UserID'];
-            $CreatedByName=$_SESSION['User']['UserName'];
-        }
-        if ($_SESSION['User']['UserModule']=="branchuser") {
-            $CreatedBy="Branch User";
-            $CreatedByID=$_SESSION['User']['UserID'];
-            $CreatedByName=$_SESSION['User']['UserName'];
-        }
+        
         $BranchID=$Branch[0]['BranchID'];
         $BranchCode=$Branch[0]['BranchCode'];
         $BranchName=$Branch[0]['BranchName'];
+                                
+        $_POST['ModeOfBenifits'] = "GOLD";
+         
         $ContractID = $mysql->insert("_tbl_contracts",array("ContractCode"         => $ContractCode,
                                                             "EntryDate"            => $_POST['EntryDate'],
                                                             
@@ -170,8 +176,7 @@ class Contracts {
                                                             "MaterialType"         => $_POST['MaterialType'],
                                                            
                                                             "CreatedOn"            => date("Y-m-d H:i:s"),
-                                                            "CreatedBy"            => $CreatedBy,
-                                                            "CreatedByID"          => $CreatedByID,
+
                                                             "VoucherNumber"        => "",
                                                             "WastageDiscount"      => $SchemeData[0]['WastageDiscount'],
                                                             "MakingChargeDiscount" => $SchemeData[0]['MakingChargeDiscount'],
@@ -179,11 +184,105 @@ class Contracts {
                                                             "BranchID"              => $BranchID,
                                                             "BranchCode"            => $BranchCode,
                                                             "BranchName"            => $BranchName,
+                                                            
                                                             "CreatedBy"             => $CreatedBy,
                                                             "CreatedByID"           => $CreatedByID,
+                                                            "CreatedByCode"          => $CreatedByCode,
                                                             "CreatedByName"         => $CreatedByName,
                                                             "CreatedByName"        => $CreatedByName));
         if ($ContractID>0) {
+
+            //credit amount and debit process
+            $i=0;
+            foreach($_POST['cashpayment'] as $cashpayment) {
+                $TxnRefID= SequnceList::updateNumber("_tbl_wallet"); 
+                $mysql->insert("_tbl_wallet",array("TxnDate"         => date("Y-m-d H:i:s"),
+                                                   "EntryDate"       => $_POST['EntryDate'],
+                                                   "TxnRefID"        => $TxnRefID,
+                                                   "CustomerID"      => $CustomerData[0]['CustomerID'],
+                                                   "CustomerCode"    => $CustomerData[0]['CustomerCode'],
+                                                   "CustomerName"    => $CustomerData[0]['CustomerName'],
+                                                   "Particulars"     => "Cr/CASH/CON:".$ContractCode."/TXNID:".$TxnRefID,
+                                                   "Credits"         => $cashpayment,
+                                                   "Debits"          => "0",
+                                                   "Balance"         => $Balance,
+                                                   "PaymentType"     => "CASH",
+                                                   "PaymentModeID"   => "0",
+                                                   "PaymentMode"     => "",
+                                                   "BankTransaction" => "",
+                                                   "Remarks"         => "",
+                                                   "InputParam"      => "",
+                                                   "CashDenomination"=> $_POST['cashdemoination'][$i],
+                                                   "ContractID"      => $ContractID
+                ));
+                $i++;
+            }
+            
+            $i=0;
+            foreach($_POST['bankpayment'] as $bankpayment) {
+                $TxnRefID= SequnceList::updateNumber("_tbl_wallet"); 
+                $mysql->insert("_tbl_wallet",array("TxnDate"         => date("Y-m-d H:i:s"),
+                                                   "EntryDate"       => $_POST['EntryDate'],
+                                                   "TxnRefID"        => $TxnRefID,
+                                                   "CustomerID"      => $CustomerData[0]['CustomerID'],
+                                                   "CustomerCode"    => $CustomerData[0]['CustomerCode'],
+                                                   "CustomerName"    => $CustomerData[0]['CustomerName'],
+                                                   "Particulars"     => "Cr/BANK/".$_POST['txnid'][$i]."/".$_POST['paymentmodeid'][$i]."/CON:".$ContractCode."/TXNID:".$TxnRefID,
+                                                   "Credits"         => $bankpayment,
+                                                   "Debits"          => "0",
+                                                   "Balance"         => $Balance,
+                                                   "PaymentType"     => "BANK",
+                                                   "PaymentModeID"   => $_POST['paymentmodeid'][$i],
+                                                   "PaymentMode"     => $_POST['paymentmodetext'][$i],
+                                                   "BankTransaction" => $_POST['txnid'][$i],
+                                                   "Remarks"         => $_POST['bankremarks'][$i],
+                                                   "InputParam"      => "",
+                                                   "CashDenomination"=> "",
+                                                   "ContractID"      => $ContractID
+                ));
+                $i++;
+            }
+            
+            $i=0;
+            foreach($_POST['walletpayment22'] as $walletpayment) {
+                $mysql->insert("_tbl_wallet",array("TxnDate"=>date("Y-m-d H:i:s"),
+                       "EntryDate"=>$_POST['EntryDate'],
+                       "CustomerID"=>$CustomerData[0]['CustomerID'],
+                       "CustomerCode"=>$CustomerData[0]['CustomerCode'],
+                       "CustomerName"=>$CustomerData[0]['CustomerName'],
+                       "Particulars"=>"Cr/WALLET/CON:".$ContractCode,
+                       "Credits"=>$walletpayment,
+                       "Debits"=>"0",
+                       "Balance"=>$Balance,
+                       "PaymentType"=>"CASH",
+                       "PaymentModeID"=>"0",
+                       "PaymentMode"=>"",
+                       "BankTransaction"=>"",
+                       "Remarks"=>$_POST['walletRemarks'][$i],
+                       "InputParam"=>"",
+                       "CashDenomination"=>$_POST['cashdemoination'][$i],
+                       "ContractID"=>$ContractID
+                ));
+                $mysql->insert("_tbl_wallet",array("TxnDate"=>date("Y-m-d H:i:s"),
+                       "EntryDate"=>$_POST['EntryDate'],
+                       "CustomerID"=>$CustomerData[0]['CustomerID'],
+                       "CustomerCode"=>$CustomerData[0]['CustomerCode'],
+                       "CustomerName"=>$CustomerData[0]['CustomerName'],
+                       "Particulars"=>"Dt/WALLET/CON:".$ContractCode,
+                       "Credits"=>"0",
+                       "Debits"=>$walletpayment,
+                       "Balance"=>$Balance,
+                       "PaymentType"=>"CASH",
+                       "PaymentModeID"=>"0",
+                       "PaymentMode"=>"",
+                       "BankTransaction"=>"",
+                       "Remarks"=>$_POST['walletRemarks'][$i],
+                       "InputParam"=>"",
+                       "CashDenomination"=>$_POST['cashdemoination'][$i],
+                       "ContractID"=>$ContractID
+                ));
+                $i++;
+            }
 
             $scheme_information = $mysql->select("select * from _tbl_masters_schemes where SchemeID='".$_GET['Scheme']."'");
             
@@ -191,23 +290,23 @@ class Contracts {
                 
                 for($i=1;$i<=$_POST['Duration'];$i++) {
                     $dueDate = date('Y-m-d', strtotime($_POST['EntryDate']. ' + '.(($i-1)*30).' days'));
-                    $mysql->insert("_tbl_contracts_dues",array("CustomerID"     => $CustomerData[0]['CustomerID'],
-                                                               "CustomerCode"   => $CustomerData[0]['CustomerCode'],
-                                                               "CustomerName"   => $CustomerData[0]['CustomerName'],
-                                                               
-                                                               "ContractID"     => $ContractID,
-                                                               "ContractCode"   => $ContractCode,
-                                                               
-                                                               "SchemeID"       => $scheme_information[0]['SchemeID'],
-                                                               "SchemeCode"     => $scheme_information[0]['SchemeCode'],
-                                                               "SchemeName"     => $scheme_information[0]['SchemeName'],
-                                                               
-                                                               "DueNumber"      => $i,
-                                                               "DueDate"        => $dueDate,
-                                                               "ReceiptNumber"  => "",
-                                                               "DueAmount"      => $_POST['DueAmount'],
-                                                               "IsShowPayButton"=> '0',
-                                                               "GoldInGram"     => "0"))   ;
+                    $mysql->insert("_tbl_contracts_dues",array("CustomerID"      => $CustomerData[0]['CustomerID'],
+                                                               "CustomerCode"    => $CustomerData[0]['CustomerCode'],
+                                                               "CustomerName"    => $CustomerData[0]['CustomerName'],
+                                                               "ContractID"      => $ContractID,
+                                                               "ContractCode"    => $ContractCode,
+                                                               "SchemeID"        => $scheme_information[0]['SchemeID'],
+                                                               "SchemeCode"      => $scheme_information[0]['SchemeCode'],
+                                                               "SchemeName"      => $scheme_information[0]['SchemeName'],
+                                                               "DueNumber"       => $i,
+                                                               "DueDate"         => $dueDate,
+                                                               "ReceiptNumber"   => "",
+                                                               "DueAmount"       => $_POST['DueAmount'],
+                                                               "BranchID"        => $BranchID,
+                                                               "BranchCode"      => $BranchCode,
+                                                               "BranchName"      => $BranchName,
+                                                               "IsShowPayButton" => "0",
+                                                               "GoldInGram"      => "0"))   ;
                 }
                 
                 $mysql->execute("update _tbl_contracts set StartDate='".$_POST['EntryDate']."', 
@@ -225,23 +324,46 @@ class Contracts {
                 $RecepitNumber = SequnceList::updateNumber("_tbl_receipts");
                 $PaymentMode = $mysql->select("select * from _tbl_masters_paymentmodes where  PaymentModeID='".$_POST['PaymentModeID']."'");
                 
-                $RecepitID = $mysql->insert("_tbl_receipts",array("ReceiptNumber"        => $RecepitNumber,
-                                                                  "ReceiptDate"          => $_POST['EntryDate'],
-                                                                  "CustomerID"           => $CustomerData[0]['CustomerID'],
-                                                                  "CustomerCode"         => $CustomerData[0]['CustomerCode'],
-                                                                  "CustomerName"         => $CustomerData[0]['CustomerName'],
-                                                                  "MobileNumber"        => $CustomerData[0]['MobileNumber'],
-                                                                  "ContractID"           => $ContractID,
-                                                                  "ContractCode"         => $ContractCode,
-                                                                  "DueNumber"            => '1',
-                                                                  "DueAmount"            => $_POST['DueAmount'],
-                                                                  "DueGold"              => $DueGold,
-                                                                  "PriceOnDate"          => $_POST['EntryDate'],
-                                                                  "PaidAmount"           => $_POST['DueAmount'],
-                                                                  "PaymentModeID"        => $PaymentMode[0]['PaymentModeID'],
-                                                                  "PaymentMode"          => $PaymentMode[0]['PaymentMode'],
-                                                                  "PaymentRemarks"       => $_POST['PaymentRemarks'],
-                                                                  "CreatedOn"            => date("Y-m-d H:i:s")));
+                $TxnRefID= SequnceList::updateNumber("_tbl_wallet"); 
+                $acid = $mysql->insert("_tbl_wallet",array("TxnDate"         => date("Y-m-d H:i:s"),
+                                                           "EntryDate"       => $_POST['EntryDate'],
+                                                           "TxnRefID"        => $TxnRefID,
+                                                           "CustomerID"      => $CustomerData[0]['CustomerID'],
+                                                           "CustomerCode"    => $CustomerData[0]['CustomerCode'],
+                                                           "CustomerName"    => $CustomerData[0]['CustomerName'],
+                                                           "Particulars"     => "Dt/DUE:1/CON:".$ContractCode."/RECEPIT:".$RecepitNumber."/TXNID:".$TxnRefID,
+                                                           "Credits"         => "0",
+                                                           "Debits"          => $_POST['DueAmount'],
+                                                           "Balance"         => $Balance,
+                                                           "PaymentType"     => "RECEIPT",
+                                                           "PaymentModeID"   => "0",
+                                                           "PaymentMode"     => "",
+                                                           "BankTransaction" => "",
+                                                           "Remarks"         => "",
+                                                           "InputParam"      => "",
+                                                           "CashDenomination"=> "",
+                                                           "ContractID"      => $ContractID
+                ));
+                $RecepitID = $mysql->insert("_tbl_receipts",array("ReceiptNumber"   => $RecepitNumber,
+                                                                  "ReceiptDate"     => $_POST['EntryDate'],
+                                                                  "CustomerID"      => $CustomerData[0]['CustomerID'],
+                                                                  "CustomerCode"    => $CustomerData[0]['CustomerCode'],
+                                                                  "CustomerName"    => $CustomerData[0]['CustomerName'],
+                                                                  "MobileNumber"    => $CustomerData[0]['MobileNumber'],
+                                                                  "ContractID"      => $ContractID,
+                                                                  "ContractCode"    => $ContractCode,
+                                                                  "DueNumber"       => '1',
+                                                                  "DueAmount"       => $_POST['DueAmount'],
+                                                                  "DueGold"         => $DueGold,
+                                                                  "PriceOnDate"     => $_POST['EntryDate'],
+                                                                  "PaidAmount"      => $_POST['DueAmount'],
+                                                                  "PaymentModeID"   => "0",
+                                                                  "PaymentMode"     => "",
+                                                                  "PaymentRemarks"  => "",
+                                                                  "BranchID"        => $BranchID,
+                                                                  "BranchCode"      => $BranchCode,
+                                                                  "BranchName"      => $BranchName,
+                                                                  "CreatedOn"       => date("Y-m-d H:i:s")));
                                                               
                 $dues = $mysql->select("select * from _tbl_contracts_dues where ContractID='".$ContractID."'");
                 
@@ -261,6 +383,8 @@ class Contracts {
                 $url = WEB_URL."receipt".md5($RecepitNumber);
                 QRcode::png($url, SERVER_PATH."/assets/qrcodes/".md5($RecepitNumber).".png"); 
             }
+            
+            MailController::sendMail($CustomerData[0]['EmailID'],$CustomerData[0]['CustomerName'],"New Contract (".$ContractCode.") Created","Created");
             return json_encode(array("status"=>"success","message"=>"successfully created","ContractID"=>$ContractCode,"div"=>""));
             
         } else {
@@ -268,37 +392,41 @@ class Contracts {
         }
      }
      
-     public static function remove() {
-         global $mysql;
-         return json_encode(array("status"=>"success","message"=>"Unable to delete, You must close contract","data"=>$mysql->select("select * from _tbl_contracts order by ContractID desc ")));
-         $mysql->execute("delete from _tbl_contracts where ContractID='".$_GET['ID']."'");
-         return json_encode(array("status"=>"success","message"=>"Deleted Successfully","data"=>$mysql->select("select * from _tbl_contracts")));
-     }
+    public static function remove() {
+        global $mysql;
+        return json_encode(array("status"=>"success","message"=>"Unable to delete contract","data"=>$mysql->select("select * from _tbl_contracts order by ContractID desc ")));
+    }
 
-     public static function listAll() {
-         
-         global $mysql;
+    public static function listAll() {
+        
+        global $mysql;
          
          if (isset($_SESSION['User']['SalesmanID'])) {
              if (isset($_POST['SelectType'])) {
                  switch($_POST['SelectType']) {
                      case 'ALL':
-                        $data = $mysql->select("select * from _tbl_contracts where date(CreatedOn)>=date('".date("Y-m-d",strtotime($_POST['FromDate']))."') and date(CreatedOn)<=date('".date("Y-m-d",strtotime($_POST['ToDate']))."')");
+                         $sql = " date(CreatedOn)>=date('".date("Y-m-d",strtotime($_POST['FromDate']))."') and date(CreatedOn)<=date('".date("Y-m-d",strtotime($_POST['ToDate']))."') and ";
                         break;
                      case 'ACTIVE':
-                        $data = $mysql->select("select * from _tbl_contracts where (date(CreatedOn)>=date('".date("Y-m-d",strtotime($_POST['FromDate']))."') and date(CreatedOn)<=date('".date("Y-m-d",strtotime($_POST['ToDate']))."')) and IsClosed='0'");
+                         $sql = " (date(CreatedOn)>=date('".date("Y-m-d",strtotime($_POST['FromDate']))."') and date(CreatedOn)<=date('".date("Y-m-d",strtotime($_POST['ToDate']))."')) and IsClosed='0' and ";
                         break;
                      case 'CLOSED':
-                        $data = $mysql->select("select * from _tbl_contracts where (date(CreatedOn)>=date('".date("Y-m-d",strtotime($_POST['FromDate']))."') and date(CreatedOn)<=date('".date("Y-m-d",strtotime($_POST['ToDate']))."')) and  IsClosed='1'");
+                        $sql =" (date(CreatedOn)>=date('".date("Y-m-d",strtotime($_POST['FromDate']))."') and date(CreatedOn)<=date('".date("Y-m-d",strtotime($_POST['ToDate']))."')) and  IsClosed='1' and ";
                         break;
                      default:
-                        $data = $mysql->select("select * from _tbl_contracts");
+                        $sql = "";
                         break;
-                 }
+                 }                           
              } else {
                 $data = $mysql->select("select * from _tbl_contracts");
-             }
+             } 
              
+             if (isset($_GET['filter']) && $_GET['filter']=="CreatedByMe") {
+                 $data = $mysql->select("select * from _tbl_contracts where ".$sql." CreatedByCode='".$_SESSION['User']['SalesmanCode']."'");   
+             } else {
+                 $data = $mysql->select("select * from _tbl_contracts where ".$sql." CustomerID in (select CustomerID from _tbl_masters_customers where AreaNameID in (select AreaNameID from _tbl_salesman_areas where SalesmanID='".$_SESSION['User']['SalesmanID']."'))");   
+             }
+                
              $_recentContracts=array();
              foreach($data as $recentContract) {
                  
@@ -401,18 +529,43 @@ class Contracts {
              }
              
              $data = array();
-             
-             if ($_POST['SelectType']=="ALL") {
-                 $data = $mysql->select("select * from _tbl_contracts where date(StartDate)>=date('".date("Y-m-d",strtotime($_POST['FromDate']))."') and date(StartDate)<=date('".date("Y-m-d",strtotime($_POST['ToDate']))."')");
+
+             if ($_SESSION['User']['UserModule']=="branchadmin" || $_SESSION['User']['UserModule']=="branchuser") {
+                $sql="";
+                if (isset($_GET['filter']) && $_GET['filter']=="CreatedByMe") {
+                    $sql = " CreatedByCode='".$_SESSION['User']['UserCode']."' and ";
+                } 
+                if ($_POST['SelectType']=="ALL") {
+                    $data = $mysql->select("select * from _tbl_contracts where ".$sql." BranchID='".$_SESSION['User']['BranchID']."' and date(StartDate)>=date('".date("Y-m-d",strtotime($_POST['FromDate']))."') and date(StartDate)<=date('".date("Y-m-d",strtotime($_POST['ToDate']))."')");
+                }
+                if ($_POST['SelectType']=="ACTIVE") {
+                    $data = $mysql->select("select * from _tbl_contracts where ".$sql." BranchID='".$_SESSION['User']['BranchID']."' and IsClosed='0' and (date(StartDate)>=date('".date("Y-m-d",strtotime($_POST['FromDate']))."') and date(StartDate)<=date('".date("Y-m-d",strtotime($_POST['ToDate']))."')) ");
+                }
+                if ($_POST['SelectType']=="CLOSED") {
+                    $data = $mysql->select("select * from _tbl_contracts where ".$sql." BranchID='".$_SESSION['User']['BranchID']."' and IsClosed='1' and (date(StartDate)>=date('".date("Y-m-d",strtotime($_POST['FromDate']))."') and date(StartDate)<=date('".date("Y-m-d",strtotime($_POST['ToDate']))."')) ");
+                }
              }
              
-             if ($_POST['SelectType']=="ACTIVE") {
-                 $data = $mysql->select("select * from _tbl_contracts where IsClosed='0' and (date(StartDate)>=date('".date("Y-m-d",strtotime($_POST['FromDate']))."') and date(StartDate)<=date('".date("Y-m-d",strtotime($_POST['ToDate']))."')) ");
+             if ($_SESSION['User']['UserModule']=="admin" || $_SESSION['User']['UserModule']=="subadmin") {
+                $sql="";                    
+                if (isset($_GET['filter']) && $_GET['filter']=="CreatedByMe") {
+                    if ($_SESSION['User']['UserModule']=="admin") {
+                        $sql = " CreatedByCode='".$_SESSION['User']['AdministratorCode']."' and ";
+                    } else {
+                        $sql = " CreatedByCode='".$_SESSION['User']['UserCode']."' and ";    
+                    }
+                } 
+                if ($_POST['SelectType']=="ALL") {
+                    $data = $mysql->select("select * from _tbl_contracts where ".$sql." date(StartDate)>=date('".date("Y-m-d",strtotime($_POST['FromDate']))."') and date(StartDate)<=date('".date("Y-m-d",strtotime($_POST['ToDate']))."')");
+                }
+                if ($_POST['SelectType']=="ACTIVE") {
+                    $data = $mysql->select("select * from _tbl_contracts where ".$sql." IsClosed='0' and (date(StartDate)>=date('".date("Y-m-d",strtotime($_POST['FromDate']))."') and date(StartDate)<=date('".date("Y-m-d",strtotime($_POST['ToDate']))."')) ");
+                }
+                if ($_POST['SelectType']=="CLOSED") {
+                    $data = $mysql->select("select * from _tbl_contracts where ".$sql." IsClosed='1' and (date(StartDate)>=date('".date("Y-m-d",strtotime($_POST['FromDate']))."') and date(StartDate)<=date('".date("Y-m-d",strtotime($_POST['ToDate']))."')) ");
+                }
              }
              
-             if ($_POST['SelectType']=="CLOSED") {
-                 $data = $mysql->select("select * from _tbl_contracts where IsClosed='1' and (date(StartDate)>=date('".date("Y-m-d",strtotime($_POST['FromDate']))."') and date(StartDate)<=date('".date("Y-m-d",strtotime($_POST['ToDate']))."')) ");
-             }
              
              $_recentContracts=array();
              foreach($data as $recentContract) {
@@ -452,7 +605,7 @@ class Contracts {
          }
      }
      
-     public static function listAllActive() {
+    public static function listAllActive() {
          
          global $mysql;
          
@@ -570,7 +723,7 @@ class Contracts {
          
      }
      
-     public static function listAllClosed() {
+    public static function listAllClosed() {
          
          global $mysql;
          
@@ -687,25 +840,22 @@ class Contracts {
          
      }
      
-     public static function listBySchemes() {
-         
-         global $mysql;
-         
-         if (isset($_SESSION['User']['CustomerID'])) {
-             
-             $data = $mysql->select("select * from _tbl_contracts where SchemeID='".$_GET['SchemeID']."' and CustomerID='".$_SESSION['User']['CustomerID']."'  order by ContractID desc");
-             
-             $_recentContracts=array();
-             foreach($data as $recentContract) {
-                 
-                 $dues = $mysql->select("select * from _tbl_contracts_dues where ReceiptID>0 and ContractID='".$recentContract['ContractID']."'");
-                 $golds = $mysql->select("select sum(GoldInGram) as GoldInGram from _tbl_contracts_dues where ReceiptID>0 and ContractID='".$recentContract['ContractID']."'");
-                 $totaldues = $mysql->select("select * from _tbl_contracts_dues where  ContractID='".$recentContract['ContractID']."'");
-                 
-                 $tmp=array();
-                 $tmp['ContractCode']   = $recentContract['ContractCode'];
-                 $tmp['SchemeID']       = $recentContract['SchemeID'];
-                 $tmp['SchemeName']     = $recentContract['SchemeName'];
+    public static function listBySchemes() {
+        
+        global $mysql;
+        
+        if (isset($_SESSION['User']['CustomerID'])) {
+            $data = $mysql->select("select * from _tbl_contracts where SchemeID='".$_GET['SchemeID']."' and CustomerID='".$_SESSION['User']['CustomerID']."'  order by ContractID desc");
+            $_recentContracts=array();
+            foreach($data as $recentContract) {
+                $dues = $mysql->select("select * from _tbl_contracts_dues where ReceiptID>0 and ContractID='".$recentContract['ContractID']."'");
+                $golds = $mysql->select("select sum(GoldInGram) as GoldInGram from _tbl_contracts_dues where ReceiptID>0 and ContractID='".$recentContract['ContractID']."'");
+                $totaldues = $mysql->select("select * from _tbl_contracts_dues where  ContractID='".$recentContract['ContractID']."'");
+                
+                $tmp=array();
+                $tmp['ContractCode']   = $recentContract['ContractCode'];
+                $tmp['SchemeID']       = $recentContract['SchemeID'];
+                $tmp['SchemeName']     = $recentContract['SchemeName'];
                  $tmp['ContractAmount'] = number_format($recentContract['ContractAmount'],2);
                  $tmp['StartDate']      = date("d-m-Y",strtotime($recentContract['StartDate']));
                  $tmp['EndDate']        = date("d-m-Y",strtotime($recentContract['EndDate']));
@@ -726,7 +876,7 @@ class Contracts {
                  $tmp['Receipts']       = sizeof($dues);
                  $_recentContracts[]=$tmp; 
              }
-             return json_encode(array("status"=>"success","data"=>$_recentContracts));
+            return json_encode(array("status"=>"success","data"=>$_recentContracts));
              
          } else {
              $data = $mysql->select("select * from _tbl_contracts where SchemeID='".$_GET['SchemeID']."'");
@@ -790,16 +940,7 @@ class Contracts {
      
     public static function listCustomerWise() {
          global $mysql;
-         $data = $mysql->select("select 
-         ContractID,
-         ContractCode,
-         SchemeName,
-         FORMAT(ContractAmount, 2) as ContractAmount,
-         DATE_FORMAT(StartDate,'%d-%m-%Y') AS StartDate,
-         DATE_FORMAT(EndDate,'%d-%m-%Y') AS EndDate,
-         DATE_FORMAT(ClosedOn,'%d-%m-%Y') AS EndDate,
-         SchemeID
-          from _tbl_contracts where CustomerID='".$_GET['CustomerID']."'");
+         $data = $mysql->select("select ContractID, ContractCode, SchemeName, FORMAT(ContractAmount,2) as ContractAmount, FORMAT(DueAmount,2) as DueAmount, Duration, DATE_FORMAT(StartDate,'%d-%m-%Y') AS StartDate, DATE_FORMAT(EndDate,'%d-%m-%Y') AS EndDate, DATE_FORMAT(ClosedOn,'%d-%m-%Y') AS ClosedOn, SchemeID from _tbl_contracts where CustomerID='".$_GET['CustomerID']."'");
          return json_encode(array("status"=>"success","data"=>$data));
      }
      
@@ -1092,8 +1233,14 @@ class Contracts {
                         FORMAT(WastageDiscount, 2) as `WastageDiscount`,
                         FORMAT(MakingChargeDiscount, 2) as `MakingChargeDiscount`,
                         FORMAT(CashBonusPercentage, 2) as `CashBonusPercentage`,
-                        FORMAT(CashBonusAmount, 2) as `CashBonusAmount`
-                         
+                        FORMAT(CashBonusAmount, 2) as `CashBonusAmount`,
+                        `CreatedByID`,
+                        `CreatedByName`,
+                        `CreatedByCode`,
+                        `CreatedBy`,
+                        `BranchID`,
+                        `BranchCode`,
+                        `BranchName`  
                          
                     from _tbl_contracts where ContractID>0 ";
              
@@ -1130,7 +1277,7 @@ class Contracts {
                     return json_encode(array("status"=>"failure","message"=>"Please select date on/or before ".date("d-m-Y",strtotime($_POST['ToDate'])),"div"=>"EntryDate"));        
                 }
             
-                $sql .= " and  (date(EntryDate)>=date('".$_POST['FromDate']."') and date(EntryDate)<=date('".$_POST['ToDate']."')) ";    
+                $sql .= " and  (date(EntryDate)>=date('".date("Y-m-d",strtotime($_POST['FromDate']))."') and date(EntryDate)<=date('".date("Y-m-d",strtotime($_POST['ToDate']))."')) ";    
             }
               
             

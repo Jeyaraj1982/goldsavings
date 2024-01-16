@@ -1,7 +1,7 @@
 <div class="container-fluid p-0">
      <div class="row">
         <div class="col-6">
-            <h1 class="h3">Employee Categories</h1>
+            <h1 class="h3">Employee Category</h1>
             <h6 class="card-subtitle text-muted mb-3">List all Employee Categories</h6>
         </div>
         <div class="col-6" style="text-align:right;">
@@ -11,20 +11,21 @@
      <div class="row">
         <div class="col-12">
             <div class="card">
-                <div class="card-body" style="padding:15px">
+                <div class="card-body" style="padding-top:25px">
                     <table id="datatables-fixed-header" class="table table-striped" style="width:100%">
                         <thead>
                             <tr>
-                                <th style="width: 100px;">Code</th>
-                                <th>Employee Categories</th>
-                                <th style="text-align: right; width: 100px;">Employees</th>
-                                <th style="width: 70px;">Status</th>
-                                <th style="width: 50px;"></th>
+                                <th style="width:100px">Code</th>
+                                <th>Employee Catrgory</th>
+                                <th>Remarks</th>
+                                <th style="width:100px">Emplyees</th>
+                                <th style="width:100px">Status</th>
+                                <th style="width:350px"></th>
                             </tr>
                         </thead>
                         <tbody id="tbl_content">
                             <tr>
-                                <td colspan="5" style="text-align: center;background:#fff !important">Loading Employee Category...</td>
+                                <td colspan="6" style="text-align: center;background:#fff !important">Loading Employee Category...</td>
                             </tr>
                         </tbody>
                     </table>
@@ -55,59 +56,25 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">New Employee Information</h5>
+                <h5 class="modal-title" id="exampleModalLabel">New Contact Information</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <form id="frm_create" name="frm_create" method="post" enctype="multipart/form-data">
                     <div class="row">
                         <div class="col-sm-6 mb-3">
-                                <label class="form-label">Employee Category Code <span style='color:red'>*</span>
-                                <img src="<?php echo URL;?>assets/question.png" style="width: 12px;" class="dropdown"  id="dropdownMenuButton1" data-bs-toggle="dropdown">
-                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton1" style="padding:0px;">
-                                    <div class="myheader">Employee Category Code</div>
-                                    <div class="mycontainer">
-                                        1. Allow only alphanumeric characters<br>
-                                        2. Minimum 8 characters require<br>
-                                        3. Maximum 20 characters require<br>
-					                    4. Not allow cut,copy,paste
-                                        
-                                    </div>
-                                </div>
-                                </label>
-                                <input type="text" value="<?php echo SequnceList::getNextNumber("_tbl_masters_employee_categories");?>" name="EmployeeCategoryCode" id="EmployeeCategoryCode" class="form-control" placeholder="Employee Category Code" maxlength="20" oninput="this.value=this.value.toUpperCase()">
+                                <label class="form-label">Employee Category Code <span style='color:red'>*</span></label>
+                                <input type="text" value="<?php echo SequnceList::getNextNumber("_tbl_masters_employee_categories");?>" name="EmployeeCategoryCode" id="EmployeeCategoryCode" class="form-control" placeholder="Employee Category Code">
                                 <span id="ErrEmployeeCategoryCode" class="error_msg"></span>
                             </div>
                             <div class="col-sm-12 mb-3">
-                                <label class="form-label">Employee Category Title <span style='color:red'>*</span>
-                                <img src="<?php echo URL;?>assets/question.png" style="width: 12px;" class="dropdown"  id="dropdownMenuButton1" data-bs-toggle="dropdown">
-                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton1" style="padding:0px;">
-                                    <div class="myheader">>Employee Category Title</div>
-                                    <div class="mycontainer">
-                                        1. Allow only alphabets and space<br>
-                                        2. Minimum 3 characters require<br>
-                                        3. Maximum 50 characters require<br>
-                                        4. Not allow cut,copy,paste
-                                    </div>
-                                </div>
-                                </label>
-                                <input type="text" name="EmployeeCategoryTitle" id="EmployeeCategoryTitle" class="form-control" placeholder="Employee Category Title" maxlength="50">
+                                <label class="form-label">Employee Category Title <span style='color:red'>*</span></label>
+                                <input type="text" name="EmployeeCategoryTitle" id="EmployeeCategoryTitle" class="form-control" placeholder="Employee Category Title">
                                 <span id="ErrEmployeeCategoryTitle" class="error_msg"></span>
                             </div>
                             <div class="col-sm-12 mb-3">
-                                <label class="form-label">Remarks
-                                 <img src="<?php echo URL;?>assets/question.png" style="width: 12px;" class="dropdown"  id="dropdownMenuButton1" data-bs-toggle="dropdown">
-                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton1" style="padding:0px;">
-                                    <div class="myheader">Remarks</div>
-                                   <div class="mycontainer">
-                                        1. Allow only alphabets and space<br>
-                                        2. Minimum 3 characters require<br>
-                                        3. Maximum 50 characters require<br>
-                                        4. Not allow cut,copy,paste
-                                    </div>
-                                </div>
-                                </label>
-                                <input type="text" name="Remarks" id="Remarks" class="form-control" placeholder="Remarks" maxlength="250">
+                                <label class="form-label">Remarks</label>
+                                <input type="text" name="Remarks" id="Remarks" class="form-control" placeholder="Remarks">
                                 <span id="ErrRemarks" class="error_msg"></span>
                             </div>
                     </div>
@@ -115,7 +82,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-outline-primary" data-bs-dismiss="modal">Cancel</button>
-                <button type="button" onclick="addNew()" class="btn btn-primary">Create Employee Category</button>
+                <button type="button" onclick="addNew()" class="btn btn-primary">Create Emplyee Category</button>
             </div>
         </div>
     </div>
@@ -137,37 +104,13 @@
                                 <input type="text" disabled="disabled" value="" name="EmployeeCategoryCode" id="editEmployeeCategoryCode" class="form-control">
                             </div>
                             <div class="col-sm-12 mb-3">
-                                <label class="form-label">Employee Category Title <span style='color:red'>*</span>
-                                <img src="<?php echo URL;?>assets/question.png" style="width: 12px;" class="dropdown"  id="dropdownMenuButton1" data-bs-toggle="dropdown">
-                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton1" style="padding:0px;">
-                                    <div class="myheader">Employee Category Title</div>
-                                    <div class="mycontainer">
-                                        1. Allow only alphabets and space<br>
-                                        2. Minimum 3 characters require<br>
-                                        3. Maximum 50 characters require<br>
-                                        4. Not allow cut,copy,paste
-                                        
-                                    </div>
-                                </div>
-                                </label>
-                                <input type="text" value="" name="EmployeeCategoryTitle" id="editEmployeeCategoryTitle" class="form-control" placeholder="Employee Category Title" maxlength="50">
+                                <label class="form-label">Employee Category Title <span style='color:red'>*</span></label>
+                                <input type="text" value="" name="EmployeeCategoryTitle" id="editEmployeeCategoryTitle" class="form-control" placeholder="Employee Category Title">
                                 <span id="ErreditEmployeeCategoryTitle" class="error_msg"></span>
                             </div>
                             <div class="col-sm-12 mb-3">
-                                <label class="form-label">Remarks
-                                <img src="<?php echo URL;?>assets/question.png" style="width: 12px;" class="dropdown"  id="dropdownMenuButton1" data-bs-toggle="dropdown">
-                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton1" style="padding:0px;">
-                                    <div class="myheader">Remarks</div>
-                                    <div class="mycontainer">
-                                        1. Allow only alphabets and space<br>
-                                        2. Minimum 3 characters require<br>
-                                        3. Maximum 50 characters require<br>
-                                        4. Not allow cut,copy,paste
-                                        
-                                    </div>
-                                </div>
-                                </label>
-                                <input type="text" value="" name="Remarks" id="editRemarks" class="form-control" placeholder="Remarks" maxlength="250">
+                                <label class="form-label">Remarks</label>
+                                <input type="text" value="" name="Remarks" id="editRemarks" class="form-control" placeholder="Remarks">
                                 <span id="ErreditRemarks" class="error_msg"></span>
                             </div>
                             <div class="col-sm-6 mb-3">
@@ -230,10 +173,8 @@
 <script>
 
 function addForm(){
-  $('#addconfirmation').modal("show");
+  $('#addconfirmation').modal("show"); 
       clearDiv(['EmployeeCategoryCode','EmployeeCategoryTitle','Remarks']);
-      $('#EmployeeCategoryTitle').val("");
-      $('#Remarks').val("");
 }  
 function addNew() {
     var param = $('#frm_create').serialize();
@@ -251,24 +192,21 @@ function addNew() {
                  openPopup();
                 $('#frm_create').trigger("reset");
                 $('#EmployeeCategoryCode').val(obj.EmployeeCategoryCode);
-                $('#popupcontent').html(success_content(obj.message,"closePopup:listEmployeeCategory"));
+                $('#popupcontent').html(success_content(obj.message,"listEmployeeCategory"));
              } else {
                 if (obj.div!="") {
-                    $('#Err'+obj.div).html(obj.message);
-                    $('#process_popup').modal('hide');
+                    $('#Err'+obj.div).html(obj.message)
                 } else {
-                   $('#popupcontent').html( errorcontent(obj.message));
+                    $('#failure_div').html(obj.message);
                 }
-              
+                $('#process_popup').modal('hide');
              }
-        },
-        error:networkunavailable 
+        }
     });
 }
 
 function edit(EmployeeCategoryID){
     $('#editForm').modal("show");
-     
         clearDiv(['editEmployeeCategoryTitle','editRemarks']);
     $.post(URL+ "webservice.php?action=getData&method=EmployeeCategories&ID="+EmployeeCategoryID,"",function(data){
         var obj = JSON.parse(data);
@@ -281,43 +219,32 @@ function edit(EmployeeCategoryID){
                 $('#editEmployeeCategoryID').val(data.EmployeeCategoryID);
             });   
         }  
-    }).fail(function(){
-        networkunavailable(); 
     });
 }
 function doUpdate() {
     var param = $('#frm_edit').serialize();
     clearDiv(['editEmployeeCategoryTitle','editRemarks']);
-     jQuery.ajax({
-        type: 'POST',
-        url:URL+"webservice.php?action=doUpdate&method=EmployeeCategories",
-        data: new FormData($("#frm_edit")[0]),
-        processData: false, 
-        contentType: false, 
-        success: function(data) {
-               var obj = JSON.parse(data); 
+    $.post(URL+"webservice.php?action=doUpdate&method=EmployeeCategories",param,function(data){
+        var obj = JSON.parse(data); 
         if (obj.status=="success") {
-            $('#editForm').modal("hide");
-            openPopup();
-            $('#popupcontent').html(success_content(obj.message,'listEmployeeCategory'));
+                $('#editForm').modal("hide");
+                openPopup();
+            //$('#frm_newservice').trigger("reset");
+            $('#popupcontent').html(success_content(obj.message,"listEmployeeCategory"));
         } else {
             if (obj.div!="") {
-                $('#Erredit'+obj.div).html(obj.message);
-                $('#process_popup').modal('hide');
+                $('#Erredit'+obj.div).html(obj.message)
             } else {
-                   $('#popupcontent').html( errorcontent(obj.message));
-                }
-              
-             }
-        },
-        error:networkunavailable
+                $('#failure_div').html(obj.message);
+            }
+           
+        }
     });
-
 }
-   
+
 function view(EmployeeCategoryID){
-    openPopup();
   $('#viewForm').modal("show");
+  
   $.post(URL+ "webservice.php?action=getData&method=EmployeeCategories&ID="+EmployeeCategoryID,"",function(data){
         closePopup();
         var obj = JSON.parse(data);
@@ -337,9 +264,7 @@ function view(EmployeeCategoryID){
                 $('#viewRemarks').val(data.Remarks);
             });   
 }  
-  }).fail(function(){
-        networkunavailable(); 
-    });
+  });
 }
 
 function listEmployeeCategory() {
@@ -353,28 +278,10 @@ function listEmployeeCategory() {
                 html += '<tr>'
                             + '<td>' + data.EmployeeCategoryCode + '</td>'
                             + '<td>' + data.EmployeeCategoryTitle + '</td>'
+                            + '<td>' + data.Remarks + '</td>'
                              + '<td style="text-align:right">' + data.EmployeeCount + '&nbsp;</td>'
-                            + '<td>' + ( (data.IsActive=="1") ? "<span class='badge bg-success'>Active</span>" : "<span class='badge bg-secondary'>Disabled</span>" ) + '</td>' 
-                            + '<td style="text-align:right">' 
-                                + '<div class="dropdown position-relative">'
-                                        + '<a href="javascript:void(0)" data-bs-toggle="dropdown" data-bs-display="static">'
-                                            + '<img src="'+URL+'assets/icons/more.png">'
-                                        + '</a>'
-                                        + '<div class="dropdown-menu dropdown-menu-end">'
-                                                + '<a class="dropdown-item" onclick="view(\''+data.EmployeeCategoryID+'\')">View</a>'
-                                                + '<a class="dropdown-item" onclick="edit(\''+data.EmployeeCategoryID+'\')">Edit</a>'
-                                                 if (data.EmployeeCount>0) {
-                                                     html += '<a class="dropdown-item" href="javascript:void(0)" style="color:#888">Delete</a>'
-                                                     html += '<hr style="margin:0px !important">';
-                                                     html += '<a class="dropdown-item" href="'+URL+'dashboard.php?action=masters/employeecategory/list_employeesbycategory&EmployeeID='+data.EmployeeCategoryID+'" >View Employees</a>'
-                                                } else if (data.EmployeeCount==0) {
-                                                    html += '<a class="dropdown-item" href="javascript:void(0)" onclick="confirmationtoDelete(\''+data.EmployeeCategoryID+'\')">Delete</a>'
-                                                     html += '<hr style="margin:0px !important">';
-                                                     html += '<a class="dropdown-item" href="javascript:void(0)" style="color:#888">View Employees</a>';
-                                                    }
-                                        + '</div>'
-                                + '</div>'
-                            + '</td>'                                                                                                    
+                            + '<td>' + ( (data.IsActive=="1") ? "<span class='badge bg-success'>Active</span>" : "<span class='badge bg-secondary'>Disabled</span>" ) + '</td>'                                                                                                     
+                            + '<td style="text-align:right"><a href="javascript:void(0)" onclick="confirmationtoDelete(\''+data.EmployeeCategoryID+'\')" class="btn btn-outline-danger btn-sm">Delete</a>&nbsp;&nbsp;<a href="'+URL+'dashboard.php?action=masters/employeecategory/list_employeesbycategory&EmployeeID='+data.EmployeeCategoryID+'" class="btn btn-warning btn-sm" >View Employees</a>&nbsp;&nbsp;<a onclick="edit(\''+data.EmployeeCategoryID+'\')"  class="btn btn-primary btn-sm">Edit</a>&nbsp;&nbsp;<a onclick="view(\''+data.EmployeeCategoryID+'\')" class="btn btn-success btn-sm">VIEW</a> </td>'
                       + '</tr>';
             });   
             $('#tbl_content').html(html);
@@ -385,10 +292,8 @@ function listEmployeeCategory() {
                 });
             }                                        
         } else {
-            $('#popupcontent').html(errorcontent(obj.message));
+            alert(obj.message);
         }
-    }).fail(function(){
-        networkunavailable(); 
     });
 }
 setTimeout("listEmployeeCategory()",2000);
@@ -398,7 +303,7 @@ function confirmationtoDelete(ID){
     RemoveID=ID;
     $('#confirmation').modal("show"); 
 }
-function Remove() {
+function Remove(ID) {
      $('#confirmation').modal("hide"); 
   openPopup();
     $.post(URL+ "webservice.php?action=remove&method=EmployeeCategories&ID="+RemoveID,"",function(data){
@@ -408,38 +313,18 @@ function Remove() {
             $('#popupcontent').html(success_content(obj.message,'closePopup'));
             $.each(obj.data, function (index, data) {
                 html += '<tr>'
-                          + '<td>' + data.EmployeeCategoryCode + '</td>'
+                           + '<td>' + data.EmployeeCategoryCode + '</td>'
                             + '<td>' + data.EmployeeCategoryTitle + '</td>'
+                            + '<td>' + data.Remarks + '</td>'
                              + '<td style="text-align:right">' + data.EmployeeCount + '&nbsp;</td>'
-                            + '<td>' + ( (data.IsActive=="1") ? "<span class='badge bg-success'>Active</span>" : "<span class='badge bg-secondary'>Disabled</span>" ) + '</td>' 
-                            + '<td style="text-align:right">' 
-                                + '<div class="dropdown position-relative">'
-                                        + '<a href="javascript:void(0)" data-bs-toggle="dropdown" data-bs-display="static">'
-                                            + '<img src="'+URL+'assets/icons/more.png">'
-                                        + '</a>'
-                                        + '<div class="dropdown-menu dropdown-menu-end">'
-                                                + '<a class="dropdown-item" onclick="view(\''+data.EmployeeCategoryID+'\')">View</a>'
-                                                + '<a class="dropdown-item" onclick="edit(\''+data.EmployeeCategoryID+'\')">Edit</a>'
-                                                + '<a class="dropdown-item" href="javascript:void(0)" onclick="confirmationtoDelete(\''+data.EmployeeCategoryID+'\')">Delete</a>'
-                                                 if (data.EmployeeCount>0) {
-                                                     html += '<hr style="margin:0px !important">';
-                                                     html += '<a class="dropdown-item" href="'+URL+'dashboard.php?action=masters/employeecategory/list_employeesbycategory&EmployeeID='+data.EmployeeCategoryID+'" >View Employees</a>'
-                                                } else if (data.EmployeeCount==0) {
-                                                     html += '<hr style="margin:0px !important">';
-                                                     html += '<a class="dropdown-item" href="javascript:void(0)" style="color:#888">View Employees</a>';
-                                                    }
-                                        + '</div>'
-                                + '</div>'
-                            + '</td>'                                                                                                    
+                            + '<td>' + ( (data.IsActive=="1") ? "<span class='badge bg-success'>Active</span>" : "<span class='badge bg-secondary'>Disabled</span>" ) + '</td>'
+                            + '<td style="text-align:right"><a href="javascript:void(0)" onclick="confirmationtoDelete(\''+data.EmployeeCategoryID+'\')" class="btn btn-outline-danger btn-sm">Delete</a>&nbsp;&nbsp;<a href="'+URL+'dashboard.php?action=masters/employeecategory/list_employeesbycategory&EmployeeID='+data.EmployeeCategoryID+'" class="btn btn-warning btn-sm" >View Employees</a>&nbsp;&nbsp;<a onclick="edit(\''+data.EmployeeCategoryID+'\')"  class="btn btn-primary btn-sm">Edit</a>&nbsp;&nbsp;<a onclick="view(\''+data.EmployeeCategoryID+'\')" class="btn btn-success btn-sm">VIEW</a> </td>'
                       + '</tr>';
-                          
             });   
             $('#tbl_content').html(html);
         } else {
             $('#popupcontent').html(errorcontent(obj.message));            
         }
-    }).fail(function(){
-        networkunavailable(); 
     });
       
 }

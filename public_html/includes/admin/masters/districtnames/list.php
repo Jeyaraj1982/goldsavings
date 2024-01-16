@@ -18,6 +18,7 @@
                                 <th style="width: 100px;">Code</th>
                                 <th style="width: 200px;">State Name</th>
                                 <th>District Name</th>
+                                 <th style="text-align: right; width: 200px;">Area Names</th>
                                 <th style="width: 70px;">Status</th>
                                 <th style="width: 50px;"></th>
                             </tr>  
@@ -204,7 +205,7 @@
         </div>
     </div>
    
-   <div class="modal fade" id="viewForm" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="viewForm" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -249,6 +250,7 @@
           </div>
         </div>
     </div>  
+    
 <script>
 var service_url="";
     <?php if (isset($_GET['StateNameID'])){ ?>
@@ -268,6 +270,7 @@ function d() {
                             + '<td>' + data.DistrictNameCode + '</td>'
                             + '<td>' + data.StateName + '</td>'
                             + '<td>' + data.DistrictName + '</td>'
+                            + '<td style="text-align:right">' + data.AreaCount + '&nbsp;</td>'
                             + '<td>' + ( (data.IsActive=="1") ? "<span class='badge bg-success'>Active</span>" : "<span class='badge bg-secondary'>Disabled</span>" ) + '</td>'
                              + '<td style="text-align:right">' 
                                 + '<div class="dropdown position-relative">'
@@ -277,9 +280,15 @@ function d() {
                                         + '<div class="dropdown-menu dropdown-menu-end">'
                                                 + '<a class="dropdown-item" onclick="view(\''+data.DistrictNameID+'\')">View</a>'
                                                 + '<a class="dropdown-item" onclick="edit(\''+data.DistrictNameID+'\')">Edit</a>'
-                                                + '<a class="dropdown-item" href="javascript:void(0)" onclick="confirmationtoDelete(\''+data.DistrictNameID+'\')">Delete</a>'
-                                                + '<hr style="margin:0px !important">'
-                                                + '<a class="dropdown-item" href="'+URL+'dashboard.php?action=masters/areanames/list&DistrictNameID='+data.DistrictNameID+'" >View Area Names</a>'
+                                                 if (data.AreaCount>0) {
+                                                    html += '<a class="dropdown-item" href="javascript:void(0)" style="color:#888">Delete</a>';
+                                                     html += '<hr style="margin:0px !important">';
+                                                     html += '<a class="dropdown-item" href="'+URL+'dashboard.php?action=masters/areanames/list&DistrictNameID='+data.DistrictNameID+'" >View Area Names</a>';
+                                                } else if (data.AreaCount==0) {
+                                                     html += '<a class="dropdown-item" href="javascript:void(0)" onclick="confirmationtoDelete(\''+data.DistrictNameID+'\')">Delete</a>';
+                                                     html += '<hr style="margin:0px !important">';
+                                                     html += '<a class="dropdown-item" href="javascript:void(0)" style="color:#888">View Area Names</a>';
+                                                    }
                                         + '</div>'
                                 + '</div>'
                             + '</td>'                                                                                                    
@@ -348,13 +357,17 @@ function listStateNames() {
                 html += '<option value="'+data.StateNameID+'">'+data.StateName+'</option>';
             });   
             $('#StateNameID').html(html);
-             $("#StateNameID").append($("#StateNameID option").remove().sort(function(a, b) {
-                var at = $(a).text(), bt = $(b).text();
-                return (at > bt)?1:((at < bt)?-1:0);
-            }));
-            $("#StateNameID").val("0");
+            // $("#StateNameID").append($("#StateNameID option").remove().sort(function(a, b) {
+               // var at = $(a).text(), bt = $(b).text();
+               // return (at > bt)?1:((at < bt)?-1:0);
+           // }));
+           $("#StateNameID").val("0");
             setTimeout(function(){
-            },1500);
+              $("#StateNameID").select2({
+                  dropdownParent:$('#addconfirmation')
+              });  
+               $(".select2-container").each(function() {$(this).css({'z-index':'500'});}); 
+            },1000);
             closePopup();
         } else {
             $('#popupcontent').html( errorcontent(obj.message));
@@ -390,9 +403,7 @@ function edit(ID){
     });
 } 
 function doUpdate() {
-    
     var param = $('#frm_edit').serialize();
-    openPopup();
     clearDiv(['editDistrictName','editStateName','editDistrictNameCode','editRemarks','editIsActive']);
     jQuery.ajax({
         type: 'POST',
@@ -403,7 +414,9 @@ function doUpdate() {
         success: function(data) {
              var obj = JSON.parse(data); 
              if (obj.status=="success") {
-                $('#popupcontent').html(success_content(obj.message,'closePopup'));
+                  $('#editForm').modal("hide");
+                   openPopup();
+                $('#popupcontent').html(success_content(obj.message,'closePopup:d()'));
              } else {
                 if (obj.div!="") {
                     $('#Err'+obj.div).html(obj.message);
@@ -419,7 +432,7 @@ function doUpdate() {
 }
   
 function listeditStateNames(StateNameID) {
-    openPopup();
+     openPopup();
     $.post(URL+ "webservice.php?action=ListAll&method=StateNames","",function(data){
         var obj = JSON.parse(data);
         if (obj.status=="success") {
@@ -428,15 +441,25 @@ function listeditStateNames(StateNameID) {
                 html += '<option value="'+data.StateNameID+'">'+data.StateName+'</option>';
             });   
             $('#editStateNameID').html(html);
-            $("#editStateNameID").append($("#editStateNameID option").remove().sort(function(a, b) {
-                var at = $(a).text(), bt = $(b).text();
-                return (at > bt)?1:((at < bt)?-1:0);
-            }));
+           // $("#editStateNameID").append($("#editStateNameID option").remove().sort(function(a, b) {
+              //  var at = $(a).text(), bt = $(b).text();
+               // return (at > bt)?1:((at < bt)?-1:0);
+           // }));
             $("#editStateNameID").val(StateNameID);
-            setTimeout(function d(){
-            },1500);
+             $('#editStateNameID option').each(function() {
+                if($(this).val() == _StateNameID) {
+                    $(this).prop("selected", true);
+                }
+            });
+             setTimeout(function(){
+                 $("#editStateNameID").select2({
+                  dropdownParent:$('#frm_edit')
+              }); 
+               $(".select2-container").each(function() {$(this).css({'z-index':'500'});}); 
+             },1500); 
+            closePopup();
         } else {
-            $('#popupcontent').html(errorcontent(obj.message)); 
+            $('#popupcontent').html( errorcontent(obj.message));
         }
     }).fail(function(){
         networkunavailable(); 

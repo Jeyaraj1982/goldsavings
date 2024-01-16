@@ -41,8 +41,13 @@ class RelationNames {
      
      public static function remove() {
          global $mysql;
-         $mysql->execute("delete from _tbl_masters_relationnames where RelationNameID='".$_GET['ID']."'");
-         return json_encode(array("status"=>"success","message"=>"Deleted Successfully","data"=>$mysql->select("select * from _tbl_masters_relationnames")));
+         $data_nominees = $mysql->select("select * from  _tbl_customers_nominees where RelationNameID='".$_GET['ID']."'");
+         if (sizeof($data_nominees)==0) {
+            $mysql->execute("delete from _tbl_masters_relationnames where RelationNameID='".$_GET['ID']."'");
+            return json_encode(array("status"=>"success","message"=>"Deleted Successfully","data"=>$mysql->select("select * from _tbl_masters_relationnames")));
+         } else {
+             return json_encode(array("status"=>"failure","message"=>"Error: unable to delete relation name. Reason: Relation Name has assigned ".(sizeof($data_exists))." customer(s)","div"=>""));
+         }
      }
 
      public static function listAll() {

@@ -78,7 +78,7 @@
                                 <input type="text" value="<?php echo SequnceList::getNextNumber("_tbl_masters_documenttypes");?>" name="DocumentTypeCode" id="DocumentTypeCode" class="form-control" placeholder="Document Type Code" maxlength="20" oninput="this.value=this.value.toUpperCase()">
                                 <span id="ErrDocumentTypeCode" class="error_msg"></span>
                             </div>
-                            <div class="col-sm-12 mb-3">
+                        <div class="col-sm-12 mb-3">
                                 <label class="form-label">Document Type Name <span style='color:red'>*</span>
                                 <img src="<?php echo URL;?>assets/question.png" style="width: 12px;" class="dropdown"  id="dropdownMenuButton1" data-bs-toggle="dropdown">
                                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton1" style="padding:0px;">
@@ -95,7 +95,7 @@
                                 <input type="text" name="DocumentTypeName" id="DocumentTypeName" class="form-control" placeholder="Document Type Name" maxlength="50">
                                 <span id="ErrDocumentTypeName" class="error_msg"></span>
                             </div>
-                            <div class="col-sm-12 mb-3">
+                        <div class="col-sm-12 mb-3">
                                 <label class="form-label">Short Description
                                 <img src="<?php echo URL;?>assets/question.png" style="width: 12px;" class="dropdown"  id="dropdownMenuButton1" data-bs-toggle="dropdown">
                                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton1" style="padding:0px;">
@@ -110,7 +110,7 @@
                                 <input type="text" name="DocumentTypeShortDescription" id="DocumentTypeShortDescription" class="form-control" placeholder="Short Description" maxlength="250">
                                 <span id="ErrDocumentTypeShortDescription" class="error_msg"></span>
                             </div> 
-                            <div class="col-sm-12 mb-3">
+                        <div class="col-sm-12 mb-3">
                                 <label class="form-label">Remarks
                                 <img src="<?php echo URL;?>assets/question.png" style="width: 12px;" class="dropdown"  id="dropdownMenuButton1" data-bs-toggle="dropdown">
                                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton1" style="padding:0px;">
@@ -125,6 +125,7 @@
                                 <input type="text" name="Remarks" id="Remarks" class="form-control" placeholder="Remarks" maxlength="250">
                                 <span id="ErrRemarks" class="error_msg"></span>
                             </div>
+                    </div>
                 </form>
             </div>
             <div class="modal-footer">
@@ -133,6 +134,7 @@
             </div>
         </div>
     </div>
+</div>
     
 <div class="modal fade" id="editForm" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -178,7 +180,6 @@
                                         3. Not allow cut,copy,paste
                                     </div>
                                 </div>
-                                </div>
                                 </label>
                                 <input type="text" value="" name="DocumentTypeShortDescription" id="editDocumentTypeShortDescription" class="form-control" placeholder="Short Description" maxlength="250">
                                 <span id="ErreditDocumentTypeShortDescription" class="error_msg"></span>
@@ -206,14 +207,16 @@
                                 </select>
                                  <span id="ErreditIsActive" class="error_msg"></span>
                             </div>
-                </form>           
-            </div>
+                        </div>
+                    </form>
+             </div>  
             <div class="modal-footer">
                 <button type="button" class="btn btn-outline-primary" data-bs-dismiss="modal">Cancel</button>
                 <button onclick="doUpdate()" type="button" class="btn btn-primary">Update</button>
             </div>
         </div>
     </div>
+</div>
 
 <div class="modal fade" id="viewForm" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -249,7 +252,7 @@
                                <input type="text" value="" name="viewIsActive" id="viewIsActive" readonly="readonly" class="form-control">
                                 <span id="ErrIsActive" class="error_msg"></span>
                             </div>
-                           </div>
+                 </div>
                  </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-outline-primary" data-bs-dismiss="modal">Cancel</button>
